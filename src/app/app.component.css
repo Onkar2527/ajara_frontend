@@ -1,0 +1,105 @@
+/* .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .trigger:hover {
+    color: #1890ff;
+  } */
+ .user-box {
+    height: 10%;
+    /* background: rgba(255, 255, 255, 0.2); */
+    width: 100%;
+    border-bottom: 1px solid #022c52;
+
+  } 
+
+  nz-header {
+    background:#001120;
+    padding: 0;
+    height:7%;
+  }
+
+  /* nz-content {
+   
+  } */
+  .layout{
+    height:93%;
+  }
+  nz-breadcrumb {
+    margin: 16px 0;
+  }
+
+  .inner-content {
+    padding: 24px;
+    background: #fff;
+    height: 100%;
+  }
+
+ 
+
+  nz-layout{
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  nz-sider{
+    border-top: 1px solid #022c52;
+  }
+ 
+
+  
+
+  .sider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sider{
+    height: 80%;
+    width:95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;text-align: center;
+  }
+  .sider-1{
+    height: 5%;
+    width:90%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    /* border-bottom: 1px solid #022c52; ; */
+   
+  }
+  .menu-item-button{
+    /* background-color: #1890ff; */
+    border: 1px solid #1890ff;
+    border-right: 1px solid #1890ff !important;
+  }
+  .menu-item-button:hover{
+    background-color: #369dfd !important;
+  }
+  .menu-item-button.ant-menu-item-selected{
+    border: 1px solid #1890ff;
+    border-right: 1px solid #1890ff !important;
+    background-color: #00000000 !important;
+  }
+  .menu-item-button.ant-menu-item-selected:hover{
+    background-color: #369dfd !important;
+  }
+
+
+  .ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
+    height:30px;
+    border-radius: 5px !important;
+  }
+
+
+  
