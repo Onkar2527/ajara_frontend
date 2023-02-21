@@ -1,0 +1,97 @@
+.login-form {
+    max-width: 300px;
+}
+
+.login-form-margin {
+    margin-bottom: 16px;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+}
+
+/* .shape {
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    margin-bottom: 30px;
+    float: left;
+    margin-right: 20px;
+  }
+  
+  .shape2 {
+    border-radius: 30px;
+  }
+  
+  .shape3 {
+    border-radius: 5px;
+  } */
+
+/* body, html {
+    height: 100%;
+  } */
+
+body {
+    background-color: #001f3f;
+    /* background-color: #141041; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-login100 {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 15px 15px;
+    /* background: #f2f2f2; */
+    margin: auto;
+}
+
+.wrap-login100 {
+    width: 390px;
+    background: #d0dfee;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 30px 40px 30px 40px;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.login-form-button{
+    background-color: #001f3f;
+    /* background-color: #1b1464; */
+}
+
+.login100-form-title {
+    display: block;
+    font-size: 20px;
+    color: #001f3f;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.bank-name-title {
+    display: block;
+    font-size: 17px;
+    color: #001f3f;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 16px;
+}
