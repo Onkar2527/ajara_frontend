@@ -13,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 //User Imports
 
-import {LoginComponent} from 'src/app/login/login.component';
+// import {LoginComponent} from 'src/app/login/login.component';
 
 //Antd Imports
 
@@ -24,6 +24,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 
 registerLocaleData(en);
@@ -31,7 +32,7 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    // LoginComponent
   ],
   imports: [
     //System Imports
@@ -47,7 +48,8 @@ registerLocaleData(en);
     NzMenuModule,
     NzIconModule,
     NzButtonModule,
-    NzGridModule
+    NzGridModule,
+    NzDividerModule
   ],
   providers: [
 

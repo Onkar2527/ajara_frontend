@@ -1,0 +1,32 @@
+<nz-tabset>
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./personal']" >
+            Personal Information
+        </a>
+        <app-personal style="height:100%;overflow-y: scroll;"></app-personal>
+    </nz-tab>
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./deposit']" >
+            Deposit Details
+        </a>
+        <app-deposit></app-deposit>
+    </nz-tab>
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./nomination']" >
+           Nomination Details
+        </a>
+        <app-nomination></app-nomination>
+    </nz-tab>
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./services']" >
+           Extra Services and Linkages
+        </a>
+        <app-services></app-services>
+    </nz-tab>
+  
+    
+</nz-tabset>
+<nz-footer>
+    <button nz-button nzType="default">Cancel</button>
+    <button nz-button nzType="primary">Save</button>
+</nz-footer>

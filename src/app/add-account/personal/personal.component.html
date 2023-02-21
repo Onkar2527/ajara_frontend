@@ -1,0 +1,65 @@
+<div nz-row>
+    <nz-col nz-col nzSpan="12">
+        <div class="box">
+            <nz-divider nzText="KYC Details"></nz-divider>
+            <div nz-row class="content-box">
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
+                    <nz-form-control nzErrorTip="The input is not Aadhaar number!">
+                        <div nz-row>
+                            <div nz-col [nzSpan]="18">
+                                <input nz-input name="aadhar" placeholder="Enter Aadhaar number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="4">
+                                <button nz-button nzType="primary">Get OTP</button>
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="10">
+                    <nz-form-label [nzNoColon]="true">OTP</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="15">
+                                <input nz-input name="otp" placeholder="Enter OTP" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="8">
+                                <button nz-button nzType="primary">Verify OTP</button>
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="13">
+                    <nz-form-label [nzNoColon]="true">Pan number</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="13">
+                                <input nz-input name="pan" placeholder="Enter Pan Number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="10">
+                                <button nz-button nzType="primary">Verify Pan</button>
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div>
+
+
+        </div>
+    </nz-col>
+</div>

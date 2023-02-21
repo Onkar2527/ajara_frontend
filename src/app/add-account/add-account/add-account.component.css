@@ -1,0 +1,13 @@
+nz-tabset{
+    height: 90%;
+    
+}
+nz-footer{
+    height:10%;
+    background-color: #e9e6e600;
+    padding: 0px !important;
+    text-align:right;
+}
+button{
+    margin: 10px;
+}
