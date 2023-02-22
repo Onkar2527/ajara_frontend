@@ -27,6 +27,9 @@ import { ServicesComponent } from './services/services.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzGridModule,
     NzTabsModule,
     NzDividerModule,
-    NzInputModule
+    NzInputModule,
+    NzSwitchModule,
+    NzDatePickerModule,
+    NzRadioModule
   ],
   providers: [
 
