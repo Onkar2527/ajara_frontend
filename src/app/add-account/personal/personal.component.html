@@ -1,5 +1,5 @@
 <div nz-row>
-    <nz-col nz-col nzSpan="12">
+    <div nz-col nzSpan="11">
         <div class="box">
             <nz-divider nzText="KYC Details"></nz-divider>
             <div nz-row class="content-box">
@@ -7,13 +7,13 @@
                     <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
                     <nz-form-control nzErrorTip="The input is not Aadhaar number!">
                         <div nz-row>
-                            <div nz-col [nzSpan]="18">
+                            <div nz-col [nzSpan]="19">
                                 <input nz-input name="aadhar" placeholder="Enter Aadhaar number" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
-                            <div nz-col [nzSpan]="4">
+                            <div nz-col [nzSpan]="3">
                                 <button nz-button nzType="primary">Get OTP</button>
                             </div>
                         </div>
@@ -38,19 +38,19 @@
                 </nz-form-item>
 
 
-                <div nz-col nzSpan="1"></div>
+                <div nz-col nzSpan="2"></div>
 
-                <nz-form-item nz-col nzSpan="13">
+                <nz-form-item nz-col nzSpan="12">
                     <nz-form-label [nzNoColon]="true">Pan number</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
-                            <div nz-col [nzSpan]="13">
+                            <div nz-col [nzSpan]="14">
                                 <input nz-input name="pan" placeholder="Enter Pan Number" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
-                            <div nz-col [nzSpan]="10">
+                            <div nz-col [nzSpan]="9">
                                 <button nz-button nzType="primary">Verify Pan</button>
                             </div>
                         </div>
@@ -61,5 +61,181 @@
 
 
         </div>
-    </nz-col>
+        <div class="box">
+            <nz-divider nzText="Introduction Details"></nz-divider>
+            <div class="content-box" nz-row>
+                <div nz-col nzSpan="24">
+                    <p>Introduction By Existing Account Holder<span><nz-switch nzCheckedChildren="Yes"
+                                nzUnCheckedChildren="No"></nz-switch></span></p>
+                </div>
+                <nz-form-item nz-col nzSpan="5">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="18">
+                    <nz-form-label [nzNoColon]="true">Existing Account Holder Name</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="existing-account" placeholder="Enter Name of Existing Account Holder" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="12">
+                    <nz-form-label [nzNoColon]="true">Customer ID</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="customer-id" placeholder="Existing A/C Holder's Customer ID" />
+                    </nz-form-control>
+                </nz-form-item>
+                <div nz-col nzSpan="1"></div>
+                <nz-form-item nz-col nzSpan="11">
+                    <nz-form-label [nzNoColon]="true">Account No</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="account-no" placeholder="Existing A/C Holder's A/C No." />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">For how many years existing account holder personaly knows the applicant?</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="knowing-years" placeholder="(In Years)" />
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div>
+        </div>
+    </div>
+    <div nz-col nzSpan="1">
+    </div>
+    <div nz-col nzSpan="12">
+        <div class="box">
+            <nz-divider nzText="Personal Information"></nz-divider>
+            <div class="content-box" nz-row>
+                <div nz-col nzSpan="24">
+                    <p>Is applicant minor?<span><nz-switch [ngModel]="true" nzCheckedChildren="Yes"
+                                nzUnCheckedChildren="No"></nz-switch></span></p>
+                </div>
+
+                <!-- If Applicant is Minor -->
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="19">
+                    <nz-form-label [nzNoColon]="true">Name of the Guardian</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="guardian" placeholder="Enter Name of the Guardian" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="8">
+                    <nz-form-label [nzNoColon]="true">Minor's DOB</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="8">
+                    <nz-form-label [nzNoColon]="true">Guardian's DOB</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <div nz-col nzSpan="8">
+                   
+                </div>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Relationship with minor</nz-form-label>
+                    <nz-form-control>
+                        <nz-radio-group>
+                            <label nz-radio nzValue="F">Father</label>
+                            <label nz-radio nzValue="M">Mother</label>
+                            <label nz-radio nzValue="C">By Court Order</label>
+                            <label nz-radio nzValue="O">Other</label>
+                          </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <!-- If Applicant is Not Minor -->
+
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="19">
+                    <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="applicant1" placeholder="Enter Name of Applicant 1" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="19">
+                    <nz-form-label [nzNoColon]="true">Applicant 2</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="applicant2" placeholder="Enter Name of Applicant 2" />
+                    </nz-form-control>
+                </nz-form-item>
+                
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="19">
+                    <nz-form-label [nzNoColon]="true">Applicant 3</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="applicant3" placeholder="Enter Name of Applicant 3" />
+                    </nz-form-control>
+                </nz-form-item> 
+
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-label [nzNoColon]="true">Title</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="title" placeholder="Enter Title" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div nz-col nzSpan="1"></div>
+
+                <nz-form-item nz-col nzSpan="19">
+                    <nz-form-label [nzNoColon]="true">Applicant 4</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="applicant4" placeholder="Enter Name of Applicant 4" />
+                    </nz-form-control>
+                </nz-form-item>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    
 </div>

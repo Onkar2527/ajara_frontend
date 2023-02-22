@@ -1,5 +1,6 @@
 nz-tabset{
     height: 90%;
+    overflow-y: scroll;
     
 }
 nz-footer{

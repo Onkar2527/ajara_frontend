@@ -16,7 +16,16 @@
   }
 nz-form-item{
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     width: -webkit-fill-available;
-    padding: 0px 10px;
+    padding: 0px;
+  }
+
+  nz-form-label{
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+  nz-switch{
+    margin-left: 10px;
   }
