@@ -1,1 +1,198 @@
-<p>deposit works!</p>
+<div nz-row>
+    <div nz-col nzSpan="11">
+        <div class="box">
+
+            <div nz-row class="content-box">
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">Account Type</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select Account Type">
+
+                        <nz-radio-group [(ngModel)]="radioValue">
+                            <label nz-radio nzValue="S">Savings</label>
+                            <label nz-radio nzValue="F">Fixed Deposit</label>
+                            <label nz-radio nzValue="R">Recurring Deposit</label>
+                            <label nz-radio nzValue="P">Pigmy</label>
+                        </nz-radio-group>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+            </div>
+        </div>
+
+
+        <div class="box">
+            <div nz-row class="content-box">
+
+                <nz-form-item nz-col nzSpan="14">
+
+                    <nz-form-label [nzNoColon]="true">Deposit Amount </nz-form-label>
+                    <br>
+                    <nz-radio-group [(ngModel)]="deposit">
+                        <label nz-radio nzValue="O">One Time</label>
+                        <label nz-radio nzValue="M">Monthly</label>
+                        <label nz-radio nzValue="D">Daily</label>
+                    </nz-radio-group>
+
+                    <nz-form-control nzErrorTip="Enter Deposit Amount">
+
+                        <div class="deposit" nz-col nzSpan="14">
+                            <input nz-input name="depositAmt" placeholder="Enter Deposit Amount" />
+                        </div>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+                <nz-form-item class="roi" nz-col nzSpan="10">
+
+                    <nz-form-label [nzNoColon]="true">Rate of Interest</nz-form-label>
+
+                    <input nz-input name="roi" placeholder="Enter Rate of Interest" />
+
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">Tenure</nz-form-label>
+                    <div nz-row>
+                        <div nz-col nzSpan="7">
+                            <input nz-input name="day" placeholder="Days" />
+                        </div>
+
+                        <div nz-col nzSpan="1">
+                        </div>
+
+                        <div nz-col nzSpan="7">
+                            <input nz-input name="month" placeholder="Months" />
+                        </div>
+
+                        <div nz-col nzSpan="1">
+                        </div>
+
+                        <div nz-col nzSpan="7">
+                            <input nz-input name="year" placeholder="Years" />
+                        </div>
+                    </div>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">Desired Interest Payout</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select Desired Interest Payout">
+
+                        <nz-radio-group [(ngModel)]="intPayout">
+                            <label nz-radio nzValue="M">Monthly</label>
+                            <label nz-radio nzValue="Q">Quarterly</label>
+                            <label nz-radio nzValue="H">Half Yearly</label>
+                            <label nz-radio nzValue="Y">Yearly</label>
+                            <label nz-radio nzValue="O">On Maturity</label>
+                        </nz-radio-group>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">Mode of Interest Payout</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select Mode of Interest Payout">
+
+                        <nz-radio-group [(ngModel)]="payoutMode">
+                            <label nz-radio nzValue="S">Standing Instructions</label>
+                            <label nz-radio nzValue="E">ECS</label>
+                            <label nz-radio nzValue="P">Pay Order</label>
+                            <label nz-radio nzValue="O">Other Bank Account</label>
+                        </nz-radio-group>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <p>Auto Renewal ? <span><nz-switch [ngModel]="true" nzCheckedChildren="Yes"
+                                nzUnCheckedChildren="No"></nz-switch></span></p>
+                </nz-form-item>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div nz-col nzSpan="1">
+    </div>
+
+
+    <div nz-col nzSpan="12">
+        <div class="box">
+
+            <div class="content-box" nz-row>
+
+
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">Bank Name</nz-form-label>
+
+                    <input nz-input placeholder="Enter Bank Name" />
+
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="13">
+
+                    <nz-form-label [nzNoColon]="true">Branch Name</nz-form-label>
+
+                    <input nz-input placeholder="Enter Branch Name" />
+
+                </nz-form-item>
+
+                <div nz-col nzSpan="1">
+                </div>
+
+                <nz-form-item nz-col nzSpan="10">
+
+                    <nz-form-label [nzNoColon]="true">IFSC Code</nz-form-label>
+
+                    <input nz-input placeholder="Enter IFSC Code" />
+
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="13">
+
+                    <nz-form-label [nzNoColon]="true">Account Number</nz-form-label>
+
+                    <input nz-input placeholder="Enter Account Number" />
+
+                </nz-form-item>
+
+
+            </div>
+        </div>
+
+
+        <div class="box">
+            <div class="content-box" nz-row>
+
+                <nz-form-item nz-col nzSpan="24">
+
+                    <nz-form-label [nzNoColon]="true">TDS Preference </nz-form-label>
+                    <nz-form-control nzErrorTip="Please select TDS Preference">
+
+                        <nz-radio-group [(ngModel)]="tds">
+                            <label nz-radio nzValue="T">Tax to be deduced at source/I  agree & abide difference in payable amount of cumulative / fixed deposit on maturity.</label>
+                            <label nz-radio nzValue="N">Tax Not to be deduced at source - Form 15G / 15H enclosed)</label>
+                        </nz-radio-group>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

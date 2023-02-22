@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepositComponent implements OnInit {
 
+  radioValue = 'S';
+  deposit = 'O';
+  intPayout = 'M';
+  payoutMode = 'S';
+  tds = 'T';
+
   constructor() { }
 
   ngOnInit(): void {
