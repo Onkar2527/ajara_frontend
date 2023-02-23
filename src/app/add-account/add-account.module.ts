@@ -30,6 +30,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzInputModule,
     NzSwitchModule,
     NzDatePickerModule,
-    NzRadioModule
+    NzRadioModule,
+    NzCheckboxModule
   ],
   providers: [
 
