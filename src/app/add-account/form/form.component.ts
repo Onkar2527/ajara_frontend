@@ -6,6 +6,7 @@ import { NomineeDetails } from 'src/app/models/nominee-details';
 import { Personal } from 'src/app/models/personal';
 import { TermDeposite } from 'src/app/models/term-deposite';
 import { ApiService } from 'src/app/service/api.service';
+import { PDFDocument } from 'pdf-lib';
 
 @Component({
   selector: 'app-form',
@@ -24,7 +25,7 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
   }
   pdfSrc = '../../../assets/FACO Adobe Form.pdf'
-
+  pdfByte: any
   getAllData() {
     let personal = this.getPersonal();
     let deposit = this.getDeposit();
@@ -43,7 +44,6 @@ export class FormComponent implements OnInit {
                       nominee.subscribe({
                         next: (res3) => {
                           if (res3 == 200) {
-                           
                           }
                           else {
                             this.message.error('Something went wrong!', '');
@@ -167,5 +167,133 @@ export class FormComponent implements OnInit {
       }
     });
     return nominee;
+  }
+  splitName(str: string): string[] {
+    let res: string[] = []
+    if (str) {
+      res = str.split(' ');
+    }
+    return res;
+  }
+  splitDate(date: string): string[] {
+    let res: string[] = [];
+    let ires: string[] = [];
+
+    if (date) {
+      ires = this.splitInBlock(date);
+      if (ires.length > 7) {
+        for (let i = 0; i < ires.length; i++) {
+          if (ires[i] != '-' && ires[i] != '/') {
+            res.push(ires[i])
+          }
+        }
+      }
+    }
+    return res;
+  }
+  splitInBlock(str: string): string[] {
+    let res: string[] = []
+    if (str) {
+      for (let i = 0; i < str.length; i++) {
+        res.push(str.charAt(i));
+      }
+
+    }
+
+    return res;
+  }
+
+  async fillPdf() {
+    const formPdfBytes = await fetch(this.pdfSrc).then(res => res.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    const form = pdfDoc.getForm();
+
+    let name: string[] = this.splitName(this.personalInfo.PRIMARY_APPLICANT_NAME);
+
+    if (name.length > 2) {
+      form.getTextField('AP1_FIRST_NAME').setText(name[0]);
+      form.getTextField('AP1_MIDDLE_NAME').setText(name[1]);
+      form.getTextField('AP1_LAST_NAME').setText(name[2]);
+    }
+    let name2: string[] = this.splitName(this.personalInfo.APPLICANT2);
+    if (name2.length > 2) {
+      form.getTextField('AP2_FIRST_NAME').setText(name2[0]);
+      form.getTextField('AP2_MIDDLE_NAME').setText(name2[1]);
+      form.getTextField('AP2_LAST_NAME').setText(name2[2]);
+    }
+    let name3: string[] = this.splitName(this.personalInfo.APPLICANT3);
+    if (name3.length > 2) {
+      form.getTextField('AP3_FIRST_NAME').setText(name3[0]);
+      form.getTextField('AP3_MIDDLE_NAME').setText(name3[1]);
+      form.getTextField('AP3_LAST_NAME').setText(name3[2]);
+    }
+    let name4: string[] = this.splitName(this.personalInfo.APPLICANT4);
+    if (name4.length > 2) {
+      form.getTextField('AP4_FIRST_NAME').setText(name4[0]);
+      form.getTextField('AP4_MIDDLE_NAME').setText(name4[1]);
+      form.getTextField('AP4_LAST_NAME').setText(name4[2]);
+    }
+
+    if (this.personalInfo.IS_MINOR) {
+      let gName: string[] = this.splitName(this.personalInfo.GUARDIAN_NAME);
+      if (gName.length == 3) {
+        form.getTextField('G_FIRST_NAME').setText(gName[0]);
+        form.getTextField('G_MIDDLE_NAME').setText(gName[1]);
+        form.getTextField('G_LAST_NAME').setText(gName[2]);
+      }
+      else if (gName.length == 4) {
+        form.getTextField('TITLE').setText(gName[0]);
+        form.getTextField('G_FIRST_NAME').setText(gName[1]);
+        form.getTextField('G_MIDDLE_NAME').setText(gName[2]);
+        form.getTextField('G_LAST_NAME').setText(gName[3]);
+      }
+
+      if (this.personalInfo.MINOR_DOB) {
+        let dob = this.splitDate(this.personalInfo.MINOR_DOB);
+        form.getTextField('D11').setText(dob[0]);
+        form.getTextField('D12').setText(dob[1]);
+        form.getTextField('D13').setText(dob[2]);
+        form.getTextField('D14').setText(dob[3]);
+        form.getTextField('D15').setText(dob[4]);
+        form.getTextField('D16').setText(dob[5]);
+        form.getTextField('D17').setText(dob[6]);
+        form.getTextField('D18').setText(dob[7]);
+      }
+      if (this.personalInfo.GUARDIAN_DOB) {
+        let dob = this.splitDate(this.personalInfo.GUARDIAN_DOB);
+        form.getTextField('D21').setText(dob[0]);
+        form.getTextField('D22').setText(dob[1]);
+        form.getTextField('D23').setText(dob[2]);
+        form.getTextField('D24').setText(dob[3]);
+        form.getTextField('D25').setText(dob[4]);
+        form.getTextField('D26').setText(dob[5]);
+        form.getTextField('D27').setText(dob[6]);
+        form.getTextField('D28').setText(dob[7]);
+      }
+      if(this.personalInfo.RELATION_WITH_MINOR == 'F'){
+        form.getCheckBox('Check Box3').check();
+      }
+      else if(this.personalInfo.RELATION_WITH_MINOR == 'M'){
+        form.getCheckBox('Check Box4').check();
+      }
+      else if(this.personalInfo.RELATION_WITH_MINOR == 'C'){
+        form.getCheckBox('Check Box5').check();
+      }
+      else if(this.personalInfo.RELATION_WITH_MINOR == 'O'){
+        form.getCheckBox('Check Box6').check();
+      }
+
+    }
+    form.flatten();
+
+    const pdfBytes = await pdfDoc.save()
+
+    var blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+
+    var url = URL.createObjectURL(blob);
+    window.open(url);
+
+    return pdfBytes
   }
 }

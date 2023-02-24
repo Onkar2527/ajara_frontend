@@ -117,7 +117,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if(this.selectedIndex == 4){
-      
+      this.formComp.fillPdf();
+      this.loanSaveButton = false;
     }
   }
 

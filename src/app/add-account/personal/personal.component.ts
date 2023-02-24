@@ -1,4 +1,4 @@
-import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
@@ -14,8 +14,8 @@ export class PersonalComponent implements OnInit {
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
-  ngOnDestroy(){
-    
+  ngOnDestroy() {
+
   }
 
   loadAadhaarButton = false;
@@ -26,21 +26,22 @@ export class PersonalComponent implements OnInit {
   getOtp() {
     this.loadOtpButton = true;
     let otpData = this.aadhaarVerify.getOTP();
-    otpData.subscribe({next:(res)=>{
-      if(res == true){
+    otpData.subscribe({
+      next: (res) => {
+        if (res == true) {
+          this.loadOtpButton = false;
+          otpData.unsubscribe();
+        }
+        else {
+          this.loadOtpButton = false;
+          otpData.unsubscribe();
+        }
+      },
+      error: () => {
         this.loadOtpButton = false;
         otpData.unsubscribe();
       }
-      else{
-        this.loadOtpButton = false;
-        otpData.unsubscribe();
-      }
-    },
-    error:()=>{
-      this.loadOtpButton = false;
-      otpData.unsubscribe();
-    }
-  })
+    })
 
   }
   getAadhaarData() {
@@ -58,61 +59,79 @@ export class PersonalComponent implements OnInit {
             this.personalInfo.IS_MINOR = false;
             this.personalInfo.PRIMARY_APPLICANT_NAME = this.aadhaarVerify.data.full_name;
             this.personalInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
-            
+
           }
           aadhar_data.unsubscribe();
           this.loadAadhaarButton = false
         }
-        else{
-          console.log(res ,"else")
+        else {
+          console.log(res, "else")
           this.loadAadhaarButton = false
         }
       },
-      error:(err)=>{
+      error: (err) => {
         aadhar_data.unsubscribe();
-        console.log(err ,"error")
+        console.log(err, "error")
         this.loadAadhaarButton = false
       }
-      
+
     })
 
   }
-  verifyPan(){
+  verifyPan() {
     let panverify = this.aadhaarVerify.verifyPan();
-    panverify.subscribe({next:(res)=>{
-      if(res == true){
-        this.personalInfo.PAN_NUMBER = this.aadhaarVerify.meta1.id_number;
-        panverify.unsubscribe();
+    panverify.subscribe({
+      next: (res) => {
+        if (res == true) {
+          this.personalInfo.PAN_NUMBER = this.aadhaarVerify.meta1.id_number;
+          panverify.unsubscribe();
+        }
       }
-    }})
+    })
   }
 
 
-  save(){
-    let personal:Subject<any> = new Subject();
+  changeDate(date: any) {
+    if (date) {
+      let month = String(date.getMonth() + 1);
+      let day = String(date.getDate());
+      const year = String(date.getFullYear());
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
+
+  save() {
+    let personal: Subject<any> = new Subject();
+    this.personalInfo.MINOR_DOB = this.changeDate(this.personalInfo.MINOR_DOB);
+    this.personalInfo.GUARDIAN_DOB = this.changeDate(this.personalInfo.GUARDIAN_DOB)
     this.api.addPersonal(this.personalInfo).subscribe({
-           next:(res)=>{
-               if(res.code==200){
-                   this.message.success("Personal Information added successfully!",'');
-                   personal.next(res);
-               }
-               else{
-                   this.message.error('Failed to add personal info','');
-                   personal.next(res);
-               }
-           },
-           error:(err)=>{
-               this.message.error("Internal Server Error!",err);
-               personal.error('err')
-           },
-           complete:()=>{
-              console.info("Add Personal Info Request Completed!");
-              personal.complete();
-           }
-       })
-       return personal;
-   }
-   
+      next: (res) => {
+        if (res.code == 200) {
+          this.message.success("Personal Information added successfully!", '');
+          personal.next(res);
+        }
+        else {
+          this.message.error('Failed to add personal info', '');
+          personal.next(res);
+        }
+      },
+      error: (err) => {
+        this.message.error("Internal Server Error!", err);
+        personal.error('err')
+      },
+      complete: () => {
+        console.info("Add Personal Info Request Completed!");
+        personal.complete();
+      }
+    })
+    return personal;
+  }
+
   ngOnInit(): void {
   }
 
