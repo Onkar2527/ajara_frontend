@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'FACO';
-
+  //find a better alternative for 
+  isLoggedIn = true           //
+  //this
   isCollapsed = false;
 }

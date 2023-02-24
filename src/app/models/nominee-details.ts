@@ -1,16 +1,13 @@
 export class NomineeDetails {
+    ID?: number;
+    APPLICANT_ID?: number;
+    IS_MINOR: boolean = false;
+    DOB: string = '';
 
-    NOMINEE_CUST_ID ? :string
-    DOB:any
-    MINOR ? :string
-    GUARDIAN_CUST_ID ? :string
-    RELATION ? :string
-    GUARDIAN_ADDRESS ? :string
-    NOMINEE_ADDRESS ? :string
-    WITNESS_DATE:any
-    WITNESS1_NAME ? :string
-    WITNESS1_ADDRESS ? :string
-    WITNESS2_NAME ? :string
-    WITNESS2_ADDRESS ? :string
+    NOMINEE_NAME: string = ''
+    RELATION: string = ''
+    NOMINEE_ADDRESS: string = ''
 
+    APONITED_NAME: string = ''
+    APONITED_ADDRESS: string = ''
 }

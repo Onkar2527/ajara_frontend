@@ -5,26 +5,28 @@
 
             <div nz-row class="content-box">
                 <div nz-col nzSpan="24">
-                    <p>Is Nominee minor?<span><nz-switch nzCheckedChildren="Yes"
+                    <p>Is Nominee minor?<span><nz-switch [(ngModel)]="nomineeInfo.IS_MINOR"  nzCheckedChildren="Yes"
                                 nzUnCheckedChildren="No"></nz-switch></span></p>
                 </div>
-                <nz-form-item nz-col nzSpan="24">
+
+                <nz-form-item nz-col nzSpan="24" *ngIf="nomineeInfo.IS_MINOR">
                     <nz-form-label [nzNoColon]="true">Minor's DOB</nz-form-label>
                     <nz-form-control>
-                        <nz-date-picker [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                        <nz-date-picker [(ngModel)]="nomineeInfo.DOB" [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
                     </nz-form-control>
                 </nz-form-item>
+
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Name of Nominee</nz-form-label>
                     <nz-form-control>
-                        <input nz-input name="nominee" placeholder="Enter Name of Nominee" />
+                        <input nz-input name="nominee" [(ngModel)]="nomineeInfo.NOMINEE_NAME" placeholder="Enter Name of Nominee" />
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Relationship with Applicant</nz-form-label>
                     <nz-form-control>
-                        <input nz-input name="relationship" placeholder="Enter Nominee's Relationship with Applicant" />
+                        <input nz-input name="relationship" [(ngModel)]="nomineeInfo.RELATION" placeholder="Enter Nominee's Relationship with Applicant" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -32,7 +34,7 @@
                     <nz-form-label [nzNoColon]="true">Address of Nominee</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
-                            <textarea rows="2" nz-input></textarea>
+                            <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.NOMINEE_ADDRESS"></textarea>
                         </div>
                     </nz-form-control>
                 </nz-form-item>
@@ -41,7 +43,7 @@
     </div>
     <div nz-col nzSpan="1">
     </div>
-    <div nz-col nzSpan="12">
+    <div nz-col nzSpan="12" *ngIf="nomineeInfo.IS_MINOR">
         <div class="box">
             <nz-divider nzText="Appointed Person for Minor"></nz-divider>
 
@@ -49,7 +51,7 @@
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Name of Appointed Person</nz-form-label>
                     <nz-form-control>
-                        <input nz-input name="appointed" placeholder="Enter Name of Appointed Person" />
+                        <input nz-input name="appointed" [(ngModel)]="nomineeInfo.APONITED_NAME" placeholder="Enter Name of Appointed Person" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -57,7 +59,7 @@
                     <nz-form-label [nzNoColon]="true">Address of Appointed Person</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
-                            <textarea rows="2" nz-input></textarea>
+                            <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.APONITED_ADDRESS"></textarea>
                         </div>
                     </nz-form-control>
                 </nz-form-item>

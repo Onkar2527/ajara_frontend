@@ -1,6 +1,7 @@
 nz-tabset{
     height: 90%;
     overflow-y: scroll;
+    padding: 20px;
     
 }
 nz-footer{
@@ -12,3 +13,4 @@ nz-footer{
 button{
     margin: 10px;
 }
+

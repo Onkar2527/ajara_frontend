@@ -29,3 +29,9 @@ nz-form-item{
   nz-switch{
     margin-left: 10px;
   } */
+
+  .success-tip{
+    color: green;
+    margin-left: 5px;
+    font-size: 12px;
+  }

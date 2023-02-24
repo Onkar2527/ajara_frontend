@@ -31,6 +31,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { FormComponent } from './form/form.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     PersonalComponent,
     DepositComponent,
     NominationComponent,
-    ServicesComponent
+    ServicesComponent,
+    FormComponent
   ],
   imports: [
     // system imports
@@ -60,7 +63,11 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzSwitchModule,
     NzDatePickerModule,
     NzRadioModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+
+    // other
+    PdfViewerModule
+
   ],
   providers: [
 

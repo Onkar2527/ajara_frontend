@@ -26,6 +26,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 
 registerLocaleData(en);
@@ -51,7 +52,8 @@ registerLocaleData(en);
     NzButtonModule,
     NzGridModule,
     NzDividerModule,
-    NzRadioModule
+    NzRadioModule,
+    NzNotificationModule
   ],
   providers: [
 

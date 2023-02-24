@@ -1,22 +1,20 @@
 <nz-layout>
-  <nz-header>
+  <nz-header *ngIf="isLoggedIn">
  
   </nz-header>
 
   <nz-layout class="layout">
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" *ngIf="isLoggedIn">
       <div class="user-box"></div>
 
-      <ul nz-menu nzTheme="dark" nzMode="inline" class="sider-1">
-        <li nz-menu-item class="menu-item-button">
+      <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
+        <li nz-menu-item class="menu-item">
           <a routerLink="/new-account/tabs/personal">
-            <span nz-icon nzType="plus"></span>
-            <span>Add new Account</span>
+            <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+            <span>New Account</span>
           </a>
 
         </li>
-      </ul>
-      <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
         <li nz-menu-item class="menu-item">
           <span nz-icon nzType="history"></span>
           <span>A/C History</span>

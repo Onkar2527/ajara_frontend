@@ -9,6 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { FormsModule } from '@angular/forms';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @Component({
   standalone: true,
@@ -22,7 +24,9 @@ import { FormsModule } from '@angular/forms';
     NzIconModule,
     NzButtonModule,
     NzGridModule,
-    FormsModule
+    FormsModule,
+    NzInputModule,
+    NzCheckboxModule
   ],
   providers: [
 
