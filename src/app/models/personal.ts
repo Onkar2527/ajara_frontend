@@ -20,7 +20,7 @@ export class Personal {
     ANNUAL_INCOME?: string
     MOBILE_NO?: string
     EMAIL_ID?: string
-    GUARDIAN_NAME?: string = '';
+    GUARDIAN_NAME: string = '';
     RELATION_WITH_MINOR?: string
     GUARDIAN_DOB: any
     IS_POLITICAL_EXPOSED_PERSON?: boolean
