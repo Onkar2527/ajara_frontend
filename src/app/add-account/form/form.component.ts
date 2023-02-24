@@ -283,7 +283,81 @@ export class FormComponent implements OnInit {
         form.getCheckBox('Check Box6').check();
       }
 
+      
+
     }
+
+    if(this.depositInfo.ACCOUNT_TYPE){
+      if(this.depositInfo.ACCOUNT_TYPE == 'S'){
+        form.getCheckBox('Check Box2').check();
+      }
+      else if(this.depositInfo.ACCOUNT_TYPE == 'F'){
+        form.getCheckBox('Check Box49').check();
+      }
+      else if(this.depositInfo.ACCOUNT_TYPE == 'R'){
+        form.getCheckBox('Check Box50').check();
+      }
+      else if(this.depositInfo.ACCOUNT_TYPE == 'P'){
+        form.getCheckBox('Check Box51').check();
+      }
+    }
+
+    if(this.depositInfo.INTEREST_PAYOUT){
+      if(this.depositInfo.INTEREST_PAYOUT == 'M'){
+        form.getCheckBox('Check Box19').check();
+      }
+      else if(this.depositInfo.INTEREST_PAYOUT == 'Q'){
+        form.getCheckBox('Check Box20').check();
+      }
+      else if(this.depositInfo.INTEREST_PAYOUT == 'H'){
+        form.getCheckBox('Check Box21').check();
+      }
+      else if(this.depositInfo.INTEREST_PAYOUT == 'Y'){
+        form.getCheckBox('Check Box22').check();
+      }
+      else if(this.depositInfo.INTEREST_PAYOUT == 'O'){
+        form.getCheckBox('Check Box23').check();
+      }
+    }
+
+    if(this.depositInfo.MODE_OF_INTEREST_PAYOUT){
+      if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'S'){
+        form.getCheckBox('Check Box25').check();
+      }
+      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'E'){
+        form.getCheckBox('Check Box26').check();
+      }
+      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'P'){
+        form.getCheckBox('Check Box27').check();
+      }
+      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'O'){
+        form.getCheckBox('Check Box24').check();
+      }
+    }
+
+    if(this.depositInfo.AUTO_RENEWAL){
+        form.getCheckBox('Check Box28').check();
+    }
+
+    if(this.depositInfo.TDS){
+      if(this.depositInfo.TDS == 'T'){
+        form.getCheckBox('Check Box30').check();
+      }
+      else if(this.depositInfo.TDS == 'N'){
+        form.getCheckBox('Check Box31').check();
+      }
+    }
+
+    if(this.nominationInfo.IS_MINOR){
+      form.getCheckBox('Check Box32').check();
+  }
+    
+    
+
+
+
+
+
     form.flatten();
 
     const pdfBytes = await pdfDoc.save()
