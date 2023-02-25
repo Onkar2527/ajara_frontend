@@ -284,6 +284,18 @@ export class FormComponent implements OnInit {
       }
 
     }
+
+    if(this.personalInfo.IS_INTRODUCED){
+      form.getCheckBox('Check Box34').check();
+      if(this.personalInfo.E_CUSTOMER_NAME){
+        let exName:string[] = this.splitName(this.personalInfo.E_CUSTOMER_NAME);
+        if (exName.length > 2) {
+          form.getTextField('I_FIRST_NAME').setText(exName[0]);
+          form.getTextField('I_MIDDLE_NAME').setText(exName[1]);
+          form.getTextField('I_LAST_NAME').setText(exName[2]);
+        }
+      }
+    }
     form.flatten();
 
     const pdfBytes = await pdfDoc.save()
