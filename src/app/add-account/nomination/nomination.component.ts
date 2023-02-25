@@ -17,7 +17,21 @@ export class NominationComponent implements OnInit {
   ngOnInit(): void {
   }
   
+  changeDate(date: any) {
+    if (date) {
+      let month = String(date.getMonth() + 1);
+      let day = String(date.getDate());
+      const year = String(date.getFullYear());
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
   save(){
+    this.nomineeInfo.DOB = this.changeDate(this.nomineeInfo.DOB);
     let nominee:Subject<any> = new Subject();
     this.api.addNominee(this.nomineeInfo).subscribe({
            next:(res)=>{

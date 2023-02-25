@@ -35,42 +35,45 @@ export class FormComponent implements OnInit {
     personal.subscribe({
       next: (res) => {
         if (res == 200) {
-          deposit.subscribe({
-            next: (res1) => {
-              if (res1 == 200) {
-                service.subscribe({
-                  next: (res2) => {
-                    if (res2 == 200) {
-                      nominee.subscribe({
-                        next: (res3) => {
-                          if (res3 == 200) {
-                          }
-                          else {
-                            this.message.error('Something went wrong!', '');
-                          }
-                        },
-                        error: () => {
-                          this.message.error('Something went wrong!', '');
-                        }
-                      })
-                    }
-                    else {
-                      this.message.error('Something went wrong!', '');
-                    }
-                  },
-                  error: () => {
-                    this.message.error('Something went wrong!', '');
-                  }
-                })
-              }
-              else {
-                this.message.error('Something went wrong!', '');
-              }
-            },
-            error: () => {
-              this.message.error('Something went wrong!', '');
-            }
-          })
+
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      }
+    })
+    deposit.subscribe({
+      next: (res1) => {
+        if (res1 == 200) {
+
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      }
+    })
+    nominee.subscribe({
+      next: (res3) => {
+        if (res3 == 200) {
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      }
+    })
+    service.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
         }
         else {
           this.message.error('Something went wrong!', '');
@@ -132,6 +135,8 @@ export class FormComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200) {
           this.serviceInfo = res['data'][0];
+          console.log("service info:", this.serviceInfo);
+
           service.next(200);
         }
         else {
@@ -152,7 +157,8 @@ export class FormComponent implements OnInit {
     this.api.getNominee(this.APPLICANT_ID).subscribe({
       next: (res) => {
         if (res['code'] == 200) {
-          this.serviceInfo = res['data'][0];
+          this.nominationInfo = res['data'][0];
+          console.log("nominee info:", this.nominationInfo);
           nominee.next(200);
         }
         else {
@@ -270,93 +276,262 @@ export class FormComponent implements OnInit {
         form.getTextField('D27').setText(dob[6]);
         form.getTextField('D28').setText(dob[7]);
       }
-      if(this.personalInfo.RELATION_WITH_MINOR == 'F'){
+      if (this.personalInfo.RELATION_WITH_MINOR == 'F') {
         form.getCheckBox('Check Box3').check();
       }
-      else if(this.personalInfo.RELATION_WITH_MINOR == 'M'){
+      else if (this.personalInfo.RELATION_WITH_MINOR == 'M') {
         form.getCheckBox('Check Box4').check();
       }
-      else if(this.personalInfo.RELATION_WITH_MINOR == 'C'){
+      else if (this.personalInfo.RELATION_WITH_MINOR == 'C') {
         form.getCheckBox('Check Box5').check();
       }
-      else if(this.personalInfo.RELATION_WITH_MINOR == 'O'){
+      else if (this.personalInfo.RELATION_WITH_MINOR == 'O') {
         form.getCheckBox('Check Box6').check();
       }
 
-      
+
 
     }
+    if (this.personalInfo.IS_INTRODUCED) {
+      form.getCheckBox('Check Box34').check();
+      if (this.personalInfo.E_CUSTOMER_NAME) {
+        let exName: string[] = this.splitName(this.personalInfo.E_CUSTOMER_NAME);
+        if (exName.length > 2) {
+          form.getTextField('I_FIRST_NAME').setText(exName[0]);
+          form.getTextField('I_MIDDLE_NAME').setText(exName[1]);
+          form.getTextField('I_LAST_NAME').setText(exName[2]);
+        }
+      }
+      if (this.personalInfo.E_CUSTOMER_ID) {
+        let costomer_id: string[] = this.splitInBlock(this.personalInfo.E_CUSTOMER_ID);
+        if (costomer_id.length <= 10) {
+          for (let i = 0; i < costomer_id.length; i++) {
+            form.getTextField('I' + (i + 1).toString()).setText(costomer_id[i]);
+          }
+        }
+      }
+      if (this.personalInfo.E_ACCOUNT_NUMBER) {
+        let account_no: string[] = this.splitInBlock(this.personalInfo.E_ACCOUNT_NUMBER);
+        if (account_no.length <= 16) {
+          for (let i = 0; i < account_no.length; i++) {
+            form.getTextField('A1' + (i + 1).toString()).setText(account_no[i]);
 
-    if(this.depositInfo.ACCOUNT_TYPE){
-      if(this.depositInfo.ACCOUNT_TYPE == 'S'){
+          }
+        }
+      }
+      if (this.personalInfo.E_YEARS) {
+        form.getTextField('I_YEARS').setText(this.personalInfo.E_YEARS.toString())
+      }
+    }
+
+    if (this.depositInfo.ACCOUNT_TYPE) {
+      if (this.depositInfo.ACCOUNT_TYPE == 'S') {
         form.getCheckBox('Check Box2').check();
       }
-      else if(this.depositInfo.ACCOUNT_TYPE == 'F'){
+      else if (this.depositInfo.ACCOUNT_TYPE == 'F') {
         form.getCheckBox('Check Box49').check();
       }
-      else if(this.depositInfo.ACCOUNT_TYPE == 'R'){
+      else if (this.depositInfo.ACCOUNT_TYPE == 'R') {
         form.getCheckBox('Check Box50').check();
       }
-      else if(this.depositInfo.ACCOUNT_TYPE == 'P'){
+      else if (this.depositInfo.ACCOUNT_TYPE == 'P') {
         form.getCheckBox('Check Box51').check();
       }
     }
 
-    if(this.depositInfo.INTEREST_PAYOUT){
-      if(this.depositInfo.INTEREST_PAYOUT == 'M'){
-        form.getCheckBox('Check Box19').check();
-      }
-      else if(this.depositInfo.INTEREST_PAYOUT == 'Q'){
-        form.getCheckBox('Check Box20').check();
-      }
-      else if(this.depositInfo.INTEREST_PAYOUT == 'H'){
-        form.getCheckBox('Check Box21').check();
-      }
-      else if(this.depositInfo.INTEREST_PAYOUT == 'Y'){
-        form.getCheckBox('Check Box22').check();
-      }
-      else if(this.depositInfo.INTEREST_PAYOUT == 'O'){
-        form.getCheckBox('Check Box23').check();
+    if (this.depositInfo.DEPOSIT_AMOUNT) {
+      let deposit_amount: string[] = this.splitInBlock(this.depositInfo.DEPOSIT_AMOUNT.toString());
+      if (deposit_amount.length <= 10) {
+        for (let i = 0; i < deposit_amount.length; i++) {
+          form.getTextField('DA' + (i + 1).toString()).setText(deposit_amount[i]);
+        }
       }
     }
 
-    if(this.depositInfo.MODE_OF_INTEREST_PAYOUT){
-      if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'S'){
-        form.getCheckBox('Check Box25').check();
-      }
-      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'E'){
-        form.getCheckBox('Check Box26').check();
-      }
-      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'P'){
-        form.getCheckBox('Check Box27').check();
-      }
-      else if(this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'O'){
-        form.getCheckBox('Check Box24').check();
+    if (this.depositInfo.RATE_OF_INTEREST) {
+      form.getTextField('RATE_OF_INTEREST').setText(this.depositInfo.RATE_OF_INTEREST.toString());
+    }
+
+    if (this.depositInfo.TANURE_DAYS) {
+      form.getTextField('T_DAYS').setText(this.depositInfo.TANURE_DAYS.toString());
+    }
+    if (this.depositInfo.TANURE_MONTHS) {
+      form.getTextField('T_MONTHS').setText(this.depositInfo.TANURE_MONTHS.toString());
+    }
+    if (this.depositInfo.TANURE_YEARS) {
+      form.getTextField('T_YEARS').setText(this.depositInfo.TANURE_YEARS.toString());
+    }
+
+    if (this.depositInfo.DEPOSIT_ACCOUNT_NUMBER) {
+      let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_ACCOUNT_NUMBER);
+      if (d_account.length <= 16) {
+        for (let i = 0; i < d_account.length; i++) {
+          form.getTextField('ACC' + (i + 1).toString()).setText(d_account[i]);
+        }
       }
     }
 
-    if(this.depositInfo.AUTO_RENEWAL){
-        form.getCheckBox('Check Box28').check();
-    }
 
-    if(this.depositInfo.TDS){
-      if(this.depositInfo.TDS == 'T'){
-        form.getCheckBox('Check Box30').check();
-      }
-      else if(this.depositInfo.TDS == 'N'){
-        form.getCheckBox('Check Box31').check();
+    if (this.depositInfo.DEPOSIT_BANK_NAME) {
+      let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BANK_NAME);
+      if (d_account.length <= 25) {
+        for (let i = 0; i < d_account.length; i++) {
+          form.getTextField('B_NAME' + (i + 1).toString()).setText(d_account[i]);
+        }
       }
     }
 
-    if(this.nominationInfo.IS_MINOR){
-      form.getCheckBox('Check Box32').check();
-  }
-    
-    
+    if (this.depositInfo.DEPOSIT_BRANCH_NAME) {
+      let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BRANCH_NAME);
+      if (d_account.length <= 25) {
+        for (let i = 0; i < d_account.length; i++) {
+          form.getTextField('BR_NAME' + (i + 1).toString()).setText(d_account[i]);
+        }
+      }
+    }
+    if (this.depositInfo.DEPOSIT_IFSC_CODE) {
+      let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_IFSC_CODE);
+      if (d_account.length <= 11) {
+        for (let i = 0; i < d_account.length; i++) {
+          form.getTextField('IFSC' + (i + 1).toString()).setText(d_account[i]);
+        }
+      }
+    }
 
 
 
+    if (this.nominationInfo.IS_MINOR) {
+      // form.getCheckBox('Check Box32').check();
 
+      if (this.nominationInfo.DOB) {
+        let dob = this.splitDate(this.nominationInfo.DOB);
+        if (dob.length <= 8) {
+          for (let i = 0; i < dob.length; i++) {
+            form.getTextField('D' + (i + 31).toString()).setText(dob[i]);
+          }
+        }
+      }
+
+      if (this.nominationInfo.APONITED_NAME) {
+        form.getTextField('ADDRESS_LINE_1').setText(this.nominationInfo.APONITED_NAME);
+      }
+      if (this.nominationInfo.APONITED_ADDRESS) {
+        form.getTextField('ADDRESS_LINE_2').setText(this.nominationInfo.APONITED_ADDRESS);
+      }
+    }
+    if (this.nominationInfo.RELATION) {
+      form.getTextField('RELATION_WTH_APPLICANT').setText(this.nominationInfo.RELATION);
+    }
+    if (this.nominationInfo.NOMINEE_NAME) {
+      form.getTextField('NOMINEE_ADDRESS_LINE_1').setText(this.nominationInfo.NOMINEE_NAME);
+    }
+    if (this.nominationInfo.NOMINEE_ADDRESS) {
+      form.getTextField('NOMINEE_ADDRESS_LINE_2').setText(this.nominationInfo.NOMINEE_ADDRESS);
+    }
+
+    if (this.serviceInfo.CHEQUE_BOOK) {
+      form.getCheckBox('Check Box42').check();
+    }
+    if (this.serviceInfo.PASS_BOOK) {
+      form.getCheckBox('Check Box43').check();
+    }
+    if (this.serviceInfo.SMS_ALERT) {
+      form.getCheckBox('Check Box46').check();
+    }
+    if (this.serviceInfo.STATEMENT_BY_EMAIL) {
+      form.getCheckBox('Check Box44').check();
+    }
+    if (this.serviceInfo.CONSENT_NEW_PRODUCT) {
+      form.getCheckBox('Check Box45').check();
+    }
+
+    if (this.serviceInfo.ATM_CARD) {
+      form.getCheckBox('Check Box47').check();
+      if (this.serviceInfo.APPLICANT1_NAME) {
+        let app_name = this.splitInBlock(this.serviceInfo.APPLICANT1_NAME);
+        if (app_name.length <= 20) {
+          for (let i = 0; i < app_name.length; i++) {
+            form.getTextField('AP1' + (i + 1).toString()).setText(app_name[i]);
+          }
+        }
+      }
+
+      if (this.serviceInfo.ADDON_CARD) {
+        form.getCheckBox('Check Box48').check();
+        if (this.serviceInfo.APPLICANT2_NAME) {
+          let app_name = this.splitInBlock(this.serviceInfo.APPLICANT2_NAME);
+          if (app_name.length <= 20) {
+            for (let i = 0; i < app_name.length; i++) {
+              form.getTextField('AP2' + (i + 1).toString()).setText(app_name[i]);
+            }
+          }
+        }
+
+        if (this.serviceInfo.APPLICANT3_NAME) {
+          let app_name = this.splitInBlock(this.serviceInfo.APPLICANT3_NAME);
+          if (app_name.length <= 20) {
+            for (let i = 0; i < app_name.length; i++) {
+              form.getTextField('AP3' + (i + 1).toString()).setText(app_name[i]);
+            }
+          }
+        }
+
+        if (this.serviceInfo.APPLICANT4_NAME) {
+          let app_name = this.splitInBlock(this.serviceInfo.APPLICANT4_NAME);
+          if (app_name.length <= 20) {
+            for (let i = 0; i < app_name.length; i++) {
+              form.getTextField('AP4' + (i + 1).toString()).setText(app_name[i]);
+            }
+          }
+        }
+
+      }
+
+    }
+
+    if (this.depositInfo.INTEREST_PAYOUT == 'M') {
+      form.getCheckBox('Check Box19').check();
+    }
+    else if (this.depositInfo.INTEREST_PAYOUT == 'Q') {
+      form.getCheckBox('Check Box20').check();
+    }
+    else if (this.depositInfo.INTEREST_PAYOUT == 'H') {
+      form.getCheckBox('Check Box21').check();
+    }
+    else if (this.depositInfo.INTEREST_PAYOUT == 'Y') {
+      form.getCheckBox('Check Box22').check();
+    }
+    else if (this.depositInfo.INTEREST_PAYOUT == 'O') {
+      form.getCheckBox('Check Box23').check();
+    }
+
+
+
+    if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'S') {
+      form.getCheckBox('Check Box25').check();
+    }
+    else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'E') {
+      form.getCheckBox('Check Box26').check();
+    }
+    else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'P') {
+      form.getCheckBox('Check Box27').check();
+    }
+    else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'O') {
+      form.getCheckBox('Check Box24').check();
+    }
+
+
+    if (this.depositInfo.AUTO_RENEWAL) {
+      form.getCheckBox('Check Box28').check();
+    }
+
+
+    if (this.depositInfo.TDS == 'T') {
+      form.getCheckBox('Check Box30').check();
+    }
+    else if (this.depositInfo.TDS == 'N') {
+      form.getCheckBox('Check Box31').check();
+    }
 
     form.flatten();
 
@@ -369,5 +544,7 @@ export class FormComponent implements OnInit {
     window.open(url);
 
     return pdfBytes
+
   }
+
 }

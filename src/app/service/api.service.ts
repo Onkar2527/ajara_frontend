@@ -34,7 +34,7 @@ export class ApiService {
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
-  baseUrl = 'http://192.168.1.4:8080/api/';
+  baseUrl = 'http://accountopening.kredpool.in/api/';
 
   //personal
   addPersonal(data: Personal): Observable<any> {
