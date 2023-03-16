@@ -1,0 +1,117 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-list>
+            <!-- Applicant 1 -->
+            <nz-list-item>
+                <ng-container>
+                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                        nzDescription="Lukman Zakir Sayyad">
+
+                    </nz-list-item-meta>
+
+                    <ul nz-list-item-actions>
+                        <nz-list-item-action><a (click)="takePicture()"><span nz-icon nzType="camera" nzTheme="fill"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                    </ul>
+                </ng-container>
+            </nz-list-item>
+
+            <!-- Applicant 2 -->
+            <nz-list-item>
+                <ng-container>
+                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                        <nz-list-item-meta-title>
+                            <a href="https://ng.ant.design"></a>
+                        </nz-list-item-meta-title>
+                    </nz-list-item-meta>
+
+                    <ul nz-list-item-actions>
+                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                    </ul>
+                </ng-container>
+            </nz-list-item>
+
+            <!-- Applicant 3 -->
+            <nz-list-item>
+                <ng-container>
+                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                        <nz-list-item-meta-title>
+                            <a href="https://ng.ant.design"></a>
+                        </nz-list-item-meta-title>
+                    </nz-list-item-meta>
+
+                    <ul nz-list-item-actions>
+                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                    </ul>
+                </ng-container>
+            </nz-list-item>
+
+            <!-- Applicant 4 -->
+            <nz-list-item>
+                <ng-container>
+                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+                        <nz-list-item-meta-title>
+                            <a href="https://ng.ant.design"></a>
+                        </nz-list-item-meta-title>
+                    </nz-list-item-meta>
+
+                    <ul nz-list-item-actions>
+                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                    </ul>
+                </ng-container>
+            </nz-list-item>
+        </nz-list>
+    </div>
+
+</div>
+
+
+
+<nz-drawer (nzOnClose)="close()" [nzSize]="'large'" [nzVisible]="Drawervisible" nzPlacement="right"
+    [nzTitle]="'Capture Image'">
+    <ng-container *nzDrawerContent>
+        <div class="cam-card" *ngIf="showCamera && !ImageData.ImageData">
+
+            <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
+                [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                [videoOptions]="videoOptions" [imageQuality]="4" (cameraSwitched)="cameraWasSwitched($event)"
+                (initError)="handleInitError($event)"></webcam>
+
+            <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
+                <div nz-col nzSpan="5">
+                    <button nz-button nzType="primary"  (click)="triggerSnapshot()">Take a picture</button>
+                </div>
+                <div nz-col nzSpan="5">
+                    <button nz-button nzType="primary" (click)="showNextWebcam(true);">Switch Camera</button>
+                </div>
+                <div nz-col nzSpan="14" style="text-align: right;">
+                    <button nz-button nzType="default" (click)="close()">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cam-card" *ngIf="showImage && ImageData.ImageData">
+            <img [src]="ImageData.ImageData"/>
+            <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
+                <div nz-col nzSpan="15"></div>
+                <div nz-col nzSpan="6">
+                    <button nz-button nzType="primary" (click)="reCapture()">Re-Capture Image</button>
+                </div>
+                <div nz-col nzSpan="3" style="text-align:right">
+                    <button nz-button nzType="primary" (click)="save()">Save</button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</nz-drawer>

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
-import { Personal } from 'src/app/models/personal';
+import { BasicInfo } from 'src/app/models/basicInfo';
 import { ApiService } from 'src/app/service/api.service';
 
 @Component({
@@ -19,75 +19,324 @@ export class PersonalComponent implements OnInit {
   }
 
   loadAadhaarButton = false;
+  loadAadhaarButton2 = false;
+  loadAadhaarButton3 = false;
+  loadAadhaarButton4 = false;
+
   loadOtpButton = false;
-  personalInfo: Personal = new Personal();
+  loadOtpButton2 = false;
+  loadOtpButton3 = false;
+  loadOtpButton4 = false;
+
+  loadPanButton = false;
+  loadPanButton2 = false;
+  loadPanButton3 = false;
+  loadPanButton4 = false;
+
   aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
+  aadhaarVerify2: Aadhaar = new Aadhaar(this.api, this.message);
+  aadhaarVerify3: Aadhaar = new Aadhaar(this.api, this.message);
+  aadhaarVerify4: Aadhaar = new Aadhaar(this.api, this.message);
 
-  getOtp() {
-    this.loadOtpButton = true;
-    let otpData = this.aadhaarVerify.getOTP();
-    otpData.subscribe({
-      next: (res) => {
-        if (res == true) {
-          this.loadOtpButton = false;
-          otpData.unsubscribe();
-        }
-        else {
-          this.loadOtpButton = false;
-          otpData.unsubscribe();
-        }
-      },
-      error: () => {
-        this.loadOtpButton = false;
-        otpData.unsubscribe();
-      }
-    })
+  basicInfo: BasicInfo = new BasicInfo();
 
-  }
-  getAadhaarData() {
-    this.loadAadhaarButton = true
-    let aadhar_data = this.aadhaarVerify.getData();
-    aadhar_data.subscribe({
-      next: (res) => {
-        if (res == true) {
-          if (this.aadhaarVerify.data.age < 18) {
-            this.personalInfo.IS_MINOR = true;
-            this.personalInfo.MINOR_DOB = this.aadhaarVerify.data.dob;
-            this.personalInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
-          }
-          else {
-            this.personalInfo.IS_MINOR = false;
-            this.personalInfo.PRIMARY_APPLICANT_NAME = this.aadhaarVerify.data.full_name;
-            this.personalInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
+
+
+  getOtp(AplicantNo: number) {
+
+    switch (AplicantNo) {
+      case 1: {
+        this.loadOtpButton = true
+        let otpData = this.aadhaarVerify.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton = false;
+
+            }
+            else {
+              this.loadOtpButton = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton = false;
 
           }
-          aadhar_data.unsubscribe();
-          this.loadAadhaarButton = false
-        }
-        else {
-          console.log(res, "else")
-          this.loadAadhaarButton = false
-        }
-      },
-      error: (err) => {
-        aadhar_data.unsubscribe();
-        console.log(err, "error")
-        this.loadAadhaarButton = false
+        });
+        break;
       }
 
-    })
+      case 2: {
+        this.loadOtpButton2 = true
+        let otpData = this.aadhaarVerify2.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton2 = false;
+
+            }
+            else {
+              this.loadOtpButton2 = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton2 = false;
+
+          }
+        });
+        break;
+      }
+
+      case 3: {
+        this.loadOtpButton3 = true
+        let otpData = this.aadhaarVerify3.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton3 = false;
+
+            }
+            else {
+              this.loadOtpButton3 = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton3 = false;
+
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadOtpButton4 = true
+        let otpData = this.aadhaarVerify4.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton4 = false;
+
+            }
+            else {
+              this.loadOtpButton4 = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton4 = false;
+
+          }
+        });
+        break;
+      }
+
+      default: {
+        console.error("Inside function getOtp : AplicantNo is Invalid - ", AplicantNo);
+        break;
+      }
+    }
 
   }
-  verifyPan() {
-    let panverify = this.aadhaarVerify.verifyPan();
-    panverify.subscribe({
-      next: (res) => {
-        if (res == true) {
-          this.personalInfo.PAN_NUMBER = this.aadhaarVerify.meta1.id_number;
-          panverify.unsubscribe();
-        }
+
+
+  getAadhaarData(AplicantNo: number) {
+
+    switch (AplicantNo) {
+      case 1: {
+        this.loadAadhaarButton = true
+        let aadhar_data = this.aadhaarVerify.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              if (this.aadhaarVerify.data.age < 18) {
+                this.basicInfo.IS_MINOR = true;
+                this.basicInfo.MINOR_DOB = this.aadhaarVerify.data.dob;
+                this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
+              }
+              else {
+                this.basicInfo.IS_MINOR = false;
+                this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
+
+              }
+              this.loadAadhaarButton = false
+            }
+            else {
+              this.loadAadhaarButton = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton = false
+          }
+
+        });
+        break;
       }
-    })
+
+      case 2: {
+        this.loadAadhaarButton2 = true
+        let aadhar_data = this.aadhaarVerify2.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.AADHAAR_NUMBER2 = this.aadhaarVerify2.data.aadhaar_no;
+              this.loadAadhaarButton2 = false
+            }
+            else {
+              this.loadAadhaarButton2 = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton2 = false
+          }
+
+        });
+
+        break;
+      }
+
+      case 3: {
+        this.loadAadhaarButton3 = true
+        let aadhar_data = this.aadhaarVerify3.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.AADHAAR_NUMBER3 = this.aadhaarVerify3.data.aadhaar_no;
+              this.loadAadhaarButton3 = false
+            }
+            else {
+              this.loadAadhaarButton3 = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton3 = false
+          }
+
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadAadhaarButton4 = true
+        let aadhar_data = this.aadhaarVerify3.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.AADHAAR_NUMBER4 = this.aadhaarVerify4.data.aadhaar_no;
+              this.loadAadhaarButton4 = false
+            }
+            else {
+              this.loadAadhaarButton4 = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton4 = false
+          }
+
+        });
+        break;
+      }
+
+      default: {
+        console.error("Inside function getAadhaarData : AplicantNo is Invalid - ", AplicantNo);
+        break;
+      }
+    }
+  }
+
+  verifyPan(AplicantNo: number) {
+
+    switch (AplicantNo) {
+      case 1: {
+        this.loadPanButton = true
+        let panverify = this.aadhaarVerify.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER = this.aadhaarVerify.meta1.id_number;
+              this.loadPanButton = false
+            }
+            else {
+              this.loadPanButton = false
+            }
+          },
+          error: () => {
+            this.loadPanButton = false
+          }
+        });
+        break;
+      }
+
+      case 2: {
+        this.loadPanButton2 = true;
+        let panverify = this.aadhaarVerify2.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.meta1.id_number;
+              this.loadPanButton2 = false;
+            }
+            else {
+              this.loadPanButton2 = false;
+            }
+          },
+          error: () => {
+            this.loadPanButton2 = false;
+          }
+        });
+        break;
+      }
+
+      case 3: {
+        this.loadPanButton3 = true;
+        let panverify = this.aadhaarVerify3.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.meta1.id_number;
+              this.loadPanButton3 = false;
+            }
+            else {
+              this.loadPanButton3 = false;
+            }
+          },
+          error: () => {
+            this.loadPanButton3 = false;
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadPanButton4 = true;
+        let panverify = this.aadhaarVerify4.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.meta1.id_number;
+              this.loadPanButton4 = false;
+            }
+            else {
+              this.loadPanButton4 = false;
+            }
+
+          },
+          error: () => {
+            this.loadPanButton4 = false;
+          }
+        });
+        break;
+      }
+
+      default: {
+        console.error("Inside function verifyPan : AplicantNo is Invalid - ", AplicantNo);
+        break;
+      }
+    }
+
+
   }
 
 
@@ -107,9 +356,9 @@ export class PersonalComponent implements OnInit {
 
   save() {
     let personal: Subject<any> = new Subject();
-    this.personalInfo.MINOR_DOB = this.changeDate(this.personalInfo.MINOR_DOB);
-    this.personalInfo.GUARDIAN_DOB = this.changeDate(this.personalInfo.GUARDIAN_DOB)
-    this.api.addPersonal(this.personalInfo).subscribe({
+    this.basicInfo.MINOR_DOB = this.changeDate(this.basicInfo.MINOR_DOB);
+    this.basicInfo.GUARDIAN_DOB = this.changeDate(this.basicInfo.GUARDIAN_DOB)
+    this.api.addPersonal(this.basicInfo).subscribe({
       next: (res) => {
         if (res.code == 200) {
           this.message.success("Personal Information added successfully!", '');

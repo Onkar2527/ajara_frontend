@@ -10,7 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // user Import
 import { AddAccountComponent } from './add-account/add-account.component';
-
+import { WebCamComponent } from './web-cam/web-cam.component';
+import { PersonalComponent } from './personal/personal.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { NominationComponent } from './nomination/nomination.component';
+import { ServicesComponent } from './services/services.component';
+import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
 // antd imports
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -20,10 +25,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { PersonalComponent } from './personal/personal.component';
-import { DepositComponent } from './deposit/deposit.component';
-import { NominationComponent } from './nomination/nomination.component';
-import { ServicesComponent } from './services/services.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -31,8 +32,18 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzTableModule } from 'ng-zorro-antd/table';
+//other
 import { FormComponent } from './form/form.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {WebcamModule} from 'ngx-webcam';
+import { ApplicantTabsComponent } from './applicant/applicant-tabs/applicant-tabs.component';
+import { ApplicantPersonalComponent } from './applicant/applicant-personal/applicant-personal.component';
+
+
 
 @NgModule({
   declarations: [
@@ -41,7 +52,12 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     DepositComponent,
     NominationComponent,
     ServicesComponent,
-    FormComponent
+    FormComponent,
+    WebCamComponent,
+    ApplicantDetailsComponent,
+    ApplicantTabsComponent,
+    ApplicantPersonalComponent,
+    
   ],
   imports: [
     // system imports
@@ -64,10 +80,13 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     NzDatePickerModule,
     NzRadioModule,
     NzCheckboxModule,
-
+    NzSelectModule,
+    NzListModule,
+    NzDrawerModule,
+    NzTableModule,
     // other
-    PdfViewerModule
-
+    PdfViewerModule,
+    WebcamModule
   ],
   providers: [
 

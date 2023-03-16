@@ -1,7 +1,7 @@
 <nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
-    <nz-tab nzLinkRouter >
+    <nz-tab nzLinkRouter>
         <a *nzTabLink nz-tab-link [routerLink]="['./personal']">
-            Personal Information
+            Basic Information
         </a>
         <app-personal></app-personal>
     </nz-tab>
@@ -23,14 +23,30 @@
         </a>
         <app-services></app-services>
     </nz-tab>
+
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./applicant']">
+           Applicant Information
+        </a>
+        <app-applicant-details></app-applicant-details>
+    </nz-tab>
+
+    <nz-tab nzLinkRouter>
+        <a *nzTabLink nz-tab-link [routerLink]="['./web-cam']">
+            Web Cam
+        </a>
+        <app-web-cam></app-web-cam>
+    </nz-tab>
     <nz-tab nzLinkRouter>
         <a *nzTabLink nz-tab-link [routerLink]="['./form']">
             Form
         </a>
         <app-form style="height:100%"></app-form>
     </nz-tab>
+
 </nz-tabset>
 
 <nz-footer>
-    <button nz-button nzType="primary"  (click)="saveANext()" [nzLoading]="loanSaveButton"><span *ngIf="selectedIndex != 4">Save and Next</span><span *ngIf="selectedIndex == 4">Download PDF</span></button>
+    <button nz-button nzType="primary" (click)="saveANext()" [nzLoading]="loanSaveButton"><span
+            *ngIf="selectedIndex != 6">Save and Next</span><span *ngIf="selectedIndex == 6">Download PDF</span></button>
 </nz-footer>

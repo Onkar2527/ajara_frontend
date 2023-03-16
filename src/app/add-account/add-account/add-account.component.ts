@@ -21,13 +21,13 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   selectedIndex: number = 0;
   loanSaveButton: boolean = false;
-  buttonTitle:string='Save & Next' 
-  APPLICANT_ID?:number;
+  buttonTitle: string = 'Save & Next'
+  APPLICANT_ID?: number;
   log(event: any) {
-    if(this.selectedIndex == 4){
+    if (this.selectedIndex == 4) {
       this.buttonTitle = 'Download Pdf'
     }
-    else{
+    else {
       this.buttonTitle = 'Save & Next'
     }
     console.info("tab index changed", event, this.selectedIndex)
@@ -48,10 +48,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           if (res.code == 200) {
             this.APPLICANT_ID = res.APPLICANT_ID;
             this.selectedIndex = 1;
-           
+
             this.loanSaveButton = false;
           }
-        }, error:()=>{
+        }, error: () => {
           this.loanSaveButton = false;
         },
         complete: () => {
@@ -66,11 +66,11 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         next: (res) => {
           if (res.code == 200) {
             this.selectedIndex = 2;
-           
+
             this.loanSaveButton = false;
           }
         },
-        error:()=>{
+        error: () => {
           this.loanSaveButton = false;
         },
         complete: () => {
@@ -85,10 +85,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         next: (res) => {
           if (res.code == 200) {
             this.selectedIndex = 3;
-          
+
             this.loanSaveButton = false;
           }
-        }, error:()=>{
+        }, error: () => {
           this.loanSaveButton = false;
         },
         complete: () => {
@@ -97,18 +97,18 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
 
-    else if(this.selectedIndex == 3){
+    else if (this.selectedIndex == 3) {
       this.serviceComp.serviceInfo.APPLICANT_ID = this.APPLICANT_ID;
       let service = this.serviceComp.save();
       service.subscribe({
         next: (res) => {
           if (res.code == 200) {
-            this.formComp.APPLICANT_ID = this.APPLICANT_ID;
-            this.formComp.getAllData();
+
+
             this.selectedIndex = 4;
             this.loanSaveButton = false;
           }
-        }, error:()=>{
+        }, error: () => {
           this.loanSaveButton = false;
         },
         complete: () => {
@@ -116,12 +116,41 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         }
       })
     }
-    else if(this.selectedIndex == 4){
-      this.formComp.fillPdf();
+    else if (this.selectedIndex == 4) {
+      this.loanSaveButton = false;
+      this.selectedIndex = 5;
+      // this.serviceComp.serviceInfo.APPLICANT_ID = this.APPLICANT_ID;
+      // let service = this.serviceComp.save();
+      // service.subscribe({
+      //   next: (res) => {
+      //     if (res.code == 200) {
+      //       this.formComp.APPLICANT_ID = this.APPLICANT_ID;
+      //       this.formComp.getAllData();
+
+      //       this.selectedIndex = 4;
+      //       this.loanSaveButton = false;
+      //     }
+      //   }, error:()=>{
+      //     this.loanSaveButton = false;
+      //   },
+      //   complete: () => {
+      //     this.loanSaveButton = false;
+      //   }
+      // })
+    }
+    else if (this.selectedIndex == 5) {
+     
+      this.formComp.APPLICANT_ID = this.APPLICANT_ID;
+      this.formComp.getAllData();
+      this.loanSaveButton = false;
+      this.selectedIndex = 6;
+    }
+    else if (this.selectedIndex == 6) {
+      this.formComp.save()
       this.loanSaveButton = false;
     }
   }
 
- 
+
 
 }

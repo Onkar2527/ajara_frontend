@@ -1,0 +1,28 @@
+<nz-table #applicantTable [nzData]="ApplicantData">
+    <thead>
+      <tr>
+        <th>Edit</th>
+        <th>Name</th>
+        <th>Aadhaar</th>
+        <th>Mobile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of applicantTable.data">
+        <td>
+            <a (click)="edit(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></a>
+        </td>
+        <td>{{ data.FIRST_NAME }} {{data.MIDDLE_NAME}} {{ data.LAST_NAME }}</td>
+        <td>{{ data.AADHAAR_NUMBER }}</td>
+        <td>{{ data.MOBILE_NUMBER }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+
+  <nz-drawer (nzOnClose)="close()" [nzSize]="'large'" [nzVisible]="DrawerVisible" nzPlacement="right"
+    [nzTitle]="'Capture Image'">
+    <ng-container *nzDrawerContent>
+       
+    </ng-container>
+</nz-drawer>

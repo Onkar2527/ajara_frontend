@@ -5,8 +5,9 @@ import { AadhaarMeta, } from '../models/aadhaar';
 import { Facilities } from '../models/facilities';
 import { NomineeDetails } from '../models/nominee-details';
 import { PanMeta } from '../models/pan-meta';
-import { Personal } from '../models/personal';
+import { BasicInfo } from '../models/basicInfo';
 import { TermDeposite } from '../models/term-deposite';
+import { ImageData } from '../models/image-data';
 
 
 
@@ -36,8 +37,10 @@ export class ApiService {
   aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
   baseUrl = 'http://accountopening.kredpool.in/api/';
 
+  // baseUrl local
+  // baseUrl = 'http://192.168.1.13:8080/api/';
   //personal
-  addPersonal(data: Personal): Observable<any> {
+  addPersonal(data: BasicInfo): Observable<any> {
     return this.httpClient.post(this.baseUrl + "personalDetails/create", data, this.optionMain)
   }
 
@@ -86,6 +89,12 @@ export class ApiService {
 
   }
 
+
+  // wecam
+
+  postImageFile(data:ImageData): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl+ 'applicantsPhoto/upload',data,this.optionMain);
+  }
 
   // aadhaar
 

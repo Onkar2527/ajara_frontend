@@ -1,2 +1,3 @@
-<!-- <pdf-viewer [src]="pdfByte" [render-text]="true" [original-size]="false"
-    style="width: 100%; height:500px"></pdf-viewer> -->
+<pdf-viewer *ngIf="pdfByte && showPdf"
+ [src]="pdfByte" [render-text]="true" [original-size]="false"
+    style="width: 100%; height:500px"></pdf-viewer>
