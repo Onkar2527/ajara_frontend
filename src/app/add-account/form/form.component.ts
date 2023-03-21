@@ -59,6 +59,28 @@ export class FormComponent implements OnInit {
 
   fillField() {
     this.fieldMap = [
+
+      // FOR BANK USE ONLY
+
+      { field: 'B1,B10', type: 'block' },
+      { field: 'D1,D8', type: 'block' },
+
+      { field: 'A1,A16', type: 'block' },
+      { field: 'BRANCH_NAME', type: 'text' },
+
+      { field: 'R1,R26', type: 'block' },
+
+      { field: 'C1,C110', type: 'block' },
+      { field: 'C2,C210', type: 'block' },
+
+      { field: 'C3,C310', type: 'block' },
+      { field: 'C4,C410', type: 'block' },
+
+      { field: 'Check Box2', type: 'checkbox'},
+      { field: 'Check Box49', type: 'checkbox'},
+      { field: 'Check Box50', type: 'checkbox'},
+      { field: 'Check Box51', type: 'checkbox'},
+
       { field: 'AP1_FIRST_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME ? this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME : " " },
       { field: 'AP1_MIDDLE_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME : ' ' },
       { field: 'AP1_LAST_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_LAST_NAME : ' ' },
@@ -74,6 +96,378 @@ export class FormComponent implements OnInit {
       { field: 'AP4_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT4_FIRST_NAME ? this.basicInfo.APPLICANT4_FIRST_NAME : " " },
       { field: 'AP4_MIDDLE_NAME', type: 'text', value: this.basicInfo.APPLICANT4_MIDDLE_NAME ? this.basicInfo.APPLICANT4_MIDDLE_NAME : ' ' },
       { field: 'AP4_LAST_NAME', type: 'text', value: this.basicInfo.APPLICANT4_LAST_NAME ? this.basicInfo.APPLICANT4_LAST_NAME : ' ' },
+
+      { field: 'TITLE', type: 'text' },
+      { field: 'G_FIRST_NAME', type: 'text' },
+      { field: 'G_MIDDLE_NAME', type: 'text' },
+      { field: 'G_LAST_NAME', type: 'text' },
+
+      { field: 'Check Box3', type: 'checkbox'},
+      { field: 'Check Box4', type: 'checkbox'},
+      { field: 'Check Box5', type: 'checkbox'},
+
+      { field: 'Check Box6', type: 'checkbox'},
+
+      { field: 'Check Box7', type: 'checkbox'},
+      { field: 'Check Box8', type: 'checkbox'},
+      { field: 'Check Box9', type: 'checkbox'},
+      { field: 'Check Box10', type: 'checkbox'},
+
+      { field: 'Check Box11', type: 'checkbox'},
+      { field: 'Check Box12', type: 'checkbox'},
+      { field: 'OTHER_INSTRUCTION_FOR_ACC_OPERATION', type: 'text' },
+
+      { field: 'Check Box13', type: 'checkbox'},
+
+      { field: 'AP1_PHOTO', type: 'image'},
+      { field: 'AP2_PHOTO', type: 'image'},
+      { field: 'AP3_PHOTO', type: 'image'},
+      { field: 'AP4_PHOTO', type: 'image'},
+
+      { field: 'Check Box34', type: 'checkbox'},
+
+      { field: 'I_FIRST_NAME', type: 'text' },
+      { field: 'I_MIDDLE_NAME', type: 'text' },
+      { field: 'I_LAST_NAME', type: 'text' },
+
+      { field: 'I2,I10', type: 'block' },
+
+      { field: 'A011,A116', type: 'block' },
+
+      { field: 'I_YEARS', type: 'text' },
+
+
+      // INITIAL PAYMENT DETAILS
+      { field: 'INITIAL_AMOUNT', type: 'text' },
+      { field: 'Check Box35', type: 'checkbox'},
+      { field: 'Check Box36', type: 'checkbox'},
+      { field: 'A21,A215', type: 'block' },
+
+      { field: 'CHEQUE_NO', type: 'text' },
+      { field: 'INITIAL_PAYMENT_DATE', type: 'text' },
+
+      { field: 'DA1,DA10', type: 'block' },
+      { field: 'RATE_OF_INTEREST', type: 'text' },
+
+      { field: 'Check Box19', type: 'checkbox'},
+      { field: 'Check Box20', type: 'checkbox'},
+      { field: 'Check Box21', type: 'checkbox'},
+      { field: 'Check Box22', type: 'checkbox'},
+      { field: 'Check Box23', type: 'checkbox'},
+
+      { field: 'T_DAYS', type: 'text' },
+      { field: 'T_MONTHS', type: 'text' },
+      { field: 'T_YEARS', type: 'text' },
+
+      { field: 'Check Box25', type: 'checkbox'},
+      { field: 'Check Box26', type: 'checkbox'},
+      { field: 'Check Box27', type: 'checkbox'},
+      { field: 'Check Box24', type: 'checkbox'},
+
+      { field: 'Check Box28', type: 'checkbox'},
+      { field: 'Check Box29', type: 'checkbox'},
+
+      { field: 'B_NAME1,B_NAME25', type: 'block' },
+      { field: 'BR_NAME1,BR_NAME25', type: 'block' },
+      { field: 'IFSC1,IFSC11', type: 'block' },
+      { field: 'ACC1,ACC16', type: 'block' },
+
+      { field: 'Check Box30', type: 'checkbox'},
+      { field: 'Check Box31', type: 'checkbox'},
+
+      { field: 'Check Box32', type: 'checkbox'},
+      { field: 'Check Box33', type: 'checkbox'},
+
+      { field: 'NOMINEE_ADDRESS_LINE_1', type: 'text' },
+      { field: 'NOMINEE_ADDRESS_LINE_2', type: 'text' },
+      { field: 'NOMINEE_ADDRESS_LINE_3', type: 'text' },
+      { field: 'NOMINEE_ADDRESS_LINE_4', type: 'text' },
+
+      { field: 'RELATION_WTH_APPLICANT', type: 'text' },
+      { field: 'D31,D38', type: 'block' },
+
+      { field: 'ADDRESS_LINE_1', type: 'text' },
+      { field: 'ADDRESS_LINE_2', type: 'text' },
+
+      { field: 'WITNESS1_ADDRESS_LINE_1', type: 'text' },
+      { field: 'WITNESS1_ADDRESS_LINE_2', type: 'text' },
+      { field: 'WITNESS1_ADDRESS_LINE_3', type: 'text' },
+      { field: 'WITNESS1_ADDRESS_LINE_4', type: 'text' },
+
+      { field: 'WITNESS2_ADDRESS_LINE_1', type: 'text' },
+      { field: 'WITNESS2_ADDRESS_LINE_2', type: 'text' },
+      { field: 'WITNESS2_ADDRESS_LINE_3', type: 'text' },
+      { field: 'WITNESS2_ADDRESS_LINE_4', type: 'text' },
+
+      // SERVICES & LINKAGES
+      { field: 'Check Box42', type: 'checkbox'},
+      { field: 'Check Box43', type: 'checkbox'},
+      { field: 'Check Box44', type: 'checkbox'},
+
+      { field: 'Check Box46', type: 'checkbox'},
+      { field: 'Check Box47', type: 'checkbox'},
+      { field: 'Check Box45', type: 'checkbox'},
+
+      { field: 'Check Box48', type: 'checkbox'},
+
+      { field: 'AP11,AP120', type: 'block' },
+      { field: 'AP21,AP220', type: 'block' },
+      { field: 'AP31,AP320', type: 'block' },
+      { field: 'AP41,AP420', type: 'block' },
+
+
+      // Date of Birth Mismatch (If necessary) Declaration :
+      { field: 'D41,D48', type: 'block' },
+      { field: 'D51,D58', type: 'block' },
+      { field: 'D61,D68', type: 'block' },
+
+      { field: 'DD', type: 'text' },
+      { field: 'MM', type: 'text' },
+      { field: 'YYYY', type: 'text' },
+
+      { field: 'DECLARANT_NAME', type: 'text' },
+      { field: 'LANGUAGE', type: 'text' },
+      { field: 'APPLICANT_NAME', type: 'text' },
+
+      { field: 'DOCUMENT_NAME', type: 'text' },
+      { field: 'REASON_OF_DIIFERENCE_IN_SIGNATURE', type: 'text' },
+
+    ]
+
+
+
+    this.fieldMap2 = [
+
+      { field: 'BRANCH_NAME1', type: 'text' },
+      { field: 'D71,D78', type: 'block' },
+      { field: 'C51,C512', type: 'block' },
+      { field: 'TYPE_OF_ACCOUNT', type: 'text' },
+      { field: 'APPLICANT_LAST_NAME', type: 'text' },
+      { field: 'APPLICANT_FIRST_NAME', type: 'text' },
+      { field: 'APPLICANT_MIDDLE_NAME', type: 'text' },
+      { field: 'FATHER_OR_HUSBAND_LAST_NAME', type: 'text' },
+      { field: 'FATHER_OR_HUSBAND_FIRST_NAME', type: 'text' },
+      { field: 'FATHER_OR_HUSBAND_MIDDLE_NAME', type: 'text' },
+
+      { field: 'CURRENT_ADDRESS_LINE_1', type: 'text'},
+      { field: 'CURRENT_ADDRESS_LINE_2', type: 'text'},
+      { field: 'CURRENT_ADDRESS_LINE_3', type: 'text'},
+      { field: 'C_CITY', type: 'text'},
+      { field: 'C_TALUKA', type: 'text'},
+      { field: 'C_DISTRICT', type: 'text'},
+      { field: 'C_BIG_SIGN_NEARBY', type: 'text'},
+      { field: 'C_STATE', type: 'text'},
+      { field: 'C_P1,C_P6', type: 'block'},
+
+      { field: 'PERMANENT_ADDRESS_LINE_1', type: 'text'},
+      { field: 'PERMANENT_ADDRESS_LINE_2', type: 'text'},
+      { field: 'PERMANENT_ADDRESS_LINE_3', type: 'text'},
+      { field: 'P_CITY', type: 'text'},
+      { field: 'P_TALUKA', type: 'text'},
+      { field: 'P_DISTRICT', type: 'text'},
+      { field: 'P_BIG_SIGN_NEARBY', type: 'text'},
+      { field: 'P_STATE', type: 'text'},
+      { field: 'P_P1,P_P6', type: 'block'},
+
+      { field: 'H_L1,H_L12', type: 'block'},
+      { field: 'O_L1,O_L12', type: 'block'},
+
+      { field: 'EMAIL_ID', type: 'text'},
+      { field: 'M1,M10', type: 'block'},
+
+      { field: 'Check Box61', type: 'checkbox'},
+      { field: 'Check Box62', type: 'checkbox'},
+      { field: 'Check Box63', type: 'checkbox'},
+      { field: 'Check Box64', type: 'checkbox'},
+      { field: 'Check Box65', type: 'checkbox'},
+      { field: 'Check Box66', type: 'checkbox'},
+      { field: 'Check Box67', type: 'checkbox'},
+
+      { field: 'Check Box71', type: 'checkbox'},
+      { field: 'Check Box72', type: 'checkbox'},
+      { field: 'Check Box73', type: 'checkbox'},
+      { field: 'Check Box74', type: 'checkbox'},
+      { field: 'Check Box75', type: 'checkbox'},
+      { field: 'Check Box76', type: 'checkbox'},
+      { field: 'Check Box77', type: 'checkbox'},
+
+      { field: 'Check Box81', type: 'checkbox'},
+      { field: 'Check Box82', type: 'checkbox'},
+      { field: 'Check Box83', type: 'checkbox'},
+      { field: 'Check Box84', type: 'checkbox'},
+      { field: 'Check Box85', type: 'checkbox'},
+      { field: 'Check Box86', type: 'checkbox'},
+      { field: 'Check Box87', type: 'checkbox'},
+
+      { field: 'Check Box91', type: 'checkbox'},
+      { field: 'Check Box92', type: 'checkbox'},
+      { field: 'Check Box93', type: 'checkbox'},
+      { field: 'Check Box94', type: 'checkbox'},
+      { field: 'Check Box95', type: 'checkbox'},
+
+      { field: 'Check Box101', type: 'checkbox'},
+      { field: 'OFFSPRING', type: 'text'},
+      { field: 'Check Box102', type: 'checkbox'},
+      { field: 'TOTAL_FAMILY_MEMBERS', type: 'text'},
+
+      
+      { field: 'Check Box103', type: 'checkbox'},
+      { field: 'Check Box104', type: 'checkbox'},
+      { field: 'Check Box105', type: 'checkbox'},
+      { field: 'Check Box106', type: 'checkbox'},
+      { field: 'Check Box107', type: 'checkbox'},
+      { field: 'Check Box108', type: 'checkbox'},
+
+      { field: 'Check Box109', type: 'checkbox'},
+      { field: 'INSURANCE_AMOUNT', type: 'text'},
+      { field: 'POLICY_TYPE', type: 'text'},
+      { field: 'INSURANCE_COMPANY', type: 'text'},
+
+      { field: 'UID1,UID18', type: 'block'},
+
+      { field: 'BG_1', type: 'text'},
+      { field: 'BG_2', type: 'text'},
+
+      { field: 'Check Box111', type: 'checkbox'},
+      { field: 'Check Box112', type: 'checkbox'},
+      { field: 'Check Box113', type: 'checkbox'},
+
+      { field: 'Check Box114', type: 'checkbox'},
+      { field: 'Check Box115', type: 'checkbox'},
+      { field: 'Check Box116', type: 'checkbox'},
+
+      { field: 'Check Box117', type: 'checkbox'},
+      { field: 'Check Box118', type: 'checkbox'},
+      { field: 'Check Box119', type: 'checkbox'},
+      { field: 'Check Box120', type: 'checkbox'},
+
+      { field: 'Check Box121', type: 'checkbox'},
+      { field: 'Check Box122', type: 'checkbox'},
+      { field: 'Check Box123', type: 'checkbox'},
+      { field: 'Check Box124', type: 'checkbox'},
+
+      { field: 'DESIGNATION', type: 'text'},
+
+      { field: 'Check Box125', type: 'checkbox'},
+      { field: 'Check Box126', type: 'checkbox'},
+      { field: 'Check Box127', type: 'checkbox'},
+
+      { field: 'Check Box128', type: 'checkbox'},
+      { field: 'Check Box129', type: 'checkbox'},
+      { field: 'Check Box130', type: 'checkbox'},
+
+    ]
+
+
+
+    this.fieldMap3 = [
+
+      { field: 'Check Box131', type: 'checkbox'},
+      { field: 'Check Box132', type: 'checkbox'},
+      { field: 'Check Box133', type: 'checkbox'},
+      { field: 'Check Box134', type: 'checkbox'},
+      { field: 'Check Box135', type: 'checkbox'},
+      { field: 'Check Box136', type: 'checkbox'},
+      { field: 'Check Box137', type: 'checkbox'},
+      { field: 'Check Box138', type: 'checkbox'},
+
+      { field: 'Check Box139', type: 'checkbox'},
+      { field: 'Check Box140', type: 'checkbox'},
+      { field: 'Check Box141', type: 'checkbox'},
+      { field: 'Check Box142', type: 'checkbox'},
+      { field: 'Check Box143', type: 'checkbox'},
+      { field: 'Check Box144', type: 'checkbox'},
+      { field: 'Check Box145', type: 'checkbox'},
+      { field: 'Check Box146', type: 'checkbox'},
+      { field: 'Check Box147', type: 'checkbox'},
+      { field: 'Check Box148', type: 'checkbox'},
+
+      { field: 'Check Box149', type: 'checkbox'},
+      { field: 'Check Box150', type: 'checkbox'},
+      { field: 'Check Box151', type: 'checkbox'},
+      { field: 'Check Box152', type: 'checkbox'},
+      { field: 'Check Box153', type: 'checkbox'},
+
+      { field: 'Check Box154', type: 'checkbox'},
+      { field: 'Check Box155', type: 'checkbox'},
+      { field: 'Check Box156', type: 'checkbox'},
+      { field: 'Check Box157', type: 'checkbox'},
+      { field: 'Check Box158', type: 'checkbox'},
+      { field: 'Check Box159', type: 'checkbox'},
+      { field: 'Check Box160', type: 'checkbox'},
+
+      { field: 'Check Box161', type: 'checkbox'},
+      { field: 'Check Box162', type: 'checkbox'},
+      { field: 'Check Box163', type: 'checkbox'},
+      { field: 'Check Box164', type: 'checkbox'},
+      { field: 'Check Box165', type: 'checkbox'},
+      { field: 'Check Box166', type: 'checkbox'},
+      { field: 'Check Box167', type: 'checkbox'},
+
+      { field: 'Check Box168', type: 'checkbox'},
+      { field: 'Check Box169', type: 'checkbox'},
+      { field: 'Check Box170', type: 'checkbox'},
+      { field: 'Check Box171', type: 'checkbox'},
+      { field: 'Check Box172', type: 'checkbox'},
+      { field: 'Check Box173', type: 'checkbox'},
+      { field: 'Check Box174', type: 'checkbox'},
+
+      { field: 'Check Box175', type: 'checkbox'},
+      { field: 'Check Box176', type: 'checkbox'},
+      { field: 'Check Box177', type: 'checkbox'},
+      { field: 'Check Box178', type: 'checkbox'},
+      { field: 'Check Box179', type: 'checkbox'},
+      { field: 'Check Box180', type: 'checkbox'},
+      { field: 'Check Box181', type: 'checkbox'},
+
+      { field: 'Check Box182', type: 'checkbox'},
+      { field: 'Check Box183', type: 'checkbox'},
+      { field: 'Check Box184', type: 'checkbox'},
+      { field: 'Check Box185', type: 'checkbox'},
+      { field: 'Check Box186', type: 'checkbox'},
+      { field: 'Check Box187', type: 'checkbox'},
+      { field: 'Check Box188', type: 'checkbox'},
+
+      { field: 'Check Box189', type: 'checkbox'},
+      { field: 'Check Box190', type: 'checkbox'},
+      { field: 'Check Box191', type: 'checkbox'},
+      { field: 'Check Box192', type: 'checkbox'},
+      { field: 'Check Box193', type: 'checkbox'},
+      { field: 'Check Box194', type: 'checkbox'},
+      { field: 'Check Box195', type: 'checkbox'},
+
+      { field: 'Check Box196', type: 'checkbox'},
+      { field: 'Check Box197', type: 'checkbox'},
+      { field: 'Check Box198', type: 'checkbox'},
+      { field: 'Check Box199', type: 'checkbox'},
+      { field: 'Check Box200', type: 'checkbox'},
+      { field: 'Check Box201', type: 'checkbox'},
+      { field: 'Check Box202', type: 'checkbox'},
+
+      { field: 'NAME_OF_BANK_1', type: 'text'},
+      { field: 'NAME_OF_BRANCH_1', type: 'text'},
+      { field: 'ACCOUNT_NO_1', type: 'text'},
+
+      { field: 'NAME_OF_BANK_2', type: 'text'},
+      { field: 'NAME_OF_BRANCH_2', type: 'text'},
+      { field: 'ACCOUNT_NO_2', type: 'text'},
+
+      { field: 'DEBIT_OR_CREDIT_CARD_NO_1', type: 'text'},
+      { field: 'NAME_OF_BANK_3', type: 'text'},
+
+      { field: 'DEBIT_OR_CREDIT_CARD_NO_2', type: 'text'},
+      { field: 'NAME_OF_BANK_4', type: 'text'},
+
+      { field: 'SOURCE_FOR_BANK_1', type: 'text'},
+      { field: 'SOURCE_FOR_BANK_2', type: 'text'},
+
+      { field: 'ANY_OTHER_INFORMATION_1', type: 'text'},
+      { field: 'ANY_OTHER_INFORMATION_2', type: 'text'},
+      { field: 'ANY_OTHER_INFORMATION_3', type: 'text'},
+
+      { field: 'BANK_WORK_INSTRUCTION_1', type: 'text'},
+      { field: 'BANK_WORK_INSTRUCTION_2', type: 'text'},
+      { field: 'BANK_WORK_INSTRUCTION_3', type: 'text'},
 
     ]
   }
