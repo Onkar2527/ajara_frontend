@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { Subject } from 'rxjs';
 import { Property } from 'src/app/models/property';
+import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-applicant-property',
@@ -8,7 +11,8 @@ import { Property } from 'src/app/models/property';
 })
 export class ApplicantPropertyComponent implements OnInit {
   propertyInfo:Property = new Property();
-
+  @Input() APPLICANT_ID?:number
+  @Input() APPLICANT_NO?:number
   checkOptionsOne: checkInterface[] = [
     { label: 'Four Wheeler', checked: this.propertyInfo.IS_FOUR_WHEELER},
     { label: 'Two Wheeler', checked: this.propertyInfo.IS_TWO_WHEELER},
@@ -87,9 +91,83 @@ export class ApplicantPropertyComponent implements OnInit {
       }
     }
   }
-  constructor() { }
+  constructor(private api:ApiService,private message:NzNotificationService) { }
 
   ngOnInit(): void {
+
+  }
+
+  getApplicantProperty(){
+   this.api.getProperty(this.APPLICANT_ID,this.APPLICANT_NO).subscribe({
+    next:(res)=>{
+      if(res['code']==200 && res['data'].length > 0){
+        this.propertyInfo = res['data'][0]
+      }
+      else{
+
+      }
+    },
+    error:() =>{
+
+    },
+    complete:() =>{
+      
+    }
+   })
+  }
+
+  save() {
+    let property: Subject<any> = new Subject();
+
+    if (this.propertyInfo.ID) {
+      this.api.updateProperty(this.propertyInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Property Information updated successfully!", '');
+            this.getApplicantProperty();
+            property.next(res);
+          }
+          else {
+            this.message.error('Failed to update Property info', '');
+            property.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          property.error('err')
+        },
+        complete: () => {
+          console.info("Add Property Info Request Completed!");
+          property.complete();
+        }
+      })
+    }
+    else {
+      this.propertyInfo.APPLICANT_ID = this.APPLICANT_ID;
+      this.propertyInfo.APPLICANT_NO = this.APPLICANT_NO;
+      this.api.createProperty(this.propertyInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Property Information created successfully!", '');
+            this.getApplicantProperty();
+            property.next(res);
+          }
+          else {
+            this.message.error('Failed to create Property info', '');
+            property.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          property.error('err')
+        },
+        complete: () => {
+          console.info("Add Property Info Request Completed!");
+          property.complete();
+        }
+      })
+    }
+    return property;
   }
 
 }

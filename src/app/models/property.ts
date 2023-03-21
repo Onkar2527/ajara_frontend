@@ -1,7 +1,7 @@
 export class Property {
     ID!:number;
-    APPLICANT_ID!:number;
-    APPLICANT_NO!:number;
+    APPLICANT_ID?:number;
+    APPLICANT_NO?:number;
 
     IS_FOUR_WHEELER:boolean = false;
     IS_TWO_WHEELER:boolean = false;

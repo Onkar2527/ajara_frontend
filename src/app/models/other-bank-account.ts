@@ -1,7 +1,7 @@
 export class OtherBankAccount {
     ID!:number;
-    APPLICANT_ID!:number;
-    APPLICANT_NO!:number;
+    APPLICANT_ID?:number;
+    APPLICANT_NO?:number;
 
     NAME_OF_BANK:string = '';
     NAME_OF_BANK2:string = '';

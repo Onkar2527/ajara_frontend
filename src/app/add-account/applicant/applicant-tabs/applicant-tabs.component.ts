@@ -14,6 +14,7 @@ import { ApplicantPropertyComponent } from '../applicant-property/applicant-prop
 export class ApplicantTabsComponent implements OnInit {
 
 
+
   @ViewChild(ApplicantPersonalComponent) personalComp!: ApplicantPersonalComponent;
   @ViewChild(ApplicantFinancialComponent) financialComp!: ApplicantFinancialComponent;
   @ViewChild(ApplicantPropertyComponent) propertyComp!: ApplicantPropertyComponent;

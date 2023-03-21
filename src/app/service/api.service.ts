@@ -8,6 +8,12 @@ import { PanMeta } from '../models/pan-meta';
 import { BasicInfo } from '../models/basicInfo';
 import { TermDeposite } from '../models/term-deposite';
 import { ImageData } from '../models/image-data';
+import { PersonalInfo } from '../models/personal-info';
+import { Financial } from '../models/financial';
+import { keyframes } from '@angular/animations';
+import { Property } from '../models/property';
+import { LoanInfo } from '../models/loan-info';
+import { OtherBankAccount } from '../models/other-bank-account';
 
 
 
@@ -61,7 +67,7 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'termDeposite/create', data, this.optionMain);
   }
 
- updateDeposite(data: TermDeposite): Observable<any> {
+  updateDeposite(data: TermDeposite): Observable<any> {
     return this.httpClient.post(this.baseUrl + 'termDeposite/update', data, this.optionMain);
   }
 
@@ -74,11 +80,11 @@ export class ApiService {
 
   //services
   addService(data: Facilities): Observable<any> {
-    return this.httpClient.post(this.baseUrl + 'facilities/create',data, this.optionMain);
+    return this.httpClient.post(this.baseUrl + 'facilities/create', data, this.optionMain);
   }
 
   updateService(data: Facilities): Observable<any> {
-    return this.httpClient.post(this.baseUrl + 'facilities/update',data, this.optionMain);
+    return this.httpClient.post(this.baseUrl + 'facilities/update', data, this.optionMain);
   }
 
   getService(key: any): Observable<any> {
@@ -109,24 +115,136 @@ export class ApiService {
 
   // Applicant personal
 
-  getAllAplicant(key:any):Observable<any>{
+  getAllAplicant(key: any): Observable<any> {
     let data = {
       APPLICANT_ID: key
     }
-    return this.httpClient.post(this.baseUrl+'personalInformation/get',data,this.optionMain)
+    return this.httpClient.post(this.baseUrl + 'personalInformation/get', data, this.optionMain)
+  }
+
+  updateAplicant(data: PersonalInfo): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'personalInformation/update', data, this.optionMain)
+  }
+
+  // applicant Financial
+
+  getAllFinancial(key: any): Observable<any> {
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl + 'financialInformation/get', data, this.optionMain);
+  }
+
+  getFinancial(applicant_id: any,applicant_no:any): Observable<any> {
+    let data = {
+      APPLICANT_ID: applicant_id,
+      APPLICANT_NO: applicant_no
+    }
+    return this.httpClient.post(this.baseUrl + 'financialInformation/get', data, this.optionMain);
+  }
+
+  createFinancial(data: Financial): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'financialInformation/create', data, this.optionMain);
+  }
+
+  updateFinancial(data: Financial): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'financialInformation/update', data, this.optionMain);
+  }
+
+  // applicant Property
+  getAllProperty(key: any): Observable<any> {
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl + 'propertyInformation/get', data, this.optionMain);
+  }
+
+  getProperty(applicant_id: any,applicant_no:any): Observable<any> {
+    let data = {
+      APPLICANT_ID: applicant_id,
+      APPLICANT_NO: applicant_no
+    }
+    return this.httpClient.post(this.baseUrl + 'propertyInformation/get', data, this.optionMain);
+  }
+
+  createProperty(data: Property): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'propertyInformation/create', data, this.optionMain);
+  }
+
+  updateProperty(data: Property): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'propertyInformation/update', data, this.optionMain);
+  }
+
+  //applicant loanInfo
+
+  getAllLoanInfo(key: any) : Observable<any> {
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl + 'loanInformation/get', data, this.optionMain);
+  }
+
+  getLoanInfo(applicant_id: any,applicant_no:any) : Observable<any> {
+    let data = {
+      APPLICANT_ID: applicant_id,
+      APPLICANT_NO: applicant_no
+    }
+    return this.httpClient.post(this.baseUrl + 'loanInformation/get', data, this.optionMain);
+  }
+
+  createLoanInfo(data: LoanInfo): Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'loanInformation/create', data, this.optionMain);
+  }
+
+  updateLoanInfo(data: LoanInfo) : Observable<any>{
+
+    return this.httpClient.post(this.baseUrl + 'loanInformation/update', data, this.optionMain);
+  }
+
+  //applicant other Bank account
+
+  getAllOtherAccount(key: any): Observable<any> {
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl + 'otherBankAccounts/get', data, this.optionMain);
+  }
+
+  getOtherAccount(applicant_id: any,applicant_no:any) : Observable<any> {
+    let data = {
+      APPLICANT_ID: applicant_id,
+      APPLICANT_NO: applicant_no
+    }
+    return this.httpClient.post(this.baseUrl + 'otherBankAccounts/get', data, this.optionMain);
+  }
+
+  createOtherAccount(data: OtherBankAccount) : Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'otherBankAccounts/create', data, this.optionMain);
+  }
+
+  updateOtherAccount(data: OtherBankAccount) : Observable<any> {
+
+    return this.httpClient.post(this.baseUrl + 'otherBankAccounts/update', data, this.optionMain);
   }
 
   // wecam
 
-  postImageFile(data:ImageData): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl+ 'applicantsPhoto/upload',data,this.optionMain);
+  postImageFile(data: ImageData): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + 'applicantsPhoto/upload', data, this.optionMain);
   }
 
-  getAllApplicantPhoto(key:any):Observable<any>{
+  getAllApplicantPhoto(key: any): Observable<any> {
     let data = {
       APPLICANT_ID: key
     }
-    return this.httpClient.post(this.baseUrl+'applicantsPhoto/getAllApplicants',data,this.optionMain);
+    return this.httpClient.post(this.baseUrl + 'applicantsPhoto/getAllApplicants', data, this.optionMain);
   }
   // aadhaar
 

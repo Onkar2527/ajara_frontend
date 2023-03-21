@@ -7,6 +7,12 @@ import { BasicInfo } from 'src/app/models/basicInfo';
 import { TermDeposite } from 'src/app/models/term-deposite';
 import { ApiService } from 'src/app/service/api.service';
 import { PDFDocument } from 'pdf-lib';
+import { PersonalInfo } from 'src/app/models/personal-info';
+import { Financial } from 'src/app/models/financial';
+import { Property } from 'src/app/models/property';
+import { LoanInfo } from 'src/app/models/loan-info';
+import { OtherBankAccount } from 'src/app/models/other-bank-account';
+import { ImageData } from 'src/app/models/image-data';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +25,14 @@ export class FormComponent implements OnInit {
   depositInfo: TermDeposite = new TermDeposite();
   serviceInfo: Facilities = new Facilities();
   nominationInfo: NomineeDetails = new NomineeDetails();
+
+  ApplicantPersonal: PersonalInfo[] = []
+  ApplicantFinancial: Financial[] = []
+  ApplicantProperty: Property[] = []
+  ApplicantLoanInfo: LoanInfo[] = []
+  ApplicantOtherBank: OtherBankAccount[] = []
+
+  ApplicantPhoto: ImageData[] = []
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
   APPLICANT_ID?: number;
@@ -43,23 +57,23 @@ export class FormComponent implements OnInit {
   fieldMap2: FormField[] = []
   fieldMap3: FormField[] = []
 
-  fillField(){
+  fillField() {
     this.fieldMap = [
       { field: 'AP1_FIRST_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME ? this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME : " " },
-      { field: 'AP1_MIDDLE_NAME',type:'text',value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME : ' '},
-      { field: 'AP1_LAST_NAME',type:'text',value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_LAST_NAME : ' '},
+      { field: 'AP1_MIDDLE_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME : ' ' },
+      { field: 'AP1_LAST_NAME', type: 'text', value: this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME ? this.basicInfo.PRIMARY_APPLICANT_LAST_NAME : ' ' },
 
-      { field: 'AP2_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT2_FIRST_NAME? this.basicInfo.APPLICANT2_FIRST_NAME: " " },
-      { field: 'AP2_MIDDLE_NAME',type:'text',value: this.basicInfo.APPLICANT2_MIDDLE_NAME ? this.basicInfo.APPLICANT2_MIDDLE_NAME : ' '},
-      { field: 'AP2_LAST_NAME',type:'text',value: this.basicInfo.APPLICANT2_LAST_NAME ? this.basicInfo.APPLICANT2_LAST_NAME :' '},
+      { field: 'AP2_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT2_FIRST_NAME ? this.basicInfo.APPLICANT2_FIRST_NAME : " " },
+      { field: 'AP2_MIDDLE_NAME', type: 'text', value: this.basicInfo.APPLICANT2_MIDDLE_NAME ? this.basicInfo.APPLICANT2_MIDDLE_NAME : ' ' },
+      { field: 'AP2_LAST_NAME', type: 'text', value: this.basicInfo.APPLICANT2_LAST_NAME ? this.basicInfo.APPLICANT2_LAST_NAME : ' ' },
 
-      { field: 'AP3_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT3_FIRST_NAME? this.basicInfo.APPLICANT3_FIRST_NAME: " " },
-      { field: 'AP3_MIDDLE_NAME',type:'text',value: this.basicInfo.APPLICANT3_MIDDLE_NAME ? this.basicInfo.APPLICANT3_MIDDLE_NAME : ' '},
-      { field: 'AP3_LAST_NAME',type:'text',value: this.basicInfo.APPLICANT3_LAST_NAME ? this.basicInfo.APPLICANT3_LAST_NAME :' '},
+      { field: 'AP3_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT3_FIRST_NAME ? this.basicInfo.APPLICANT3_FIRST_NAME : " " },
+      { field: 'AP3_MIDDLE_NAME', type: 'text', value: this.basicInfo.APPLICANT3_MIDDLE_NAME ? this.basicInfo.APPLICANT3_MIDDLE_NAME : ' ' },
+      { field: 'AP3_LAST_NAME', type: 'text', value: this.basicInfo.APPLICANT3_LAST_NAME ? this.basicInfo.APPLICANT3_LAST_NAME : ' ' },
 
-      { field: 'AP4_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT4_FIRST_NAME? this.basicInfo.APPLICANT4_FIRST_NAME: " " },
-      { field: 'AP4_MIDDLE_NAME',type:'text',value: this.basicInfo.APPLICANT4_MIDDLE_NAME ? this.basicInfo.APPLICANT4_MIDDLE_NAME : ' '},
-      { field: 'AP4_LAST_NAME',type:'text',value: this.basicInfo.APPLICANT4_LAST_NAME ? this.basicInfo.APPLICANT4_LAST_NAME :' '},
+      { field: 'AP4_FIRST_NAME', type: 'text', value: this.basicInfo.APPLICANT4_FIRST_NAME ? this.basicInfo.APPLICANT4_FIRST_NAME : " " },
+      { field: 'AP4_MIDDLE_NAME', type: 'text', value: this.basicInfo.APPLICANT4_MIDDLE_NAME ? this.basicInfo.APPLICANT4_MIDDLE_NAME : ' ' },
+      { field: 'AP4_LAST_NAME', type: 'text', value: this.basicInfo.APPLICANT4_LAST_NAME ? this.basicInfo.APPLICANT4_LAST_NAME : ' ' },
 
     ]
   }
@@ -72,12 +86,12 @@ export class FormComponent implements OnInit {
     const emblemImageBytes = await fetch(this.image).then(res => res.arrayBuffer())
     const applicantImage = await this.pdfDoc.embedJpg(emblemImageBytes);
     form.getButton('AP1_PHOTO_af_image').setImage(applicantImage);
- 
+
     for (let field of this.fieldMap) {
-      if (field.type == 'text'){
+      if (field.type == 'text') {
         form.getTextField(field.field).setText(field.value);
       }
-   }
+    }
 
     // let name: string[] = this.splitName(this.basicInfo.PRIMARY_APPLICANT_NAME);
 
@@ -418,6 +432,12 @@ export class FormComponent implements OnInit {
     let deposit = this.getDeposit();
     let service = this.getService();
     let nominee = this.getNominee();
+
+    let applicantPersonal = this.getApplicantPersonal();
+    let applicantFinancial = this.getApplicantFinancial();
+    let applicantProperty = this.getApplicantProperty();
+    let applicantLoanInfo = this.getApplicantLoanInfo();
+    let applicantOtherAccount = this.getApplicantOtherAccount();
     let count = 0;
 
     personal.subscribe({
@@ -426,7 +446,7 @@ export class FormComponent implements OnInit {
 
           count++;
           console.log("count in p", count);
-          if (count >= 4) {
+          if (count >= 9) {
             this.fillField();
             this.fillPdf();
           }
@@ -448,7 +468,7 @@ export class FormComponent implements OnInit {
 
           count++;
           console.log("count in d", count);
-          if (count >= 4) {
+          if (count >= 9) {
             this.fillField();
             this.fillPdf();
           }
@@ -471,7 +491,7 @@ export class FormComponent implements OnInit {
 
           count++;
           console.log("count in n", count);
-          if (count >= 4) {
+          if (count >= 9) {
             this.fillField();
             this.fillPdf();
           }
@@ -493,7 +513,7 @@ export class FormComponent implements OnInit {
 
           count++;
           console.log("count in p", count);
-          if (count >= 4) {
+          if (count >= 9) {
             this.fillField();
             this.fillPdf();
           }
@@ -509,6 +529,123 @@ export class FormComponent implements OnInit {
 
       }
     })
+
+
+    applicantPersonal.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+            this.fillField();
+            this.fillPdf();
+          }
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantFinancial.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+            this.fillField();
+            this.fillPdf();
+          }
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantProperty.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+            this.fillField();
+            this.fillPdf();
+          }
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantLoanInfo.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+            this.fillField();
+            this.fillPdf();
+          }
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantOtherAccount.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+            this.fillField();
+            this.fillPdf();
+          }
+        }
+        else {
+          this.message.error('Something went wrong!', '');
+        }
+      },
+      error: () => {
+        this.message.error('Something went wrong!', '');
+      },
+      complete: () => {
+
+      }
+    })
+
   }
 
   getPersonal() {
@@ -600,6 +737,125 @@ export class FormComponent implements OnInit {
     });
     return nominee;
   }
+
+  getApplicantPersonal() {
+    let applicantPersonal: Subject<any> = new Subject();
+    this.api.getAllAplicant(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.ApplicantPersonal = res['data'];
+          console.log("applicant personal:", this.ApplicantPersonal);
+          applicantPersonal.next(200);
+        }
+        else {
+          applicantPersonal.next(res);
+        }
+      },
+      error: (err) => {
+        applicantPersonal.error(err);
+      },
+      complete: () => {
+        applicantPersonal.complete();
+      }
+    });
+    return applicantPersonal;
+  }
+
+  getApplicantFinancial() {
+    let applicantFinancial: Subject<any> = new Subject();
+    this.api.getAllFinancial(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.ApplicantFinancial = res['data'];
+          console.log("applicant financial:", this.ApplicantFinancial);
+          applicantFinancial.next(200);
+        }
+        else {
+          applicantFinancial.next(res);
+        }
+      },
+      error: (err) => {
+        applicantFinancial.error(err);
+      },
+      complete: () => {
+        applicantFinancial.complete();
+      }
+    });
+    return applicantFinancial;
+  }
+
+  getApplicantProperty() {
+    let applicantProperty: Subject<any> = new Subject();
+    this.api.getAllProperty(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.ApplicantProperty = res['data'];
+          console.log("applicant property:", this.ApplicantProperty);
+          applicantProperty.next(200);
+        }
+        else {
+          applicantProperty.next(res);
+        }
+      },
+      error: (err) => {
+        applicantProperty.error(err);
+      },
+      complete: () => {
+        applicantProperty.complete();
+      }
+    });
+    return applicantProperty;
+  }
+
+  getApplicantLoanInfo() {
+    let applicantLoanInfo: Subject<any> = new Subject();
+    this.api.getAllLoanInfo(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.ApplicantLoanInfo = res['data'];
+          console.log("applicant property:", this.ApplicantLoanInfo);
+          applicantLoanInfo.next(200);
+        }
+        else {
+          applicantLoanInfo.next(res);
+        }
+      },
+      error: (err) => {
+        applicantLoanInfo.error(err);
+      },
+      complete: () => {
+        applicantLoanInfo.complete();
+      }
+    });
+    return applicantLoanInfo;
+  }
+
+  getApplicantOtherAccount() {
+    let applicantOtherAccount: Subject<any> = new Subject();
+    this.api.getAllOtherAccount(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.ApplicantOtherBank = res['data'];
+          console.log("applicant property:", this.ApplicantOtherBank);
+          applicantOtherAccount.next(200);
+        }
+        else {
+          applicantOtherAccount.next(res);
+        }
+      },
+      error: (err) => {
+        applicantOtherAccount.error(err);
+      },
+      complete: () => {
+        applicantOtherAccount.complete();
+      }
+    });
+    return applicantOtherAccount;
+  }
+
+
+
+
   splitName(str: string): string[] {
     let res: string[] = []
     if (str) {

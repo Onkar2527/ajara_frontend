@@ -1,7 +1,7 @@
 export class LoanInfo {
     ID!: number;
-    APPLICANT_ID!: number;
-    APPLICANT_NO!: number;
+    APPLICANT_ID?: number;
+    APPLICANT_NO?: number;
 
     IS_VEHICLE_LOAN: boolean = false;
     IS_HOME_LOAN: boolean = false;

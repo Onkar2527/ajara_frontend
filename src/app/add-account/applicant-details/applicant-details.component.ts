@@ -13,21 +13,21 @@ export class ApplicantDetailsComponent implements OnInit {
 
   @ViewChild(ApplicantTabsComponent) tabComp!: ApplicantTabsComponent;
 
-  APPLICANT_ID?:number;
+  APPLICANT_ID?: number;
   ApplicantData: PersonalInfo[] = [];
 
   saveButtonLoading: boolean = false;
   saveButtonTitle: string = 'Save and Next';
   DrawerVisible: boolean = false;
-  personalInfo:PersonalInfo = new PersonalInfo()
+  personalInfo: PersonalInfo = new PersonalInfo()
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   close() {
-    
+
     this.DrawerVisible = false;
   }
 
@@ -39,41 +39,116 @@ export class ApplicantDetailsComponent implements OnInit {
   save() {
     this.saveButtonLoading = true;
     if (this.tabComp.selectedTab == 0) {
-
-      this.tabComp.selectedTab = 1;
-      this.tabComp.disabledTabs[0].disabled = true;
-      this.tabComp.disabledTabs[1].disabled = false;
-
-      this.saveButtonLoading = false;
+      let personal = this.tabComp.personalComp.save();
+      personal.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.tabComp.financialComp.getApplicantFinacial();
+            this.tabComp.selectedTab = 1;
+            this.tabComp.disabledTabs[0].disabled = true;
+            this.tabComp.disabledTabs[1].disabled = false;
+            this.saveButtonLoading = false;
+          }
+        }, error: () => {
+          this.saveButtonLoading = false;
+        },
+        complete: () => {
+          this.saveButtonLoading = false;
+        }
+      })
     }
+
     else if (this.tabComp.selectedTab == 1) {
 
-      this.tabComp.selectedTab = 2;
+      let financial = this.tabComp.financialComp.save();
+      financial.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.tabComp.propertyComp.getApplicantProperty();
+            this.tabComp.selectedTab = 2;
+            this.tabComp.disabledTabs[1].disabled = true;
+            this.tabComp.disabledTabs[2].disabled = false;
 
-      this.tabComp.disabledTabs[1].disabled = true;
-      this.tabComp.disabledTabs[2].disabled = false;
+            this.saveButtonLoading = false;
+          }
+        }, error: () => {
+          this.saveButtonLoading = false;
+        },
+        complete: () => {
+          this.saveButtonLoading = false;
+        }
+      })
 
-      this.saveButtonLoading = false;
+
     }
     else if (this.tabComp.selectedTab == 2) {
-      this.tabComp.selectedTab = 3;
 
-      this.tabComp.disabledTabs[2].disabled = true;
-      this.tabComp.disabledTabs[3].disabled = false;
+      let property = this.tabComp.propertyComp.save();
+      property.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.tabComp.loanInfoComp.getApplicantLoanInfo();
+            this.tabComp.selectedTab = 3;
 
-      this.saveButtonLoading = false;
+            this.tabComp.disabledTabs[2].disabled = true;
+            this.tabComp.disabledTabs[3].disabled = false;
+
+            this.saveButtonLoading = false;
+
+          }
+        }, error: () => {
+          this.saveButtonLoading = false;
+        },
+        complete: () => {
+          this.saveButtonLoading = false;
+        }
+      })
+
+
     }
     else if (this.tabComp.selectedTab == 3) {
-      this.saveButtonTitle = 'Save and Close'
-      this.tabComp.selectedTab = 4;
-      this.tabComp.disabledTabs[3].disabled = true;
-      this.tabComp.disabledTabs[4].disabled = false;
-      this.saveButtonLoading = false;
+      let loanInfo = this.tabComp.loanInfoComp.save();
+      loanInfo.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.tabComp.otherBankAccountComp.getApplicantOtherBankAccount();
+
+            this.saveButtonTitle = 'Save and Close'
+            this.tabComp.selectedTab = 4;
+            this.tabComp.disabledTabs[3].disabled = true;
+            this.tabComp.disabledTabs[4].disabled = false;
+            this.saveButtonLoading = false;
+
+          }
+        }, error: () => {
+          this.saveButtonLoading = false;
+        },
+        complete: () => {
+          this.saveButtonLoading = false;
+        }
+      })
+
     }
     else if (this.tabComp.selectedTab == 4) {
-      this.saveButtonTitle = 'Save and Next';
-      this.saveButtonLoading = false;
-      this.close();
+
+      let otherBank = this.tabComp.otherBankAccountComp.save();
+      otherBank.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.saveButtonTitle = 'Save and Next';
+            this.saveButtonLoading = false;
+            this.close();
+
+          }
+        }, error: () => {
+          this.saveButtonLoading = false;
+        },
+        complete: () => {
+          this.saveButtonLoading = false;
+        }
+      })
+
+
     }
   }
 
@@ -95,7 +170,7 @@ export class ApplicantDetailsComponent implements OnInit {
       this.tabComp.disabledTabs[1].disabled = true;
       this.tabComp.disabledTabs[0].disabled = false;
 
-      
+
     }
 
     else if (this.tabComp.selectedTab == 2) {
@@ -108,7 +183,7 @@ export class ApplicantDetailsComponent implements OnInit {
     }
 
     else if (this.tabComp.selectedTab == 3) {
-     
+
       this.tabComp.selectedTab = 2;
       this.tabComp.disabledTabs[3].disabled = true;
       this.tabComp.disabledTabs[2].disabled = false;
@@ -123,10 +198,10 @@ export class ApplicantDetailsComponent implements OnInit {
 
   }
 
-  getAllApplicant(){
+  getAllApplicant() {
     this.api.getAllAplicant(this.APPLICANT_ID).subscribe({
-      next:(res)=>{
-        if(res['code'] == 200){
+      next: (res) => {
+        if (res['code'] == 200) {
           this.ApplicantData = res['data'];
         }
       }
