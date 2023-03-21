@@ -35,25 +35,34 @@ export class ApiService {
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
-  baseUrl = 'http://accountopening.kredpool.in/api/';
+  // baseUrl = 'http://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://192.168.1.13:8080/api/';
+  baseUrl = 'http://192.168.1.4:8080/api/';
+
   //personal
-  addPersonal(data: BasicInfo): Observable<any> {
-    return this.httpClient.post(this.baseUrl + "personalDetails/create", data, this.optionMain)
+  addBasic(data: BasicInfo): Observable<any> {
+    return this.httpClient.post(this.baseUrl + "basicDetails/create", data, this.optionMain)
   }
 
-  getPersonal(key: any): Observable<any> {
+  updateBasic(data: BasicInfo): Observable<any> {
+    return this.httpClient.post(this.baseUrl + "basicDetails/update", data, this.optionMain)
+  }
+
+  getBasic(key: any): Observable<any> {
     let data = {
-      APPLICANT_ID: key
+      ID: key
     }
-    return this.httpClient.post<any>(this.baseUrl + "personalDetails/get", data, this.optionMain)
+    return this.httpClient.post<any>(this.baseUrl + "basicDetails/get", data, this.optionMain)
   }
 
   //term deposit
   addDeposite(data: TermDeposite): Observable<any> {
     return this.httpClient.post(this.baseUrl + 'termDeposite/create', data, this.optionMain);
+  }
+
+ updateDeposite(data: TermDeposite): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'termDeposite/update', data, this.optionMain);
   }
 
   getDeposite(key: any): Observable<any> {
@@ -66,6 +75,10 @@ export class ApiService {
   //services
   addService(data: Facilities): Observable<any> {
     return this.httpClient.post(this.baseUrl + 'facilities/create',data, this.optionMain);
+  }
+
+  updateService(data: Facilities): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'facilities/update',data, this.optionMain);
   }
 
   getService(key: any): Observable<any> {
@@ -81,6 +94,10 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'nomineeDetails/create', data, this.optionMain);
   }
 
+  updateNominee(data: NomineeDetails): Observable<any> {
+    return this.httpClient.post(this.baseUrl + 'nomineeDetails/update', data, this.optionMain);
+  }
+
   getNominee(key: any): Observable<any> {
     let data = {
       APPLICANT_ID: key
@@ -90,12 +107,27 @@ export class ApiService {
   }
 
 
+  // Applicant personal
+
+  getAllAplicant(key:any):Observable<any>{
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl+'personalInformation/get',data,this.optionMain)
+  }
+
   // wecam
 
   postImageFile(data:ImageData): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl+ 'applicantsPhoto/upload',data,this.optionMain);
   }
 
+  getAllApplicantPhoto(key:any):Observable<any>{
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl+'applicantsPhoto/getAllApplicants',data,this.optionMain);
+  }
   // aadhaar
 
   GetAllAadhaarData(): Observable<any> {

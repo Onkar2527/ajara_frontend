@@ -1,0 +1,162 @@
+<nz-table [nzBordered]="true">
+    <thead>
+        <tr>
+            <th>Loan-Type</th>
+            <th>Loan Taken from Bank</th>
+            <th>Loan Period (If Loan Taken)</th>
+            <th>Do you have requirment for this loan in next six months?</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <!-- Vehicle -->
+        <tr>
+            <td>Vehicle</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_VEHICLE_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_VEHICLE_LOAN" [(ngModel)]="loanInfo.IS_VEHICLE_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_VEHICLE_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+        <!-- Home Loan -->
+        <tr>
+            <td>Home Loan</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_HOME_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_HOME_LOAN" [(ngModel)]="loanInfo.IS_HOME_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_HOME_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+
+        <!-- Consumer -->
+        <tr>
+            <td>Home Appliance</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_CONSUMER_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_CONSUMER_LOAN" [(ngModel)]="loanInfo.IS_CONSUMER_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_CONSUMER_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+        <!-- Business -->
+        <tr>
+            <td>Business Loan</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_BUSINESS_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_BUSINESS_LOAN" [(ngModel)]="loanInfo.IS_BUSINESS_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_BUSINESS_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+        <!-- Insurance -->
+        <tr>
+            <td>Insurance Policy Salvation</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_INSURANCE_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_INSURANCE_LOAN" [(ngModel)]="loanInfo.IS_INSURANCE_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_INSURANCE_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+        <!-- Tour -->
+        <tr>
+            <td>Tour Loan</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_TOUR_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_TOUR_LOAN" [(ngModel)]="loanInfo.IS_TOUR_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_TOUR_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+
+        <!-- Education -->
+        <tr>
+            <td>Education Loan</td>
+            <td>
+                <nz-switch [(ngModel)]="loanInfo.IS_EDUCATION_LOAN" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch>
+            </td>
+            <td>
+
+                <nz-radio-group *ngIf="loanInfo.IS_EDUCATION_LOAN" [(ngModel)]="loanInfo.IS_EDUCATION_LOAN_YEAR">
+                    <label nz-radio nzValue="1">1</label>
+                    <label nz-radio nzValue="2">2</label>
+                    <label nz-radio nzValue="3">> 2</label>
+                </nz-radio-group>
+
+            </td>
+
+            <td><nz-switch [(ngModel)]="loanInfo.IS_EDUCATION_LOAN_REQUIRED" nzCheckedChildren="Yes"
+                    nzUnCheckedChildren="No"></nz-switch></td>
+        </tr>
+
+    </tbody>
+</nz-table>

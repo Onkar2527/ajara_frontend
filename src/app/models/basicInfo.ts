@@ -2,6 +2,7 @@
 export class BasicInfo {
     ID?: number;
     APPLICANT_ID?:number;
+    STATUS:string = 'D';
 
     NO_OF_APPLICANT:number = 1;
 

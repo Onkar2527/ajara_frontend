@@ -2,6 +2,14 @@ export class TermDeposite {
     ID?:number;
     APPLICANT_ID?:number;
     ACCOUNT_TYPE?:string = 'S';
+
+    INITIAL_AMOUNT?:number;
+    MODE_OF_PAYMENT:string = 'C';
+    TRANSFER_ACCOUNT_NO:string = '';
+    CHAQUE_NO:string = '';
+    DRAWN_BANK:string = '';
+    TRANSFER_DATE:string = '';
+
     DEPOSIT_AMOUNT?:number;
     DEPOSIT_FREQUANCY:string = 'O';
     RATE_OF_INTEREST?:number;

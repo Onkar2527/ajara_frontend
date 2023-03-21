@@ -40,6 +40,10 @@ export class PersonalComponent implements OnInit {
 
   basicInfo: BasicInfo = new BasicInfo();
 
+  APPLICANT_ID?: number;
+
+  ngOnInit(): void {
+  }
 
 
   getOtp(AplicantNo: number) {
@@ -358,30 +362,73 @@ export class PersonalComponent implements OnInit {
     let personal: Subject<any> = new Subject();
     this.basicInfo.MINOR_DOB = this.changeDate(this.basicInfo.MINOR_DOB);
     this.basicInfo.GUARDIAN_DOB = this.changeDate(this.basicInfo.GUARDIAN_DOB)
-    this.api.addPersonal(this.basicInfo).subscribe({
-      next: (res) => {
-        if (res.code == 200) {
-          this.message.success("Personal Information added successfully!", '');
-          personal.next(res);
+
+    if (this.basicInfo.ID) {
+      this.api.updateBasic(this.basicInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Personal Information updated successfully!", '');
+            this.getBasicInfo();
+            personal.next(res);
+          }
+          else {
+            this.message.error('Failed to update personal info', '');
+            personal.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          personal.error('err')
+        },
+        complete: () => {
+          console.info("Add Personal Info Request Completed!");
+          personal.complete();
         }
-        else {
-          this.message.error('Failed to add personal info', '');
-          personal.next(res);
+      })
+    }
+    else {
+      this.api.addBasic(this.basicInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Personal Information added successfully!", '');
+            this.APPLICANT_ID = res['APPLICANT_ID'];
+            this.getBasicInfo();
+            personal.next(res);
+          }
+          else {
+            this.message.error('Failed to add personal info', '');
+            personal.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          personal.error('err')
+        },
+        complete: () => {
+          console.info("Add Personal Info Request Completed!");
+          personal.complete();
         }
-      },
-      error: (err) => {
-        this.message.error("Internal Server Error!", err);
-        personal.error('err')
-      },
-      complete: () => {
-        console.info("Add Personal Info Request Completed!");
-        personal.complete();
-      }
-    })
+      })
+    }
     return personal;
   }
 
-  ngOnInit(): void {
+  getBasicInfo() {
+    this.api.getBasic(this.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.basicInfo = res['data'][0];
+        }
+        else {
+        }
+      },
+      error: (err) => {
+      },
+      complete: () => {
+      }
+    });
+
   }
+
 
 }

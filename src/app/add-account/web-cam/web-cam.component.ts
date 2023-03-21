@@ -3,7 +3,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
-import {ImageData} from '../../models/image-data';
+import { ImageData } from '../../models/image-data';
 
 @Component({
   selector: 'app-web-cam',
@@ -12,24 +12,45 @@ import {ImageData} from '../../models/image-data';
 })
 export class WebCamComponent implements OnInit {
   Drawervisible: boolean = false;
-  showCamera:boolean = false;
-  showImage:boolean = false;
+  showCamera: boolean = false;
+  showImage: boolean = false;
+  ApplicantData: ImageData[] = [];
+  ImageData: ImageData = new ImageData();
+  APPLICANT_ID?:number;
+  constructor(private api: ApiService, private message: NzNotificationService) { }
 
-  ImageData:ImageData = new ImageData();
-  constructor(private api:ApiService,private message:NzNotificationService) { }
+  getApplicant(){
+    this.api.getAllApplicantPhoto(this.APPLICANT_ID).subscribe({
+      next:(res)=>{
+        if(res['code']==200){
+          this.ApplicantData = res['data'];
+        }
+      }
+    })
+  }
 
-  takePicture() {
+  takePicture(applicant: ImageData) {
+    this.ImageData = applicant;
+    if (applicant.IMAGE_DATA) {
+      this.showCamera = false;
+      this.showImage = true;
+    }
+
+    else {
+      this.showImage = false;
+      this.showCamera = true;
+    }
     this.Drawervisible = true;
-    this.showCamera = true;
+
   }
 
   close() {
     this.Drawervisible = false;
     this.showCamera = false;
   }
-  reCapture(){
+  reCapture() {
     this.showCamera = true;
-    this.ImageData.ImageData = ''
+    this.ImageData.IMAGE_DATA = ''
     this.showImage = false;
   }
 
@@ -48,7 +69,7 @@ export class WebCamComponent implements OnInit {
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
-  private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
+  private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
   public ngOnInit(): void {
 
@@ -68,7 +89,7 @@ export class WebCamComponent implements OnInit {
     this.errors.push(error);
   }
 
-  public showNextWebcam(directionOrDeviceId: boolean|string): void {
+  public showNextWebcam(directionOrDeviceId: boolean | string): void {
     // true => move forward through devices
     // false => move backwards through devices
     // string => move to device with given deviceId
@@ -77,7 +98,7 @@ export class WebCamComponent implements OnInit {
 
   public handleImage(webcamImage: WebcamImage): void {
     console.info('received webcam image', webcamImage);
-    this.ImageData.ImageData = webcamImage.imageAsDataUrl;
+    this.ImageData.IMAGE_DATA = webcamImage.imageAsDataUrl;
   }
 
   public cameraWasSwitched(deviceId: string): void {
@@ -89,21 +110,21 @@ export class WebCamComponent implements OnInit {
     return this.trigger.asObservable();
   }
 
-  public get nextWebcamObservable(): Observable<boolean|string> {
+  public get nextWebcamObservable(): Observable<boolean | string> {
     return this.nextWebcam.asObservable();
   }
 
 
-  save(){
-    this.ImageData.APPLICANT_ID = 9;
-    this.ImageData.APPLICANT_NO = 10;
+  save() {
     this.api.postImageFile(this.ImageData).subscribe({
-      next:(res)=>{
-        if(res['code']==200){
-          this.message.success("Image uploaded successfully",'');
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.message.success("Image uploaded successfully", '');
+          this.close();
         }
 
       }
     });
   }
+
 }

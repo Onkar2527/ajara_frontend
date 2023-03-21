@@ -1,43 +1,43 @@
 <nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[0].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./personal']">
             Basic Information
         </a>
         <app-personal></app-personal>
     </nz-tab>
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[1].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./deposit']">
             Deposit Details
         </a>
         <app-deposit></app-deposit>
     </nz-tab>
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[2].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./nomination']">
             Nomination Details
         </a>
         <app-nomination></app-nomination>
     </nz-tab>
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[3].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./services']">
             Extra Services and Linkages
         </a>
         <app-services></app-services>
     </nz-tab>
 
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[4].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./applicant']">
            Applicant Information
         </a>
         <app-applicant-details></app-applicant-details>
     </nz-tab>
 
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[5].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./web-cam']">
-            Web Cam
+            Image Verification
         </a>
         <app-web-cam></app-web-cam>
     </nz-tab>
-    <nz-tab nzLinkRouter>
+    <nz-tab nzLinkRouter [nzDisabled]="Tabs[6].disabled">
         <a *nzTabLink nz-tab-link [routerLink]="['./form']">
             Form
         </a>
@@ -47,6 +47,13 @@
 </nz-tabset>
 
 <nz-footer>
-    <button nz-button nzType="primary" (click)="saveANext()" [nzLoading]="loanSaveButton"><span
+    <button nz-button nzType="default" (click)="previous()" [nzLoading]="loadPreviousButton" *ngIf="selectedIndex != 0"><span
+    >Previous</span></button>
+
+    <button nz-button nzType="default" (click)="saveAsDraft()">Save as Draft</button>
+
+    <button nz-button nzType="primary" (click)="saveANext()" [nzLoading]="loadSaveButton"><span
             *ngIf="selectedIndex != 6">Save and Next</span><span *ngIf="selectedIndex == 6">Download PDF</span></button>
+
+    <button nz-button nzType="primary" (click)="saveAsComplete()" *ngIf="selectedIndex == 6">Complete Application</button>
 </nz-footer>

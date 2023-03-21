@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class ServicesComponent implements OnInit {
   serviceInfo: Facilities = new Facilities();
-
+  AccountType: string = 'S';
   //checkOptionsOne is a temprary veriable (leter use much better alternative)
   checkOptionsOne: checkInterface[] = [
     { label: 'Cheque Book', checked: this.serviceInfo.CHEQUE_BOOK, value: 'CHEQUE_BOOK' },
@@ -61,7 +61,7 @@ export class ServicesComponent implements OnInit {
         this.allChecked = false;
         this.indeterminate = true;
       }
-      if(!this.serviceInfo.ATM_CARD){
+      if (!this.serviceInfo.ATM_CARD) {
         this.checkOptionsOne[6]['checked'] = false;
         this.serviceInfo.ADDON_CARD = false;
 
@@ -90,32 +90,81 @@ export class ServicesComponent implements OnInit {
   }
 
   save() {
-    let service:Subject<any> = new Subject();
-    this.api.addService(this.serviceInfo).subscribe({
-      next: (res) => {
-        if (res.code == 200) {
-          this.message.success("Service Information added successfully!", '');
-          service.next(res);
+    let service: Subject<any> = new Subject();
+
+    if (this.serviceInfo.ID) {
+      this.api.updateService(this.serviceInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Service Information updated successfully!", '');
+            this.getServiceInfo();
+            service.next(res);
+          }
+          else {
+            this.message.error('Failed to update Service info', '');
+            service.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          service.error('err')
+        },
+        complete: () => {
+          console.info("update Service Info Request Completed!");
+          service.complete();
         }
-        else {
-          this.message.error('Failed to add Service info', '');
-          service.next(res);
+      })
+    }
+    else{
+      this.api.addService(this.serviceInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Service Information added successfully!", '');
+            this.getServiceInfo();
+            service.next(res);
+          }
+          else {
+            this.message.error('Failed to add Service info', '');
+            service.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          service.error('err')
+        },
+        complete: () => {
+          console.info("Add Service Info Request Completed!");
+          service.complete();
         }
-      },
-      error: (err) => {
-        this.message.error("Internal Server Error!", err);
-        service.error('err')
-      },
-      complete: () => {
-        console.info("Add Service Info Request Completed!");
-        service.complete();
-      }
-    })
+      })
+    }
+    
     return service;
 
   }
 
+  getServiceInfo() {
+    this.api.getService(this.serviceInfo.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.serviceInfo = res['data'][0];
+        }
+        else {
+
+        }
+      },
+      error: (err) => {
+
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
 }
+
+
 
 interface checkInterface {
   label: string;

@@ -1,11 +1,14 @@
 export class PersonalInfo {
     ID!: number;
     APPLICANT_ID!: number;
+    APPLICANT_NO!:number;
 
     FIRST_NAME: string = '';
     MIDDLE_NAME: string = '';
     LAST_NAME: string = '';
-    FATHER_OR_HUSBAND_NAME: string = '';
+    F_OR_H_FIRST_NAME: string = '';
+    F_OR_H_MIDDLE_NAME: string = '';
+    F_OR_H_LAST_NAME: string = '';
 
     CURRENT_ADDRESS: string = '';
     CURRENT_CITY: string = '';
@@ -28,16 +31,16 @@ export class PersonalInfo {
     EMAIL_ID: string = '';
     MOBILE_NUMBER: string = '';
 
-    WORK: string = 'P';
-    ESTABLISHMENT: string = 'B';
+    WORK: string = 'E';
+    ESTABLISHMENT: string = ' ';
     RELIGION: string = 'H';
-    CAST: string = 'O';
+    CAST: string = 'N';
 
     MARITAL_STATUS: string = 'M'
 
     FAMILY_COUNT!: number;
 
-    EDUCATION: string = 'T';
+    EDUCATION: string = 'S';
 
     IS_INSURED: boolean = false;
 
@@ -46,15 +49,18 @@ export class PersonalInfo {
     POLICY_TYPE: string = '';
     INSURANCE_COMPANY: string = '';
 
-    AADHAAR_NUMBER:string = '';
+    AADHAAR_NUMBER: string = '';
 
-    BLOOD_TYPE:string = '';
+    BLOOD_TYPE: string = '';
+    BLOOD_TYPE_SIGN: string = '+';
 
-    EMPLOYMENT_DETAIL:string = '';
-    EMPLOYMENT_DESIGNATION:string = '';
+    EMPLOYMENT_DETAIL: string = ' ';
+    EMPLOYMENT_COMPANY:string = '';
+    EMPLOYMENT_DESIGNATION: string = '';
 
-    SELF_EMPLOYMENT_DETAIL:string = '';
 
-    BUSINESS_DETAIL:string = '';
+    PROPRIETOR_DETAILS: string = ' ';
+
+    BUSINESS_DETAIL: string = ' ';
 
 }

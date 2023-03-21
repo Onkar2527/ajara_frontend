@@ -13,10 +13,10 @@ export class NominationComponent implements OnInit {
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
-  nomineeInfo:NomineeDetails = new NomineeDetails();
+  nomineeInfo: NomineeDetails = new NomineeDetails();
   ngOnInit(): void {
   }
-  
+
   changeDate(date: any) {
     if (date) {
       let month = String(date.getMonth() + 1);
@@ -30,29 +30,74 @@ export class NominationComponent implements OnInit {
     }
     return '';
   }
-  save(){
-    this.nomineeInfo.DOB = this.changeDate(this.nomineeInfo.DOB);
-    let nominee:Subject<any> = new Subject();
-    this.api.addNominee(this.nomineeInfo).subscribe({
-           next:(res)=>{
-               if(res.code==200){
-                   this.message.success("Nominee Information added successfully!",'');
-                   nominee.next(res);
-               }
-               else{
-                   this.message.error('Failed to add Nominee info','');
-                   nominee.next(res);
-               }
-           },
-           error:(err)=>{
-               this.message.error("Internal Server Error!",err);
-               nominee.error('err')
-           },
-           complete:()=>{
-              console.info("Add Nominee Info Request Completed!");
-              nominee.complete();
-           }
-       })
-       return nominee;
-   }
+  save() {
+    let nominee: Subject<any> = new Subject();
+    if (this.nomineeInfo.ID) {
+      this.api.updateNominee(this.nomineeInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Nominee Information updated successfully!", '');
+            this.getNominationInfo();
+            nominee.next(res);
+          }
+          else {
+            this.message.error('Failed to update Nominee info', '');
+            nominee.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          nominee.error('err')
+        },
+        complete: () => {
+          console.info("Add Nominee Info Request Completed!");
+          nominee.complete();
+        }
+      })
+    }
+    else {
+      this.api.addNominee(this.nomineeInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Nominee Information added successfully!", '');
+            this.getNominationInfo();
+            nominee.next(res);
+          }
+          else {
+            this.message.error('Failed to add Nominee info', '');
+            nominee.next(res);
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+          nominee.error('err')
+        },
+        complete: () => {
+          console.info("Add Nominee Info Request Completed!");
+          nominee.complete();
+        }
+      })
+    }
+
+    return nominee;
+  }
+
+  getNominationInfo() {
+    this.api.getNominee(this.nomineeInfo.APPLICANT_ID).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.nomineeInfo = res['data'][0];
+        }
+        else {
+
+        }
+      },
+      error: (err) => {
+
+      },
+      complete: () => {
+
+      }
+    });
+  }
 }

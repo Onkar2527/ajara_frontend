@@ -1,0 +1,100 @@
+import { Component, OnInit } from '@angular/core';
+import { Property } from 'src/app/models/property';
+
+@Component({
+  selector: 'app-applicant-property',
+  templateUrl: './applicant-property.component.html',
+  styleUrls: ['./applicant-property.component.css']
+})
+export class ApplicantPropertyComponent implements OnInit {
+  propertyInfo:Property = new Property();
+
+  checkOptionsOne: checkInterface[] = [
+    { label: 'Four Wheeler', checked: this.propertyInfo.IS_FOUR_WHEELER},
+    { label: 'Two Wheeler', checked: this.propertyInfo.IS_TWO_WHEELER},
+    { label: 'Home Theater', checked: this.propertyInfo.IS_HOME_THEATER},
+    { label: 'Air Conditionar', checked: this.propertyInfo.IS_AC},
+    { label: 'Digital Camera', checked: this.propertyInfo.IS_DIGITAL_CAMERA},
+    { label: 'Video Player', checked: this.propertyInfo.IS_VIDEO_PLAYER},
+    { label: 'Microwave', checked: this.propertyInfo.IS_MICROWAVE},
+    { label: 'LCD TV', checked: this.propertyInfo.IS_LCD_TV},
+    { label: 'Computer', checked: this.propertyInfo.IS_COMPUTER},
+    { label: 'Washing Machine', checked: this.propertyInfo.IS_WASHING_MACHINE}
+  ]
+  changeInOption() {
+    let j = 0;
+    let count = 0;
+    console.log(this.checkOptionsOne);
+    for (let option of this.checkOptionsOne) {
+      if (j == 0) {
+        this.propertyInfo.IS_FOUR_WHEELER = option.checked;
+      }
+      if (j == 1) {
+        this.propertyInfo.IS_TWO_WHEELER = option.checked;
+      }
+      if (j == 2) {
+        this.propertyInfo.IS_HOME_THEATER = option.checked;
+      }
+      if (j == 3) {
+        this.propertyInfo.IS_AC = option.checked;
+      }
+      if (j == 4) {
+        this.propertyInfo.IS_DIGITAL_CAMERA = option.checked;
+      }
+      if (j == 5) {
+        this.propertyInfo.IS_VIDEO_PLAYER = option.checked;
+      }
+      if (j == 6) {
+        this.propertyInfo.IS_MICROWAVE = option.checked;
+      }
+      if (j == 7) {
+        this.propertyInfo.IS_LCD_TV = option.checked;
+      }
+      if (j == 8) {
+        this.propertyInfo.IS_COMPUTER = option.checked;
+      }
+      if (j == 9) {
+        this.propertyInfo.IS_WASHING_MACHINE = option.checked;
+      }
+      if (option.checked) {
+        count++;
+      }
+      if (count == 10) {
+        this.indeterminate = false;
+        this.allChecked = true;
+      } else if (count == 0) {
+        this.allChecked = false;
+        this.indeterminate = false;
+      } else {
+        this.allChecked = false;
+        this.indeterminate = true;
+      }
+      j++;
+    }
+  }
+  indeterminate = false;
+  allChecked = false;
+  updateAllChecked() {
+    if (this.allChecked) {
+      for (let option of this.checkOptionsOne) {
+        option.checked = true
+        this.changeInOption();
+      }
+    } else {
+      for (let option of this.checkOptionsOne) {
+        option.checked = false
+        this.changeInOption();
+      }
+    }
+  }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+interface checkInterface {
+  label: string;
+  checked: boolean;
+}

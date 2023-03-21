@@ -42,6 +42,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {WebcamModule} from 'ngx-webcam';
 import { ApplicantTabsComponent } from './applicant/applicant-tabs/applicant-tabs.component';
 import { ApplicantPersonalComponent } from './applicant/applicant-personal/applicant-personal.component';
+import { ApplicantFinancialComponent } from './applicant/applicant-financial/applicant-financial.component';
+import { ApplicantOtherBankAccountComponent } from './applicant/applicant-other-bank-account/applicant-other-bank-account.component';
+import { ApplicantLoanInfoComponent } from './applicant/applicant-loan-info/applicant-loan-info.component';
+import { ApplicantPropertyComponent } from './applicant/applicant-property/applicant-property.component';
+
 
 
 
@@ -57,6 +62,11 @@ import { ApplicantPersonalComponent } from './applicant/applicant-personal/appli
     ApplicantDetailsComponent,
     ApplicantTabsComponent,
     ApplicantPersonalComponent,
+    ApplicantFinancialComponent,
+    ApplicantOtherBankAccountComponent,
+    ApplicantLoanInfoComponent,
+    ApplicantPropertyComponent,
+    
     
   ],
   imports: [

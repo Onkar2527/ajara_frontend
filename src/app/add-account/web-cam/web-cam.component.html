@@ -1,7 +1,7 @@
-<div nz-row>
+<!-- <div nz-row>
     <div nz-col nzSpan="24">
         <nz-list>
-            <!-- Applicant 1 -->
+          
             <nz-list-item>
                 <ng-container>
                     <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -18,7 +18,7 @@
                 </ng-container>
             </nz-list-item>
 
-            <!-- Applicant 2 -->
+            
             <nz-list-item>
                 <ng-container>
                     <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
@@ -36,7 +36,7 @@
                 </ng-container>
             </nz-list-item>
 
-            <!-- Applicant 3 -->
+            
             <nz-list-item>
                 <ng-container>
                     <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
@@ -54,7 +54,7 @@
                 </ng-container>
             </nz-list-item>
 
-            <!-- Applicant 4 -->
+          
             <nz-list-item>
                 <ng-container>
                     <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
@@ -74,14 +74,32 @@
         </nz-list>
     </div>
 
+</div> -->
+
+<div nz-row>
+    <div nz-col nzSpan="12">
+        <nz-list>
+            <nz-list-item *ngFor="let applicant of ApplicantData">
+                <ng-container>
+                    <nz-list-item-meta [nzAvatar]="applicant.IMAGE_DATA"
+                    [nzDescription]="applicant.FIRST_NAME+' '+applicant.MIDDLE_NAME+ ' ' +applicant.LAST_NAME">
+                    </nz-list-item-meta>
+                    <ul nz-list-item-actions>
+                        <nz-list-item-action><a (click)="takePicture(applicant)"><span nz-icon nzType="camera"
+                                    nzTheme="fill" style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
+                                    style="font-size: large;"></span></a></nz-list-item-action>
+                    </ul>
+                </ng-container>
+            </nz-list-item>
+        </nz-list>
+    </div>
 </div>
-
-
 
 <nz-drawer (nzOnClose)="close()" [nzSize]="'large'" [nzVisible]="Drawervisible" nzPlacement="right"
     [nzTitle]="'Capture Image'">
     <ng-container *nzDrawerContent>
-        <div class="cam-card" *ngIf="showCamera && !ImageData.ImageData">
+        <div class="cam-card" *ngIf="showCamera && !ImageData.IMAGE_DATA">
 
             <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
                 [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
@@ -90,7 +108,7 @@
 
             <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
                 <div nz-col nzSpan="5">
-                    <button nz-button nzType="primary"  (click)="triggerSnapshot()">Take a picture</button>
+                    <button nz-button nzType="primary" (click)="triggerSnapshot()">Take a picture</button>
                 </div>
                 <div nz-col nzSpan="5">
                     <button nz-button nzType="primary" (click)="showNextWebcam(true);">Switch Camera</button>
@@ -101,8 +119,8 @@
             </div>
         </div>
 
-        <div class="cam-card" *ngIf="showImage && ImageData.ImageData">
-            <img [src]="ImageData.ImageData"/>
+        <div class="cam-card" *ngIf="showImage && ImageData.IMAGE_DATA">
+            <img [src]="ImageData.IMAGE_DATA" />
             <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
                 <div nz-col nzSpan="15"></div>
                 <div nz-col nzSpan="6">
