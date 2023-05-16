@@ -1,4 +1,4 @@
-<body>
+
     <div class="container-login100">
 
         <div class="wrap-login100">
@@ -13,18 +13,18 @@
 
             <h4 class="bank-name-title p-b-26">The Ajara Urban Co-op. Bank Ltd. Ajara</h4>
 
-            <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()" nz-row>
+            <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="login()" nz-row>
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control nzErrorTip="Please input your username!">
                         <nz-input-group nzPrefixIcon="user">
-                            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+                            <input type="text" nz-input formControlName="USER_NAME"  [(ngModel)]="USER_NAME" placeholder="Username" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-form-control nz-col nzSpan="24" nzErrorTip="Please input your Password!">
                         <nz-input-group nzPrefixIcon="lock">
-                            <input type="password" nz-input formControlName="password" placeholder="Password" />
+                            <input type="password" nz-input formControlName="PASSWORD" [(ngModel)]="PASSWORD" placeholder="Password" />
                         </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -48,4 +48,3 @@
         </div>
     </div>
 
-</body>

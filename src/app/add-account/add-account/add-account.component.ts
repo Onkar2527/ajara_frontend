@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Aadhaar } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
@@ -28,6 +28,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   @ViewChild(ApplicantDetailsComponent) applicantDetail!:ApplicantDetailsComponent;
   @ViewChild(WebCamComponent) wecamComp!:WebCamComponent;
 
+
+  @Input() BasicInfo!:BasicInfo
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
   Tabs = [
@@ -35,7 +37,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     { Index: 1, disabled: true },
     { Index: 2, disabled: true },
     { Index: 3, disabled: true },
-    { Index: 4, disabled: false },
+    { Index: 4, disabled: true },
     { Index: 5, disabled: true },
     { Index: 6, disabled: true },
   ]
@@ -299,7 +301,17 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+
     this.selectedIndex = 0;
+    this.Tabs = [
+      { Index: 0, disabled: false },
+      { Index: 1, disabled: true },
+      { Index: 2, disabled: true },
+      { Index: 3, disabled: true },
+      { Index: 4, disabled: true },
+      { Index: 5, disabled: true },
+      { Index: 6, disabled: true },
+    ]
     this.personalComp.basicInfo = new BasicInfo();
     this.personalComp.aadhaarVerify = new Aadhaar(this.api, this.message);
     this.personalComp.aadhaarVerify2 = new Aadhaar(this.api, this.message);

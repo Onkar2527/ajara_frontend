@@ -14,16 +14,16 @@ export class ApplicantPropertyComponent implements OnInit {
   @Input() APPLICANT_ID?:number
   @Input() APPLICANT_NO?:number
   checkOptionsOne: checkInterface[] = [
-    { label: 'Four Wheeler', checked: this.propertyInfo.IS_FOUR_WHEELER},
-    { label: 'Two Wheeler', checked: this.propertyInfo.IS_TWO_WHEELER},
-    { label: 'Home Theater', checked: this.propertyInfo.IS_HOME_THEATER},
-    { label: 'Air Conditionar', checked: this.propertyInfo.IS_AC},
-    { label: 'Digital Camera', checked: this.propertyInfo.IS_DIGITAL_CAMERA},
-    { label: 'Video Player', checked: this.propertyInfo.IS_VIDEO_PLAYER},
-    { label: 'Microwave', checked: this.propertyInfo.IS_MICROWAVE},
-    { label: 'LCD TV', checked: this.propertyInfo.IS_LCD_TV},
-    { label: 'Computer', checked: this.propertyInfo.IS_COMPUTER},
-    { label: 'Washing Machine', checked: this.propertyInfo.IS_WASHING_MACHINE}
+    { label: 'Four Wheeler', checked: this.propertyInfo.IS_FOUR_WHEELER?true:false},
+    { label: 'Two Wheeler', checked: this.propertyInfo.IS_TWO_WHEELER?true:false},
+    { label: 'Home Theater', checked: this.propertyInfo.IS_HOME_THEATER?true:false},
+    { label: 'Air Conditionar', checked: this.propertyInfo.IS_AC?true:false},
+    { label: 'Digital Camera', checked: this.propertyInfo.IS_DIGITAL_CAMERA?true:false},
+    { label: 'Video Player', checked: this.propertyInfo.IS_VIDEO_PLAYER?true:false},
+    { label: 'Microwave', checked: this.propertyInfo.IS_MICROWAVE?true:false},
+    { label: 'LCD TV', checked: this.propertyInfo.IS_LCD_TV?true:false},
+    { label: 'Computer', checked: this.propertyInfo.IS_COMPUTER?true:false},
+    { label: 'Washing Machine', checked: this.propertyInfo.IS_WASHING_MACHINE?true:false}
   ]
   changeInOption() {
     let j = 0;

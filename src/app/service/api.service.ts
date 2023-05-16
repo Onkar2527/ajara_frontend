@@ -41,10 +41,24 @@ export class ApiService {
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
-  // baseUrl = 'http://accountopening.kredpool.in/api/';
+  // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://192.168.1.4:8080/api/';
+  baseUrl = 'http://192.168.1.3:8080/api/';
+
+
+  login(username: string, password: string): Observable<any>  {
+   
+    var data={
+      USER_NAME:username,
+      PASSWORD:password
+    }
+    return this.httpClient.post('http://192.168.1.3:8080/'+ "user/login", data, this.optionMain);
+  }
+
+
+
+
 
   //personal
   addBasic(data: BasicInfo): Observable<any> {
@@ -245,6 +259,12 @@ export class ApiService {
       APPLICANT_ID: key
     }
     return this.httpClient.post(this.baseUrl + 'applicantsPhoto/getAllApplicants', data, this.optionMain);
+  }
+
+  //draft 
+
+  getDraft():Observable<any>{
+    return this.httpClient.post(this.baseUrl+'drafts/get','',this.optionMain);
   }
   // aadhaar
 

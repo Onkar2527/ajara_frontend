@@ -11,54 +11,86 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { ApiService } from '../service/api.service';
+import { Router } from '@angular/router';
 
 @Component({
-  standalone: true,
+
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [
-    ReactiveFormsModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzIconModule,
-    NzButtonModule,
-    NzGridModule,
-    FormsModule,
-    NzInputModule,
-    NzCheckboxModule
-  ],
   providers: [
-
     { provide: NZ_I18N, useValue: en_US }
   ]
 })
 export class LoginComponent implements OnInit {
 
   validateForm!: UntypedFormGroup;
+  USER_NAME = '';
+  PASSWORD = '';
+  message: any;
+  isloginSpinning: boolean = false;
+  isLogedIn: boolean = false;
 
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
+
+  constructor(private fb: UntypedFormBuilder, private api: ApiService, private router: Router) { }
+
+  ngOnInit(): void {
+
+
+
+    this.validateForm = this.fb.group({
+      USER_NAME: [null, [Validators.required]],
+      PASSWORD: [null, [Validators.required]],
+      remember: [true]
+    });
+
+
+
+    if (this.isLogedIn = true) {
+      console.log(this.isLogedIn + "Hey there ")
+      this.isLogedIn = false;
     }
+
+
+
+
+
   }
 
 
-  constructor(private fb: UntypedFormBuilder) { }
 
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      remember: [true]
-    });
+  login(): void {
+    {
+      this.api.login(this.USER_NAME, this.PASSWORD).subscribe({
+        next: (data) => {
+          if (data['code'] == 200) {
+            this.isLogedIn = true;
+
+            this.isloginSpinning = false
+            window.alert("Login Successfully ")
+
+
+            this.message('L', "Login Successfully ")
+          }
+          else if (data == 404) {
+            this.message.error("Login Failed with username= ")
+            this.isloginSpinning = false
+
+          }
+
+        }
+
+
+
+
+      })
+    }
+
+
+
+
+
   }
 
 }

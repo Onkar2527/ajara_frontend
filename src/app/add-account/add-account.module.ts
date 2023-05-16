@@ -46,6 +46,7 @@ import { ApplicantFinancialComponent } from './applicant/applicant-financial/app
 import { ApplicantOtherBankAccountComponent } from './applicant/applicant-other-bank-account/applicant-other-bank-account.component';
 import { ApplicantLoanInfoComponent } from './applicant/applicant-loan-info/applicant-loan-info.component';
 import { ApplicantPropertyComponent } from './applicant/applicant-property/applicant-property.component';
+import { DraftComponent } from './draft/draft.component';
 
 
 
@@ -66,6 +67,7 @@ import { ApplicantPropertyComponent } from './applicant/applicant-property/appli
     ApplicantOtherBankAccountComponent,
     ApplicantLoanInfoComponent,
     ApplicantPropertyComponent,
+    DraftComponent,
     
     
   ],

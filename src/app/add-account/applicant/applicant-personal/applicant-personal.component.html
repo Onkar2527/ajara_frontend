@@ -23,7 +23,7 @@
                 </nz-form-item>
 
                 <ng-template #addOnAfterTemplate>
-                    <nz-select [ngModel]="personalInfo.BLOOD_TYPE_SIGN">
+                    <nz-select [(ngModel)]="personalInfo.BLOOD_TYPE_SIGN">
                         <nz-option nzLabel="+" nzValue="+"></nz-option>
                         <nz-option nzLabel="-" nzValue="-"></nz-option>
                     </nz-select>

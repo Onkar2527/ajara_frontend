@@ -52,7 +52,7 @@ export class PersonalInfo {
     AADHAAR_NUMBER: string = '';
 
     BLOOD_TYPE: string = '';
-    BLOOD_TYPE_SIGN: string = '+';
+    BLOOD_TYPE_SIGN?: string;
 
     EMPLOYMENT_DETAIL: string = ' ';
     EMPLOYMENT_COMPANY:string = '';

@@ -1,10 +1,10 @@
-<nz-layout>
-  <nz-header *ngIf="isLoggedIn">
- 
+<nz-layout  *ngIf="isLoggedIn">
+  <nz-header>
+
   </nz-header>
 
   <nz-layout class="layout">
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" *ngIf="isLoggedIn">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
       <div class="user-box"></div>
 
       <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
@@ -16,26 +16,22 @@
 
         </li>
         <li nz-menu-item class="menu-item">
+
           <span nz-icon nzType="history"></span>
           <span>A/C History</span>
         </li>
 
         <li nz-menu-item class="menu-item">
-          <span nz-icon nzType="edit"></span>
-          <span>Draft</span>
+          <a routerLink="/new-account/draft">
+            <span nz-icon nzType="edit"></span>
+            <span>Draft</span>
+          </a>
         </li>
 
         <li nz-menu-item class="menu-item">
           <span nz-icon nzType="user"></span>
           <span>eKYC</span>
         </li>
-        <li nz-menu-item class="menu-item">
-          <a routerLink="/login">
-            <span nz-icon nzType="user"></span>
-            <span>Login</span>
-          </a>
-        </li>
-
       </ul>
     </nz-sider>
     <nz-content>
@@ -46,3 +42,5 @@
 
   </nz-layout>
 </nz-layout>
+
+<app-login *ngIf="route == 'login'"></app-login>

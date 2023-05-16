@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 //User Imports
+import { LoginComponent } from './login/login.component';
+
+
 
 // import {LoginComponent} from 'src/app/login/login.component';
 
@@ -27,6 +30,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 
 registerLocaleData(en);
@@ -34,7 +39,7 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    // LoginComponent
+    LoginComponent
   ],
   imports: [
     //System Imports
@@ -44,7 +49,10 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    
 
+    // user
+   
     //Antd Imports
     NzLayoutModule,
     NzMenuModule,
@@ -53,7 +61,10 @@ registerLocaleData(en);
     NzGridModule,
     NzDividerModule,
     NzRadioModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzTableModule,
+    NzDrawerModule
+    
   ],
   providers: [
 
