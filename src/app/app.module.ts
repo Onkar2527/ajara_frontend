@@ -14,10 +14,25 @@ import { ReactiveFormsModule } from '@angular/forms';
 //User Imports
 import { LoginComponent } from './login/login.component';
 
-
+import { ProposalComponent } from './proposal/proposal.component';
+import { AddAccountComponent } from './add-account/add-account/add-account.component';
+import { ApplicantDetailsComponent } from './add-account/applicant-details/applicant-details.component';
+import { ApplicantFinancialComponent } from './add-account/applicant/applicant-financial/applicant-financial.component';
+import { ApplicantLoanInfoComponent } from './add-account/applicant/applicant-loan-info/applicant-loan-info.component';
+import { ApplicantOtherBankAccountComponent } from './add-account/applicant/applicant-other-bank-account/applicant-other-bank-account.component';
+import { ApplicantPersonalComponent } from './add-account/applicant/applicant-personal/applicant-personal.component';
+import { ApplicantPropertyComponent } from './add-account/applicant/applicant-property/applicant-property.component';
+import { ApplicantTabsComponent } from './add-account/applicant/applicant-tabs/applicant-tabs.component';
+import { DepositComponent } from './add-account/deposit/deposit.component';
+import { FormComponent } from './add-account/form/form.component';
+import { NominationComponent } from './add-account/nomination/nomination.component';
+import { PersonalComponent } from './add-account/personal/personal.component';
+import { ServicesComponent } from './add-account/services/services.component';
+import { WebCamComponent } from './add-account/web-cam/web-cam.component';
 
 // import {LoginComponent} from 'src/app/login/login.component';
-
+import {WebcamModule} from 'ngx-webcam';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 //Antd Imports
 
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -32,6 +47,21 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
+import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
+import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
+
+
+
+
 
 
 registerLocaleData(en);
@@ -39,7 +69,27 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ProposalComponent,
+    AddAccountComponent,
+    PersonalComponent,
+    DepositComponent,
+    NominationComponent,
+    ServicesComponent,
+    FormComponent,
+    WebCamComponent,
+    ApplicantDetailsComponent,
+    ApplicantTabsComponent,
+    ApplicantPersonalComponent,
+    ApplicantFinancialComponent,
+    ApplicantOtherBankAccountComponent,
+    ApplicantLoanInfoComponent,
+    ApplicantPropertyComponent,
+    AddAccountComponent,
+    MakerVerificationComponent,
+    CheckerVerificationComponent,
+    VerifierVerificationComponent 
+
   ],
   imports: [
     //System Imports
@@ -49,10 +99,11 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    
+
 
     // user
-   
+    WebcamModule,
+    PdfViewerModule,
     //Antd Imports
     NzLayoutModule,
     NzMenuModule,
@@ -63,8 +114,15 @@ registerLocaleData(en);
     NzRadioModule,
     NzNotificationModule,
     NzTableModule,
-    NzDrawerModule
-    
+    NzDrawerModule,
+    NzTabsModule,
+    NzFormModule,
+    NzInputModule,
+    NzSwitchModule,
+    NzDatePickerModule,
+    NzCheckboxModule,
+    NzListModule,
+    NzSelectModule
   ],
   providers: [
 

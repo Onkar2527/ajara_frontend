@@ -1,4 +1,4 @@
-import { Component,OnChanges,OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,18 +15,21 @@ export class AppComponent implements OnInit, OnChanges {
 
   route = ''
 
-  constructor(public router: Router){}
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
-    if(!this.isLoggedIn){
+    // sessionStorage.setItem("lk0oh6fdb4567","jdfjkhguyrtb")
+    if (sessionStorage.getItem("lk0oh6fdb4567") == null) {
       this.router.navigate(['login']);
       this.route = 'login';
+    }
+    else {
+      this.router.navigate(['/proposal']);
+      this.route = 'tabs';
     }
   }
-  ngOnChanges(){
-    if(!this.isLoggedIn){
-      this.router.navigate(['login']);
-      this.route = 'login';
-    }
+  
+  ngOnChanges() {
+ 
   }
 }

@@ -11,6 +11,8 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class ServicesComponent implements OnInit {
   serviceInfo: Facilities = new Facilities();
+
+  APPLICANT_ID!:number
   AccountType: string = 'S';
   //checkOptionsOne is a temprary veriable (leter use much better alternative)
   checkOptionsOne: checkInterface[] = [
@@ -144,9 +146,9 @@ export class ServicesComponent implements OnInit {
   }
 
   getServiceInfo() {
-    this.api.getService(this.serviceInfo.APPLICANT_ID).subscribe({
+    this.api.getService(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.serviceInfo = res['data'][0];
         }
         else {

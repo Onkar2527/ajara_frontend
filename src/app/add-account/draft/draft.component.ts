@@ -16,22 +16,7 @@ export class DraftComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.api.getDraft().subscribe({
-      next: (res) => {
-        if (res['code'] == 200) {
-          this.draftList = res['data'];
-        }
-        else {
-
-        }
-      },
-      error: () => {
-
-      },
-      complete: () => {
-
-      }
-    })
+  
   }
 
   edit(data: BasicInfo) {

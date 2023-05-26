@@ -1,6 +1,6 @@
 
 export class BasicInfo {
-    ID?: number;
+    ID!: number;
     APPLICANT_ID?:number;
     STATUS:string = 'D';
 

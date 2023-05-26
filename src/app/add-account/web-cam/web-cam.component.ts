@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
@@ -16,7 +16,7 @@ export class WebCamComponent implements OnInit {
   showImage: boolean = false;
   ApplicantData: ImageData[] = [];
   ImageData: ImageData = new ImageData();
-  APPLICANT_ID?:number;
+  @Input() APPLICANT_ID!:number;
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
   getApplicant(){
@@ -72,6 +72,9 @@ export class WebCamComponent implements OnInit {
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
   public ngOnInit(): void {
+    if(this.APPLICANT_ID){
+      this.getApplicant();
+    }
 
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {

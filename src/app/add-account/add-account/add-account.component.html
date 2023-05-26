@@ -1,52 +1,42 @@
+<div>
 <nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[0].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./personal']">
-            Basic Information
-        </a>
-        <app-personal></app-personal>
+    
+    <nz-tab nzTitle="Basic Information" [nzDisabled]="Tabs[0].disabled">
+        <app-personal [basicInfo]="BasicInfo"></app-personal>
     </nz-tab>
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[1].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./deposit']">
-            Deposit Details
-        </a>
+
+    <nz-tab nzTitle="Deposit Details" [nzDisabled]="Tabs[1].disabled">
         <app-deposit></app-deposit>
     </nz-tab>
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[2].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./nomination']">
-            Nomination Details
-        </a>
+
+    <nz-tab nzTitle="Nomination Details" [nzDisabled]="Tabs[2].disabled">
         <app-nomination></app-nomination>
     </nz-tab>
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[3].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./services']">
-            Extra Services and Linkages
-        </a>
+
+    <nz-tab nzTitle="Extra Services and Linkages" [nzDisabled]="Tabs[3].disabled">
         <app-services></app-services>
     </nz-tab>
 
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[4].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./applicant']">
-           Applicant Information
-        </a>
+    <nz-tab nzTitle="Applicant Information" [nzDisabled]="Tabs[4].disabled">
         <app-applicant-details></app-applicant-details>
     </nz-tab>
 
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[5].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./web-cam']">
-            Image Verification
-        </a>
-        <app-web-cam></app-web-cam>
+    <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[5].disabled">
+      <app-checker-verification></app-checker-verification>
     </nz-tab>
-    <nz-tab nzLinkRouter [nzDisabled]="Tabs[6].disabled">
-        <a *nzTabLink nz-tab-link [routerLink]="['./form']">
-            Form
-        </a>
-        <app-form style="height:100%"></app-form>
+    
+    <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[6].disabled">
+      
     </nz-tab>
+    <!-- <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[6].disabled">
+   
+    </nz-tab> -->
 
 </nz-tabset>
 
-<nz-footer>
+
+
+<!-- <nz-footer>
     <button nz-button nzType="default" (click)="previous()" [nzLoading]="loadPreviousButton" *ngIf="selectedIndex != 0"><span
     >Previous</span></button>
 
@@ -56,4 +46,5 @@
             *ngIf="selectedIndex != 6">Save and Next</span><span *ngIf="selectedIndex == 6">Download PDF</span></button>
 
     <button nz-button nzType="primary" (click)="saveAsComplete()" *ngIf="selectedIndex == 6">Complete Application</button>
-</nz-footer>
+</nz-footer> -->
+</div>

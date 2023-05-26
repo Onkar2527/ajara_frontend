@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
@@ -14,9 +14,6 @@ export class PersonalComponent implements OnInit {
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
-  ngOnDestroy() {
-
-  }
 
   loadAadhaarButton = false;
   loadAadhaarButton2 = false;
@@ -38,7 +35,7 @@ export class PersonalComponent implements OnInit {
   aadhaarVerify3: Aadhaar = new Aadhaar(this.api, this.message);
   aadhaarVerify4: Aadhaar = new Aadhaar(this.api, this.message);
 
-  basicInfo: BasicInfo = new BasicInfo();
+  @Input() basicInfo: BasicInfo = new BasicInfo();
 
   APPLICANT_ID?: number;
 
@@ -416,7 +413,7 @@ export class PersonalComponent implements OnInit {
   getBasicInfo() {
     this.api.getBasic(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
         }
         else {

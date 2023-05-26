@@ -10,10 +10,11 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./deposit.component.css']
 })
 export class DepositComponent implements OnInit {
-
+  APPLICANT_ID!:number
   depositInfo: TermDeposite = new TermDeposite();
   constructor(private api: ApiService, private message: NzNotificationService) { }
   ngOnInit(): void {
+    
   }
 
   save() {
@@ -72,9 +73,9 @@ export class DepositComponent implements OnInit {
   }
 
   getDepositInfo() {
-    this.api.getDeposite(this.depositInfo.APPLICANT_ID).subscribe({
+    this.api.getDeposite(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
         }
         else {

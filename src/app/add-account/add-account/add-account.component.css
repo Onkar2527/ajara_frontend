@@ -1,7 +1,13 @@
 nz-tabset{
-    height: 90%;
-    overflow-y: scroll;
-    padding: 20px;
+    height: 100%;
+    overflow-y: hidden;
+    /* padding: 20px; */
+    
+}
+nz-tab{
+    height: 100%;
+    overflow-y: hidden;
+    /* padding: 20px; */
     
 }
 nz-footer{

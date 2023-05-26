@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/service/api.service';
 export class NominationComponent implements OnInit {
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
-
+  APPLICANT_ID!:number
   nomineeInfo: NomineeDetails = new NomineeDetails();
   ngOnInit(): void {
   }
@@ -83,9 +83,9 @@ export class NominationComponent implements OnInit {
   }
 
   getNominationInfo() {
-    this.api.getNominee(this.nomineeInfo.APPLICANT_ID).subscribe({
+    this.api.getNominee(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.nomineeInfo = res['data'][0];
         }
         else {

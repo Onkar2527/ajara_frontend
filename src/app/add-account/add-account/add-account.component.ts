@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Aadhaar } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
@@ -24,13 +24,16 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   @ViewChild(DepositComponent) depositeComp!: DepositComponent;
   @ViewChild(ServicesComponent) serviceComp!: ServicesComponent;
   @ViewChild(NominationComponent) nomineeComp!: NominationComponent;
-  @ViewChild(FormComponent) formComp!: FormComponent;
+  // @ViewChild(FormComponent) formComp!: FormComponent;
   @ViewChild(ApplicantDetailsComponent) applicantDetail!:ApplicantDetailsComponent;
-  @ViewChild(WebCamComponent) wecamComp!:WebCamComponent;
+  // @ViewChild(WebCamComponent) wecamComp!:WebCamComponent;
 
 
-  @Input() BasicInfo!:BasicInfo
+  @Input() BasicInfo:BasicInfo = new BasicInfo();
   constructor(private api: ApiService, private message: NzNotificationService) { }
+  @Output() ChangeIndex = new EventEmitter<number>();
+
+  
 
   Tabs = [
     { Index: 0, disabled: false },
@@ -43,10 +46,16 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   ]
 
   selectedIndex: number = 0;
+
+  changeIndex(){
+    console.log(this.selectedIndex,"is selected index")
+    this.ChangeIndex.emit(this.selectedIndex);
+  }
+
   loadSaveButton: boolean = false;
   loadPreviousButton: boolean = false;
   buttonTitle: string = 'Save & Next'
-  APPLICANT_ID?: number;
+  APPLICANT_ID!: number;
   log(event: any) {
     if (this.selectedIndex == 4) {
       this.buttonTitle = 'Download Pdf'
@@ -54,9 +63,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     else {
       this.buttonTitle = 'Save & Next'
     }
-    console.info("tab index changed", event, this.selectedIndex)
+   
   }
   ngOnInit(): void {
+    
   }
   ngOnDestroy() {
 
@@ -73,11 +83,13 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
-            this.APPLICANT_ID = res.APPLICANT_ID;
+            this.APPLICANT_ID = this.BasicInfo.ID;
+            this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.depositeComp.getDepositInfo();
             this.Tabs[0].disabled = true;
             this.Tabs[1].disabled = false;
             this.selectedIndex = 1;
-
+            this.changeIndex();
             this.loadSaveButton = false;
           }
         }, error: () => {
@@ -94,10 +106,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       deposite.subscribe({
         next: (res) => {
           if (res.code == 200) {
+            this.nomineeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.nomineeComp.getNominationInfo();
             this.Tabs[1].disabled = true;
             this.Tabs[2].disabled = false;
             this.selectedIndex = 2;
-
+            this.changeIndex();
             this.loadSaveButton = false;
           }
         },
@@ -115,10 +129,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       nominee.subscribe({
         next: (res) => {
           if (res.code == 200) {
+            this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.serviceComp.getServiceInfo();
             this.Tabs[2].disabled = true;
             this.Tabs[3].disabled = false;
             this.selectedIndex = 3;
-
+            this.changeIndex();
             this.loadSaveButton = false;
           }
         }, error: () => {
@@ -140,6 +156,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.Tabs[3].disabled = true;
             this.Tabs[4].disabled = false;
             this.selectedIndex = 4;
+            this.changeIndex();
             this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
             this.applicantDetail.getAllApplicant();
             this.loadSaveButton = false;
@@ -153,23 +170,26 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if (this.selectedIndex == 4) {
-      this.wecamComp.APPLICANT_ID = this.APPLICANT_ID;
-      this.wecamComp.getApplicant();
+      // this.wecamComp.APPLICANT_ID = this.APPLICANT_ID;
+      // this.wecamComp.getApplicant();
       this.Tabs[4].disabled = true;
-      this.Tabs[5].disabled = false;
+      // this.Tabs[5].disabled = false;
+      
       this.selectedIndex = 5;
+      this.changeIndex();
       this.loadSaveButton = false;
     }
     else if (this.selectedIndex == 5) {
       this.Tabs[5].disabled = true;
       this.Tabs[6].disabled = false;
-      this.formComp.APPLICANT_ID = this.APPLICANT_ID;
-      this.formComp.getAllData();
+      // this.formComp.APPLICANT_ID = this.APPLICANT_ID;
+      // this.formComp.getAllData();
       this.loadSaveButton = false;
       this.selectedIndex = 6;
+      this.changeIndex();
     }
     else if (this.selectedIndex == 6) {
-      this.formComp.save()
+      // this.formComp.save()
       this.loadSaveButton = false;
     }
   }

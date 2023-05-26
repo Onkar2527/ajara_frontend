@@ -41,19 +41,20 @@ export class ApiService {
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
+
   // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://192.168.1.3:8080/api/';
+  baseUrl = 'http://192.168.1.9:8080/api/';
 
 
-  login(username: string, password: string): Observable<any>  {
-   
-    var data={
-      USER_NAME:username,
-      PASSWORD:password
+  login(username: string, password: string): Observable<any> {
+
+    var data = {
+      USER_NAME: username,
+      PASSWORD: password
     }
-    return this.httpClient.post('http://192.168.1.3:8080/'+ "user/login", data, this.optionMain);
+    return this.httpClient.post('http://192.168.1.3:8080/' + "user/login", data, this.optionMain);
   }
 
 
@@ -150,7 +151,7 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'financialInformation/get', data, this.optionMain);
   }
 
-  getFinancial(applicant_id: any,applicant_no:any): Observable<any> {
+  getFinancial(applicant_id: any, applicant_no: any): Observable<any> {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -176,7 +177,7 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'propertyInformation/get', data, this.optionMain);
   }
 
-  getProperty(applicant_id: any,applicant_no:any): Observable<any> {
+  getProperty(applicant_id: any, applicant_no: any): Observable<any> {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -196,14 +197,14 @@ export class ApiService {
 
   //applicant loanInfo
 
-  getAllLoanInfo(key: any) : Observable<any> {
+  getAllLoanInfo(key: any): Observable<any> {
     let data = {
       APPLICANT_ID: key
     }
     return this.httpClient.post(this.baseUrl + 'loanInformation/get', data, this.optionMain);
   }
 
-  getLoanInfo(applicant_id: any,applicant_no:any) : Observable<any> {
+  getLoanInfo(applicant_id: any, applicant_no: any): Observable<any> {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -216,7 +217,7 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'loanInformation/create', data, this.optionMain);
   }
 
-  updateLoanInfo(data: LoanInfo) : Observable<any>{
+  updateLoanInfo(data: LoanInfo): Observable<any> {
 
     return this.httpClient.post(this.baseUrl + 'loanInformation/update', data, this.optionMain);
   }
@@ -230,7 +231,7 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'otherBankAccounts/get', data, this.optionMain);
   }
 
-  getOtherAccount(applicant_id: any,applicant_no:any) : Observable<any> {
+  getOtherAccount(applicant_id: any, applicant_no: any): Observable<any> {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -238,12 +239,12 @@ export class ApiService {
     return this.httpClient.post(this.baseUrl + 'otherBankAccounts/get', data, this.optionMain);
   }
 
-  createOtherAccount(data: OtherBankAccount) : Observable<any> {
+  createOtherAccount(data: OtherBankAccount): Observable<any> {
 
     return this.httpClient.post(this.baseUrl + 'otherBankAccounts/create', data, this.optionMain);
   }
 
-  updateOtherAccount(data: OtherBankAccount) : Observable<any> {
+  updateOtherAccount(data: OtherBankAccount): Observable<any> {
 
     return this.httpClient.post(this.baseUrl + 'otherBankAccounts/update', data, this.optionMain);
   }
@@ -263,8 +264,12 @@ export class ApiService {
 
   //draft 
 
-  getDraft():Observable<any>{
-    return this.httpClient.post(this.baseUrl+'drafts/get','',this.optionMain);
+  getDraft(pageSize:number, pageIndex:number): Observable<any> {
+    let data = {
+      pageSize: pageSize,
+      pageIndex: pageIndex
+    }
+    return this.httpClient.post(this.baseUrl + 'drafts/get', data, this.optionMain);
   }
   // aadhaar
 

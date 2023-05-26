@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class LoginComponent implements OnInit {
-
+  @Output() logined = new EventEmitter<boolean>();
   validateForm!: UntypedFormGroup;
   USER_NAME = '';
   PASSWORD = '';
@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     {
+      sessionStorage.setItem("lk0oh6fdb4567","jdfjkhguyrtb");
+      
       this.api.login(this.USER_NAME, this.PASSWORD).subscribe({
         next: (data) => {
           if (data['code'] == 200) {

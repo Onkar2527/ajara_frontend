@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Facilities } from 'src/app/models/facilities';
@@ -19,7 +19,8 @@ import { ImageData } from 'src/app/models/image-data';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, AfterViewInit  {
+  @Input() APPLICANT_ID!: number;
 
   basicInfo: BasicInfo = new BasicInfo();
   depositInfo: TermDeposite = new TermDeposite();
@@ -37,8 +38,14 @@ export class FormComponent implements OnInit {
   ApplicantPhoto: ImageData[] = []
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
-  APPLICANT_ID?: number;
+  
   ngOnInit(): void {
+   if(this.APPLICANT_ID){
+    this.getAllData();
+   }
+  }
+  ngAfterViewInit(): void{
+    
   }
 
   pdfSrc = '../../../assets/FACO Adobe Form.pdf'
