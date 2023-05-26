@@ -8,9 +8,10 @@
         </button>
     </div>
 </div>
-<nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" (nzPageIndexChange)="getDrafts()"
-(nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }" style="margin-top: 20px;" nzBordered #table
-    nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading">
+<nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+    (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }"
+    style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+    [nzLoading]="TableLoading">
     <thead nzSingleSort>
         <tr>
             <th>Information</th>
@@ -23,15 +24,15 @@
             <th>Applicant 1 PAN</th>
         </tr>
     </thead>
-    <tbody >
-        <tr *ngFor="let proposal of table.data" >
+    <tbody>
+        <tr *ngFor="let proposal of table.data">
             <td><a (click)="openTabsDrawer(proposal)"> <i nz-icon nzType="edit"></i></a></td>
             <td><a (click)="openUploadDrawer(proposal)"> <i nz-icon nzType="file-add"></i></a></td>
             <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
             <td>{{proposal.ID}}</td>
             <td>{{proposal.NO_OF_APPLICANT}}</td>
-            <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}} 
-                {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}} 
+            <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
+                {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
                 {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
             </td>
 
@@ -40,83 +41,59 @@
         </tr>
     </tbody>
 </nz-table>
-<!-- nz-table [nzData]="" [nzLoading]="" [nzTotal]=""
-       (nzPageIndexChange)=""
-      (nzPageSizeChange)="" -->
-
-<!-- thead (nzSortChange)=""  -->
-
-<nz-drawer [nzBodyStyle]="{ height: '100%',overflow: 'auto'}"  nzClosable="true" [nzWidth]="1095" [nzVisible]="drawerBasicVisible" [nzTitle]="drawerBasicTitle"
-    (nzOnClose)="drawerBasicClose()" [nzFooter]="footerTpl">
-
-    <app-personal *nzDrawerContent></app-personal>
-
-    <ng-template #footerTpl>
-        <div style="float: right">
-            <button nz-button style="margin-right: 8px;" (click)="drawerBasicClose()">Cancel</button>
-            <button nz-button nzType="primary" (click)="createProposal()" [nzLoading]="loadSaveButton">Submit</button>
-        </div>
-    </ng-template>
 
 
-</nz-drawer>
+<ng-template #drawerTemplate let-drawerRef="drawerRef">
+    <app-personal></app-personal>
+</ng-template>
 
-<nz-drawer [nzBodyStyle]="{ height: '100%',overflow: 'auto'}"[nzWidth]="1095" nzClosable="true" [nzVisible]="drawerTabsVisible" [nzTitle]="drawerTabsTitle"
-    (nzOnClose)="drawerTabsClose()" [nzFooter]="footerTpl2">
-
-    <app-add-account (ChangeIndex)="changeIndex($event)" [BasicInfo]="drawerDraftData" *nzDrawerContent></app-add-account>
-
-    <ng-template #footerTpl2>
-        <div style="float: right">
-
-            <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
-                <span *ngIf="selectedIndex != 0">
-                    Previous
-                </span>
-            </button>
-
-            <button nz-button nzType="primary" (click)="saveANext()" >
-               
-                <span>
-                    Save and Next
-                </span>
-
-                <!-- <span *ngIf="selectedIndex == 6">
-                    Download PDF
-                </span> -->
-            </button>
-
-        </div>
-    </ng-template>
-
-</nz-drawer>
+<ng-template #footerTpl>
+    <div style="float: right">
+        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+        <button nz-button nzType="primary" (click)="createProposal()" [nzLoading]="loadSaveButton">Submit</button>
+    </div>
+</ng-template>
 
 
-<nz-drawer [nzBodyStyle]="{ height: '100%',overflow: 'auto'}" nzClosable="true" [nzWidth]="1095" [nzVisible]="drawerFormVisible" [nzTitle]="drawerFormTitle"
-    (nzOnClose)="drawerFormClose()"  [nzFooter]="footerTpl3">
+<ng-template #addAccountDrawerTemp let-drawerRef="drawerRef">
+    <app-add-account (ChangeIndex)="changeIndex($event)" [BasicInfo]="drawerDraftData"></app-add-account>
+</ng-template>
 
-    <app-form  [APPLICANT_ID]="APPLICANT_ID" *nzDrawerContent></app-form>
+<ng-template #footerTpl2>
+    <div style="float: right">
+        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+            <span *ngIf="selectedIndex != 0">
+                Previous
+            </span>
+        </button>
+        <button nz-button nzType="primary" (click)="saveANext()">
+            <span>
+                Save and Next
+            </span>
 
-    <ng-template #footerTpl3>
-        <div style="float: right">
-            <button nz-button style="margin-right: 8px;" (click)="drawerFormClose()">Cancel</button>
-            <button nz-button nzType="primary" (click)="downloadPDF()" >Download PDF</button>
-        </div>
-    </ng-template>
+        </button>
+    </div>
+</ng-template>
 
 
-</nz-drawer>
+<ng-template #formDrawerTemp let-drawerRef="drawerRef">
+    <app-form [APPLICANT_ID]="APPLICANT_ID"></app-form>
+</ng-template>
 
-<nz-drawer  [nzBodyStyle]="{ height: '100%',overflow: 'auto'}"  [nzClosable]="true" [nzWidth]="1095" [nzVisible]="drawerUploadVisible"  [nzTitle]="drawerUploadTitle"
-[nzFooter]="footerTpl4" (nzOnClose)="drawerUploadClose()">
+<ng-template #footerTpl3>
+    <div style="float: right">
+        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+        <button nz-button nzType="primary" (click)="downloadPDF()">Download PDF</button>
+    </div>
+</ng-template>
 
-    <app-web-cam *nzDrawerContent  [APPLICANT_ID]="APPLICANT_ID"></app-web-cam>
+<ng-template #docDrawerTemp let-drawerRef="drawerRef">
+    <app-web-cam [APPLICANT_ID]="APPLICANT_ID"></app-web-cam>
+</ng-template>
 
-    <ng-template #footerTpl4>
-        <div style="float: right">
-            <button nz-button style="margin-right: 8px;" (click)="drawerUploadClose()">Cancel</button>
-            <button nz-button nzType="primary" (click)="saveUploadDrawer()" >Save</button>
-        </div>
-    </ng-template>
-
-</nz-drawer>
+<ng-template #footerTpl4>
+    <div style="float: right">
+        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+        <button nz-button nzType="primary" (click)="saveUploadDrawer()">Save</button>
+    </div>
+</ng-template>

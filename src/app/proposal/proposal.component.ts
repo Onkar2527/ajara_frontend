@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AddAccountComponent } from '../add-account/add-account/add-account.component';
-import { ApiService } from '../service/api.service';
-import { BasicInfo } from '../models/basicInfo';
-import { PersonalComponent } from '../add-account/personal/personal.component';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { AddAccountComponent } from '../add-account/add-account/add-account.component';
 import { FormComponent } from '../add-account/form/form.component';
+import { PersonalComponent } from '../add-account/personal/personal.component';
+import { BasicInfo } from '../models/basicInfo';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-proposal',
@@ -14,56 +15,107 @@ import { FormComponent } from '../add-account/form/form.component';
 export class ProposalComponent implements OnInit {
 
   @ViewChild(AddAccountComponent) addAccountComp!: AddAccountComponent;
-  @ViewChild(PersonalComponent) basicComp !:PersonalComponent;
-  @ViewChild(FormComponent) formComp !:FormComponent;
+  @ViewChild(PersonalComponent) basicComp !: PersonalComponent;
+  @ViewChild(FormComponent) formComp !: FormComponent;
 
-  constructor(private api : ApiService,private message: NzNotificationService) { }
+  @ViewChild('drawerTemplate', { static: false }) drawerTemplate?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('addAccountDrawerTemp', { static: false }) addAccountDrawerTemp?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('formDrawerTemp', { static: false }) formDrawerTemp?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('docDrawerTemp', { static: false }) docDrawerTemp?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('footerTpl', { static: false }) basicFooterTemplate?: TemplateRef<{}>;
+  @ViewChild('footerTpl2', { static: false }) TabFooterTemplate?: TemplateRef<{}>;
+  @ViewChild('footerTpl3', { static: false }) FormFooterTemplate?: TemplateRef<{}>;
+  @ViewChild('footerTpl4', { static: false }) DocFooterTemplate?: TemplateRef<{}>;
+
+  constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
+
+  ngOnInit(): void {
+    this.getDrafts();
+  }
+
+  drawerReferance: any
 
   TableLoading = false;
 
-  DraftsData:any = []
+  DraftsData: any = []
 
-  drawerTabsVisible: boolean = false;
-  drawerTabsTitle: string = "Draft"
-  drawerDraftData:BasicInfo = new BasicInfo;
+  drawerDraftData: BasicInfo = new BasicInfo;
 
   pageIndex = 1;
   pageSize = 10;
-  dataCount!:number;
+  dataCount!: number;
 
+  openTabsDrawer(data: BasicInfo) {
 
-  drawerTabsClose() {
-    this.selectedIndex = 0;
-    this.drawerTabsVisible = false;
-    this.getDrafts();
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Fill All Info",
+      nzFooter: this.TabFooterTemplate,
+      nzContent: this.addAccountDrawerTemp,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      this.drawerDraftData = data;
+      console.log('Drawer(Template) open');
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.selectedIndex = 0;
+      this.getDrafts();
+    });
   }
 
-  openTabsDrawer(data:BasicInfo) {
-    this.drawerDraftData = data;
-    this.drawerTabsVisible = true;
-  }
+  loadSaveButton: boolean = false;
 
 
-  drawerBasicTitle: string = "New Account"
-  drawerBasicVisible: boolean = false
-  loadSaveButton:boolean = false;
-
-  drawerBasicClose() {
-    this.drawerBasicVisible = false;
-    this.getDrafts();
-  }
   openBasicDrawer() {
-    this.drawerBasicVisible = true;
+    const drawerRef = this.drawerService.create({
+      nzTitle: "New Account",
+      nzFooter: this.basicFooterTemplate,
+      nzContent: this.drawerTemplate,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.getDrafts();
+    });
+
   }
 
-  createProposal(){
+  createProposal() {
     this.loadSaveButton = true;
     let basic = this.basicComp.save();
     basic.subscribe({
       next: (res) => {
         if (res.code == 200) {
           this.loadSaveButton = false;
-          this.drawerBasicClose();
+          this.drawerReferance.close();
         }
       }, error: () => {
         this.loadSaveButton = false;
@@ -74,33 +126,31 @@ export class ProposalComponent implements OnInit {
     })
   }
 
-  getDrafts(){
+  getDrafts() {
     this.TableLoading = true;
-    this.api.getDraft(this.pageSize,this.pageIndex).subscribe({
-      next: (res) =>{
-        if(res['code'] == 200 && res['data'].length > 0){
+    this.api.getDraft(this.pageSize, this.pageIndex).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.DraftsData = res['data'];
           this.dataCount = res['count'];
           this.TableLoading = false;
         }
-        else{
+        else {
           this.TableLoading = false;
         }
       },
-      error: (err) =>{
+      error: (err) => {
         this.TableLoading = false;
       }
     })
   }
 
-  ngOnInit(): void {
-    this.getDrafts();
-  }
+
 
   selectedIndex = 0;
-  changeIndex(event:any){
+  changeIndex(event: any) {
     console.log(event);
-    this.selectedIndex = event; 
+    this.selectedIndex = event;
   }
   previous() {
     this.addAccountComp.previous();
@@ -110,37 +160,61 @@ export class ProposalComponent implements OnInit {
     this.addAccountComp.saveANext();
   }
 
-  drawerFormTitle:string = 'Form';
-  drawerFormVisible:boolean = false;
-  APPLICANT_ID!:number;
+  APPLICANT_ID!: number;
 
-  openFormDrawer(data:BasicInfo){
-    this.APPLICANT_ID = data.ID;
-    this.drawerFormVisible = true;
+  openFormDrawer(data: BasicInfo) {
+
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Form",
+      nzFooter: this.FormFooterTemplate,
+      nzContent: this.formDrawerTemp,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+      this.APPLICANT_ID = data.ID;
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.getDrafts();
+    });
 
   }
 
-  drawerFormClose(){
-    this.drawerFormVisible = false;
-  }
-
-  downloadPDF(){
+  downloadPDF() {
     this.formComp.save();
   }
 
-  drawerUploadTitle:string = 'Documents';
-  drawerUploadVisible = false;
 
-  openUploadDrawer(data:BasicInfo){
-    this.APPLICANT_ID = data.ID;
-    this.drawerUploadVisible = true; 
-  }
-  drawerUploadClose(){
-    this.drawerUploadVisible = false; 
+
+  openUploadDrawer(data: BasicInfo) {
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Document",
+      nzFooter: this.DocFooterTemplate,
+      nzContent: this.docDrawerTemp,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+      this.APPLICANT_ID = data.ID;
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.getDrafts();
+    });
   }
 
-  saveUploadDrawer(){
-    this.drawerUploadClose();
+
+  saveUploadDrawer() {
+    this.drawerReferance.close();
   }
 
 }
