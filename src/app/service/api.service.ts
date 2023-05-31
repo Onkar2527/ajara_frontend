@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ObservableInput, from, observable, of, switchMap, tap } from 'rxjs';
 import { AadhaarMeta, } from '../models/aadhaar';
 import { Facilities } from '../models/facilities';
 import { NomineeDetails } from '../models/nominee-details';
@@ -14,28 +14,105 @@ import { keyframes } from '@angular/animations';
 import { Property } from '../models/property';
 import { LoanInfo } from '../models/loan-info';
 import { OtherBankAccount } from '../models/other-bank-account';
-
-
+import * as Forge from 'node-forge';
+import { Buffer } from 'buffer';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ApiService implements HttpInterceptor {
+
+
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return from(this.encryptWithPublicKey(req)).pipe(
+      switchMap((data: any) => {
+        console.log("data of", data)
+        return next.handle(data);
+      }),
+      // switchMap((event) =>  {
+      //   from(this.decryptData(event))
+      // }
+
+      // )
+
+      tap({
+        next: (event) => {
+          // if (event instanceof HttpResponse) {
+
+          window.alert('Unauthorized access!')
+
+          // }
+          return event;
+        }
+      })
+
+    );
+  }
+
 
   constructor(private httpClient: HttpClient) { }
+
+
+
 
   httpHeaders = new HttpHeaders();
   options = {
     headers: this.httpHeaders
   };
 
-  httpHeaderMain = new HttpHeaders({ 'APIKEY': 'prasad', 'SUPPORTKEY': 'hejUJJSK99gg', 'TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IlVTRVJfSUQiOjkwfSwiaWF0IjoxNjc2ODk1MzgzfQ.V80hoP9N4BRhC-hqrVtLz45hWTVWZrZR5FZD34YcLZE' });
 
+
+  public_key = `-----BEGIN PUBLIC KEY-----
+    MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG/GWS49Yu332ZM+juJyk0pLQ2gd
+    Sy/wJPA1rboqsrgRJN2VU4DZRp59ij4q59BF2ylkvCL198P+2Wbilxjw1bN8wL7Y
+    KW2MimBm3bYJWqltsj2vQkbRyDxMVEtT3K1OFRW0vJbzcCybrlbnbo8EfPrnSYTU
+    3t1j/cNlQ1EGDKOZAgMBAAE=
+    -----END PUBLIC KEY-----`
+
+
+  private_key = `-----BEGIN RSA PRIVATE KEY-----
+    MIICWwIBAAKBgG/GWS49Yu332ZM+juJyk0pLQ2gdSy/wJPA1rboqsrgRJN2VU4DZ
+    Rp59ij4q59BF2ylkvCL198P+2Wbilxjw1bN8wL7YKW2MimBm3bYJWqltsj2vQkbR
+    yDxMVEtT3K1OFRW0vJbzcCybrlbnbo8EfPrnSYTU3t1j/cNlQ1EGDKOZAgMBAAEC
+    gYBSK5vWHXTEAqgl0iCSoq5bOLdGK/rhNAbDvIKJ0Ofv31KdvzBTEegTjbD6gOpI
+    N4KljJOuk+pgYNMMCtoPkMVYo8jtMhI+joXThoHPLf05r8h4zTs34hmP1oBRHR7z
+    tEVBXP9jXMV4qz6Q2LeMOac74SeIgfoMVbCRQsrGi9FKgQJBALSK+AnWJEKXq8SC
+    TqFvwjJQC2PPkB+5msyHHWXivVVc6w3egSzv6SsMCl3SHWVKJlWIjQxM6NthcKl7
+    RGiluekCQQCefZl58b99Q5UYwaM/cpte7h/289Inc6APFcJBDuJbbcjcSR+8xdos
+    5WBYRz9H0Lf9vlhGNexlDDtATObAvN4xAkBJlYZow+29coHgsteHdrxoszUhNhzg
+    wU41ZDB4MUTHwPpQicqOXS3kjKDBAn1WpjUfkWsjg0k4+OrpOMN1/23ZAkByTh98
+    pW/3xeAoRK+aOOv5oUAIeXzd2zRa7NR222dBjYJJ7asoGIHr01qTEH+BKfUo2jkM
+    GiPuFM4+57ec1hphAkEAqjRHnKDnftiQ5wfiCXE7D+vkKSpyELLvU0linbg7fb4f
+    UiYQg0JCBTJ1a/UcCWnjq4r1HleBDLU61QaEet3gFQ==
+    -----END RSA PRIVATE KEY-----`
+
+  server_publickey = `-----BEGIN PUBLIC KEY-----
+    MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHUIkAuBQw3+C3lTgsQWwBR0VLQq
+    hH7dCjj0ssnb976CGQPIelbamC51Ap1HtPZv/fWbHqPkGFjFnhJoVBi/y7YaCChQ
+    71GbAZte8gO1Hd1/QlD9kj87HOhVPxxrbVkA6ja8L1cyVzKwO9CTn/I0qftJa2d/
+    Gtn+xtdDWM9Jw3Q1AgMBAAE=
+    -----END PUBLIC KEY-----`
+
+  httpHeaderMain = new HttpHeaders(
+    {
+      'APIKEY': 'prasad',
+      'SUPPORTKEY': 'hejUJJSK99gg',
+      'TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IlVTRVJfSUQiOjkwfSwiaWF0IjoxNjc2ODk1MzgzfQ.V80hoP9N4BRhC-hqrVtLz45hWTVWZrZR5FZD34YcLZE',
+
+    });
+
+  encryptWithPublicKey(valueToEncrypt: any): string {
+    const rsa = Forge.pki.publicKeyFromPem(this.server_publickey);
+    return window.btoa(rsa.encrypt(valueToEncrypt.toString()));
+  }
 
 
   optionMain = {
     headers: this.httpHeaderMain
   }
+
+
 
   genAadhaarOtpUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/generate-otp";
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
@@ -45,16 +122,31 @@ export class ApiService {
   // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://192.168.1.9:8080/api/';
+  baseUrl = 'http://192.168.1.4:8080/api/';
+
+  decryptData(data: any): ObservableInput<any> {
+    console.log("data in decryption", data.data)
+    let data_ = Buffer.from(data.data, 'base64').toString();
+    // let data_ = data;
+    const rsa = Forge.pki.privateKeyFromPem(this.private_key);
+    console.log("data_", data_)
+    let data_2 = JSON.parse(rsa.decrypt(data_));
+    console.log("data_2", data_2)
+    return data_2;
+
+  }
 
 
   login(username: string, password: string): Observable<any> {
 
-    var data = {
+    let data = {
       USER_NAME: username,
       PASSWORD: password
     }
-    return this.httpClient.post('http://192.168.1.3:8080/' + "user/login", data, this.optionMain);
+    let encrypted_data = {
+      data: this.encryptWithPublicKey(JSON.stringify(data))
+    };
+    return this.httpClient.post(this.baseUrl + "user/login", encrypted_data, this.optionMain);
   }
 
 
@@ -264,7 +356,7 @@ export class ApiService {
 
   //draft 
 
-  getDraft(pageSize:number, pageIndex:number): Observable<any> {
+  getDraft(pageSize: number, pageIndex: number): Observable<any> {
     let data = {
       pageSize: pageSize,
       pageIndex: pageIndex

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,TemplateRef, ViewChild } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 import { ImageData } from '../../models/image-data';
+import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'app-web-cam',
@@ -11,13 +12,19 @@ import { ImageData } from '../../models/image-data';
   styleUrls: ['./web-cam.component.css']
 })
 export class WebCamComponent implements OnInit {
-  Drawervisible: boolean = false;
+  
+  @ViewChild('webCamDrawerTemp', { static: false }) webCamDrawerTemp?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  
   showCamera: boolean = false;
   showImage: boolean = false;
   ApplicantData: ImageData[] = [];
   ImageData: ImageData = new ImageData();
   @Input() APPLICANT_ID!:number;
-  constructor(private api: ApiService, private message: NzNotificationService) { }
+  constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
   getApplicant(){
     this.api.getAllApplicantPhoto(this.APPLICANT_ID).subscribe({
@@ -40,14 +47,27 @@ export class WebCamComponent implements OnInit {
       this.showImage = false;
       this.showCamera = true;
     }
-    this.Drawervisible = true;
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Webcam",
+      nzContent: this.webCamDrawerTemp,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+    
+    });
 
   }
+  drawerReferance:any
 
-  close() {
-    this.Drawervisible = false;
-    this.showCamera = false;
-  }
+ 
   reCapture() {
     this.showCamera = true;
     this.ImageData.IMAGE_DATA = ''
@@ -123,7 +143,7 @@ export class WebCamComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200) {
           this.message.success("Image uploaded successfully", '');
-          this.close();
+          this.drawerReferance.close();
         }
 
       }

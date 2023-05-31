@@ -96,9 +96,8 @@
     </div>
 </div>
 
-<nz-drawer (nzOnClose)="close()" [nzSize]="'large'" [nzVisible]="Drawervisible" nzPlacement="right"
-    [nzTitle]="'Capture Image'">
-    <ng-container *nzDrawerContent>
+<ng-template #webCamDrawerTemp let-drawerRef="drawerRef">
+
         <div class="cam-card" *ngIf="showCamera && !ImageData.IMAGE_DATA">
 
             <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
@@ -114,7 +113,7 @@
                     <button nz-button nzType="primary" (click)="showNextWebcam(true);">Switch Camera</button>
                 </div>
                 <div nz-col nzSpan="14" style="text-align: right;">
-                    <button nz-button nzType="default" (click)="close()">Close</button>
+                    <button nz-button nzType="default" (click)="drawerReferance.close()">Close</button>
                 </div>
             </div>
         </div>
@@ -131,5 +130,5 @@
                 </div>
             </div>
         </div>
-    </ng-container>
-</nz-drawer>
+
+</ng-template>

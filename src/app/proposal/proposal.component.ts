@@ -62,7 +62,7 @@ export class ProposalComponent implements OnInit {
   dataCount!: number;
 
   openTabsDrawer(data: BasicInfo) {
-
+    this.drawerDraftData = data;
     const drawerRef = this.drawerService.create({
       nzTitle: "Fill All Info",
       nzFooter: this.TabFooterTemplate,
@@ -73,7 +73,6 @@ export class ProposalComponent implements OnInit {
     this.drawerReferance = drawerRef;
 
     drawerRef.afterOpen.subscribe(() => {
-      this.drawerDraftData = data;
       console.log('Drawer(Template) open');
     });
 
@@ -126,20 +125,26 @@ export class ProposalComponent implements OnInit {
     })
   }
 
-  getDrafts() {
+  getDrafts(){
     this.TableLoading = true;
-    this.api.getDraft(this.pageSize, this.pageIndex).subscribe({
-      next: (res) => {
-        if (res['code'] == 200 && res['data'].length > 0) {
+    this.api.getDraft(this.pageSize,this.pageIndex).subscribe({
+      next: (res) =>{
+        if(res['code'] == 200 && res['data'].length > 0){
+          console.log("res['data']",res['data'])
           this.DraftsData = res['data'];
           this.dataCount = res['count'];
+          console.log("res['data']",res['data'])
           this.TableLoading = false;
+          console.log("this.TableLoading",this.TableLoading)
         }
-        else {
+        else{
           this.TableLoading = false;
         }
       },
-      error: (err) => {
+      error: (err) =>{
+        this.TableLoading = false;
+      },
+      complete:()=>{
         this.TableLoading = false;
       }
     })
@@ -163,7 +168,7 @@ export class ProposalComponent implements OnInit {
   APPLICANT_ID!: number;
 
   openFormDrawer(data: BasicInfo) {
-
+    this.APPLICANT_ID = data.ID;
     const drawerRef = this.drawerService.create({
       nzTitle: "Form",
       nzFooter: this.FormFooterTemplate,
@@ -175,7 +180,7 @@ export class ProposalComponent implements OnInit {
 
     drawerRef.afterOpen.subscribe(() => {
       console.log('Drawer(Template) open');
-      this.APPLICANT_ID = data.ID;
+      
     });
 
     drawerRef.afterClose.subscribe(() => {
@@ -192,6 +197,7 @@ export class ProposalComponent implements OnInit {
 
 
   openUploadDrawer(data: BasicInfo) {
+    this.APPLICANT_ID = data.ID;
     const drawerRef = this.drawerService.create({
       nzTitle: "Document",
       nzFooter: this.DocFooterTemplate,
@@ -203,7 +209,7 @@ export class ProposalComponent implements OnInit {
 
     drawerRef.afterOpen.subscribe(() => {
       console.log('Drawer(Template) open');
-      this.APPLICANT_ID = data.ID;
+      
     });
 
     drawerRef.afterClose.subscribe(() => {

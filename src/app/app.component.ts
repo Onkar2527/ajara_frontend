@@ -32,4 +32,8 @@ export class AppComponent implements OnInit, OnChanges {
   ngOnChanges() {
  
   }
+  login(){
+    this.router.navigate(['/proposal']);
+      this.route = 'tabs';
+  }
 }

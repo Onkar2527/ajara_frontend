@@ -51,4 +51,4 @@
   </nz-layout>
 </nz-layout>
 
-<app-login *ngIf="route == 'login'"></app-login>
+<app-login *ngIf="route == 'login'" (logined)="login()"></app-login>
