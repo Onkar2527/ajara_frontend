@@ -1,5 +1,4 @@
-<!-- <h2>Proposals</h2> -->
-<div nz-row>
+<div nz-row *ngIf="ROLE_ID == 1">
     <div nz-col nzSpan="16"></div>
     <div nz-col nzSpan="8" style="text-align:right;">
 
@@ -8,6 +7,7 @@
         </button>
     </div>
 </div>
+
 <nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
     (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }"
     style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
@@ -56,7 +56,8 @@
 
 
 <ng-template #addAccountDrawerTemp let-drawerRef="drawerRef">
-    <app-add-account (ChangeIndex)="changeIndex($event)" [BasicInfo]="drawerDraftData"></app-add-account>
+    <app-add-account (ChangeIndex)="changeIndex($event)" (CloseDrawer)="closeDrawer()"
+        [BasicInfo]="drawerDraftData"></app-add-account>
 </ng-template>
 
 <ng-template #footerTpl2>
@@ -66,14 +67,166 @@
                 Previous
             </span>
         </button>
+
+
         <button nz-button nzType="primary" (click)="saveANext()">
-            <span>
+
+            <span *ngIf="selectedIndex != 4">
                 Save and Next
             </span>
 
+            <span *ngIf="selectedIndex == 4">
+                Send to Verify
+            </span>
+
         </button>
+
     </div>
 </ng-template>
+
+<ng-template #TabFooterTplChecker>
+    
+    <div style="float: right">
+        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+            <span *ngIf="selectedIndex != 0">
+                Previous
+            </span>
+        </button>
+
+        <span *ngIf="selectedIndex < 5">
+            <button nz-button nzType="primary" (click)="sendTorefill('C')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
+                <span>
+                    Send to refill and Next
+                </span>
+            </button>
+
+            <button nz-button nzType="primary" (click)="Accept('C')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
+                <span>
+                    Accept and Next
+                </span>
+            </button>
+        </span>
+
+        <span *ngIf="selectedIndex == 5">
+            <button nz-button nzType="primary" (click)="completeChecker()">
+                Send to refill
+            </button>
+        </span>
+
+    </div>
+
+</ng-template>
+
+
+<ng-template #tabHeaderTamplete>
+
+    <div nz-row>
+
+        <div nz-col nzSpan="10">
+            Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+        </div>
+
+        <div nz-col nzSpan="1"></div>
+
+        <div nz-col nzSpan="13">
+            <span>
+                <textarea nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK" placeholder="Remark"
+                    nzAutosize></textarea>
+            </span>
+        </div>
+
+    </div>
+
+</ng-template>
+
+<ng-template #tabHeaderVerifierTamplete>
+
+    <div nz-row>
+
+        <div nz-col nzSpan="10">
+            Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+        </div>
+
+        <div nz-col nzSpan="1"></div>
+
+        <div nz-col nzSpan="13">
+            <span>
+                <textarea nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK" placeholder="Remark"
+                    nzAutosize></textarea>
+            </span>
+        </div>
+
+    </div>
+
+</ng-template>
+
+<ng-template #TabFooterTplVerifier>
+    
+    <div style="float: right">
+        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+            <span *ngIf="selectedIndex != 0">
+                Previous
+            </span>
+        </button>
+
+        <span *ngIf="selectedIndex < 5">
+            <button nz-button nzType="primary" (click)="sendTorefill('V')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
+                <span>
+                    Send to refill and Next
+                </span>
+            </button>
+
+            <button nz-button nzType="primary" (click)="Accept('V')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
+                <span>
+                    Accept and Next
+                </span>
+            </button>
+        </span>
+
+        <span *ngIf="selectedIndex == 5">
+            <button nz-button nzType="primary" (click)="completeVerifier()">
+                Send to refill
+            </button>
+        </span>
+
+    </div>
+
+</ng-template>
+
+
+<ng-template #tabHeaderMakerTamplete>
+
+    <div nz-row *ngIf="Tabs[selectedIndex].SEND_TO_REFILL && Tabs[selectedIndex].SEND_TO_REFILL_COUNT > 0">
+
+        <div nz-col nzSpan="10">
+            Send to refill<nz-switch [disabled]="true" [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
+        </div>
+
+        <div nz-col nzSpan="1"></div>
+
+        <div nz-col nzSpan="13">
+            <span>
+                <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK" placeholder="Remark"
+                    nzAutosize></textarea>
+            </span>
+        </div>
+
+    </div>
+
+</ng-template>
+
 
 
 <ng-template #formDrawerTemp let-drawerRef="drawerRef">

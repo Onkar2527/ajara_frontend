@@ -10,12 +10,13 @@ import { TermDeposite } from '../models/term-deposite';
 import { ImageData } from '../models/image-data';
 import { PersonalInfo } from '../models/personal-info';
 import { Financial } from '../models/financial';
-import { keyframes } from '@angular/animations';
+// import { keyframes } from '@angular/animations';
 import { Property } from '../models/property';
 import { LoanInfo } from '../models/loan-info';
 import { OtherBankAccount } from '../models/other-bank-account';
 import * as Forge from 'node-forge';
 import { Buffer } from 'buffer';
+import { ExtraInfo } from '../models/extra-info';
 
 @Injectable({
   providedIn: 'root'
@@ -52,8 +53,6 @@ export class ApiService implements HttpInterceptor {
 
 
   constructor(private httpClient: HttpClient) { }
-
-
 
 
   httpHeaders = new HttpHeaders();
@@ -99,9 +98,10 @@ export class ApiService implements HttpInterceptor {
       'APIKEY': 'prasad',
       'SUPPORTKEY': 'hejUJJSK99gg',
       'TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IlVTRVJfSUQiOjkwfSwiaWF0IjoxNjc2ODk1MzgzfQ.V80hoP9N4BRhC-hqrVtLz45hWTVWZrZR5FZD34YcLZE',
-
+      
     });
 
+  
   encryptWithPublicKey(valueToEncrypt: any): string {
     const rsa = Forge.pki.publicKeyFromPem(this.server_publickey);
     return window.btoa(rsa.encrypt(valueToEncrypt.toString()));
@@ -124,7 +124,7 @@ export class ApiService implements HttpInterceptor {
   // baseUrl local
   baseUrl = 'http://192.168.1.4:8080/api/';
 
-  decryptData(data: any): ObservableInput<any> {
+  decryptData(data: any) {
     console.log("data in decryption", data.data)
     let data_ = Buffer.from(data.data, 'base64').toString();
     // let data_ = data;
@@ -356,12 +356,13 @@ export class ApiService implements HttpInterceptor {
 
   //draft 
 
-  getDraft(pageSize: number, pageIndex: number): Observable<any> {
+  getDraft(pageSize: number, pageIndex: number, user_id: string | null): Observable<any> {
     let data = {
       pageSize: pageSize,
-      pageIndex: pageIndex
+      pageIndex: pageIndex,
+      USER_KEY: user_id
     }
-    return this.httpClient.post(this.baseUrl + 'drafts/get', data, this.optionMain);
+    return this.httpClient.post(this.baseUrl + 'basicDetails/getAll', data, this.optionMain);
   }
   // aadhaar
 
@@ -415,5 +416,51 @@ export class ApiService implements HttpInterceptor {
     };
     return this.httpClient.post<any>(this.getAadhaarDataUrl, JSON.stringify(data), this.options);
   }
+
+
+  getSideMenu(user_key: string | null) {
+    let data = {
+      USER_KEY: user_key
+    }
+    let encrypted_data = {
+      data: this.encryptWithPublicKey(JSON.stringify(data))
+    };
+
+    return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', encrypted_data, this.optionMain)
+  }
+
+  getUser(user_key: string | null) {
+    let data = {
+      USER_KEY: user_key
+    }
+    let encrypted_data = {
+      data: this.encryptWithPublicKey(JSON.stringify(data))
+    };
+
+    return this.httpClient.post<any>(this.baseUrl + 'user/getUserIdByKey', encrypted_data, this.optionMain);
+
+  }
+
+  getTabs(applicant_id: number,user_key:any) {
+    let data = {
+      APPLICANT_ID: applicant_id,
+      USER_KEY : user_key
+    }
+
+    let encrypted_data = {
+      data: this.encryptWithPublicKey(JSON.stringify(data))
+    };
+
+    return this.httpClient.post<any>(this.baseUrl + 'tabs/getTabs', encrypted_data, this.optionMain);
+
+  }
+
+  updateTab(data:ExtraInfo){
+
+
+    return this.httpClient.post<any>(this.baseUrl+'extraInformation/update',data,this.optionMain);
+  }
+
+
 
 }

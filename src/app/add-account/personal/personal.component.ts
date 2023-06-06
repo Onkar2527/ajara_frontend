@@ -355,10 +355,11 @@ export class PersonalComponent implements OnInit {
     return '';
   }
 
-  save() {
+  save(status:string) {
     let personal: Subject<any> = new Subject();
     this.basicInfo.MINOR_DOB = this.changeDate(this.basicInfo.MINOR_DOB);
     this.basicInfo.GUARDIAN_DOB = this.changeDate(this.basicInfo.GUARDIAN_DOB)
+    this.basicInfo.STATUS = status;
 
     if (this.basicInfo.ID) {
       this.api.updateBasic(this.basicInfo).subscribe({

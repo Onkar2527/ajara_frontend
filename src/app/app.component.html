@@ -1,4 +1,4 @@
-<nz-layout  *ngIf="route == 'tabs'">
+<nz-layout *ngIf="route == 'tabs'">
   <nz-header>
 
   </nz-header>
@@ -6,42 +6,31 @@
   <nz-layout class="layout">
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
       <div class="user-box"></div>
-
       <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
         <!-- <li nz-menu-item class="menu-item">
-          <a routerLink="/new-account/tabs/personal">
-            <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
-            <span>New Account</span>
-          </a>
-
-        </li> -->
-
-        <li nz-menu-item class="menu-item">
           <a routerLink="proposal">
             <span nz-icon nzType="edit"></span>
             <span>Proposals</span>
           </a>
-        </li>
-
-        <!-- <li nz-menu-item class="menu-item">
-
-          <span nz-icon nzType="history"></span>
-          <span>A/C History</span>
-        </li>
-
-        <li nz-menu-item class="menu-item">
-          <a routerLink="/new-account/draft">
-            <span nz-icon nzType="edit"></span>
-            <span>Draft</span>
-          </a>
-        </li>
-
-        <li nz-menu-item class="menu-item">
-          <span nz-icon nzType="user"></span>
-          <span>eKYC</span>
         </li> -->
+
+
+        <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: sideMenu }"></ng-container>
+        <ng-template #menuTpl let-menus>
+          <ng-container *ngFor="let menu of menus">
+
+            <li nz-menu-item nzMatchRouter>
+              <a [routerLink]="[menu.ROUTE]">
+                <i nz-icon [nzType]="menu.ICON" *ngIf="menu.ICON"></i>{{menu.NAME}}</a>
+            </li>
+
+          </ng-container>
+        </ng-template>
+
       </ul>
+
     </nz-sider>
+
     <nz-content>
       <div class="inner-content">
         <router-outlet></router-outlet>
@@ -49,6 +38,7 @@
     </nz-content>
 
   </nz-layout>
+
 </nz-layout>
 
 <app-login *ngIf="route == 'login'" (logined)="login()"></app-login>

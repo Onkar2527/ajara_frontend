@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PersonalInfo } from 'src/app/models/personal-info';
 import { ApiService } from 'src/app/service/api.service';
 import { ApplicantTabsComponent } from '../applicant/applicant-tabs/applicant-tabs.component';
+import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'app-applicant-details',
@@ -13,27 +14,49 @@ export class ApplicantDetailsComponent implements OnInit {
 
   @ViewChild(ApplicantTabsComponent) tabComp!: ApplicantTabsComponent;
 
+  @ViewChild('applicantTamplate', { static: false }) applicantTamplate?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('footertpl', { static: false }) applicantFooterTemplate?: TemplateRef<{}>;
+
   APPLICANT_ID?: number;
   ApplicantData: PersonalInfo[] = [];
-
+  drawerReferance: any
   saveButtonLoading: boolean = false;
   saveButtonTitle: string = 'Save and Next';
   DrawerVisible: boolean = false;
   personalInfo: PersonalInfo = new PersonalInfo()
-  constructor(private api: ApiService, private message: NzNotificationService) { }
+  constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
   ngOnInit(): void {
 
   }
 
-  close() {
 
-    this.DrawerVisible = false;
-  }
 
   edit(data: PersonalInfo) {
     this.personalInfo = data;
-    this.DrawerVisible = true;
+
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Fill Applicant All Info",
+      nzFooter: this.applicantFooterTemplate,
+      nzContent: this.applicantTamplate,
+      nzWidth: 1095
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.getAllApplicant();
+    });
+
   }
 
   save() {
@@ -137,7 +160,7 @@ export class ApplicantDetailsComponent implements OnInit {
           if (res.code == 200) {
             this.saveButtonTitle = 'Save and Next';
             this.saveButtonLoading = false;
-            this.close();
+            this.drawerReferance.close();
 
           }
         }, error: () => {

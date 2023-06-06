@@ -13,6 +13,10 @@ import { NominationComponent } from '../nomination/nomination.component';
 import { PersonalComponent } from '../personal/personal.component';
 import { ServicesComponent } from '../services/services.component';
 import { WebCamComponent } from '../web-cam/web-cam.component';
+import { ExtraInfo } from 'src/app/models/extra-info';
+import { error } from 'pdf-lib';
+import { CheckerVerificationComponent } from 'src/app/verification/checker-verification/checker-verification.component';
+import { VerifierVerificationComponent } from 'src/app/verification/verifier-verification/verifier-verification.component';
 
 @Component({
   selector: 'app-add-account',
@@ -25,30 +29,28 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   @ViewChild(ServicesComponent) serviceComp!: ServicesComponent;
   @ViewChild(NominationComponent) nomineeComp!: NominationComponent;
   // @ViewChild(FormComponent) formComp!: FormComponent;
-  @ViewChild(ApplicantDetailsComponent) applicantDetail!:ApplicantDetailsComponent;
+  @ViewChild(ApplicantDetailsComponent) applicantDetail!: ApplicantDetailsComponent;
   // @ViewChild(WebCamComponent) wecamComp!:WebCamComponent;
 
+  @ViewChild(CheckerVerificationComponent) checkerComp!: CheckerVerificationComponent;
+  @ViewChild(VerifierVerificationComponent) verifierComp!: VerifierVerificationComponent;
 
-  @Input() BasicInfo:BasicInfo = new BasicInfo();
+
+
+  @Input() BasicInfo: BasicInfo = new BasicInfo();
   constructor(private api: ApiService, private message: NzNotificationService) { }
   @Output() ChangeIndex = new EventEmitter<number>();
+  @Output() CloseDrawer = new EventEmitter<void>();
 
-  
 
-  Tabs = [
-    { Index: 0, disabled: false },
-    { Index: 1, disabled: true },
-    { Index: 2, disabled: true },
-    { Index: 3, disabled: true },
-    { Index: 4, disabled: true },
-    { Index: 5, disabled: true },
-    { Index: 6, disabled: true },
-  ]
+
+
+  @Input() Tabs: ExtraInfo[] = []
 
   selectedIndex: number = 0;
 
-  changeIndex(){
-    console.log(this.selectedIndex,"is selected index")
+  changeIndex() {
+    console.log(this.selectedIndex, "is selected index")
     this.ChangeIndex.emit(this.selectedIndex);
   }
 
@@ -63,21 +65,337 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     else {
       this.buttonTitle = 'Save & Next'
     }
-   
+
   }
   ngOnInit(): void {
-    
+    if (this.BasicInfo.ID) {
+      this.getTabs(this.BasicInfo.ID);
+    }
+
   }
   ngOnDestroy() {
 
   }
+
+  completeVerifier() {
+
+    let send_to_refill = false
+
+    for (let tab of this.Tabs) {
+      if (tab.SEND_TO_REFILL) {
+        send_to_refill = true;
+        break;
+      }
+    }
+
+    if (send_to_refill) {
+      let personal = this.personalComp.save('D');
+      this.personalComp.basicInfo.STATUS = 'D';
+      personal.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Proposal has been sent to Refill", '')
+            this.CloseDrawer.emit();
+          }
+          else {
+            this.message.error("Something went wrong", '');
+          }
+        }, error: () => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
+
+    else {
+      let personal = this.personalComp.save('V');
+      this.personalComp.basicInfo.STATUS = 'V';
+      personal.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Account has been created", '')
+            this.CloseDrawer.emit();
+          }
+          else {
+            this.message.error("Something went wrong", '');
+          }
+        }, error: () => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
+
+  }
+
+  completeChecker() {
+    let send_to_refill = false
+    for (let tab of this.Tabs) {
+      if (tab.SEND_TO_REFILL) {
+        send_to_refill = true;
+        break;
+      }
+    }
+
+    if (send_to_refill) {
+      let personal = this.personalComp.save('D');
+      this.personalComp.basicInfo.STATUS = 'D';
+      personal.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Proposal has been sent to Refill", '')
+            this.CloseDrawer.emit();
+          }
+          else {
+            this.message.error("Something went wrong", '');
+          }
+        }, error: () => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
+
+    else {
+      let personal = this.personalComp.save('V');
+      this.personalComp.basicInfo.STATUS = 'V';
+      personal.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Proposal has been sent to Verification", '')
+            this.CloseDrawer.emit();
+          }
+          else {
+            this.message.error("Something went wrong", '');
+          }
+        }, error: () => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
+  }
+
+
+  getTabs(applicant_id: number) {
+    this.api.getTabs(applicant_id, sessionStorage.getItem('lk0oh6fdb4567')).subscribe({
+      next: (res) => {
+        if (res['code'] && res['data']) {
+          // let data = this.api.decryptData(res['data']);
+          this.Tabs = res['data'];
+          this.reset();
+          console.log("tabs = ", this.Tabs);
+        }
+      }
+    })
+  }
+
+
+  updateTabsProvided(index: number) {
+    this.Tabs[index].IS_PROVIDED = true;
+
+    this.api.updateTab(this.Tabs[index]).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.selectedIndex = index + 1;
+          this.changeIndex();
+        }
+        else {
+          this.Tabs[index].IS_PROVIDED = false;
+        }
+      },
+      error: () => {
+        this.Tabs[index].IS_PROVIDED = false;
+      }
+    })
+
+  }
+
+  checkerDisable: boolean = true;
+  verifierDisable: boolean = true;
+
+  sendToRefill(index: number, remark: string, user: string) {
+    this.Tabs[index].SEND_TO_REFILL_COUNT++;
+    this.Tabs[index].SEND_TO_REFILL = true;
+
+    if (user == 'C') {
+      this.Tabs[index].IS_CHECKED = false;
+      this.Tabs[index].CHECKER_REMARK = remark;
+    }
+    if (user == 'V') {
+      this.Tabs[index].IS_VERIFIED = false;
+      this.Tabs[index].VERIFIER_REMARK = remark;
+    }
+
+
+    this.api.updateTab(this.Tabs[index]).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+
+          if (this.selectedIndex == 0) {
+            this.APPLICANT_ID = this.BasicInfo.ID;
+            this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.depositeComp.getDepositInfo();
+            this.Tabs[0].disabled = true;
+            this.Tabs[1].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 1) {
+            this.nomineeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.nomineeComp.getNominationInfo();
+            this.Tabs[1].disabled = true;
+            this.Tabs[2].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 2) {
+            this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.serviceComp.getServiceInfo();
+            this.Tabs[2].disabled = true;
+            this.Tabs[3].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 3) {
+            this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
+            this.applicantDetail.getAllApplicant();
+            this.Tabs[3].disabled = true;
+            this.Tabs[4].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+          }
+
+          else if (this.selectedIndex == 4) {
+            this.Tabs[4].disabled = true
+            if (user == 'C') {
+              this.checkerDisable = false;
+              this.checkerComp.Tabs = this.Tabs;
+            }
+
+            if (user == 'V') {
+              this.verifierDisable = false;
+              this.verifierComp.Tabs = this.Tabs;
+            }
+            this.selectedIndex++;
+            this.changeIndex();
+          }
+
+        }
+        else {
+
+        }
+      },
+      error: () => {
+
+      }
+    });
+  }
+
+  Accept(index: number, user: string) {
+    this.Tabs[index].SEND_TO_REFILL = false;
+
+    if (user == 'C') {
+      this.Tabs[index].IS_CHECKED = true;
+      this.Tabs[index].CHECKER_REMARK = '';
+    }
+    if (user == 'V') {
+      this.Tabs[index].IS_VERIFIED = true;
+      this.Tabs[index].VERIFIER_REMARK = '';
+    }
+
+
+    this.api.updateTab(this.Tabs[index]).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+
+          if (this.selectedIndex == 0) {
+            this.APPLICANT_ID = this.BasicInfo.ID;
+            this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.depositeComp.getDepositInfo();
+            this.Tabs[0].disabled = true;
+            this.Tabs[1].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 1) {
+            this.nomineeComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.nomineeComp.getNominationInfo();
+            this.Tabs[1].disabled = true;
+            this.Tabs[2].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 2) {
+            this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
+            this.serviceComp.getServiceInfo();
+            this.Tabs[2].disabled = true;
+            this.Tabs[3].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+
+          }
+
+          else if (this.selectedIndex == 3) {
+            this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
+            this.applicantDetail.getAllApplicant();
+            this.Tabs[3].disabled = true;
+            this.Tabs[4].disabled = false;
+            this.selectedIndex++;
+            this.changeIndex();
+          }
+
+          else if (this.selectedIndex == 4) {
+            this.Tabs[4].disabled = true
+            if (user == 'C') {
+              this.checkerDisable = false;
+              this.checkerComp.Tabs = this.Tabs;
+            }
+
+            if (user == 'V') {
+              this.verifierDisable = false;
+              this.verifierComp.Tabs = this.Tabs;
+            }
+            this.selectedIndex++;
+            this.changeIndex();
+          }
+
+        }
+        else {
+
+        }
+      },
+      error: () => {
+
+      }
+    });
+  }
+
 
   saveANext() {
 
     this.loadSaveButton = true;
 
     if (this.selectedIndex == 0) {
-      let personal = this.personalComp.save();
+      let personal = this.personalComp.save('D');
       this.depositeComp.depositInfo.ACCOUNT_TYPE = this.personalComp.basicInfo.ACCOUNT_TYPE;
       this.serviceComp.AccountType = this.personalComp.basicInfo.ACCOUNT_TYPE;
       personal.subscribe({
@@ -88,8 +406,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.depositeComp.getDepositInfo();
             this.Tabs[0].disabled = true;
             this.Tabs[1].disabled = false;
-            this.selectedIndex = 1;
-            this.changeIndex();
+            this.updateTabsProvided(this.selectedIndex);
             this.loadSaveButton = false;
           }
         }, error: () => {
@@ -110,8 +427,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.nomineeComp.getNominationInfo();
             this.Tabs[1].disabled = true;
             this.Tabs[2].disabled = false;
-            this.selectedIndex = 2;
-            this.changeIndex();
+            this.updateTabsProvided(this.selectedIndex);
             this.loadSaveButton = false;
           }
         },
@@ -133,8 +449,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.serviceComp.getServiceInfo();
             this.Tabs[2].disabled = true;
             this.Tabs[3].disabled = false;
-            this.selectedIndex = 3;
-            this.changeIndex();
+            this.updateTabsProvided(this.selectedIndex);
             this.loadSaveButton = false;
           }
         }, error: () => {
@@ -155,8 +470,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           if (res.code == 200) {
             this.Tabs[3].disabled = true;
             this.Tabs[4].disabled = false;
-            this.selectedIndex = 4;
-            this.changeIndex();
+            this.updateTabsProvided(this.selectedIndex);
             this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
             this.applicantDetail.getAllApplicant();
             this.loadSaveButton = false;
@@ -170,28 +484,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if (this.selectedIndex == 4) {
-      // this.wecamComp.APPLICANT_ID = this.APPLICANT_ID;
-      // this.wecamComp.getApplicant();
       this.Tabs[4].disabled = true;
-      // this.Tabs[5].disabled = false;
-      
-      this.selectedIndex = 5;
-      this.changeIndex();
+      this.updateTabsProvided(this.selectedIndex);
+      this.saveAsComplete();
       this.loadSaveButton = false;
     }
-    else if (this.selectedIndex == 5) {
-      this.Tabs[5].disabled = true;
-      this.Tabs[6].disabled = false;
-      // this.formComp.APPLICANT_ID = this.APPLICANT_ID;
-      // this.formComp.getAllData();
-      this.loadSaveButton = false;
-      this.selectedIndex = 6;
-      this.changeIndex();
-    }
-    else if (this.selectedIndex == 6) {
-      // this.formComp.save()
-      this.loadSaveButton = false;
-    }
+
   }
 
   previous() {
@@ -242,17 +540,17 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   saveAsDraft() {
     if (this.selectedIndex == 0) {
-      let personal = this.personalComp.save();
+      let personal = this.personalComp.save('D');
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
             this.reset();
           }
         }, error: () => {
-          
+
         },
         complete: () => {
-          
+
         }
       })
     }
@@ -267,10 +565,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           }
         },
         error: () => {
-          
+
         },
         complete: () => {
-         
+
         }
       })
     }
@@ -283,10 +581,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.reset();
           }
         }, error: () => {
-          
+
         },
         complete: () => {
-          
+
         }
       })
     }
@@ -300,22 +598,15 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.reset();
           }
         }, error: () => {
-          
+
         },
         complete: () => {
-          
+
         }
       })
     }
     else if (this.selectedIndex == 4) {
-      this.reset();
 
-    }
-    else if (this.selectedIndex == 5) {
-      this.reset();
-    }
-    else if (this.selectedIndex == 6) {
-      this.reset();
     }
 
   }
@@ -323,42 +614,37 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   reset() {
 
     this.selectedIndex = 0;
-    this.Tabs = [
-      { Index: 0, disabled: false },
-      { Index: 1, disabled: true },
-      { Index: 2, disabled: true },
-      { Index: 3, disabled: true },
-      { Index: 4, disabled: true },
-      { Index: 5, disabled: true },
-      { Index: 6, disabled: true },
-    ]
-    this.personalComp.basicInfo = new BasicInfo();
-    this.personalComp.aadhaarVerify = new Aadhaar(this.api, this.message);
-    this.personalComp.aadhaarVerify2 = new Aadhaar(this.api, this.message);
-    this.personalComp.aadhaarVerify3 = new Aadhaar(this.api, this.message);
-    this.personalComp.aadhaarVerify4= new Aadhaar(this.api, this.message);
+    for (let i = 0; i < this.Tabs.length; i++) {
+      if (i == 0) {
+        this.Tabs[0].disabled = false;
+      }
+      else {
+        this.Tabs[i].disabled = true;
+      }
 
+    }
 
-    this.depositeComp.depositInfo = new TermDeposite();
-    this.serviceComp.serviceInfo = new Facilities();
-    this.nomineeComp.nomineeInfo = new NomineeDetails();
   }
 
-  saveAsComplete(){
-    let personal = this.personalComp.save();
-      this.personalComp.basicInfo.STATUS = 'C';
-      personal.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.reset();
-          }
-        }, error: () => {
-         
-        },
-        complete: () => {
-         
+  saveAsComplete() {
+    let personal = this.personalComp.save('C');
+    this.personalComp.basicInfo.STATUS = 'C';
+    personal.subscribe({
+      next: (res) => {
+        if (res.code == 200) {
+          this.message.success("Proposal has been sent to verify", '')
+          this.CloseDrawer.emit();
         }
-      })
+        else {
+          this.message.error("Something went wrong", '');
+        }
+      }, error: () => {
+
+      },
+      complete: () => {
+
+      }
+    })
   }
 
 }

@@ -1,50 +1,34 @@
 <div>
-<nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
-    
-    <nz-tab nzTitle="Basic Information" [nzDisabled]="Tabs[0].disabled">
-        <app-personal [basicInfo]="BasicInfo"></app-personal>
-    </nz-tab>
 
-    <nz-tab nzTitle="Deposit Details" [nzDisabled]="Tabs[1].disabled">
-        <app-deposit></app-deposit>
-    </nz-tab>
+    <nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
+        <nz-tab *ngFor="let tab of Tabs;let i=index" [nzTitle]="titleTemplate33" [nzDisabled]="tab.disabled">
 
-    <nz-tab nzTitle="Nomination Details" [nzDisabled]="Tabs[2].disabled">
-        <app-nomination></app-nomination>
-    </nz-tab>
+            <ng-template #titleTemplate33>
 
-    <nz-tab nzTitle="Extra Services and Linkages" [nzDisabled]="Tabs[3].disabled">
-        <app-services></app-services>
-    </nz-tab>
+                <i nz-icon nzType="exclamation-circle" nzTheme="fill" style="color: #f18304;"
+                    *ngIf="!Tabs[i].IS_PROVIDED"></i>
 
-    <nz-tab nzTitle="Applicant Information" [nzDisabled]="Tabs[4].disabled">
-        <app-applicant-details></app-applicant-details>
-    </nz-tab>
+                <i nz-icon nzType="check-circle" nzTheme="fill" style="color: #00b963;" *ngIf="Tabs[i].IS_PROVIDED"></i>
 
-    <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[5].disabled">
-      <app-checker-verification></app-checker-verification>
-    </nz-tab>
-    
-    <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[6].disabled">
-      
-    </nz-tab>
-    <!-- <nz-tab nzTitle="Send to Verification" [nzDisabled]="Tabs[6].disabled">
-   
-    </nz-tab> -->
+                <span> {{tab.TAB_NAME}}</span>
+            </ng-template>
 
-</nz-tabset>
+            <app-personal [basicInfo]="BasicInfo" *ngIf="tab.TAB_ID == 1"></app-personal>
 
+            <app-deposit *ngIf="tab.TAB_ID == 2"></app-deposit>
 
+            <app-nomination *ngIf="tab.TAB_ID == 3"></app-nomination>
 
-<!-- <nz-footer>
-    <button nz-button nzType="default" (click)="previous()" [nzLoading]="loadPreviousButton" *ngIf="selectedIndex != 0"><span
-    >Previous</span></button>
+            <app-services *ngIf="tab.TAB_ID == 4"></app-services>
 
-    <button nz-button nzType="default" (click)="saveAsDraft()">Save as Draft</button>
+            <app-applicant-details *ngIf="tab.TAB_ID == 5"></app-applicant-details>
 
-    <button nz-button nzType="primary" (click)="saveANext()" [nzLoading]="loadSaveButton"><span
-            *ngIf="selectedIndex != 6">Save and Next</span><span *ngIf="selectedIndex == 6">Download PDF</span></button>
+            <app-checker-verification *ngIf="tab.TAB_ID == 6"></app-checker-verification>
 
-    <button nz-button nzType="primary" (click)="saveAsComplete()" *ngIf="selectedIndex == 6">Complete Application</button>
-</nz-footer> -->
+            <app-verifier-verification *ngIf="tab.TAB_ID == 7"></app-verifier-verification>
+
+        </nz-tab>
+
+    </nz-tabset>
+
 </div>

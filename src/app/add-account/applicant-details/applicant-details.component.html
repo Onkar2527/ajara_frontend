@@ -20,21 +20,16 @@
 </nz-table>
 
 
-<nz-drawer [nzWidth]="900" (nzOnClose)="close()" [nzSize]="'large'" [nzFooter]="footertpl" [nzVisible]="DrawerVisible" nzPlacement="right"
-  [nzTitle]="'Applicant Details'" [nzSize]="'large'">
-  <ng-container *nzDrawerContent>
+
+<ng-template #applicantTamplate>
     <app-applicant-tabs [personalInfo]="personalInfo"></app-applicant-tabs>
-  </ng-container>
+</ng-template>
 
-
-  <ng-template #footertpl>
-    <div style="float: right">
-      <button nz-button style="margin-right: 8px;" (click)="previous()" >Previous</button>
-      <button nz-button nzType="primary" (click)="save()" [nzLoading]="saveButtonLoading">{{saveButtonTitle}}</button>
-    </div>
-  </ng-template>
-  
-</nz-drawer>
-
+<ng-template #footertpl>
+  <div style="float: right">
+    <button nz-button style="margin-right: 8px;" (click)="previous()" >Previous</button>
+    <button nz-button nzType="primary" (click)="save()" [nzLoading]="saveButtonLoading">{{saveButtonTitle}}</button>
+  </div>
+</ng-template>
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExtraInfo } from 'src/app/models/extra-info';
 
 @Component({
   selector: 'app-verifier-verification',
@@ -7,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerifierVerificationComponent implements OnInit {
 
+  APPLICAT_ID!:number;
+  TableLoading:boolean = false;
+  Tabs:ExtraInfo[] = []
+  
   constructor() { }
 
   ngOnInit(): void {

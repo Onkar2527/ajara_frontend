@@ -1,1 +1,32 @@
-something
+<h1>Verification Status</h1>
+
+<nz-table [nzData]="Tabs" style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
+    [nzLoading]="TableLoading">
+
+    <thead nzSingleSort>
+        <tr>
+            <th>Tab Name</th>
+            <th>Satus</th>
+            <th>Remark</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let tab of table.data">
+            <td>{{tab.TAB_NAME}}</td>
+            <td>
+                <i nz-icon nzType="close-circle" nzTheme="fill" style="color: #f10404;" *ngIf="tab.SEND_TO_REFILL"></i>
+
+                <i nz-icon nzType="check-circle" nzTheme="fill" style="color: #00b963;" *ngIf="!tab.SEND_TO_REFILL"></i>
+
+                <span *ngIf="tab.SEND_TO_REFILL">Sent to Refill</span>
+
+                <span *ngIf="!tab.SEND_TO_REFILL">Accepted</span>
+
+            </td>
+            <td>
+                <span *ngIf="tab.SEND_TO_REFILL">{{tab.CHECKER_REMARK}}</span>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
