@@ -751,7 +751,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let opt = {
       margin: 0.3,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas:{scale:4},
+      html2canvas:{scale:4,width : 1200},
       pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
       jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
     };
