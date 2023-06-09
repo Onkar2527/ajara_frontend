@@ -1,14 +1,14 @@
 
 export class BasicInfo {
     ID!: number;
-    APPLICANT_ID?:number;
-    STATUS:string = 'D';
+    APPLICANT_ID?: number;
+    STATUS: string = 'D';
 
-    NO_OF_APPLICANT:number = 1;
+    NO_OF_APPLICANT: number = 1;
 
-    ACCOUNT_TYPE:string = 'S';
+    ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 
-    ACCOUNT_OPERATION:string = 'S';
+    ACCOUNT_OPERATION: "S" | "E" | "A" | "F" | "J" | "O" = 'S';
 
     AADHAAR_NUMBER: string = '';
     PAN_NUMBER: string = '';
@@ -39,7 +39,7 @@ export class BasicInfo {
     MINOR_DOB: string = '';
 
     GUARDIAN_NAME: string = '';
-    RELATION_WITH_MINOR?: string
+    RELATION_WITH_MINOR: "F" | "M" | "C" | "O" = "F"
     GUARDIAN_DOB: any
 
     IS_INTRODUCED: boolean = false;
@@ -58,7 +58,7 @@ export class BasicInfo {
 
     }
 
-    constructor(){
+    constructor() {
         this.NO_OF_APPLICANT = 1;
     }
 

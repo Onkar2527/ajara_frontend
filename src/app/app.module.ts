@@ -55,6 +55,9 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
+
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
 import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
@@ -122,7 +125,8 @@ registerLocaleData(en);
     NzDatePickerModule,
     NzCheckboxModule,
     NzListModule,
-    NzSelectModule
+    NzSelectModule,
+    NzUploadModule
   ],
   providers: [
 

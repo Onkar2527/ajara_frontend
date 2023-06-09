@@ -109,7 +109,7 @@
 
         <span *ngIf="selectedIndex == 5">
             <button nz-button nzType="primary" (click)="completeChecker()">
-                Send to refill
+                {{verifyButtonTitle}}
             </button>
         </span>
 
@@ -193,7 +193,7 @@
 
         <span *ngIf="selectedIndex == 5">
             <button nz-button nzType="primary" (click)="completeVerifier()">
-                Send to refill
+                {{verifyButtonTitle}}
             </button>
         </span>
 
@@ -230,7 +230,7 @@
 
 
 <ng-template #formDrawerTemp let-drawerRef="drawerRef">
-    <app-form [APPLICANT_ID]="APPLICANT_ID"></app-form>
+    <app-form [APPLICANT_ID]="APPLICANT_ID" style="width:100% !important"></app-form>
 </ng-template>
 
 <ng-template #footerTpl3>
@@ -241,7 +241,7 @@
 </ng-template>
 
 <ng-template #docDrawerTemp let-drawerRef="drawerRef">
-    <app-web-cam [APPLICANT_ID]="APPLICANT_ID"></app-web-cam>
+    <app-web-cam [APPLICANT_ID]="APPLICANT_ID" [basicInfo]="basicInfo"></app-web-cam>
 </ng-template>
 
 <ng-template #footerTpl4>

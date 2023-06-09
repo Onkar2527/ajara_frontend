@@ -17,6 +17,7 @@ import { OtherBankAccount } from '../models/other-bank-account';
 import * as Forge from 'node-forge';
 import { Buffer } from 'buffer';
 import { ExtraInfo } from '../models/extra-info';
+import { Documents } from '../models/documents';
 
 @Injectable({
   providedIn: 'root'
@@ -122,7 +123,7 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://192.168.1.4:8080/api/';
+  baseUrl = 'http://192.168.1.6:8080/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -459,6 +460,34 @@ export class ApiService implements HttpInterceptor {
 
 
     return this.httpClient.post<any>(this.baseUrl+'extraInformation/update',data,this.optionMain);
+  }
+
+
+  getDocument(applicant_id:number,applicant_no:number){
+    let data = {
+      APPLICANT_ID:applicant_id,
+      APPLICANT_NO:applicant_no
+    }
+
+    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/getAllApplicants',data,this.optionMain);
+
+  }
+  createDocument(data:Documents){
+ 
+    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/create',data,this.optionMain);
+
+  }
+
+  updateDocument(data:Documents){
+    
+    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/upload',data,this.optionMain);
+
+  }
+
+  updateSingleDocument(data:Documents){
+    
+    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/update',data,this.optionMain);
+
   }
 
 

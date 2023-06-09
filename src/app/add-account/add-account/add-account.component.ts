@@ -396,13 +396,14 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     if (this.selectedIndex == 0) {
       let personal = this.personalComp.save('D');
-      this.depositeComp.depositInfo.ACCOUNT_TYPE = this.personalComp.basicInfo.ACCOUNT_TYPE;
+      this.depositeComp.account_type = this.personalComp.basicInfo.ACCOUNT_TYPE;
       this.serviceComp.AccountType = this.personalComp.basicInfo.ACCOUNT_TYPE;
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
             this.APPLICANT_ID = this.BasicInfo.ID;
             this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
+           
             this.depositeComp.getDepositInfo();
             this.Tabs[0].disabled = true;
             this.Tabs[1].disabled = false;

@@ -15,9 +15,9 @@
         <tr *ngFor="let tab of table.data">
             <td>{{tab.TAB_NAME}}</td>
             <td>
-                <i nz-icon nzType="close-circle" nzTheme="fill" style="color: #f10404;" *ngIf="tab.SEND_TO_REFILL"></i>
+                <i nz-icon nzType="close-circle" style="color: #f10404;" *ngIf="tab.SEND_TO_REFILL"></i>
 
-                <i nz-icon nzType="check-circle" nzTheme="fill" style="color: #00b963;" *ngIf="!tab.SEND_TO_REFILL"></i>
+                <i nz-icon nzType="check-circle" style="color: #00b963;" *ngIf="!tab.SEND_TO_REFILL"></i>
 
                 <span *ngIf="tab.SEND_TO_REFILL">Sent to Refill</span>
 

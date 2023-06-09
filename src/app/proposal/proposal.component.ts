@@ -55,7 +55,7 @@ export class ProposalComponent implements OnInit {
   @ViewChild('tabHeaderMakerTamplete', { static: false }) tabHeaderMakerTamplete?: TemplateRef<{}>;
 
   @ViewChild('TabFooterTplVerifier', { static: false }) TabFooterTplVerifier?: TemplateRef<{}>;
-  
+
   constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
   ROLE_ID!: number;
@@ -68,7 +68,7 @@ export class ProposalComponent implements OnInit {
   userDetails: any;
 
   getTabs(applicant_id: number) {
-    this.api.getTabs(applicant_id,sessionStorage.getItem('lk0oh6fdb4567')).subscribe({
+    this.api.getTabs(applicant_id, sessionStorage.getItem('lk0oh6fdb4567')).subscribe({
       next: (res) => {
         if (res['code'] && res['data']) {
           this.Tabs = res['data'];
@@ -114,9 +114,9 @@ export class ProposalComponent implements OnInit {
   pageSize = 10;
   dataCount!: number;
 
-  header:any;
-  footer:any;
-  title:string = '';
+  header: any;
+  footer: any;
+  title: string = '';
 
   openTabsDrawer(data: BasicInfo) {
 
@@ -173,25 +173,25 @@ export class ProposalComponent implements OnInit {
 
   loadSaveButton: boolean = false;
 
-  sendTorefill(user:string) {
+  sendTorefill(user: string) {
     let remark = ''
-    if(user == 'C'){
+    if (user == 'C') {
       remark = this.Tabs[this.selectedIndex].CHECKER_REMARK;
     }
-    if(user == 'V'){
+    if (user == 'V') {
       remark = this.Tabs[this.selectedIndex].VERIFIER_REMARK;
     }
-    this.addAccountComp.sendToRefill(this.selectedIndex, remark,user);
+    this.addAccountComp.sendToRefill(this.selectedIndex, remark, user);
   }
 
-  Accept(user:string) {
-    this.addAccountComp.Accept(this.selectedIndex,user);
+  Accept(user: string) {
+    this.addAccountComp.Accept(this.selectedIndex, user);
   }
-  completeChecker(){
+  completeChecker() {
     this.addAccountComp.completeChecker();
   }
 
-  completeVerifier(){
+  completeVerifier() {
     this.addAccountComp.completeVerifier();
   }
   openBasicDrawer() {
@@ -262,11 +262,30 @@ export class ProposalComponent implements OnInit {
 
 
   selectedIndex = 0;
+  verifyButtonTitle = ''
   changeIndex(event: any) {
     console.log(event);
     this.selectedIndex = event;
-    if(this.selectedIndex >= 5){
+    if (this.selectedIndex >= 5) {
       this.header = '';
+
+
+      let send_to_refill = false
+
+      for (let tab of this.Tabs) {
+        if (tab.SEND_TO_REFILL) {
+          send_to_refill = true;
+          break;
+        }
+      }
+
+      if (send_to_refill) {
+        this.verifyButtonTitle = 'Send to refill'
+      }
+      else {
+        this.verifyButtonTitle = 'Send to next Stage'
+      }
+
     }
   }
 
@@ -289,7 +308,7 @@ export class ProposalComponent implements OnInit {
       nzTitle: "Form",
       nzFooter: this.FormFooterTemplate,
       nzContent: this.formDrawerTemp,
-      nzWidth: 1095
+      nzWidth: 1200
     });
 
     this.drawerReferance = drawerRef;
@@ -310,8 +329,10 @@ export class ProposalComponent implements OnInit {
     this.formComp.save();
   }
 
+  basicInfo: BasicInfo = new BasicInfo();
   openUploadDrawer(data: BasicInfo) {
     this.APPLICANT_ID = data.ID;
+    this.basicInfo = data;
     const drawerRef = this.drawerService.create({
       nzTitle: "Document",
       nzFooter: this.DocFooterTemplate,
@@ -328,6 +349,7 @@ export class ProposalComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       console.log('Drawer(Template) close');
+      this.basicInfo = new BasicInfo();
       this.getDrafts();
     });
   }

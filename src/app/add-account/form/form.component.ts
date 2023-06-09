@@ -13,11 +13,12 @@ import { Property } from 'src/app/models/property';
 import { LoanInfo } from 'src/app/models/loan-info';
 import { OtherBankAccount } from 'src/app/models/other-bank-account';
 import { ImageData } from 'src/app/models/image-data';
+const html2pdf =  require('html2pdf.js');
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.css','./nicepage.css']
 })
 export class FormComponent implements OnInit, AfterViewInit  {
   @Input() APPLICANT_ID!: number;
@@ -35,7 +36,118 @@ export class FormComponent implements OnInit, AfterViewInit  {
 
 
 
-  ApplicantPhoto: ImageData[] = []
+
+  ApplicantPhoto: ImageData[] = [];
+
+
+  account_type = {
+    'S' : 'Saving',
+    'F': 'Fixed Deposite',
+    'R': 'Recurring Deposite',
+    'P': 'Pigmy'
+  }
+
+  religion = {
+    "H":"Hindu",
+    "M":"Muslim",
+    "C":"Christianity",
+    "B":"Buddhism",
+    "P":"Parsi",
+    "S":"Sikhism",
+    "O":"Other"
+  }
+
+  caste ={
+    "N" : "Open",
+    "T" : "Other Cast",
+    "S" : "Other Tribes",
+    "C" : "OBC",
+    "O" : "Other"
+  }
+
+  education = {
+    "S" : "10th class",
+    "H" : "12th class",
+    "D" : "Degree",
+    "G" : "Graduate",
+    "P" : "Post Graduate",
+    "O" : "Other"
+  }
+
+  income = {
+    "1" : "Upto ₹5000",
+    "2" : "₹5001 to ₹10000",
+    "3" : "₹10001 to ₹20000",
+    "4" : "₹20001 to ₹30000",
+    "5" : "₹30001 to ₹50000",
+    "6" : "₹50001 to ₹100000",
+    "7" : "₹100001 to ₹150000",
+    "8" : "Above ₹150001",
+  }
+
+  residential_status = {
+    "O" : "Own House",
+    "H" : "Rented",
+    "D" : "House Bought on Home Loan",
+    "G" : "Ancestral House",
+    "P" : "Given to you by Company or Employer"
+  }
+
+  relation = {
+    "F" : "Father",
+    "M" : "Mother",
+    "C" : "By Court Order",
+    "O" : "Other"
+  }
+  account_operation = {
+    "S" : "Self",
+    "E" : "Either or Survivor",
+    "A" : "Anyone or Survivor",
+    "F" : "Former or Survivor",
+    "J" : "Jointly by All",
+    "O" : "Other"
+  } 
+
+  interest_payout = {
+    "M" : "Monthly",
+    "Q" : "Quarterly",
+    "H" : "Half Yearly",
+    "Y" : "Yearly",
+    "O" : "On Maturity"
+  }
+
+  work = {
+    "E" : "Employee",
+    "S" : "Self Employeed",
+    "B" : "Business",
+    "R" : "Retired",
+    "T" : "Student",
+    "H" : "House Wife",
+    "O" : "Other"
+  }
+
+  employee = {
+    "P" : "Public Company",
+    "E" : "Private Company",
+    "C" : "Centeral/State Goverment",
+    "M" : "Multi-Purpose Company",
+    "J" : "Private Job",
+    "O" : "Other",
+    " " : "None"
+  }
+
+  proprieter = {
+    "C" : "CA",
+    "D" : "Doctor",
+    "A" : "Advisor",
+    "T" : "Trader",
+    "E" : "Engineer",
+    "V" : "Advocate",
+    "S" : "Software",
+    "O" : "Other",
+    " " : "None"
+  }
+
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
   
@@ -120,9 +232,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
  
 
   save() {
-    var blob = new Blob([this.pdfByte], { type: 'application/pdf' });
-    var url = URL.createObjectURL(blob);
-    window.open(url);
+    this.generatePDF();
   }
 
 
@@ -635,6 +745,29 @@ export class FormComponent implements OnInit, AfterViewInit  {
 
     return res;
   }
+
+  public generatePDF() {
+    let data = document.getElementById('contentToConvert');
+    let opt = {
+      margin: 0.3,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas:{scale:4},
+      pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
+      jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+    };
+
+    let opt2 = {
+      margin: [16, 13, 12, 13],
+      pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
+      jsPDF: { unit: 'mm', format: 'A4', orientation: 'portrait' }
+    }
+
+
+    html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
+
+  }
+
+  
 
 
 }

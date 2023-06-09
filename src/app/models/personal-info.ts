@@ -31,16 +31,18 @@ export class PersonalInfo {
     EMAIL_ID: string = '';
     MOBILE_NUMBER: string = '';
 
-    WORK: string = 'E';
+    WORK: "E"|"S"|"B"|"R"|"T"|"H"|"O" = 'E';
     ESTABLISHMENT: string = ' ';
-    RELIGION: string = 'H';
-    CAST: string = 'N';
 
-    MARITAL_STATUS: string = 'M'
+    RELIGION:"H"|"M"|"C"|"B"|"P"|"S"|"O" = 'H';
+
+    CAST: "N"|"T"|"S"|"C"|"O" = 'N';
+
+    MARITAL_STATUS: "M"|"U" = 'M'
 
     FAMILY_COUNT!: number;
 
-    EDUCATION: string = 'S';
+    EDUCATION: "S"|"H"|"D"|"G"|"P"|"O" = 'S';
 
     IS_INSURED: boolean = false;
 
@@ -54,7 +56,8 @@ export class PersonalInfo {
     BLOOD_TYPE: string = '';
     BLOOD_TYPE_SIGN?: string;
 
-    EMPLOYMENT_DETAIL: string = ' ';
+    EMPLOYMENT_DETAIL: "P"|"E"|"C"|"M"|"J"|"O"|" " = ' ';
+
     EMPLOYMENT_COMPANY:string = '';
     EMPLOYMENT_DESIGNATION: string = '';
 

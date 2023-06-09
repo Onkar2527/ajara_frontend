@@ -16,7 +16,7 @@ export class TermDeposite {
     TANURE_YEARS ? :number;
     TANURE_MONTHS ? :number;
     TANURE_DAYS ? :number;
-    INTEREST_PAYOUT:string='M';
+    INTEREST_PAYOUT:"M"|"Q"|"H"|"Y"|"O"='M';
     MODE_OF_INTEREST_PAYOUT:string = 'S';
     AUTO_RENEWAL:boolean = false;
 

@@ -1,10 +1,13 @@
-import { Component, Input, OnInit,TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 import { ImageData } from '../../models/image-data';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { Documents } from 'src/app/models/documents';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { BasicInfo } from 'src/app/models/basicInfo';
 
 @Component({
   selector: 'app-web-cam',
@@ -12,24 +15,72 @@ import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
   styleUrls: ['./web-cam.component.css']
 })
 export class WebCamComponent implements OnInit {
-  
+
   @ViewChild('webCamDrawerTemp', { static: false }) webCamDrawerTemp?: TemplateRef<{
     $implicit: {};
     drawerRef: NzDrawerRef<any>;
   }>;
 
-  
+  @ViewChild('documentAddTpl', { static: false }) documentAddTpl?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('documentShowTpl', { static: false }) documentShowTpl?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzDrawerRef<any>;
+  }>;
+
+  @ViewChild('DocumentFooter', { static: false }) DocumentFooter?: TemplateRef<{}>;
+
+  @ViewChild('DocumentHeader', { static: false }) DocumentHeader?: TemplateRef<{}>;
+
+  @ViewChild('SendToRefillFooter', { static: false }) SendToRefillFooter?: TemplateRef<{}>;
+
+
+  fileList1: NzUploadFile[] = []
   showCamera: boolean = false;
   showImage: boolean = false;
   ApplicantData: ImageData[] = [];
   ImageData: ImageData = new ImageData();
-  @Input() APPLICANT_ID!:number;
+  @Input() APPLICANT_ID!: number;
+  @Input() basicInfo!: BasicInfo;
+  ROLE_ID!: number;
   constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
-  getApplicant(){
+
+
+  public ngOnInit(): void {
+
+    let key = sessionStorage.getItem('lk0oh6fdb4567');
+
+    this.api.getUser(key).subscribe({
+      next: (res) => {
+        if (res['code'] && res['data']) {
+          console.log("res['data']", res['data']);
+          let data = this.api.decryptData(res);
+          this.ROLE_ID = data.ROLE_ID;
+        }
+      },
+      error: () => {
+
+      }
+    })
+
+    if (this.APPLICANT_ID) {
+      this.getApplicant();
+    }
+
+    WebcamUtil.getAvailableVideoInputs()
+      .then((mediaDevices: MediaDeviceInfo[]) => {
+        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
+      });
+  }
+
+  getApplicant() {
     this.api.getAllApplicantPhoto(this.APPLICANT_ID).subscribe({
-      next:(res)=>{
-        if(res['code']==200){
+      next: (res) => {
+        if (res['code'] == 200) {
           this.ApplicantData = res['data'];
         }
       }
@@ -61,13 +112,13 @@ export class WebCamComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       console.log('Drawer(Template) close');
-    
+
     });
 
   }
-  drawerReferance:any
+  drawerReferance: any
 
- 
+
   reCapture() {
     this.showCamera = true;
     this.ImageData.IMAGE_DATA = ''
@@ -91,16 +142,6 @@ export class WebCamComponent implements OnInit {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
-  public ngOnInit(): void {
-    if(this.APPLICANT_ID){
-      this.getApplicant();
-    }
-
-    WebcamUtil.getAvailableVideoInputs()
-      .then((mediaDevices: MediaDeviceInfo[]) => {
-        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
-      });
-  }
 
   public triggerSnapshot(): void {
     this.trigger.next();
@@ -149,5 +190,213 @@ export class WebCamComponent implements OnInit {
       }
     });
   }
+
+  DocumentTableData: Documents[] = []
+  loadDocumentTable: boolean = false;
+
+  drawerReferanceDoc:any;
+  openDocuments(applicant: ImageData) {
+    this.ApplicantDetails = applicant;
+
+    this.getDocument(applicant);
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Create Documents",
+      nzContent: this.documentAddTpl,
+      nzWidth: 1095,
+      nzFooter: this.SendToRefillFooter
+    });
+
+    this.drawerReferanceDoc = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.ApplicantDetails = new ImageData();
+
+    });
+  }
+
+  refillVisisble: boolean = false;
+
+  showRefillButton() {
+    this.refillVisisble = false;
+    if (this.ROLE_ID == 2 || this.ROLE_ID == 3) {
+      for (let document of this.DocumentTableData) {
+        if (!document.IS_APPROVED_CHECKER) {
+          this.refillVisisble = true;
+          break;
+        }
+      }
+    }
+
+    if (this.ROLE_ID == 3) {
+      for (let document of this.DocumentTableData) {
+        if (!document.IS_APPROVED_VERIFIER) {
+          this.refillVisisble = true;
+          break;
+        }
+      }
+    }
+  }
+
+  getDocument(applicant: ImageData) {
+    this.loadDocumentTable = true
+    this.api.getDocument(applicant.APPLICANT_ID, applicant.APPLICANT_NO).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.DocumentTableData = res['data'];
+          this.showRefillButton();
+          this.loadDocumentTable = false;
+        }
+
+        else {
+          this.loadDocumentTable = false;
+        }
+      },
+      error: () => {
+        this.loadDocumentTable = false;
+      }
+    })
+  }
+
+  ApplicantDetails: ImageData = new ImageData();
+  SingleDocument: Documents = new Documents();
+
+  createDocument() {
+    this.SingleDocument.APPLICANT_ID = this.ApplicantDetails.APPLICANT_ID;
+    this.SingleDocument.APPLICANT_NO = this.ApplicantDetails.APPLICANT_NO;
+
+    this.api.createDocument(this.SingleDocument).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.SingleDocument = new Documents();
+          this.getDocument(this.ApplicantDetails);
+        }
+        else {
+          this.message.error("Failed to create document", '');
+
+        }
+
+      },
+      error: () => {
+        this.message.error("Failed to create document", '');
+      }
+    })
+
+  }
+
+  handleChange(event: any, data: Documents) {
+    console.log("Files", event.target.files[0]);
+    data.FILE_TYPE = event.target.files[0].type;
+
+    let reader = new FileReader();
+
+    reader.onloadend = () => {
+      console.log(reader.result);
+
+      data.IMAGE_DATA = reader.result;
+
+      this.api.updateDocument(data).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            this.message.success("File uploaded Successfully", '');
+          }
+          else {
+            this.message.error("Failed to upload File", '');
+          }
+        },
+        error: () => {
+          this.message.error("Failed to upload File", '');
+        }
+      })
+
+    };
+    reader.readAsDataURL(event.target.files[0]);
+
+  }
+
+  FileSrc = ''
+  file_type: string = '';
+  current_Doc: Documents = new Documents();
+
+  ViewDocument(data: Documents) {
+    console.log(data.IMAGE_DATA);
+    this.FileSrc = data.IMAGE_DATA;
+    this.file_type = data.FILE_TYPE;
+    this.current_Doc = data;
+
+    let footer;
+    let header;
+
+    if (this.ROLE_ID == 1) {
+      footer = ''
+      header = ''
+    }
+    else {
+      footer = this.DocumentFooter;
+      header = this.DocumentHeader;
+    }
+
+    const drawerRef = this.drawerService.create({
+      nzTitle: "Document",
+      nzContent: this.documentShowTpl,
+      nzWidth: 1095,
+      nzFooter: footer,
+      nzExtra: header
+    });
+
+    this.drawerReferance = drawerRef;
+
+    drawerRef.afterOpen.subscribe(() => {
+      console.log('Drawer(Template) open');
+
+    });
+
+    drawerRef.afterClose.subscribe(() => {
+      console.log('Drawer(Template) close');
+      this.FileSrc = '';
+      this.file_type = '';
+      this.current_Doc = new Documents();
+    });
+
+  }
+
+  Save() {
+    this.api.updateSingleDocument(this.current_Doc).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.drawerReferance.close();
+          this.getDocument(this.ApplicantDetails);
+        }
+      }
+    })
+  }
+
+  SendToRefill() {
+
+    this.basicInfo.STATUS = 'D';
+    if (this.basicInfo.ID) {
+      this.api.updateBasic(this.basicInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.message.success("Sent to refill", '');
+            this.drawerReferanceDoc.close();
+          }
+          else {
+            this.message.error('Failed to Sent to refill', '');
+          }
+        },
+        error: (err) => {
+          this.message.error("Internal Server Error!", err);
+        },
+        complete: () => {
+        }
+      })
+    }
+  }
+
 
 }

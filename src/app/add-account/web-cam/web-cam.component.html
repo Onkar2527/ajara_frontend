@@ -1,94 +1,16 @@
-<!-- <div nz-row>
-    <div nz-col nzSpan="24">
-        <nz-list>
-          
-            <nz-list-item>
-                <ng-container>
-                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                        nzDescription="Lukman Zakir Sayyad">
-
-                    </nz-list-item-meta>
-
-                    <ul nz-list-item-actions>
-                        <nz-list-item-action><a (click)="takePicture()"><span nz-icon nzType="camera" nzTheme="fill"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                    </ul>
-                </ng-container>
-            </nz-list-item>
-
-            
-            <nz-list-item>
-                <ng-container>
-                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
-                        <nz-list-item-meta-title>
-                            <a href="https://ng.ant.design"></a>
-                        </nz-list-item-meta-title>
-                    </nz-list-item-meta>
-
-                    <ul nz-list-item-actions>
-                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                    </ul>
-                </ng-container>
-            </nz-list-item>
-
-            
-            <nz-list-item>
-                <ng-container>
-                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
-                        <nz-list-item-meta-title>
-                            <a href="https://ng.ant.design"></a>
-                        </nz-list-item-meta-title>
-                    </nz-list-item-meta>
-
-                    <ul nz-list-item-actions>
-                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                    </ul>
-                </ng-container>
-            </nz-list-item>
-
-          
-            <nz-list-item>
-                <ng-container>
-                    <nz-list-item-meta nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
-                        <nz-list-item-meta-title>
-                            <a href="https://ng.ant.design"></a>
-                        </nz-list-item-meta-title>
-                    </nz-list-item-meta>
-
-                    <ul nz-list-item-actions>
-                        <nz-list-item-action><a><span nz-icon nzType="camera" nzTheme="fill"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
-                    </ul>
-                </ng-container>
-            </nz-list-item>
-        </nz-list>
-    </div>
-
-</div> -->
-
 <div nz-row>
     <div nz-col nzSpan="12">
         <nz-list>
             <nz-list-item *ngFor="let applicant of ApplicantData">
                 <ng-container>
                     <nz-list-item-meta [nzAvatar]="applicant.IMAGE_DATA"
-                    [nzDescription]="applicant.FIRST_NAME+' '+applicant.MIDDLE_NAME+ ' ' +applicant.LAST_NAME">
+                        [nzDescription]="applicant.FIRST_NAME+' '+applicant.MIDDLE_NAME+ ' ' +applicant.LAST_NAME">
                     </nz-list-item-meta>
                     <ul nz-list-item-actions>
                         <nz-list-item-action><a (click)="takePicture(applicant)"><span nz-icon nzType="camera"
                                     nzTheme="fill" style="font-size: large;"></span></a></nz-list-item-action>
-                        <nz-list-item-action><a><span nz-icon nzType="upload" nzTheme="outline"
-                                    style="font-size: large;"></span></a></nz-list-item-action>
+                        <nz-list-item-action><a (click)="openDocuments(applicant)"><span nz-icon nzType="upload"
+                                    nzTheme="outline" style="font-size: large;"></span></a></nz-list-item-action>
                     </ul>
                 </ng-container>
             </nz-list-item>
@@ -98,37 +20,213 @@
 
 <ng-template #webCamDrawerTemp let-drawerRef="drawerRef">
 
-        <div class="cam-card" *ngIf="showCamera && !ImageData.IMAGE_DATA">
+    <div class="cam-card" *ngIf="showCamera && !ImageData.IMAGE_DATA">
 
-            <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
-                [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
-                [videoOptions]="videoOptions" [imageQuality]="4" (cameraSwitched)="cameraWasSwitched($event)"
-                (initError)="handleInitError($event)"></webcam>
+        <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+            [imageQuality]="4" (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
+        </webcam>
 
-            <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
-                <div nz-col nzSpan="5">
-                    <button nz-button nzType="primary" (click)="triggerSnapshot()">Take a picture</button>
-                </div>
-                <div nz-col nzSpan="5">
-                    <button nz-button nzType="primary" (click)="showNextWebcam(true);">Switch Camera</button>
-                </div>
-                <div nz-col nzSpan="14" style="text-align: right;">
-                    <button nz-button nzType="default" (click)="drawerReferance.close()">Close</button>
-                </div>
+        <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
+            <div nz-col nzSpan="5">
+                <button nz-button nzType="primary" (click)="triggerSnapshot()">Take a picture</button>
+            </div>
+            <div nz-col nzSpan="5">
+                <button nz-button nzType="primary" (click)="showNextWebcam(true);">Switch Camera</button>
+            </div>
+            <div nz-col nzSpan="14" style="text-align: right;">
+                <button nz-button nzType="default" (click)="drawerReferance.close()">Close</button>
             </div>
         </div>
+    </div>
 
-        <div class="cam-card" *ngIf="showImage && ImageData.IMAGE_DATA">
-            <img [src]="ImageData.IMAGE_DATA" />
-            <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
-                <div nz-col nzSpan="15"></div>
-                <div nz-col nzSpan="6">
-                    <button nz-button nzType="primary" (click)="reCapture()">Re-Capture Image</button>
-                </div>
-                <div nz-col nzSpan="3" style="text-align:right">
-                    <button nz-button nzType="primary" (click)="save()">Save</button>
-                </div>
+    <div class="cam-card" *ngIf="showImage && ImageData.IMAGE_DATA">
+        <img [src]="ImageData.IMAGE_DATA" />
+        <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
+            <div nz-col nzSpan="15"></div>
+            <div nz-col nzSpan="6">
+                <button nz-button nzType="primary" (click)="reCapture()">Re-Capture Image</button>
+            </div>
+            <div nz-col nzSpan="3" style="text-align:right">
+                <button nz-button nzType="primary" (click)="save()">Save</button>
             </div>
         </div>
+    </div>
 
+</ng-template>
+
+<ng-template #documentAddTpl let-drawerRef="drawerRef">
+    <div nz-row *ngIf="ROLE_ID == 1">
+        <div nz-col nzSpan="6">
+
+            <nz-form-item>
+                <!-- <nz-form-label [nzNoColon]="true">Document Name</nz-form-label> -->
+                <nz-form-control>
+                    <input nz-input name="document" [(ngModel)]="SingleDocument.DOCUMENT_NAME"
+                        placeholder="Enter the name of new Document" />
+                </nz-form-control>
+            </nz-form-item>
+
+        </div>
+        <div nz-col nzSpan="1"></div>
+        <div nz-col nzSpan="6">
+            <nz-form-item>
+                <!-- <nz-form-label [nzNoColon]="true">Document Name</nz-form-label> -->
+                <nz-form-control>
+                    <input nz-input name="document" [(ngModel)]="SingleDocument.MAKER_REMARK"
+                        placeholder="Enter Remark or description for document" />
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="1"></div>
+
+        <div nz-col nzSpan="6">
+            <button nz-button nzType="primary" (click)="createDocument()">
+                <span nz-icon nzType="plus-circle" nzTheme="outline" style="font-size: large;"></span>
+                New Document
+            </button>
+        </div>
+
+        <div nz-col nzSpan="4">
+
+        </div>
+
+    </div>
+
+    <nz-table [nzData]="DocumentTableData" style="margin-top: 20px;" nzBordered #table nzShowSizeChanger
+        [nzFrontPagination]="false" [nzLoading]="loadDocumentTable">
+
+        <thead nzSingleSort>
+            <tr>
+                <th>Upload Document</th>
+                <th>View</th>
+                <th>Document name</th>
+
+                <th>Is Approved by Chacker</th>
+                <th>Is Approved by Verifier</th>
+
+                <th>Remark (Maker)</th>
+                <th>Remark (Checker)</th>
+                <th>Remark (Verifier)</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let document of table.data">
+                <td>
+                    <button nz-button nzType="default">
+                        <span nz-icon nzType="upload" nzTheme="outline" style="font-size: large;"
+                            (click)="fileInput.click()"></span>
+                    </button>
+                    <input #fileInput type="file" (change)="handleChange($event,document)"
+                        (click)="fileInput.value = ''" value="" style="display:none;" accept=".pdf,.png,.jpeg,.jpg" />
+
+                </td>
+                <td>
+                    <a (click)="ViewDocument(document)"><span nz-icon nzType="eye" nzTheme="outline"
+                            style="font-size: large;"></span></a>
+                </td>
+                <td>
+                    {{document.DOCUMENT_NAME}}
+                </td>
+
+                <td>
+                    <i nz-icon nzType="check-circle"  style="color: #00b963;"
+                        *ngIf="document.IS_APPROVED_CHECKER"></i>
+                    <i nz-icon nzType="close-circle"  style="color: #f10404;"
+                        *ngIf="!document.IS_APPROVED_CHECKER"></i>
+                </td>
+
+                <td>
+                    <i nz-icon nzType="check-circle"  style="color: #00b963;"
+                        *ngIf="document.IS_APPROVED_VERIFIER"></i>
+                    <i nz-icon nzType="close-circle" style="color: #f10404;"
+                        *ngIf="!document.IS_APPROVED_VERIFIER"></i>
+                </td>
+
+
+                <td>{{document.MAKER_REMARK}}</td>
+                <td>{{document.CHECKER_REMARK}}</td>
+                <td>{{document.VERIFIER_REMARK}}</td>
+            </tr>
+        </tbody>
+
+    </nz-table>
+
+</ng-template>
+
+<ng-template #DocumentFooter>
+    <div style="float: right">
+        <button nz-button nzType="primary" (click)="Save()" style="margin-right: 10px;">
+            <span>
+                Save
+            </span>
+        </button>
+
+    </div>
+</ng-template>
+
+<ng-template #DocumentHeader>
+
+    <div nz-row *ngIf="ROLE_ID == 3">
+        <div nz-col nzSpan="9">
+           <nz-switch [(ngModel)]="current_Doc.IS_APPROVED_VERIFIER" [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+            <ng-template #checkedTemplate>Accept</ng-template>
+            <ng-template #unCheckedTemplate>Reject</ng-template>
+        </div>
+
+        <!-- <div nz-col nzSpan="1"></div> -->
+
+        <div nz-col nzSpan="15">
+            <span>
+                <textarea nz-input [(ngModel)]="current_Doc.VERIFIER_REMARK" placeholder="Remark" rows="1"></textarea>
+            </span>
+        </div>
+    </div>
+
+
+    <div nz-row *ngIf="ROLE_ID == 2">
+        <div nz-col nzSpan="9">
+
+            <nz-switch [(ngModel)]="current_Doc.IS_APPROVED_CHECKER" [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+            <ng-template #checkedTemplate>Accept</ng-template>
+            <ng-template #unCheckedTemplate>Reject</ng-template>
+        </div>
+
+        <!-- <div nz-col nzSpan="1"></div> -->
+
+        <div nz-col nzSpan="14">
+            <span>
+                <textarea nz-input [(ngModel)]="current_Doc.CHECKER_REMARK" placeholder="Remark" rows="1"></textarea>
+            </span>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #documentShowTpl let-drawerRef="drawerRef">
+
+    <div class="cam-card" *ngIf="file_type != 'application/pdf' && file_type">
+        <img [src]="FileSrc" width="640px" height="360px" />
+    </div>
+
+    <div *ngIf="file_type == 'application/pdf'">
+        <pdf-viewer [src]="FileSrc" [render-text]="true" [original-size]="false"
+            style="width: 100%; height:400px"></pdf-viewer>
+    </div>
+
+</ng-template>
+
+<ng-template #SendToRefillFooter>
+    <div style="float: right" *ngIf="refillVisisble">
+        <button nz-button nzType="primary" (click)="SendToRefill()" style="margin-right: 10px;">
+            <span>
+                sendToRefill
+            </span>
+        </button>
+
+    </div>
 </ng-template>
