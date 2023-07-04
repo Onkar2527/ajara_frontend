@@ -31,7 +31,7 @@ import { ServicesComponent } from './add-account/services/services.component';
 import { WebCamComponent } from './add-account/web-cam/web-cam.component';
 
 // import {LoginComponent} from 'src/app/login/login.component';
-import {WebcamModule} from 'ngx-webcam';
+import { WebcamModule } from 'ngx-webcam';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 //Antd Imports
 
@@ -56,11 +56,12 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
 import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 
 
@@ -91,7 +92,7 @@ registerLocaleData(en);
     AddAccountComponent,
     MakerVerificationComponent,
     CheckerVerificationComponent,
-    VerifierVerificationComponent 
+    VerifierVerificationComponent
 
   ],
   imports: [
@@ -126,7 +127,9 @@ registerLocaleData(en);
     NzCheckboxModule,
     NzListModule,
     NzSelectModule,
-    NzUploadModule
+    NzUploadModule,
+    NzPopconfirmModule,
+    NzAvatarModule
   ],
   providers: [
 

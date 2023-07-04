@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Facilities } from 'src/app/models/facilities';
@@ -18,10 +18,12 @@ const html2pdf =  require('html2pdf.js');
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css','./nicepage.css']
+  styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit, AfterViewInit  {
   @Input() APPLICANT_ID!: number;
+
+  @Output() pdfButtonLoading:EventEmitter<boolean> = new EventEmitter<boolean>();
 
   basicInfo: BasicInfo = new BasicInfo();
   depositInfo: TermDeposite = new TermDeposite();
@@ -262,11 +264,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Something went wrong! while getting Basic Information.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! while getting Basic Information.', '');
       },
       complete: () => {
 
@@ -284,11 +286,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Deposit Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting deposite Information.', '');
       },
       complete: () => {
 
@@ -307,11 +309,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Nominee Information is not filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting nominee Information.', '');
       },
       complete: () => {
 
@@ -329,11 +331,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Information about required service is not filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! while getting service information.', '');
       },
       complete: () => {
 
@@ -353,11 +355,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Personal Information is not filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Personal Information.', '');
       },
       complete: () => {
 
@@ -376,11 +378,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Financial Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Financial Information.', '');
       },
       complete: () => {
 
@@ -399,11 +401,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Property Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Property Information.', '');
       },
       complete: () => {
 
@@ -422,11 +424,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
       },
       complete: () => {
 
@@ -445,11 +447,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Other Account Details is not Filled.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
       },
       complete: () => {
 
@@ -468,11 +470,11 @@ export class FormComponent implements OnInit, AfterViewInit  {
           }
         }
         else {
-          this.message.error('Something went wrong!', '');
+          this.message.warning('Applicant Photo is not Uploaded.', '');
         }
       },
       error: () => {
-        this.message.error('Something went wrong!', '');
+        this.message.warning('Something went wrong! While getting Applicant Photo.', '');
       },
       complete: () => {
 
@@ -485,7 +487,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let personal: Subject<any> = new Subject();
     this.api.getBasic(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
           personal.next(200);
         }
@@ -507,7 +509,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let deposit: Subject<any> = new Subject();
     this.api.getDeposite(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
           deposit.next(200);
         }
@@ -529,7 +531,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let service: Subject<any> = new Subject();
     this.api.getService(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.serviceInfo = res['data'][0];
           console.log("service info:", this.serviceInfo);
 
@@ -552,7 +554,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let nominee: Subject<any> = new Subject();
     this.api.getNominee(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.nominationInfo = res['data'][0];
           console.log("nominee info:", this.nominationInfo);
           nominee.next(200);
@@ -575,7 +577,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantPersonal: Subject<any> = new Subject();
     this.api.getAllAplicant(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantPersonal = res['data'];
           console.log("applicant personal:", this.ApplicantPersonal);
           applicantPersonal.next(200);
@@ -598,7 +600,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantFinancial: Subject<any> = new Subject();
     this.api.getAllFinancial(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantFinancial = res['data'];
           console.log("applicant financial:", this.ApplicantFinancial);
           applicantFinancial.next(200);
@@ -621,7 +623,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantProperty: Subject<any> = new Subject();
     this.api.getAllProperty(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantProperty = res['data'];
           console.log("applicant property:", this.ApplicantProperty);
           applicantProperty.next(200);
@@ -644,7 +646,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantLoanInfo: Subject<any> = new Subject();
     this.api.getAllLoanInfo(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantLoanInfo = res['data'];
           console.log("applicant property:", this.ApplicantLoanInfo);
           applicantLoanInfo.next(200);
@@ -667,7 +669,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantOtherAccount: Subject<any> = new Subject();
     this.api.getAllOtherAccount(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantOtherBank = res['data'];
           console.log("applicant property:", this.ApplicantOtherBank);
           applicantOtherAccount.next(200);
@@ -690,7 +692,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantPhoto: Subject<any> = new Subject();
     this.api.getAllApplicantPhoto(this.APPLICANT_ID).subscribe({
       next: (res) => {
-        if (res['code'] == 200) {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantPhoto = res['data'];
           applicantPhoto.next(200);
         }
@@ -746,25 +748,23 @@ export class FormComponent implements OnInit, AfterViewInit  {
     return res;
   }
 
-  public generatePDF() {
+ 
+
+  async generatePDF() {
+    
     let data = document.getElementById('contentToConvert');
     let opt = {
       margin: 0.3,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas:{scale:4,width : 1200},
+      html2canvas:{scale:4},
       pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
-      jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+      jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
     };
 
-    let opt2 = {
-      margin: [16, 13, 12, 13],
-      pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
-      jsPDF: { unit: 'mm', format: 'A4', orientation: 'portrait' }
-    }
-
-
-    html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
-
+    
+    await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
+    this.pdfButtonLoading.emit(false)
+    // console.log("pdf done",this.pdfButtonLoading);
   }
 
   

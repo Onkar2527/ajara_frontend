@@ -1,19 +1,24 @@
 <nz-layout *ngIf="route == 'tabs'">
-  <nz-header>
 
+  <nz-header>
+    <div nz-row>
+      <div nz-col nzSpan="22"></div>
+      <div nz-col nzSpan="2">
+        <a nz-popconfirm nzPopconfirmTitle="Do you want to logout?" (nzOnConfirm)="logout()">
+          <span style="color:white;font-size: 14px;font-weight: bold;">Logout</span>
+        </a>
+      </div>
+    </div>
   </nz-header>
 
   <nz-layout class="layout">
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="user-box"></div>
-      <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
-        <!-- <li nz-menu-item class="menu-item">
-          <a routerLink="proposal">
-            <span nz-icon nzType="edit"></span>
-            <span>Proposals</span>
-          </a>
-        </li> -->
+      <div class="user-box">
+        <nz-avatar nzSize="large" [nzText]="user" style="margin-left: 5px;"></nz-avatar>
+        <span class="user-name">{{userDetails.USER_NAME}}</span>
+      </div>
 
+      <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
 
         <ng-container *ngTemplateOutlet="menuTpl; context: { $implicit: sideMenu }"></ng-container>
         <ng-template #menuTpl let-menus>

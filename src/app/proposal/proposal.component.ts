@@ -308,7 +308,7 @@ export class ProposalComponent implements OnInit {
       nzTitle: "Form",
       nzFooter: this.FormFooterTemplate,
       nzContent: this.formDrawerTemp,
-      nzWidth: 1200
+      nzWidth: 1095
     });
 
     this.drawerReferance = drawerRef;
@@ -325,8 +325,17 @@ export class ProposalComponent implements OnInit {
 
   }
 
+  loadPdfButton:boolean = false;
+
   downloadPDF() {
+    this.loadPdfButton = true;
     this.formComp.save();
+  }
+
+  
+
+  pdfLoading(event:boolean){
+    this.loadPdfButton = event;
   }
 
   basicInfo: BasicInfo = new BasicInfo();

@@ -17,10 +17,17 @@ export class AppComponent implements OnInit, OnChanges {
 
   route = ''
 
-  constructor(public router: Router, private api: ApiService,private message: NzNotificationService) { }
+  constructor(public router: Router, private api: ApiService, private message: NzNotificationService) { }
 
   sideMenu = []
-
+  userDetails = {
+    BRANCH_ID: 1,
+    ID: 1,
+    NAME: "",
+    PASSWORD: "",
+    ROLE_ID: 1,
+    USER_NAME: ""
+  }
   ngOnInit(): void {
 
     if (sessionStorage.getItem("lk0oh6fdb4567") == null) {
@@ -29,7 +36,7 @@ export class AppComponent implements OnInit, OnChanges {
     }
     else {
       this.router.navigate(['/proposal']);
-      this.getSideMenu(); 
+      this.getSideMenu();
       this.route = 'tabs';
     }
   }
@@ -39,8 +46,45 @@ export class AppComponent implements OnInit, OnChanges {
   }
   login() {
     this.router.navigate(['/proposal']);
-    this.getSideMenu(); 
+    this.getSideMenu();
+    this.getUser();
     this.route = 'tabs';
+  }
+  user: string = '';
+
+
+  getUser() {
+    let user_key = sessionStorage.getItem('lk0oh6fdb4567');
+
+    if (user_key) {
+      this.api.getUser(user_key).subscribe({
+        next: (res) => {
+          if (res['code'] && res['data']) {
+            console.log("res['data']", res['data']);
+            let data = this.api.decryptData(res);
+            this.userDetails = data;
+            if (this.userDetails.ROLE_ID == 1) {
+              this.user = 'BA';
+
+            }
+            else if (this.userDetails.ROLE_ID == 2) {
+              this.user = 'BM';
+            }
+            else if (this.userDetails.ROLE_ID == 3) {
+              this.user = 'HO';
+            }
+          }
+        },
+        error: () => {
+
+        }
+      })
+    }
+  }
+
+  logout() {
+    sessionStorage.clear();
+    window.location.reload();
   }
 
   getSideMenu() {
@@ -52,15 +96,15 @@ export class AppComponent implements OnInit, OnChanges {
           let data = this.api.decryptData(res);
           this.sideMenu = data;
         }
-        else{
-          this.message.error("Internal server Error!",'')
+        else {
+          this.message.error("Internal server Error!", '')
         }
       },
-      error:()=>{
-        this.message.error("Internal server Error!",'')
+      error: () => {
+        this.message.error("Internal server Error!", '')
       }
     })
   }
 
- 
+
 }

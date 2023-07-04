@@ -14,13 +14,27 @@
     /* background: rgba(255, 255, 255, 0.2); */
     width: 100%;
     border-bottom: 1px solid #022c52;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
 
   } 
+
+  .user-name{
+    color:white;
+    font-size: 10px;
+    font-weight: bolder;
+    margin-left: 5px;
+
+  }
 
   nz-header {
     background:#001120;
     padding: 0;
     height:7%;
+    display: flex;
+    /* justify-content: right; */
+    align-items: center;
   }
 
   /* nz-content {
@@ -103,5 +117,12 @@
     border-radius: 5px !important;
   }
 
+  /* .app-header {
+    position: relative;
+    height: 64px;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  } */
 
   

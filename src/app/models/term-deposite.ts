@@ -3,7 +3,7 @@ export class TermDeposite {
     APPLICANT_ID?:number;
     ACCOUNT_TYPE?:string = 'S';
 
-    INITIAL_AMOUNT?:number;
+    INITIAL_AMOUNT!:number;
     MODE_OF_PAYMENT:string = 'C';
     TRANSFER_ACCOUNT_NO:string = '';
     CHAQUE_NO:string = '';

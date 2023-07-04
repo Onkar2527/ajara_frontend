@@ -5,6 +5,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { ApiService } from '../service/api.service';
 import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-login',
@@ -21,11 +22,11 @@ export class LoginComponent implements OnInit {
   validateForm!: UntypedFormGroup;
   USER_NAME = '';
   PASSWORD = '';
-  message: any;
+ 
   isloginSpinning: boolean = false;
   isLogedIn: boolean = false;
   
-  constructor(private fb: UntypedFormBuilder, private api: ApiService, private router: Router) { }
+  constructor(private fb: UntypedFormBuilder, private api: ApiService, private router: Router,private message : NzNotificationService) { }
 
   ngOnInit(): void {
 
@@ -58,15 +59,20 @@ export class LoginComponent implements OnInit {
             console.log("login data",this.api.decryptData(data));
             let res:any = this.api.decryptData(data);
             sessionStorage.setItem("lk0oh6fdb4567",res[0]['USER_KEY'])
-            this.logined.emit(true)
+            this.message.success("Login Successfull!",'');
+            this.logined.emit(true);
             this.isloginSpinning = false
             
           }
           else if (data == 404) {
-            
+            this.message.error("Username or Password not found!",'');
             this.isloginSpinning = false
 
           }
+
+        },
+        error:() => {
+          this.isloginSpinning = false
 
         }
 
