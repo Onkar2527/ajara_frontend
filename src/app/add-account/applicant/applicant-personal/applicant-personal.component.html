@@ -69,14 +69,92 @@
                         </div>
                     </nz-form-control>
                 </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="16">
+                    <nz-form-label [nzNoColon]="true">Mother's Full Name</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+
+                            <div nz-col nzSpan="24"><input nz-input name="MOTHERS_NAME"
+                                    [(ngModel)]="personalInfo.MOTHERS_NAME" />
+                            </div>
+                            
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="1"></nz-form-item>
+
+
+                <nz-form-item nz-col nzSpan="7">
+                    <nz-form-label [nzNoColon]="true">Mother's Maiden Name</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+
+                            <div nz-col nzSpan="24"><input nz-input name="MOTHERS_MAIDEN_NAME"
+                                    [(ngModel)]="personalInfo.MOTHERS_MAIDEN_NAME" />
+                            </div>
+                            
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="8">
+                    <nz-form-label [nzNoColon]="true">Date of Birth</nz-form-label>
+                    <nz-form-control>
+                        <nz-date-picker [(ngModel)]="personalInfo.DATE_OF_BIRTH"
+                            [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="8">
+                    <nz-form-label [nzNoColon]="true">Nationality</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+
+                            <div nz-col nzSpan="24"><input nz-input name="NATIONALITY"
+                                    [(ngModel)]="personalInfo.NATIONALITY" />
+                            </div>
+                            
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="1"></nz-form-item>
+
+                <nz-form-item nz-col nzSpan="7">
+
+                    <nz-form-label [nzNoColon]="true">Gender</nz-form-label>
+
+                    <nz-form-control>
+
+                        <nz-radio-group [(ngModel)]="personalInfo.GENDER">
+
+                            <label nz-radio nzValue="M">Male</label>
+                            <label nz-radio nzValue="F">Female</label>
+                            <label nz-radio nzValue="O">Other</label>
+                            
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+
             </div>
         </div>
 
-        <!-- current address -->
+        
 
-        <div class="box">
+        <div nz-row>
+            <!-- current address -->
+            <div nz-col nzSpan="11" class="box">
             <nz-divider nzText="Current Address"></nz-divider>
             <div nz-row class="content-box">
+
+                <div>
+                    <nz-form-label [nzSpan]="24"style="font-weight: bold;">
+                    </nz-form-label>
+                    <span style="position: absolute;left: 299px;"> </span>
+
+                </div>
 
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Address</nz-form-label>
@@ -140,77 +218,91 @@
                 </nz-form-item>
 
             </div>
-        </div>
+            </div>
 
-        <!-- Permanent Address -->
-        <div class="box">
-            <nz-divider nzText="Permanent Address"></nz-divider>
-            <div nz-row class="content-box">
+            <div nz-col nzSpan="2"></div>
 
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Address</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="adressp" [(ngModel)]="personalInfo.PERMANENT_ADDRESS"
-                            placeholder="Enter Address" />
-                    </nz-form-control>
-                </nz-form-item>
+            <!-- Permanent Address -->
+            <div nz-col nzSpan="11" class="box">
 
-                <nz-form-item nz-col nzSpan="8">
-                    <nz-form-label [nzNoColon]="true">City</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="cityp" [(ngModel)]="personalInfo.PERMANENT_CITY"
-                            placeholder="Enter City" />
-                    </nz-form-control>
-                </nz-form-item>
+                <nz-divider nzText="Permanent Address"></nz-divider>
+                <div nz-row class="content-box">
 
-                <div nz-col nzSpan="1"></div>
-
-                <nz-form-item nz-col nzSpan="7">
-                    <nz-form-label [nzNoColon]="true">Taluka</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="talukap" [(ngModel)]="personalInfo.PERMANENT_TALUKA"
-                            placeholder="Enter Taluka" />
-                    </nz-form-control>
-                </nz-form-item>
-
-                <div nz-col nzSpan="1"></div>
-
-                <nz-form-item nz-col nzSpan="7">
-                    <nz-form-label [nzNoColon]="true">District</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="distp" [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
-                            placeholder="Enter District" />
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Nearest Landmark</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="landmarkp" [(ngModel)]="personalInfo.PERMANENT_LANDMARK"
-                            placeholder="Enter Nearest Landmark" />
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="12">
-                    <nz-form-label [nzNoColon]="true">State</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="statep" [(ngModel)]="personalInfo.PERMANENT_STATE"
-                            placeholder="Enter State" />
-                    </nz-form-control>
-                </nz-form-item>
-
-                <div nz-col nzSpan="1"></div>
-
-                <nz-form-item nz-col nzSpan="11">
-                    <nz-form-label [nzNoColon]="true">Pincode</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
-                            placeholder="Enter Pincode" />
-                    </nz-form-control>
-                </nz-form-item>
-
+                    <div>
+                        <nz-form-label [nzSpan]="24"style="font-weight: bold;">
+                        </nz-form-label>
+                        <span style="position: absolute;left: 299px;"> <a (click)="copyClick()"><i nz-icon nzType="copy"
+                                    nzTheme="outline"></i>Copy Address</a> </span>
+    
+                    </div>
+    
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-label [nzNoColon]="true">Address</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="adressp" [(ngModel)]="personalInfo.PERMANENT_ADDRESS"
+                                placeholder="Enter Address" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <nz-form-item nz-col nzSpan="8">
+                        <nz-form-label [nzNoColon]="true">City</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="cityp" [(ngModel)]="personalInfo.PERMANENT_CITY"
+                                placeholder="Enter City" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <div nz-col nzSpan="1"></div>
+    
+                    <nz-form-item nz-col nzSpan="7">
+                        <nz-form-label [nzNoColon]="true">Taluka</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="talukap" [(ngModel)]="personalInfo.PERMANENT_TALUKA"
+                                placeholder="Enter Taluka" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <div nz-col nzSpan="1"></div>
+    
+                    <nz-form-item nz-col nzSpan="7">
+                        <nz-form-label [nzNoColon]="true">District</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="distp" [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
+                                placeholder="Enter District" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-label [nzNoColon]="true">Nearest Landmark</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="landmarkp" [(ngModel)]="personalInfo.PERMANENT_LANDMARK"
+                                placeholder="Enter Nearest Landmark" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <nz-form-item nz-col nzSpan="12">
+                        <nz-form-label [nzNoColon]="true">State</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="statep" [(ngModel)]="personalInfo.PERMANENT_STATE"
+                                placeholder="Enter State" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                    <div nz-col nzSpan="1"></div>
+    
+                    <nz-form-item nz-col nzSpan="11">
+                        <nz-form-label [nzNoColon]="true">Pincode</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
+                                placeholder="Enter Pincode" />
+                        </nz-form-control>
+                    </nz-form-item>
+    
+                </div>
             </div>
         </div>
+
+        
 
         <!-- Contacts -->
         <div class="box">

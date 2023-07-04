@@ -66,4 +66,11 @@ export class PersonalInfo {
 
     BUSINESS_DETAIL: string = ' ';
 
+    MOTHERS_NAME: string = '';
+    PAN_NO: string = '';
+    MOTHERS_MAIDEN_NAME: string = '';
+    NATIONALITY: string = '';
+    DATE_OF_BIRTH: string = '';
+    GENDER: "M"|"F"|"O" = 'M';
+
 }

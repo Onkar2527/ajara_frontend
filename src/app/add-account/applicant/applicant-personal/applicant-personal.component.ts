@@ -20,6 +20,17 @@ export class ApplicantPersonalComponent implements OnInit {
    
   }
 
+  copyClick() {
+    this.personalInfo.PERMANENT_ADDRESS = this.personalInfo.CURRENT_ADDRESS;
+    this.personalInfo.PERMANENT_CITY = this.personalInfo.CURRENT_CITY;
+    this.personalInfo.PERMANENT_TALUKA = this.personalInfo.CURRENT_TALUKA;
+    this.personalInfo.PERMANENT_DISTRICT = this.personalInfo.CURRENT_DISTRICT;
+    this.personalInfo.PERMANENT_LANDMARK = this.personalInfo.CURRENT_LANDMARK;
+    this.personalInfo.PERMANENT_STATE = this.personalInfo.CURRENT_STATE;
+    this.personalInfo.PERMANENT_PINCODE = this.personalInfo.CURRENT_PINCODE;
+
+  }
+
   save() {
     let personal: Subject<any> = new Subject();
 
