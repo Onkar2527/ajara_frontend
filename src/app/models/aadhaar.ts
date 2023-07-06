@@ -49,8 +49,13 @@ class Aadhaar_Data {
     constructor(private api: ApiService, private message: NzNotificationService) { }
     isok = false
     showOtp = false;
+
     showAadhaar: boolean = false;
     showPan: boolean = false;
+    showDrivingLicense : boolean = false
+    showVoterId :  boolean = false
+    showPassport : boolean = false
+    
     meta: AadhaarMeta = new AadhaarMeta();
     data: Aadhaar_Data = new Aadhaar_Data();
     meta1: PanMeta = new PanMeta();

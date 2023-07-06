@@ -115,6 +115,85 @@
                     </nz-form-control>
                 </nz-form-item>
 
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan"
+                                    placeholder="Enter Driving License Number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify License</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Driving License verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Voter ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify
+                                    Voter ID</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Voter ID verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Passport ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" 
+                                    >Verify
+                                    Passport</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Passport verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+
+
             </div>
 
 
@@ -190,6 +269,83 @@
                         <div nz-row *ngIf="aadhaarVerify2.showPan" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Pan verified successfully {{aadhaarVerify2.meta1.full_name}}
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan"
+                                    placeholder="Enter Driving License Number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify License</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Driving License verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Voter ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify
+                                    Voter ID</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Voter ID verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Passport ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" 
+                                    >Verify
+                                    Passport</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Passport verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
                             </div>
                         </div>
                     </nz-form-control>
@@ -276,6 +432,83 @@
                     </nz-form-control>
                 </nz-form-item>
 
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan"
+                                    placeholder="Enter Driving License Number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify License</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Driving License verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Voter ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify
+                                    Voter ID</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Voter ID verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Passport ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" 
+                                    >Verify
+                                    Passport</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Passport verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
             </div>
 
 
@@ -352,6 +585,83 @@
                         <div nz-row *ngIf="aadhaarVerify4.showPan" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Pan verified successfully {{aadhaarVerify3.meta1.full_name}}
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan"
+                                    placeholder="Enter Driving License Number" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify License</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Driving License verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Voter ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
+                                    >Verify
+                                    Voter ID</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Voter ID verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
+                            </div>
+                        </div>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
+                    <nz-form-control>
+                        <div nz-row>
+                            <div nz-col [nzSpan]="17">
+                                <input nz-input name="pan" 
+                                    placeholder="Enter Passport ID" />
+                            </div>
+                            <div nz-col nzSpan="1">
+
+                            </div>
+                            <div nz-col [nzSpan]="5">
+                                <button nz-button nzType="primary" 
+                                    >Verify
+                                    Passport</button>
+                            </div>
+                        </div>
+                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                            <div nz-col nzSpan="24">
+                                Passport verified successfully 
+                                <!-- {{aadhaarVerify.meta1.full_name}} -->
                             </div>
                         </div>
                     </nz-form-control>
