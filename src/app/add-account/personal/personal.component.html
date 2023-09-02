@@ -356,322 +356,6 @@
 
         </div>
 
-
-        <!-- Kyc details Applicant 3 -->
-        <div class="box" *ngIf="basicInfo.NO_OF_APPLICANT >= 3 && basicInfo.NO_OF_APPLICANT <= 4">
-            <nz-divider nzText="KYC Details Applicant 3"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
-                    <nz-form-control nzErrorTip="The input is not Aadhaar number!">
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify3.meta.id_number"
-                                    placeholder="Enter Aadhaar number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" (click)="getOtp(3)" [nzLoading]="loadOtpButton3">Get
-                                    OTP</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify3.showAadhaar" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Aadhaar verified successfully
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24" *ngIf="aadhaarVerify3.showOtp">
-                    <nz-form-label [nzNoColon]="true">OTP (For Aadhaar Card Verification)</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="otp" [(ngModel)]="aadhaarVerify3.meta.otp"
-                                    placeholder="Enter OTP" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" (click)="getAadhaarData(3)"
-                                    [nzLoading]="loadAadhaarButton3">Verify OTP</button>
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-
-
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">PAN number</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify3.meta1.id_number"
-                                    placeholder="Enter Pan Number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button [nzLoading]="loadPanButton3" nzType="primary"
-                                    (click)="verifyPan(3)">Verify
-                                    PAN</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify3.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Pan verified successfully {{aadhaarVerify3.meta1.full_name}}
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan"
-                                    placeholder="Enter Driving License Number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
-                                    >Verify License</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Driving License verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" 
-                                    placeholder="Enter Voter ID" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
-                                    >Verify
-                                    Voter ID</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Voter ID verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" 
-                                    placeholder="Enter Passport ID" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" 
-                                    >Verify
-                                    Passport</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Passport verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- Kyc details Applicant 4 -->
-        <div class="box" *ngIf="basicInfo.NO_OF_APPLICANT >= 4 && basicInfo.NO_OF_APPLICANT <= 4">
-            <nz-divider nzText="KYC Details Applicant 4"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
-                    <nz-form-control nzErrorTip="The input is not Aadhaar number!">
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify4.meta.id_number"
-                                    placeholder="Enter Aadhaar number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" (click)="getOtp(4)" [nzLoading]="loadOtpButton4">Get
-                                    OTP</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify4.showAadhaar" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Aadhaar verified successfully
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24" *ngIf="aadhaarVerify4.showOtp">
-                    <nz-form-label [nzNoColon]="true">OTP (For Aadhaar Card Verification)</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="otp" [(ngModel)]="aadhaarVerify4.meta.otp"
-                                    placeholder="Enter OTP" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" (click)="getAadhaarData(4)"
-                                    [nzLoading]="loadAadhaarButton4">Verify OTP</button>
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-
-
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">PAN number</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify4.meta1.id_number"
-                                    placeholder="Enter Pan Number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton4"
-                                    (click)="verifyPan(4)">Verify
-                                    PAN</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify4.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Pan verified successfully {{aadhaarVerify3.meta1.full_name}}
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Driving License number</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan"
-                                    placeholder="Enter Driving License Number" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
-                                    >Verify License</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Driving License verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Voter ID</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" 
-                                    placeholder="Enter Voter ID" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
-                                    >Verify
-                                    Voter ID</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Voter ID verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Passport</nz-form-label>
-                    <nz-form-control>
-                        <div nz-row>
-                            <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" 
-                                    placeholder="Enter Passport ID" />
-                            </div>
-                            <div nz-col nzSpan="1">
-
-                            </div>
-                            <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" 
-                                    >Verify
-                                    Passport</button>
-                            </div>
-                        </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
-                            <div nz-col nzSpan="24">
-                                Passport verified successfully 
-                                <!-- {{aadhaarVerify.meta1.full_name}} -->
-                            </div>
-                        </div>
-                    </nz-form-control>
-                </nz-form-item>
-
-            </div>
-
-
-        </div>
-
     </div>
 
     <!-- space -->
@@ -760,93 +444,10 @@
             </div>
         </div>
 
-
-        <!-- show aadhaar applicant 3  -->
-        <div class="box" *ngIf="aadhaarVerify3.showAadhaar">
-            <nz-divider nzText="KYC Details Applicant 3"></nz-divider>
-            <div class="content-box ">
-                <div nz-row>
-                    <div nz-col></div>
-                    <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 20px;">
-                        <b>{{aadhaarVerify3.data.aadhaar_no}}</b>
-                    </div>
-                    <div nz-col nzSpan="18" style="font-size: 14px;">
-                        <div nz-row>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Name :
-                                <b>{{aadhaarVerify3.data.full_name}}</b>
-                            </div>
-                            <div nz-col nzSpan="18" style="margin-bottom:10px;">DOB :
-                                <b>{{aadhaarVerify3.data.dob}}</b>
-                            </div>
-                            <div nz-col nzSpan="6" style="margin-bottom:10px;">Age :
-                                <b>{{aadhaarVerify3.data.age}}</b>
-                            </div>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Gender :
-                                <b>{{aadhaarVerify3.data.gender}}</b>
-                            </div>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Address :
-                                <b>{{aadhaarVerify3.data.address.vtc}}, {{aadhaarVerify3.data.address.street}},
-                                    {{aadhaarVerify3.data.address.loc}}, {{aadhaarVerify3.data.address.dist}},
-                                    {{aadhaarVerify3.data.address.state}}, {{aadhaarVerify3.data.address.country}}</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div nz-col nzSpan="6" style="text-align:center">
-                        <img width="100px" height="100px" [src]="aadhaarVerify3.data.profile_image">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
-
-        <!-- show aadhaar applicant 4  -->
-        <div class="box" *ngIf="aadhaarVerify4.showAadhaar">
-            <nz-divider nzText="KYC Details Applicant 4"></nz-divider>
-            <div class="content-box ">
-                <div nz-row>
-                    <div nz-col></div>
-                    <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 20px;">
-                        <b>{{aadhaarVerify4.data.aadhaar_no}}</b>
-                    </div>
-                    <div nz-col nzSpan="18" style="font-size: 14px;">
-                        <div nz-row>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Name :
-                                <b>{{aadhaarVerify4.data.full_name}}</b>
-                            </div>
-                            <div nz-col nzSpan="18" style="margin-bottom:10px;">DOB :
-                                <b>{{aadhaarVerify4.data.dob}}</b>
-                            </div>
-                            <div nz-col nzSpan="6" style="margin-bottom:10px;">Age :
-                                <b>{{aadhaarVerify4.data.age}}</b>
-                            </div>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Gender :
-                                <b>{{aadhaarVerify4.data.gender}}</b>
-                            </div>
-                            <div nz-col nzSpan="24" style="margin-bottom:10px;">Address :
-                                <b>{{aadhaarVerify4.data.address.vtc}}, {{aadhaarVerify4.data.address.street}},
-                                    {{aadhaarVerify4.data.address.loc}}, {{aadhaarVerify4.data.address.dist}},
-                                    {{aadhaarVerify4.data.address.state}}, {{aadhaarVerify4.data.address.country}}</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div nz-col nzSpan="6" style="text-align:center">
-                        <img width="100px" height="100px" [src]="aadhaarVerify4.data.profile_image">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
         <!-- Applicants details -->
         <div class="box">
             <nz-divider nzText="Applicant Information"></nz-divider>
+            
             <div nz-row class="content-box">
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Number of Applicant</nz-form-label>
@@ -854,17 +455,15 @@
                         <nz-radio-group [(ngModel)]="basicInfo.NO_OF_APPLICANT">
                             <label nz-radio nzValue="1">One (1)</label>
                             <label nz-radio nzValue="2">Two (2)</label>
-                            <label nz-radio nzValue="3">Three (3)</label>
-                            <label nz-radio nzValue="4">Four (4)</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
 
 
-                <!-- Applicant 1 -->
+               
                 <div nz-col nzSpan="24">
                     <div nz-row>
-
+                        <!-- Applicant 1 -->
                         <nz-form-item nz-col nzSpan="24"
                             *ngIf="basicInfo.NO_OF_APPLICANT >= 1 && basicInfo.NO_OF_APPLICANT <= 4">
                             <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label>
@@ -906,47 +505,9 @@
                             </nz-form-control>
                         </nz-form-item>
 
-                        <!-- Applicant 3 -->
-                        <nz-form-item nz-col nzSpan="24"
-                            *ngIf="basicInfo.NO_OF_APPLICANT >= 3 && basicInfo.NO_OF_APPLICANT <= 4">
-                            <nz-form-label [nzNoColon]="true">Applicant 3</nz-form-label>
-                            <nz-form-control>
-                                <div nz-row>
-                                    <div nz-col nzSpan="8"><input nz-input [(ngModel)]="basicInfo.APPLICANT3_FIRST_NAME"
-                                            name="applicant3first" placeholder="Enter First Name" /></div>
-                                    <div nz-col nzSpan="1"></div>
-                                    <div nz-col nzSpan="7"><input nz-input
-                                            [(ngModel)]="basicInfo.APPLICANT3_MIDDLE_NAME" name="applicant3middle"
-                                            placeholder="Enter Middle Name" /></div>
-                                    <div nz-col nzSpan="1"></div>
-                                    <div nz-col nzSpan="7"> <input nz-input [(ngModel)]="basicInfo.APPLICANT3_LAST_NAME"
-                                            name="applicant3last" placeholder="Enter Last Name" /></div>
-                                </div>
-
-                            </nz-form-control>
-                        </nz-form-item>
-
-                        <!-- Applicant 4 -->
-                        <nz-form-item nz-col nzSpan="24"
-                            *ngIf="basicInfo.NO_OF_APPLICANT >= 4 && basicInfo.NO_OF_APPLICANT <= 4">
-                            <nz-form-label [nzNoColon]="true">Applicant 4</nz-form-label>
-                            <nz-form-control>
-                                <div nz-row>
-                                    <div nz-col nzSpan="8"><input nz-input [(ngModel)]="basicInfo.APPLICANT4_FIRST_NAME"
-                                            name="applicant4first" placeholder="Enter First Name" /></div>
-                                    <div nz-col nzSpan="1"></div>
-                                    <div nz-col nzSpan="7"><input nz-input
-                                            [(ngModel)]="basicInfo.APPLICANT4_MIDDLE_NAME" name="applicant4middle"
-                                            placeholder="Enter Middle Name" /></div>
-                                    <div nz-col nzSpan="1"></div>
-                                    <div nz-col nzSpan="7"> <input nz-input [(ngModel)]="basicInfo.APPLICANT4_LAST_NAME"
-                                            name="applicant4last" placeholder="Enter Last Name" /></div>
-                                </div>
-
-                            </nz-form-control>
-                        </nz-form-item>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -1054,8 +615,6 @@
                 </div>
             </div>
         </div>
-
-
 
     </div>
 

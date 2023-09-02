@@ -123,7 +123,7 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://192.168.1.6:8080/api/';
+  baseUrl = 'http://192.168.1.22:8080/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
