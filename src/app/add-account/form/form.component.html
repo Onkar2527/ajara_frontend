@@ -43,7 +43,7 @@
       <div nz-col nzSpan="4" class="border-all data-heading">खात्याचा प्रकार <div>Account Type</div>
       </div>
       <div nz-col nzSpan="8" class="border-all data">
-        {{account_type[basicInfo.ACCOUNT_TYPE]}}
+        <!-- {{account_type[basicInfo.ACCOUNT_TYPE]}} -->
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">खाते क्रमाांक <div>
@@ -667,7 +667,7 @@
       <div nz-col nzSpan="12" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
           {{ApplicantPersonal[1].PERMANENT_LANDMARK}}
-        </span>  &nbsp;&nbsp;
+        </span> &nbsp;&nbsp;
       </div>
 
     </div>
@@ -708,7 +708,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-       &nbsp;&nbsp;
+        &nbsp;&nbsp;
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -735,7 +735,7 @@
       <div nz-col nzSpan="6" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
           {{ApplicantPersonal[1].CURRENT_PINCODE}}
-        </span>  &nbsp;&nbsp;
+        </span> &nbsp;&nbsp;
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -747,7 +747,7 @@
       <div nz-col nzSpan="6" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
           {{ApplicantPersonal[1].PERMANENT_PINCODE}}
-        </span>  &nbsp;&nbsp;
+        </span> &nbsp;&nbsp;
       </div>
 
     </div>
@@ -823,8 +823,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span
-        *ngIf="ApplicantProperty.length > 1">{{residential_status[ApplicantProperty[1].HOUSE_DETAIL]}}</span>
+        <span *ngIf="ApplicantProperty.length > 1">{{residential_status[ApplicantProperty[1].HOUSE_DETAIL]}}</span>
       </div>
 
     </div>
@@ -863,7 +862,7 @@
           {{education[ApplicantPersonal[1].EDUCATION]}}
         </span>
       </div>
-      
+
 
     </div>
 
@@ -880,7 +879,7 @@
           {{ApplicantPersonal[1].MARITAL_STATUS == 'M' ? 'Married' : 'Un-Married'}}
         </span>
       </div>
-      
+
 
       <div nz-col nzSpan="8" class="border-all data"></div>
 
@@ -903,7 +902,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{basicInfo.GUARDIAN_NAME}}
+        <!-- {{basicInfo.GUARDIAN_NAME}} -->
       </div>
       <div nz-col nzSpan="2" class="border-all data-heading">
         पॅन PAN
@@ -926,7 +925,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        {{basicInfo.MINOR_DOB}}
+        <!-- {{basicInfo.MINOR_DOB}} -->
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
         अज्ञानाच्या जन्मतारीख पुरावा
@@ -945,7 +944,7 @@
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
-        {{relation[basicInfo.RELATION_WITH_MINOR]}}
+        <!-- {{relation[basicInfo.RELATION_WITH_MINOR]}} -->
       </div>
 
 
@@ -996,7 +995,7 @@
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
-        {{account_operation[basicInfo.ACCOUNT_OPERATION]}}
+        <!-- {{account_operation[basicInfo.ACCOUNT_OPERATION]}} -->
       </div>
 
     </div>
@@ -1004,7 +1003,10 @@
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all data-heading" style="font-size:10px; ">
-        *संयुक्‍त ठेवीदाराांपैकी कोणाचाही ठेवीचा कालावधी पूणज होण्याआधी मृत्यू झाल्यास मुदत ठेव मुदतीआधी काढण्यास अन्य ठेवीदाराांना परवानगी देण्याचे आम्ही सांयुक्तपणे मान्य करतो आपण पद आर्रा अबजन को-ऑप बँक याांना तसे ​अधिकार देतो. *We jointly agree and authorise The Ajara Urban Cooperative Bank Ltd., to permit premature withdrawals of the Fixed Deposit by survivor/s in the event of the death of the deposit holder/s before maturity.
+        *संयुक्‍त ठेवीदाराांपैकी कोणाचाही ठेवीचा कालावधी पूणज होण्याआधी मृत्यू झाल्यास मुदत ठेव मुदतीआधी काढण्यास अन्य
+        ठेवीदाराांना परवानगी देण्याचे आम्ही सांयुक्तपणे मान्य करतो आपण पद आर्रा अबजन को-ऑप बँक याांना तसे ​अधिकार देतो.
+        *We jointly agree and authorise The Ajara Urban Cooperative Bank Ltd., to permit premature withdrawals of the
+        Fixed Deposit by survivor/s in the event of the death of the deposit holder/s before maturity.
       </div>
 
     </div>
@@ -1136,7 +1138,7 @@
 
     </div>
 
-   
+
 
 
 
@@ -1710,17 +1712,22 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data" style="min-height: 240px;">
-      <span *ngIf="ApplicantPhoto.length > 0">
-        <img [src]="ApplicantPhoto[0].IMAGE_DATA" width="100%" height="240px">
-      </span>
+        <span *ngIf="ApplicantPhoto.length > 0">
+          <img [src]="ApplicantPhoto[0].IMAGE_DATA" width="100%" height="240px">
+        </span>
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
-        <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan verification done</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> OVD verification done</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies verified</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC & AML norms verified</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan
+          verification done</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> OVD verification done
+        </div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies verified
+        </div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC & AML norms verified
+        </div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> ATM Card Issued</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents verification done</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents verification
+          done</div>
 
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -1728,9 +1735,11 @@
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UNO list verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UCIC verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Nomination verified</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Mobile number verification</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Mobile number
+          verification</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Email verified</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Required documents attached</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Required documents
+          attached</div>
 
       </div>
       <div nz-col nzSpan="6" class="border-all data" style="min-height: 240px;">

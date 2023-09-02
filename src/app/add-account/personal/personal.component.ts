@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
@@ -153,12 +153,12 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               if (this.aadhaarVerify.data.age < 18) {
-                this.basicInfo.IS_MINOR = true;
-                this.basicInfo.MINOR_DOB = this.aadhaarVerify.data.dob;
+                // this.basicInfo.IS_MINOR = true;
+                // this.basicInfo.MINOR_DOB = this.aadhaarVerify.data.dob;
                 this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
               }
               else {
-                this.basicInfo.IS_MINOR = false;
+                // this.basicInfo.IS_MINOR = false;
                 this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
 
               }
@@ -198,47 +198,47 @@ export class PersonalComponent implements OnInit {
         break;
       }
 
-      case 3: {
-        this.loadAadhaarButton3 = true
-        let aadhar_data = this.aadhaarVerify3.getData();
-        aadhar_data.subscribe({
-          next: (res) => {
-            if (res == true) {
-              this.basicInfo.AADHAAR_NUMBER3 = this.aadhaarVerify3.data.aadhaar_no;
-              this.loadAadhaarButton3 = false
-            }
-            else {
-              this.loadAadhaarButton3 = false
-            }
-          },
-          error: (err) => {
-            this.loadAadhaarButton3 = false
-          }
+      // case 3: {
+      //   this.loadAadhaarButton3 = true
+      //   let aadhar_data = this.aadhaarVerify3.getData();
+      //   aadhar_data.subscribe({
+      //     next: (res) => {
+      //       if (res == true) {
+      //         this.basicInfo.AADHAAR_NUMBER3 = this.aadhaarVerify3.data.aadhaar_no;
+      //         this.loadAadhaarButton3 = false
+      //       }
+      //       else {
+      //         this.loadAadhaarButton3 = false
+      //       }
+      //     },
+      //     error: (err) => {
+      //       this.loadAadhaarButton3 = false
+      //     }
 
-        });
-        break;
-      }
+      //   });
+      //   break;
+      // }
 
-      case 4: {
-        this.loadAadhaarButton4 = true
-        let aadhar_data = this.aadhaarVerify3.getData();
-        aadhar_data.subscribe({
-          next: (res) => {
-            if (res == true) {
-              this.basicInfo.AADHAAR_NUMBER4 = this.aadhaarVerify4.data.aadhaar_no;
-              this.loadAadhaarButton4 = false
-            }
-            else {
-              this.loadAadhaarButton4 = false
-            }
-          },
-          error: (err) => {
-            this.loadAadhaarButton4 = false
-          }
+      // case 4: {
+      //   this.loadAadhaarButton4 = true
+      //   let aadhar_data = this.aadhaarVerify3.getData();
+      //   aadhar_data.subscribe({
+      //     next: (res) => {
+      //       if (res == true) {
+      //         this.basicInfo.AADHAAR_NUMBER4 = this.aadhaarVerify4.data.aadhaar_no;
+      //         this.loadAadhaarButton4 = false
+      //       }
+      //       else {
+      //         this.loadAadhaarButton4 = false
+      //       }
+      //     },
+      //     error: (err) => {
+      //       this.loadAadhaarButton4 = false
+      //     }
 
-        });
-        break;
-      }
+      //   });
+      //   break;
+      // }
 
       default: {
         console.error("Inside function getAadhaarData : AplicantNo is Invalid - ", AplicantNo);
@@ -290,46 +290,46 @@ export class PersonalComponent implements OnInit {
         break;
       }
 
-      case 3: {
-        this.loadPanButton3 = true;
-        let panverify = this.aadhaarVerify3.verifyPan();
-        panverify.subscribe({
-          next: (res) => {
-            if (res == true) {
-              this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.meta1.id_number;
-              this.loadPanButton3 = false;
-            }
-            else {
-              this.loadPanButton3 = false;
-            }
-          },
-          error: () => {
-            this.loadPanButton3 = false;
-          }
-        });
-        break;
-      }
+      // case 3: {
+      //   this.loadPanButton3 = true;
+      //   let panverify = this.aadhaarVerify3.verifyPan();
+      //   panverify.subscribe({
+      //     next: (res) => {
+      //       if (res == true) {
+      //         this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.meta1.id_number;
+      //         this.loadPanButton3 = false;
+      //       }
+      //       else {
+      //         this.loadPanButton3 = false;
+      //       }
+      //     },
+      //     error: () => {
+      //       this.loadPanButton3 = false;
+      //     }
+      //   });
+      //   break;
+      // }
 
-      case 4: {
-        this.loadPanButton4 = true;
-        let panverify = this.aadhaarVerify4.verifyPan();
-        panverify.subscribe({
-          next: (res) => {
-            if (res == true) {
-              this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.meta1.id_number;
-              this.loadPanButton4 = false;
-            }
-            else {
-              this.loadPanButton4 = false;
-            }
+      // case 4: {
+      //   this.loadPanButton4 = true;
+      //   let panverify = this.aadhaarVerify4.verifyPan();
+      //   panverify.subscribe({
+      //     next: (res) => {
+      //       if (res == true) {
+      //         this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.meta1.id_number;
+      //         this.loadPanButton4 = false;
+      //       }
+      //       else {
+      //         this.loadPanButton4 = false;
+      //       }
 
-          },
-          error: () => {
-            this.loadPanButton4 = false;
-          }
-        });
-        break;
-      }
+      //     },
+      //     error: () => {
+      //       this.loadPanButton4 = false;
+      //     }
+      //   });
+      //   break;
+      // }
 
       default: {
         console.error("Inside function verifyPan : AplicantNo is Invalid - ", AplicantNo);
@@ -355,10 +355,10 @@ export class PersonalComponent implements OnInit {
     return '';
   }
 
-  save(status:string) {
+  save(status: string) {
     let personal: Subject<any> = new Subject();
-    this.basicInfo.MINOR_DOB = this.changeDate(this.basicInfo.MINOR_DOB);
-    this.basicInfo.GUARDIAN_DOB = this.changeDate(this.basicInfo.GUARDIAN_DOB)
+    // this.basicInfo.MINOR_DOB = this.changeDate(this.basicInfo.MINOR_DOB);
+    // this.basicInfo.GUARDIAN_DOB = this.changeDate(this.basicInfo.GUARDIAN_DOB)
     this.basicInfo.STATUS = status;
 
     if (this.basicInfo.ID) {

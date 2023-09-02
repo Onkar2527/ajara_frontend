@@ -1,22 +1,15 @@
-import { Component, OnInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Aadhaar } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
-import { Facilities } from 'src/app/models/facilities';
-import { NomineeDetails } from 'src/app/models/nominee-details';
-import { TermDeposite } from 'src/app/models/term-deposite';
+import { ExtraInfo } from 'src/app/models/extra-info';
 import { ApiService } from 'src/app/service/api.service';
+import { CheckerVerificationComponent } from 'src/app/verification/checker-verification/checker-verification.component';
+import { VerifierVerificationComponent } from 'src/app/verification/verifier-verification/verifier-verification.component';
 import { ApplicantDetailsComponent } from '../applicant-details/applicant-details.component';
 import { DepositComponent } from '../deposit/deposit.component';
-import { FormComponent } from '../form/form.component';
 import { NominationComponent } from '../nomination/nomination.component';
 import { PersonalComponent } from '../personal/personal.component';
 import { ServicesComponent } from '../services/services.component';
-import { WebCamComponent } from '../web-cam/web-cam.component';
-import { ExtraInfo } from 'src/app/models/extra-info';
-import { error } from 'pdf-lib';
-import { CheckerVerificationComponent } from 'src/app/verification/checker-verification/checker-verification.component';
-import { VerifierVerificationComponent } from 'src/app/verification/verifier-verification/verifier-verification.component';
 
 @Component({
   selector: 'app-add-account',
@@ -396,14 +389,14 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     if (this.selectedIndex == 0) {
       let personal = this.personalComp.save('D');
-      this.depositeComp.account_type = this.personalComp.basicInfo.ACCOUNT_TYPE;
-      this.serviceComp.AccountType = this.personalComp.basicInfo.ACCOUNT_TYPE;
+      // this.depositeComp.account_type = this.personalComp.basicInfo.ACCOUNT_TYPE;
+      // this.serviceComp.AccountType = this.personalComp.basicInfo.ACCOUNT_TYPE;
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
             this.APPLICANT_ID = this.BasicInfo.ID;
             this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
-           
+
             this.depositeComp.getDepositInfo();
             this.Tabs[0].disabled = true;
             this.Tabs[1].disabled = false;
