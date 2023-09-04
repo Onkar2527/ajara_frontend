@@ -11,8 +11,44 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class NominationComponent implements OnInit {
 
+  optionList = [
+    {
+      label: 'Father',
+      value: 'A',
+    },
+    {
+      label: 'Mother',
+      value: 'B',
+    },
+    {
+      label: 'Brother',
+      value: 'C',
+    },
+    {
+      label: 'Sister',
+      value: 'D',
+    },
+    {
+      label: 'Son',
+      value: 'E',
+    },
+    {
+      label: 'Daughter',
+      value: 'F',
+    },
+    {
+      label: 'Husband',
+      value: 'G',
+    },
+
+    {
+      label: 'Wife',
+      value: 'H',
+    }
+  ]
+
   constructor(private api: ApiService, private message: NzNotificationService) { }
-  APPLICANT_ID!:number
+  APPLICANT_ID!: number
   nomineeInfo: NomineeDetails = new NomineeDetails();
   ngOnInit(): void {
   }
