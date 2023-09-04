@@ -1,17 +1,55 @@
 <div nz-row>
     <div nz-col nzSpan="11">
 
-        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE == 'S'">
+        <div class="box">
+            <nz-divider nzText="Account Details"></nz-divider>
+            <div nz-row class="content-box">
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-control>
+                        <nz-form-label [nzNoColon]="true">Account Type</nz-form-label>
+                        <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE">
+                            <nz-option nzValue="A" nzLabel="Saving"></nz-option>
+                            <nz-option nzValue="B" nzLabel="Janata Deposite"></nz-option>
+                            <nz-option nzValue="C" nzLabel="Current Account"></nz-option>
+                            <nz-option nzValue="D" nzLabel="Fixed Deposit"></nz-option>
+                            <nz-option nzValue="E" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
+                            <nz-option nzValue="F" nzLabel="Recurring Deposit"></nz-option>
+                            <nz-option nzValue="G" nzLabel="Pigmy Deposit"></nz-option>
+                            <nz-option nzValue="H" nzLabel="Other"></nz-option>
+                        </nz-select>
+
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-control>
+                        <nz-form-label [nzNoColon]="true">Mode of Operation</nz-form-label>
+                        <nz-select [(ngModel)]="depositInfo.ACCOUNT_OPERATION">
+                            <nz-option nzValue="A" nzLabel="Individual"></nz-option>
+                            <nz-option nzValue="B" nzLabel="Joint"></nz-option>
+                            <nz-option nzValue="C" nzLabel="Either or Survivor"></nz-option>
+                            <nz-option nzValue="D" nzLabel="Formar of Survivor"></nz-option>
+                            <nz-option nzValue="E" nzLabel="Any One"></nz-option>
+                            <nz-option nzValue="F" nzLabel="Any Two"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+            </div>
+        </div>
+
+        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">
             <nz-divider nzText="Initial Payment Details"></nz-divider>
             <div nz-row class="content-box">
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true" >Initial Amount </nz-form-label>
+                    <nz-form-label [nzNoColon]="true">Initial Amount </nz-form-label>
                     <nz-form-control>
 
                         <nz-input-group nzAddOnBefore="₹">
-                            <input type="InitAmount" [(ngModel)]="depositInfo.INITIAL_AMOUNT" nz-input placeholder="Enter Initial Amount" />
+                            <input type="InitAmount" [(ngModel)]="depositInfo.INITIAL_AMOUNT" nz-input
+                                placeholder="Enter Initial Amount" />
                         </nz-input-group>
 
                     </nz-form-control>
@@ -36,7 +74,8 @@
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="transAccount" [(ngModel)]="depositInfo.TRANSFER_ACCOUNT_NO" placeholder="Enter Account number" />
+                                    <input nz-input name="transAccount" [(ngModel)]="depositInfo.TRANSFER_ACCOUNT_NO"
+                                        placeholder="Enter Account number" />
                                 </nz-input-group>
 
                             </nz-form-control>
@@ -49,7 +88,8 @@
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="Chaque" [(ngModel)]="depositInfo.CHAQUE_NO" placeholder="Chaque No." />
+                                    <input nz-input name="Chaque" [(ngModel)]="depositInfo.CHAQUE_NO"
+                                        placeholder="Chaque No." />
                                 </nz-input-group>
 
                             </nz-form-control>
@@ -62,7 +102,8 @@
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="bank_name" [(ngModel)]="depositInfo.DRAWN_BANK" placeholder="Drawn on Bank and branch" />
+                                    <input nz-input name="bank_name" [(ngModel)]="depositInfo.DRAWN_BANK"
+                                        placeholder="Drawn on Bank and branch" />
                                 </nz-input-group>
 
                             </nz-form-control>
@@ -75,7 +116,8 @@
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <nz-date-picker [(ngModel)]="depositInfo.TRANSFER_DATE" [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                                    <nz-date-picker [(ngModel)]="depositInfo.TRANSFER_DATE"
+                                        [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
                                 </nz-input-group>
 
                             </nz-form-control>
@@ -88,7 +130,7 @@
         </div>
 
 
-        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE != 'S'">
+        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">
             <nz-divider nzText="Deposit Details"></nz-divider>
             <div nz-row class="content-box">
 
@@ -202,7 +244,7 @@
     </div>
 
 
-    <div nz-col nzSpan="12" *ngIf="depositInfo.ACCOUNT_TYPE != 'S'">
+    <div nz-col nzSpan="12" *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">
 
         <div class="box">
             <nz-divider nzText="Bank Details"></nz-divider>
@@ -272,4 +314,5 @@
 
 
     </div>
+
 </div>
