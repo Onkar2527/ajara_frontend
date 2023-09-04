@@ -4,13 +4,10 @@ import { Subject } from 'rxjs';
 import { NomineeDetails } from 'src/app/models/nominee-details';
 import { ApiService } from 'src/app/service/api.service';
 
-import { conformToMask } from 'angular2-text-mask';
-import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe'
-
 @Component({
   selector: 'app-nomination',
   templateUrl: './nomination.component.html',
-  styleUrls: ['./nomination.component.css']
+  styleUrls: ['./nomination.component.css'],
 })
 export class NominationComponent implements OnInit {
 

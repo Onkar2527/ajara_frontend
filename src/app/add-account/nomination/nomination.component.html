@@ -21,8 +21,12 @@
                 <nz-form-item nz-col nzSpan="12">
                     <nz-form-label [nzNoColon]="true">Nominee's DOB</nz-form-label>
                     <nz-form-control>
-                        <nz-date-picker [(ngModel)]="nomineeInfo.DOB"
-                            [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+
+                        <input nz-input
+                               placeholder="dd/mm/yyyy" type="text" [(ngModel)]="nomineeInfo.DOB" name="DOB" />
+
+                        <!-- <nz-date-picker [(ngModel)]="nomineeInfo.DOB"
+                            [nzFormat]="'yyyy/MM/dd'"></nz-date-picker> -->
                     </nz-form-control>
                 </nz-form-item>
 
