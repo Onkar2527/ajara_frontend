@@ -12,7 +12,6 @@ import { ApiService } from 'src/app/service/api.service';
 export class DepositComponent implements OnInit {
   APPLICANT_ID!:number
   depositInfo: TermDeposite = new TermDeposite();
-  account_type!:string; 
   constructor(private api: ApiService, private message: NzNotificationService) { }
   ngOnInit(): void {
     
@@ -78,10 +77,8 @@ export class DepositComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
-          this.depositInfo.ACCOUNT_TYPE = this.account_type;
         }
         else {
-          this.depositInfo.ACCOUNT_TYPE = this.account_type;
         }
       },
       error: (err) => {
