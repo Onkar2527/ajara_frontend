@@ -1,22 +1,46 @@
 <nz-layout *ngIf="route == 'tabs'">
 
   <nz-header>
-    <div nz-row>
-      <div nz-col nzSpan="22"></div>
-      <div nz-col nzSpan="2">
+    <div nz-row style="width:100%;">
+      <div nz-col nzSpan="1" style="display: flex;align-items: center;">
+        <span class="header-trigger" style="display: flex;align-items: center;" (click)="collapseMenu()">
+          <i nz-icon nzType="menu"></i>
+        </span>
+      </div>
+
+      <div nz-col nzSpan="6" style="display: flex;align-items: center;">
+        <img src="../assets/ajara_bank_logo.png" height="40px" width="40px">
+        <span style="color: rgb(157, 157, 157);font-size: 16px;margin-left: 5px;">The Ajara Urban Co-op. Bank Ltd.
+          Ajara</span>
+      </div>
+      <div nz-col nzSpan="14"></div>
+      <div nz-col nzSpan="3" style="display: flex;align-items: center;
+      justify-content: right;">
+        <span style="color: rgb(157, 157, 157);font-size: 16px;margin-right: 5px;">{{userDetails.USER_NAME}}</span>
+
+        <a nz-popconfirm nzPopconfirmTitle="Do you want to logout?" (nzOnConfirm)="logout()">
+          <span
+            style="height: 36px;color: rgb(157, 157, 157);font-size: 30px;cursor: pointer;display: flex;align-items: center;justify-content: right;">
+            <i nz-icon nzType="logout"></i>
+          </span>
+        </a>
+      </div>
+
+      <!-- <div nz-col nzSpan="2">
         <a nz-popconfirm nzPopconfirmTitle="Do you want to logout?" (nzOnConfirm)="logout()">
           <span style="color:white;font-size: 14px;font-weight: bold;">Logout</span>
         </a>
-      </div>
+      </div> -->
     </div>
   </nz-header>
 
   <nz-layout class="layout">
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="user-box">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzCollapsedWidth]="0" [nzTrigger]="null">
+
+      <!-- <div class="user-box">
         <nz-avatar nzSize="large" [nzText]="user" style="margin-left: 5px;"></nz-avatar>
         <span class="user-name">{{userDetails.USER_NAME}}</span>
-      </div>
+      </div> -->
 
       <ul nz-menu nzTheme="dark" nzMode="inline" class="sider">
 

@@ -17,7 +17,11 @@ export class AppComponent implements OnInit, OnChanges {
 
   route = ''
 
-  constructor(public router: Router, private api: ApiService, private message: NzNotificationService) { 
+  collapseMenu() {
+    this.isCollapsed ? this.isCollapsed = false : this.isCollapsed = true;
+  }
+
+  constructor(public router: Router, private api: ApiService, private message: NzNotificationService) {
     // this.router.events.subscribe((event)=>{
     //   if(event instanceof NavigationEnd){
     //     router.navigateByUrl('/');
@@ -41,7 +45,7 @@ export class AppComponent implements OnInit, OnChanges {
       this.route = 'login';
     }
     else {
-      this.login(); 
+      this.login();
     }
   }
 
@@ -110,5 +114,5 @@ export class AppComponent implements OnInit, OnChanges {
     })
   }
 
-  
+
 }
