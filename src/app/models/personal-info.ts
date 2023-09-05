@@ -83,4 +83,10 @@ export class PersonalInfo {
     DATE_OF_BIRTH: string = '';
     GENDER: "M" | "F" | "O" = 'M';
 
+    IS_CURRENT_ADDRESS_ON_OVD: boolean = false;
+    ADDRESS_DOCUMENT: string = '';
+    ADDRESS_DOCUMENT_NUMBER: string = '';
+    IS_DOB_MISMATCH: boolean = false;
+    IS_VERNACULAR: boolean = false;
+
 }

@@ -24,6 +24,41 @@ export class ApplicantFinancialComponent implements OnInit {
 
   }
 
+  incomeList = [
+    {
+      label: 'Upto ₹60000',
+      value: 'Upto ₹60000'
+    },
+    {
+      label: '₹60001 to ₹120000',
+      value: '₹60001 to ₹120000'
+    },
+    {
+      label: '₹120001 to ₹240000',
+      value: '₹120001 to ₹240000'
+    },
+    {
+      label: '₹240001 to ₹360000',
+      value: '₹240001 to ₹360000'
+    },
+    {
+      label: '₹360001 to ₹600000',
+      value: '₹360001 to ₹600000'
+    },
+    {
+      label: '₹600001 to ₹1200000',
+      value: '₹600001 to ₹1200000'
+    },
+    {
+      label: '₹1200001 to ₹1800000',
+      value: '₹1200001 to ₹1800000'
+    },
+    {
+      label: 'Above ₹1800000',
+      value: 'Above ₹1800000'
+    }
+  ]
+
   getApplicantFinacial(){
    this.api.getFinancial(this.APPLICANT_ID,this.APPLICANT_NO).subscribe({
     next:(res)=>{
