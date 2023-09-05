@@ -10,14 +10,19 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./applicant-personal.component.css']
 })
 export class ApplicantPersonalComponent implements OnInit {
-  @Input() personalInfo!:PersonalInfo;
-  constructor(private api:ApiService,private message:NzNotificationService) { }
+  @Input() personalInfo!: PersonalInfo;
+  constructor(private api: ApiService, private message: NzNotificationService) { }
 
+  loadOtpButton: boolean = false;
+  loadVerificationButton :boolean = false;
+
+  OTP:string = '';
+  
   ngOnInit(): void {
   }
 
-  getApplicantPersonal(){
-   
+  getApplicantPersonal() {
+
   }
 
   copyClick() {
@@ -58,9 +63,17 @@ export class ApplicantPersonalComponent implements OnInit {
       })
     }
     else {
-    
+
     }
     return personal;
+  }
+
+  getOtp() {
+
+  }
+
+  verifyEmail(){
+
   }
 
 }

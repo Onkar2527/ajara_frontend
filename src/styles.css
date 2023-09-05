@@ -56,3 +56,9 @@ nz-form-item{
     margin-top: 10px;
     margin-bottom: 10px;
   }
+
+  .success-tip{
+    color: green;
+    margin-left: 5px;
+    font-size: 12px;
+  }

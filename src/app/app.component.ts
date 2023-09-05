@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -17,7 +17,13 @@ export class AppComponent implements OnInit, OnChanges {
 
   route = ''
 
-  constructor(public router: Router, private api: ApiService, private message: NzNotificationService) { }
+  constructor(public router: Router, private api: ApiService, private message: NzNotificationService) { 
+    // this.router.events.subscribe((event)=>{
+    //   if(event instanceof NavigationEnd){
+    //     router.navigateByUrl('/');
+    //   }
+    // })
+  }
 
   sideMenu = []
   userDetails = {
@@ -35,9 +41,7 @@ export class AppComponent implements OnInit, OnChanges {
       this.route = 'login';
     }
     else {
-      this.router.navigate(['/proposal']);
-      this.getSideMenu();
-      this.route = 'tabs';
+      this.login(); 
     }
   }
 
@@ -106,5 +110,5 @@ export class AppComponent implements OnInit, OnChanges {
     })
   }
 
-
+  
 }
