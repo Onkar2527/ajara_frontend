@@ -12,6 +12,8 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class PersonalComponent implements OnInit {
 
+  maskedAadharNumber: string = '';
+
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
 
@@ -209,10 +211,38 @@ export class PersonalComponent implements OnInit {
 
   }
 
+
+  changeDate(date: any) {
+    if (date) {
+      let month = String(date.getMonth() + 1);
+      let day = String(date.getDate());
+      const year = String(date.getFullYear());
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
+
+  
+  hideAadhar = false;
+
+  getHiddenAadhar(): string {
+    if (this.hideAadhar) {
+      return this.aadhaarVerify.meta.id_number.substring(0, 8).replace(/./g, 'X') + this.aadhaarVerify.meta.id_number.substring(8);
+    } else {
+      return this.aadhaarVerify.meta.id_number;
+    }
+  }
+
   save(status: string) {
     let personal: Subject<any> = new Subject();
     
     this.basicInfo.STATUS = status;
+
+    this.hideAadhar = true;
 
     if (this.basicInfo.ID) {
       this.api.updateBasic(this.basicInfo).subscribe({

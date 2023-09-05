@@ -77,23 +77,35 @@
                     </nz-form-control>
                 </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="16">
+                <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Mother's Full Name</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
 
-                            <div nz-col nzSpan="24"><input nz-input name="MOTHERS_NAME"
+                            <div nz-col nzSpan="8">
+                                <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name" 
                                     [(ngModel)]="personalInfo.MOTHERS_NAME" />
                             </div>
 
+                            <div nz-col nzSpan="1"></div>
+
+                            <div nz-col nzSpan="7">
+                                <input nz-input name="MOTHERS_MIDDLE_NAME" placeholder="Enter Middle Name"
+                                    [(ngModel)]="personalInfo.MOTHERS_MIDDLE_NAME" />
+                            </div>
+
+                            <div nz-col nzSpan="1"></div>
+
+                            <div nz-col nzSpan="7">
+                                <input nz-input name="MOTHERS_LAST_NAME" placeholder="Enter Last Name"
+                                    [(ngModel)]="personalInfo.MOTHERS_LAST_NAME" />
+                            </div>
+                            
                         </div>
                     </nz-form-control>
                 </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="1"></nz-form-item>
-
-
-                <nz-form-item nz-col nzSpan="7">
+                <!-- <nz-form-item nz-col nzSpan="7">
                     <nz-form-label [nzNoColon]="true">Mother's Maiden Name</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
@@ -104,7 +116,7 @@
 
                         </div>
                     </nz-form-control>
-                </nz-form-item>
+                </nz-form-item> -->
 
                 <nz-form-item nz-col nzSpan="8">
                     <nz-form-label [nzNoColon]="true">Date of Birth</nz-form-label>
@@ -114,18 +126,21 @@
                     </nz-form-control>
                 </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="8">
+                <nz-form-item nz-col nzSpan="1"></nz-form-item>
+
+                <nz-form-item nz-col nzSpan="7">
                     <nz-form-label [nzNoColon]="true">Nationality</nz-form-label>
                     <nz-form-control>
-                        <div nz-row>
 
-                            <div nz-col nzSpan="24"><input nz-input name="NATIONALITY"
-                                    [(ngModel)]="personalInfo.NATIONALITY" />
-                            </div>
+                        <nz-select nzShowSearch [(ngModel)]="personalInfo.NATIONALITY" style="width: 100%;">
+                            <nz-option *ngFor="let option of optionList" [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                            </nz-option>
+                        </nz-select>
 
-                        </div>
                     </nz-form-control>
                 </nz-form-item>
+
 
                 <nz-form-item nz-col nzSpan="1"></nz-form-item>
 
@@ -362,14 +377,13 @@
 
                         <div nz-col nzSpan="1"></div>
 
-
-                        <nz-form-item nz-col nzSpan="6">
-                            <nz-form-label [nzNoColon]="true"></nz-form-label>
-                            <nz-form-control>
-                                <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton">Get
-                                    OTP</button>
-                            </nz-form-control>
-                        </nz-form-item>
+                <nz-form-item nz-col nzSpan="11">
+                    <nz-form-label [nzNoColon]="true">Mobile Number</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
+                            placeholder="Enter Mobile Number" maxlength="10" pattern="^[0-9]{10}$"  />
+                    </nz-form-control>
+                </nz-form-item>
 
 
                         <nz-form-item nz-col nzSpan="24">

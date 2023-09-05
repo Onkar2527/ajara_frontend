@@ -21,8 +21,15 @@ export class ApplicantPersonalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getApplicantPersonal() {
+  optionList = [
+    {
+      label: 'Indian',
+      value: 'Indian'
+    }
+  ]
 
+  getApplicantPersonal(){
+   
   }
 
   copyClick() {

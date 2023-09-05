@@ -163,7 +163,7 @@
                     <nz-form-control nzErrorTip="The input is not Aadhaar number!">
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify.meta.id_number"
+                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify.meta.id_number" [value]="getHiddenAadhar()"
                                     placeholder="Enter Aadhaar number" maxlength="12" />
                             </div>
                             <div nz-col nzSpan="1">
@@ -187,7 +187,7 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="otp" [(ngModel)]="aadhaarVerify.meta.otp"
+                                <input type="password" nz-input name="otp" [(ngModel)]="aadhaarVerify.meta.otp"
                                     placeholder="Enter OTP" />
                             </div>
                             <div nz-col nzSpan="1">
@@ -472,7 +472,7 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="otp" [(ngModel)]="aadhaarVerify2.meta.otp"
+                                <input type="password" nz-input name="otp" [(ngModel)]="aadhaarVerify2.meta.otp"
                                     placeholder="Enter OTP" />
                             </div>
                             <div nz-col nzSpan="1">
