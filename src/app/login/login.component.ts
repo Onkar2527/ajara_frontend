@@ -49,9 +49,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     {
-      // sessionStorage.setItem("lk0oh6fdb4567","jdfjkhguyrtb");
-      // 
-      
+      this.isloginSpinning = true;
       this.api.login(this.USER_NAME, this.PASSWORD).subscribe({
         next: (data) => {
           if (data['code'] == 200 && data['data']) {
@@ -68,6 +66,10 @@ export class LoginComponent implements OnInit {
             this.message.error("Username or Password not found!",'');
             this.isloginSpinning = false
 
+          }
+          else{
+            this.message.error("Something went wrong!",'');
+            this.isloginSpinning = false
           }
 
         },

@@ -1,7 +1,7 @@
 export class PersonalInfo {
     ID!: number;
     APPLICANT_ID!: number;
-    APPLICANT_NO!:number;
+    APPLICANT_NO!: number;
 
     FIRST_NAME: string = '';
     MIDDLE_NAME: string = '';
@@ -26,23 +26,31 @@ export class PersonalInfo {
     PERMANENT_STATE: string = '';
     PERMANENT_PINCODE: string = '';
 
-    HOUSE_PHONE: string = '';
-    OFFICE_PHONE: string = '';
-    EMAIL_ID: string = '';
-    MOBILE_NUMBER: string = '';
+    // HOUSE_PHONE: string = '';
+    // OFFICE_PHONE: string = '';
 
-    WORK: "E"|"S"|"B"|"R"|"T"|"H"|"O" = 'E';
+    EMAIL_ID: string = '';
+    IS_EMAIL_VERIFIED: boolean = false;
+
+
+
+    MOBILE_NUMBER: string = '';
+    MOBILE_NUMBER_2: string = '';
+
+    WORK: "E" | "S" | "B" | "R" | "T" | "H" | "O" = 'E';
     ESTABLISHMENT: string = ' ';
 
-    RELIGION:"H"|"M"|"C"|"B"|"P"|"S"|"O" = 'H';
+    RELIGION: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = 'A';
+    OTHER_RELIGION: string = '';
 
-    CAST: "N"|"T"|"S"|"C"|"O" = 'N';
+    CASTE: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A';
+    OTHER_CASTE: string = '';
 
-    MARITAL_STATUS: "M"|"U" = 'M'
+    MARITAL_STATUS: "M" | "U" = 'M'
 
     FAMILY_COUNT!: number;
 
-    EDUCATION: "S"|"H"|"D"|"G"|"P"|"O" = 'S';
+    EDUCATION: "S" | "H" | "D" | "G" | "P" | "O" = 'S';
 
     IS_INSURED: boolean = false;
 
@@ -53,12 +61,12 @@ export class PersonalInfo {
 
     AADHAAR_NUMBER: string = '';
 
-    BLOOD_TYPE: string = '';
-    BLOOD_TYPE_SIGN?: string;
+    BLOOD_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = 'A';
+    // BLOOD_TYPE_SIGN?: string;
 
-    EMPLOYMENT_DETAIL: "P"|"E"|"C"|"M"|"J"|"O"|" " = ' ';
+    EMPLOYMENT_DETAIL: "P" | "E" | "C" | "M" | "J" | "O" | " " = ' ';
 
-    EMPLOYMENT_COMPANY:string = '';
+    EMPLOYMENT_COMPANY: string = '';
     EMPLOYMENT_DESIGNATION: string = '';
 
 
@@ -73,6 +81,6 @@ export class PersonalInfo {
     PAN_NO: string = '';
     NATIONALITY: string = '';
     DATE_OF_BIRTH: string = '';
-    GENDER: "M"|"F"|"O" = 'M';
+    GENDER: "M" | "F" | "O" = 'M';
 
 }
