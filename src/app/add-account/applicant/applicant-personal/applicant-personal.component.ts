@@ -16,6 +16,13 @@ export class ApplicantPersonalComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  optionList = [
+    {
+      label: 'Indian',
+      value: 'Indian'
+    }
+  ]
+
   getApplicantPersonal(){
    
   }

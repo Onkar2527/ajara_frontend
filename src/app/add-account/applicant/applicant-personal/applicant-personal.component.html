@@ -124,15 +124,16 @@
                 <nz-form-item nz-col nzSpan="7">
                     <nz-form-label [nzNoColon]="true">Nationality</nz-form-label>
                     <nz-form-control>
-                        <div nz-row>
 
-                            <div nz-col nzSpan="24"><input nz-input name="NATIONALITY"
-                                    [(ngModel)]="personalInfo.NATIONALITY" />
-                            </div>
-                            
-                        </div>
+                        <nz-select nzShowSearch [(ngModel)]="personalInfo.NATIONALITY" style="width: 100%;">
+                            <nz-option *ngFor="let option of optionList" [nzValue]="option.value"
+                                [nzLabel]="option.label">
+                            </nz-option>
+                        </nz-select>
+
                     </nz-form-control>
                 </nz-form-item>
+
 
                 <nz-form-item nz-col nzSpan="1"></nz-form-item>
 
@@ -355,7 +356,7 @@
                     <nz-form-label [nzNoColon]="true">Mobile Number</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
-                            placeholder="Enter Mobile Number" />
+                            placeholder="Enter Mobile Number" maxlength="10" pattern="^[0-9]{10}$"  />
                     </nz-form-control>
                 </nz-form-item>
 
