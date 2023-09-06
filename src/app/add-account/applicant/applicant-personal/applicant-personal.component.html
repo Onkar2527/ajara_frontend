@@ -251,7 +251,7 @@
                 <div nz-row class="content-box">
 
 
-                    <div *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                    <div  *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzSpan]="24" style="font-weight: bold;">
                         </nz-form-label>
                         <span style="position: absolute;left: 299px;"> </span>
@@ -331,7 +331,7 @@
                 <nz-divider nzText="Current Address"></nz-divider>
                 <div nz-row class="content-box">
 
-                    <div *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                    <div  *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzSpan]="24" style="font-weight: bold;">
                         </nz-form-label>
                         <span style="position: absolute;left: 299px;"> <a (click)="copyClick()"><i nz-icon nzType="copy"
