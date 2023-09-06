@@ -1,4 +1,4 @@
-<div class="box">
+<!-- <div class="box">
     <nz-divider nzText="Property Details"></nz-divider>
     <div nz-row class="content-box">
         <nz-form-item nz-col nzSpan="24">
@@ -18,19 +18,17 @@
         </nz-form-item>
 
     </div>
-</div>
+</div> -->
 
 <div class="box">
-    <nz-divider nzText="Current Residential Status"></nz-divider>
+    <nz-divider nzText="Resident Type"></nz-divider>
     <div nz-row class="content-box">
         <nz-form-item nz-col nzSpan="24">
             <nz-form-control>
                 <nz-radio-group [(ngModel)]="propertyInfo.HOUSE_DETAIL">
-                    <label nz-radio nzValue="O">Own House</label>
-                    <label nz-radio nzValue="H">Rented</label>
-                    <label nz-radio nzValue="D">House Bought on Home Loan</label>
-                    <label nz-radio nzValue="G">Ancestral House</label>
-                    <label nz-radio nzValue="P">Given to you by Company or Employer</label>
+                    <label nz-radio [nzValue]="'A'">Owned</label>
+                    <label nz-radio [nzValue]="'B'">Rented</label>
+                    <label nz-radio [nzValue]="'C'">Occupied</label>
                 </nz-radio-group>
             </nz-form-control>
         </nz-form-item>

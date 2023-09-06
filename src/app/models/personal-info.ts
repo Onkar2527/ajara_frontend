@@ -33,6 +33,7 @@ export class PersonalInfo {
     IS_EMAIL_VERIFIED: boolean = false;
 
 
+    RISK_CATEGORY:"A"|"B"|"C" = "A";
 
     MOBILE_NUMBER: string = '';
     MOBILE_NUMBER_2: string = '';
@@ -40,7 +41,7 @@ export class PersonalInfo {
     WORK: "E" | "S" | "B" | "R" | "T" | "H" | "O" = 'E';
     ESTABLISHMENT: string = ' ';
 
-    RELIGION: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = 'A';
+    RELIGION: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A';
     OTHER_RELIGION: string = '';
 
     CASTE: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A';
@@ -88,5 +89,17 @@ export class PersonalInfo {
     ADDRESS_DOCUMENT_NUMBER: string = '';
     IS_DOB_MISMATCH: boolean = false;
     IS_VERNACULAR: boolean = false;
+
+
+
+    IS_MINOR:boolean = false;
+    GUARDIAN_NAME:string = '';
+    GUARDIAN_PAN:string= '';
+    GUARDIAN_RELATION:'A'|'B'|'C'|'D'|'E'|'F'|'G' | 'H' = 'A';
+    GUARDIAN_OTHER_DOCUMENT:string = ''; //dropdown
+    GUARDIAN_OTHER_DOCUMENT_NUMBER:string = '';
+    MINOR_DATE_OF_BIRTH_PROOF:string = ''; //dropdown
+
+
 
 }

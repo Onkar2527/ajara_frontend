@@ -236,6 +236,7 @@ export class ProposalComponent implements OnInit {
   getDrafts() {
     this.TableLoading = true;
     let User_id = sessionStorage.getItem('lk0oh6fdb4567');
+    console.log("In Draft Function");
     this.api.getDraft(this.pageSize, this.pageIndex, User_id).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {

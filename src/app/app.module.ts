@@ -33,6 +33,8 @@ import { WebCamComponent } from './add-account/web-cam/web-cam.component';
 // import {LoginComponent} from 'src/app/login/login.component';
 import { WebcamModule } from 'ngx-webcam';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+// import {NgxMaskModule} from 'ngx-mask'
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 //Antd Imports
 
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -63,10 +65,7 @@ import { CheckerVerificationComponent } from './verification/checker-verificatio
 import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
-
-
-
-
+export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
 registerLocaleData(en);
 
@@ -108,6 +107,8 @@ registerLocaleData(en);
     // user
     WebcamModule,
     PdfViewerModule,
+    NgxMaskModule.forRoot(),
+    // NgxMaskModule,
     //Antd Imports
     NzLayoutModule,
     NzMenuModule,
@@ -130,9 +131,9 @@ registerLocaleData(en);
     NzUploadModule,
     NzPopconfirmModule,
     NzAvatarModule
+    
   ],
   providers: [
-
 
     { provide: NZ_I18N, useValue: en_US }
   ],

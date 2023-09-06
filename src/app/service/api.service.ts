@@ -491,5 +491,24 @@ export class ApiService implements HttpInterceptor {
   }
 
 
+  getEmailOtp(email:string){
+    let data= {
+      EMAIL:email
+    }
+
+    return this.httpClient.post<any>(this.baseUrl+'emailVerification/sendAndVerifyOtp',data,this.optionMain);
+  }
+
+  verifyEmail(otp:string,email:string){
+    let data = {
+      EMAIL:email,
+      OTP:otp
+    }
+
+    return this.httpClient.post<any>(this.baseUrl+'emailVerification/verifyOtp',data,this.optionMain);
+
+  }
+
+
 
 }

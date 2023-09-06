@@ -8,14 +8,14 @@
                     <nz-form-control>
                         <nz-form-label [nzNoColon]="true">Account Type</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE">
-                            <nz-option nzValue="A" nzLabel="Saving"></nz-option>
-                            <nz-option nzValue="B" nzLabel="Janata Deposite"></nz-option>
-                            <nz-option nzValue="C" nzLabel="Current Account"></nz-option>
-                            <nz-option nzValue="D" nzLabel="Fixed Deposit"></nz-option>
-                            <nz-option nzValue="E" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
-                            <nz-option nzValue="F" nzLabel="Recurring Deposit"></nz-option>
-                            <nz-option nzValue="G" nzLabel="Pigmy Deposit"></nz-option>
-                            <nz-option nzValue="H" nzLabel="Other"></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="Saving"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Current Account"></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="Fixed Deposit"></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="Recurring Deposit"></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="Pigmy Deposit"></nz-option>
+                            <nz-option [nzValue]="'H'" nzLabel="Other"></nz-option>
                         </nz-select>
 
                     </nz-form-control>
@@ -25,12 +25,12 @@
                     <nz-form-control>
                         <nz-form-label [nzNoColon]="true">Mode of Operation</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_OPERATION">
-                            <nz-option nzValue="A" nzLabel="Individual"></nz-option>
-                            <nz-option nzValue="B" nzLabel="Joint"></nz-option>
-                            <nz-option nzValue="C" nzLabel="Either or Survivor"></nz-option>
-                            <nz-option nzValue="D" nzLabel="Formar of Survivor"></nz-option>
-                            <nz-option nzValue="E" nzLabel="Any One"></nz-option>
-                            <nz-option nzValue="F" nzLabel="Any Two"></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="Individual"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Joint"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Either or Survivor"></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="Formar of Survivor"></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="Any One"></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="Any Two"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -61,8 +61,8 @@
 
                     <nz-form-label [nzNoColon]="true">Mode of payment</nz-form-label>
                     <nz-radio-group [(ngModel)]="depositInfo.MODE_OF_PAYMENT">
-                        <label nz-radio nzValue="C">Cash</label>
-                        <label nz-radio nzValue="T">Chaque</label>
+                        <label nz-radio [nzValue]="'C'">Cash</label>
+                        <label nz-radio [nzValue]="'T'">Cheque</label>
                     </nz-radio-group>
                 </nz-form-item>
 
@@ -82,47 +82,68 @@
 
                         </nz-form-item>
 
-                        <nz-form-item nz-col nzSpan="6">
+                        <nz-form-item nz-col nzSpan="12">
 
-                            <nz-form-label [nzNoColon]="true">Chaque No.</nz-form-label>
+                            <nz-form-label [nzNoColon]="true">Bank Name</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="Chaque" [(ngModel)]="depositInfo.CHAQUE_NO"
-                                        placeholder="Chaque No." />
+                                    <input nz-input name="CHEQUE_BANK_NAME" [(ngModel)]="depositInfo.CHEQUE_BANK_NAME"
+                                        placeholder="Enter Bank Name" />
                                 </nz-input-group>
 
                             </nz-form-control>
 
                         </nz-form-item>
-                        <div nz-col nzSpan="1"></div>
-                        <nz-form-item nz-col nzSpan="10">
 
-                            <nz-form-label [nzNoColon]="true">Drawn on Bank and branch</nz-form-label>
+                        <div nz-col nzSpan="1"></div>
+
+                        <nz-form-item nz-col nzSpan="11">
+
+                            <nz-form-label [nzNoColon]="true">Branch Name</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="bank_name" [(ngModel)]="depositInfo.DRAWN_BANK"
-                                        placeholder="Drawn on Bank and branch" />
+                                    <input nz-input name="CHEQUE_BRANCH_NAME" [(ngModel)]="depositInfo.CHEQUE_BRANCH_NAME"
+                                        placeholder="Enter Branch Name" />
                                 </nz-input-group>
 
                             </nz-form-control>
 
                         </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="16">
+
+                            <nz-form-label [nzNoColon]="true">Cheque No.</nz-form-label>
+                            <nz-form-control>
+
+                                <nz-input-group>
+                                    <input nz-input name="Cheque" [(ngModel)]="depositInfo.CHAQUE_NO"
+                                        placeholder="Cheque No." />
+                                </nz-input-group>
+
+                            </nz-form-control>
+
+                        </nz-form-item>
+
                         <div nz-col nzSpan="1"></div>
-                        <nz-form-item nz-col nzSpan="6">
+
+                        <nz-form-item nz-col nzSpan="7">
 
                             <nz-form-label [nzNoColon]="true">Dated</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <nz-date-picker [(ngModel)]="depositInfo.TRANSFER_DATE"
-                                        [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+
+                                    <input nz-input name="TRANSFER_DATE" mask="d0/M0/0000" [leadZeroDateTime]="true"
+                                        [(ngModel)]="depositInfo.TRANSFER_DATE" placeholder="dd/mm/yyyy">
+
                                 </nz-input-group>
 
                             </nz-form-control>
 
                         </nz-form-item>
+
 
                     </div>
                 </div>
@@ -139,9 +160,9 @@
                     <nz-form-label [nzNoColon]="true">Deposit Amount </nz-form-label>
                     <br>
                     <nz-radio-group [(ngModel)]="depositInfo.DEPOSIT_FREQUANCY">
-                        <label nz-radio nzValue="O">One Time</label>
-                        <label nz-radio nzValue="M">Monthly</label>
-                        <label nz-radio nzValue="D">Daily</label>
+                        <label nz-radio [nzValue]="'O'">One Time</label>
+                        <label nz-radio [nzValue]="'M'">Monthly</label>
+                        <label nz-radio [nzValue]="'D'">Daily</label>
                     </nz-radio-group>
 
                 </nz-form-item>
@@ -170,7 +191,7 @@
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true">Tenure</nz-form-label>
+                    <nz-form-label [nzNoColon]="true">Period</nz-form-label>
 
                     <nz-form-control>
                         <div nz-row>
@@ -201,32 +222,33 @@
                     <nz-form-control>
 
                         <nz-radio-group [(ngModel)]=" depositInfo.INTEREST_PAYOUT">
-                            <label nz-radio nzValue="M">Monthly</label>
-                            <label nz-radio nzValue="Q">Quarterly</label>
-                            <label nz-radio nzValue="H">Half Yearly</label>
-                            <label nz-radio nzValue="Y">Yearly</label>
-                            <label nz-radio nzValue="O">On Maturity</label>
+                            <label nz-radio [nzValue]="'M'">Monthly</label>
+                            <label nz-radio [nzValue]="'Q'">Quarterly</label>
+                            <label nz-radio [nzValue]="'H'">Half Yearly</label>
+                            <label nz-radio [nzValue]="'Y'">Yearly</label>
+                            <label nz-radio [nzValue]="'O'">On Maturity</label>
+                            
                         </nz-radio-group>
 
                     </nz-form-control>
 
                 </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="24">
+                <!-- <nz-form-item nz-col nzSpan="24">
 
                     <nz-form-label [nzNoColon]="true">Mode of Interest Payout</nz-form-label>
                     <nz-form-control>
 
                         <nz-radio-group [(ngModel)]="depositInfo.MODE_OF_INTEREST_PAYOUT">
-                            <label nz-radio nzValue="S">Standing Instructions</label>
-                            <label nz-radio nzValue="E">ECS</label>
-                            <label nz-radio nzValue="P">Pay Order</label>
-                            <label nz-radio nzValue="O">Other Bank Account</label>
+                            <label nz-radio [nzValue]="S">Standing Instructions</label>
+                            <label nz-radio [nzValue]="E">ECS</label>
+                            <label nz-radio [nzValue]="P">Pay Order</label>
+                            <label nz-radio [nzValue]="O">Other Bank Account</label>
                         </nz-radio-group>
 
                     </nz-form-control>
 
-                </nz-form-item>
+                </nz-form-item> -->
 
                 <nz-form-item nz-col nzSpan="24">
                     <p>Auto Renewal ? <span><nz-switch [(ngModel)]="depositInfo.AUTO_RENEWAL" nzCheckedChildren="Yes"
@@ -295,22 +317,22 @@
         </div>
 
 
-        <div class="box">
+        <!-- <div class="box">
             <nz-divider nzText="TDS Preference"></nz-divider>
             <div class="content-box" nz-row>
                 <nz-form-item nz-col nzSpan="24">
 
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="depositInfo.TDS">
-                            <label nz-radio nzValue="T">Tax to be deduced at source/I agree & abide difference in
+                            <label nz-radio [nzValue]="T">Tax to be deduced at source/I agree & abide difference in
                                 payable amount of cumulative / fixed deposit on maturity.</label>
-                            <label nz-radio nzValue="N">Tax Not to be deduced at source - Form 15G / 15H
+                            <label nz-radio [nzValue]="N">Tax Not to be deduced at source - Form 15G / 15H
                                 enclosed)</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
             </div>
-        </div>
+        </div> -->
 
 
     </div>

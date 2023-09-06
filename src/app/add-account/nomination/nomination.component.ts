@@ -14,36 +14,36 @@ export class NominationComponent implements OnInit {
   optionList = [
     {
       label: 'Father',
-      value: 'Father',
+      value: 'A',
     },
     {
       label: 'Mother',
-      value: 'Mother',
+      value: 'B',
     },
     {
       label: 'Brother',
-      value: 'Brother',
+      value: 'C',
     },
     {
       label: 'Sister',
-      value: 'Sister',
+      value: 'D',
     },
     {
       label: 'Son',
-      value: 'Son',
+      value: 'E',
     },
     {
       label: 'Daughter',
-      value: 'Daughter',
+      value: 'F',
     },
     {
       label: 'Husband',
-      value: 'Husband',
+      value: 'G',
     },
 
     {
       label: 'Wife',
-      value: 'Wife',
+      value: 'H',
     }
   ]
 

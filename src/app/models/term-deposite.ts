@@ -9,7 +9,9 @@ export class TermDeposite {
     MODE_OF_PAYMENT: string = 'C';
     TRANSFER_ACCOUNT_NO: string = '';
     CHAQUE_NO: string = '';
-    DRAWN_BANK: string = '';
+    // DRAWN_BANK: string = '';
+    CHEQUE_BANK_NAME:string = ''
+    CHEQUE_BRANCH_NAME:string = ''
     TRANSFER_DATE: string = '';
 
     DEPOSIT_AMOUNT?: number;

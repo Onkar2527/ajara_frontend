@@ -50,22 +50,25 @@ export class FormComponent implements OnInit, AfterViewInit  {
   }
 
   religion = {
-    "H":"Hindu",
-    "M":"Muslim",
-    "C":"Christianity",
-    "B":"Buddhism",
-    "P":"Parsi",
-    "S":"Sikhism",
-    "O":"Other"
+    "A":"Hindu",
+    "B":"Muslim",
+    "C":"Sikh",
+    "D":"Christian",
+    "E":"Buddist",
+    "F":"Zoroastrian",
+    "G":"Other"
   }
 
   caste ={
-    "N" : "Open",
-    "T" : "Other Cast",
-    "S" : "Other Tribes",
-    "C" : "OBC",
-    "O" : "Other"
+    "A":"General",
+    "B":"OBC",
+    "C":"SC",
+    "D":"ST",
+    "E":"NT",
+    "F":"VJNT",
+    "G":"Other"
   }
+
 
   education = {
     "S" : "10th class",
@@ -77,23 +80,21 @@ export class FormComponent implements OnInit, AfterViewInit  {
   }
 
   income = {
-    "1" : "Upto ₹60000",
-    "2" : "₹60001 to ₹120000",
-    "3" : "₹120001 to ₹240000",
-    "4" : "₹240001 to ₹360000",
-    "5" : "₹360001 to ₹600000",
-    "6" : "₹600001 to ₹1200000",
-    "7" : "₹1200001 to ₹1800000",
-    "8" : "Above ₹1800001",
+    "A" : "Upto ₹60000",
+    "B" : "₹60001 to ₹120000",
+    "C" : "₹120001 to ₹240000",
+    "D" : "₹240001 to ₹360000",
+    "E" : "₹360001 to ₹600000",
+    "F" : "₹600001 to ₹1200000",
+    "G" : "₹1200001 to ₹1800000",
+    "H" : "Above ₹1800001",
 
   }
 
   residential_status = {
-    "O" : "Own House",
-    "H" : "Rented",
-    "D" : "House Bought on Home Loan",
-    "G" : "Ancestral House",
-    "P" : "Given to you by Company or Employer"
+    "A" : "Owned",
+    "B" : "Rented",
+    "C" : "Occupied"
   }
 
   relation = {

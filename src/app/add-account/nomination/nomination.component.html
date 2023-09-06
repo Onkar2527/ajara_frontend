@@ -9,24 +9,10 @@
                                 nzUnCheckedChildren="No"></nz-switch></span></p>
                 </div>
 
-                <!-- <nz-form-item nz-col nzSpan="24" *ngIf="nomineeInfo.IS_MINOR">
-                    <nz-form-label [nzNoColon]="true">Minor's DOB</nz-form-label>
-                    <nz-form-control>
-                        <nz-date-picker [(ngModel)]="nomineeInfo.DOB" [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
-                    </nz-form-control>
-                </nz-form-item> -->
-
-                
-
                 <nz-form-item nz-col nzSpan="12">
                     <nz-form-label [nzNoColon]="true">Nominee's DOB</nz-form-label>
                     <nz-form-control>
-
-                        <input nz-input
-                               placeholder="dd/mm/yyyy" type="text" [(ngModel)]="nomineeInfo.DOB" name="DOB" />
-
-                        <!-- <nz-date-picker [(ngModel)]="nomineeInfo.DOB"
-                            [nzFormat]="'yyyy/MM/dd'"></nz-date-picker> -->
+                        <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB"  mask="d0/M0/0000" [leadZeroDateTime]="true" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -36,7 +22,7 @@
                     <nz-form-label nzNoColon>Nominee's Age</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="NOMINEE_AGE" type="text" style="width: 100%;"
-                        [(ngModel)]="nomineeInfo.NOMINEE_AGE" required />
+                            [(ngModel)]="nomineeInfo.NOMINEE_AGE" required />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -48,9 +34,9 @@
                     </nz-form-control>
                 </nz-form-item>
 
-              
 
-                
+
+
 
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-label [nzNoColon]="true">Relationship with Applicant</nz-form-label>

@@ -5,7 +5,7 @@ export class NomineeDetails {
     DOB: string = '';
 
     NOMINEE_NAME: string = ''
-    RELATION:'Father'|'Mother'|'Brother'|'Sister'|'Son'|'Daughter'|'Husband' | 'Wife' = 'Father'
+    RELATION:'A'|'B'|'C'|'D'|'E'|'F'|'G' | 'H' = 'A'
   
     NOMINEE_ADDRESS: string = ''
     NOMINEE_AGE: number = 0

@@ -4,10 +4,10 @@
         <div class="box">
             <div nz-row class="content-box">
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Declaration Regarding Signing In Vernacular Language / By Illiterate / Blind Person?</nz-form-label>
+                    <nz-form-label [nzNoColon]="true">Declaration Regarding Signing In Vernacular Language / By
+                        Illiterate / Blind Person?</nz-form-label>
                     <nz-form-control>
-                        <nz-switch name="IS_VERNACULAR"
-                            [(ngModel)]="personalInfo.IS_VERNACULAR" nzCheckedChildren="Yes"
+                        <nz-switch name="IS_VERNACULAR" [(ngModel)]="personalInfo.IS_VERNACULAR" nzCheckedChildren="Yes"
                             nzUnCheckedChildren="No">
                         </nz-switch>
                     </nz-form-control>
@@ -15,13 +15,19 @@
             </div>
         </div>
 
+
+
         <div class="box">
             <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="18">
-                    <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
+
+                <nz-form-item nz-col nzSpan="5">
+                    <nz-form-label [nzNoColon]="true">Risk Category</nz-form-label>
                     <nz-form-control>
-                        <input nz-input name="Aadhaar" [(ngModel)]="personalInfo.AADHAAR_NUMBER"
-                            placeholder="Enter Aadhaar Number" maxlength="12" />
+                        <nz-select [(ngModel)]="personalInfo.RISK_CATEGORY">
+                            <nz-option [nzValue]="'A'" nzLabel="High Risk 1"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Medium Risk 2"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Low Risk 3"></nz-option>
+                        </nz-select>
                     </nz-form-control>
                 </nz-form-item>
 
@@ -31,22 +37,22 @@
                     <nz-form-label [nzNoColon]="true">Blood Type</nz-form-label>
                     <nz-form-control>
                         <nz-select [(ngModel)]="personalInfo.BLOOD_TYPE">
-                            <nz-option nzValue="A" nzLabel="A+"></nz-option>
-                            <nz-option nzValue="B" nzLabel="B+"></nz-option>
-                            <nz-option nzValue="C" nzLabel="AB+"></nz-option>
-                            <nz-option nzValue="D" nzLabel="O+"></nz-option>
-                            <nz-option nzValue="E" nzLabel="A-"></nz-option>
-                            <nz-option nzValue="F" nzLabel="B-"></nz-option>
-                            <nz-option nzValue="G" nzLabel="AB-"></nz-option>
-                            <nz-option nzValue="H" nzLabel="O-"></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="A+"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="B+"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="AB+"></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="O+"></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="A-"></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="B-"></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="AB-"></nz-option>
+                            <nz-option [nzValue]="'H'" nzLabel="O-"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
 
                 <!-- <ng-template #addOnAfterTemplate>
                     <nz-select [(ngModel)]="personalInfo.BLOOD_TYPE_SIGN">
-                        <nz-option nzLabel="+" nzValue="+"></nz-option>
-                        <nz-option nzLabel="-" nzValue="-"></nz-option>
+                        <nz-option nzLabel="+" [nzValue]="+"></nz-option>
+                        <nz-option nzLabel="-" [nzValue]="-"></nz-option>
                     </nz-select>
                 </ng-template> -->
 
@@ -135,17 +141,16 @@
                 <nz-form-item nz-col nzSpan="4">
                     <nz-form-label [nzNoColon]="true">Date of Birth</nz-form-label>
                     <nz-form-control>
-                        <nz-date-picker [(ngModel)]="personalInfo.DATE_OF_BIRTH"
-                            [nzFormat]="'yyyy/MM/dd'"></nz-date-picker>
+                        <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true"
+                            [(ngModel)]="personalInfo.DATE_OF_BIRTH" placeholder="dd/mm/yyyy">
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="4">
                     <nz-form-label [nzNoColon]="true">Is DOB Mismatched?</nz-form-label>
                     <nz-form-control>
-                        <nz-switch name="IS_DOB_MISMATCH"
-                            [(ngModel)]="personalInfo.IS_DOB_MISMATCH" nzCheckedChildren="Yes"
-                            nzUnCheckedChildren="No">
+                        <nz-switch name="IS_DOB_MISMATCH" [(ngModel)]="personalInfo.IS_DOB_MISMATCH"
+                            nzCheckedChildren="Yes" nzUnCheckedChildren="No">
                         </nz-switch>
                     </nz-form-control>
                 </nz-form-item>
@@ -176,9 +181,9 @@
 
                         <nz-radio-group [(ngModel)]="personalInfo.GENDER">
 
-                            <label nz-radio nzValue="M">Male</label>
-                            <label nz-radio nzValue="F">Female</label>
-                            <label nz-radio nzValue="O">Transgender</label>
+                            <label nz-radio [nzValue]="'M'">Male</label>
+                            <label nz-radio [nzValue]="'F'">Female</label>
+                            <label nz-radio [nzValue]="'O'">Transgender</label>
 
                         </nz-radio-group>
                     </nz-form-control>
@@ -211,8 +216,8 @@
                         <nz-form-label nzNoColon>Select document for proof of current address</nz-form-label>
                         <nz-form-control>
 
-                            <nz-select nzShowSearch nzPlaceHolder="Select Account Type" [(ngModel)]="personalInfo.ADDRESS_DOCUMENT" 
-                                style="width: 100%;">
+                            <nz-select nzShowSearch nzPlaceHolder="Select Account Type"
+                                [(ngModel)]="personalInfo.ADDRESS_DOCUMENT" style="width: 100%;">
                                 <nz-option *ngFor="let address of addressList" [nzValue]="address.value"
                                     [nzLabel]="address.label">
                                 </nz-option>
@@ -226,7 +231,8 @@
                     <nz-form-item nz-col nzSpan="7" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzNoColon]="true">Address</nz-form-label>
                         <nz-form-control>
-                            <input nz-input name="ADDRESS_DOCUMENT_NUMBER" [(ngModel)]="personalInfo.ADDRESS_DOCUMENT_NUMBER"
+                            <input nz-input name="ADDRESS_DOCUMENT_NUMBER"
+                                [(ngModel)]="personalInfo.ADDRESS_DOCUMENT_NUMBER"
                                 placeholder="Enter Document Number" />
                         </nz-form-control>
                     </nz-form-item>
@@ -245,7 +251,7 @@
                 <div nz-row class="content-box">
 
 
-                    <div  *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                    <div *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzSpan]="24" style="font-weight: bold;">
                         </nz-form-label>
                         <span style="position: absolute;left: 299px;"> </span>
@@ -325,7 +331,7 @@
                 <nz-divider nzText="Current Address"></nz-divider>
                 <div nz-row class="content-box">
 
-                    <div  *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                    <div *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzSpan]="24" style="font-weight: bold;">
                         </nz-form-label>
                         <span style="position: absolute;left: 299px;"> <a (click)="copyClick()"><i nz-icon nzType="copy"
@@ -415,7 +421,7 @@
                             <nz-form-label [nzNoColon]="true">Mobile Number 1</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
-                                    placeholder="Enter Mobile Number 1" />
+                                    placeholder="Enter Mobile Number 1" maxlength="10" pattern="^[0-9]{10}$" />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -423,7 +429,7 @@
                             <nz-form-label [nzNoColon]="true">Mobile Number 2</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="MOBILE_NUMBER_2" [(ngModel)]="personalInfo.MOBILE_NUMBER_2"
-                                    placeholder="Enter Mobile Number 2" />
+                                    placeholder="Enter Mobile Number 2" maxlength="10" pattern="^[0-9]{10}$" />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -444,30 +450,36 @@
                                     placeholder="Enter Email ID" />
                             </nz-form-control>
 
+
                             <div nz-row *ngIf="personalInfo.IS_EMAIL_VERIFIED" class="success-tip">
                                 <div nz-col nzSpan="24">
                                     Email is Verified.
                                 </div>
                             </div>
+
                         </nz-form-item>
 
                         <div nz-col nzSpan="1"></div>
 
-                        <nz-form-item nz-col nzSpan="11">
-                            <nz-form-label [nzNoColon]="true">Mobile Number</nz-form-label>
+                        <nz-form-item nz-col nzSpan="6">
+                            <nz-form-label [nzNoColon]="true"></nz-form-label>
                             <nz-form-control>
-                                <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
-                                    placeholder="Enter Mobile Number" maxlength="10" pattern="^[0-9]{10}$" />
+                                <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton">Get
+                                    OTP</button>
                             </nz-form-control>
                         </nz-form-item>
 
 
-                        <nz-form-item nz-col nzSpan="24">
+
+
+
+                        <nz-form-item nz-col nzSpan="24" *ngIf="showOtpField">
                             <nz-form-label [nzNoColon]="true">OTP (For Email Verification)</nz-form-label>
                             <nz-form-control>
                                 <div nz-row>
                                     <div nz-col [nzSpan]="17">
-                                        <input nz-input name="otp" [(ngModel)]="OTP" placeholder="Enter OTP" />
+                                        <input type="password" nz-input name="otp" [(ngModel)]="OTP"
+                                            placeholder="Enter OTP" />
                                     </div>
                                     <div nz-col nzSpan="1">
 
@@ -497,13 +509,13 @@
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="personalInfo.WORK">
-                            <label nz-radio nzValue="E">Employee</label>
-                            <label nz-radio nzValue="S">Self Employeed</label>
-                            <label nz-radio nzValue="B">Business</label>
-                            <label nz-radio nzValue="R">Retired</label>
-                            <label nz-radio nzValue="T">Student</label>
-                            <label nz-radio nzValue="H">House Wife</label>
-                            <label nz-radio nzValue="O">Other</label>
+                            <label nz-radio [nzValue]="'E'">Employee</label>
+                            <label nz-radio [nzValue]="'S'">Self Employeed</label>
+                            <label nz-radio [nzValue]="'B'">Business</label>
+                            <label nz-radio [nzValue]="'R'">Retired</label>
+                            <label nz-radio [nzValue]="'T'">Student</label>
+                            <label nz-radio [nzValue]="'H'">House Wife</label>
+                            <label nz-radio [nzValue]="'O'">Other</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -517,14 +529,14 @@
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="personalInfo.ESTABLISHMENT">
-                            <label nz-radio nzValue="L">Personal</label>
-                            <label nz-radio nzValue="R">Profession</label>
-                            <label nz-radio nzValue="E">Partner</label>
-                            <label nz-radio nzValue="Y">Pvt. Ltd. Company</label>
-                            <label nz-radio nzValue="N">Public Company</label>
-                            <label nz-radio nzValue="T">Trust / Society</label>
-                            <label nz-radio nzValue="O">Other</label>
-                            <label nz-radio nzValue=" ">None</label>
+                            <label nz-radio [nzValue]="'L'">Personal</label>
+                            <label nz-radio [nzValue]="'R'">Profession</label>
+                            <label nz-radio [nzValue]="'E'">Partner</label>
+                            <label nz-radio [nzValue]="'Y'">Pvt. Ltd. Company</label>
+                            <label nz-radio [nzValue]="'N'">Public Company</label>
+                            <label nz-radio [nzValue]="'T'">Trust / Society</label>
+                            <label nz-radio [nzValue]="'O'">Other</label>
+                            <label nz-radio [nzValue]="' '">None</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -541,13 +553,13 @@
                     <nz-form-control>
 
                         <nz-select [(ngModel)]="personalInfo.RELIGION">
-                            <nz-option nzValue="A" nzLabel="Hindu"></nz-option>
-                            <nz-option nzValue="B" nzLabel="Muslim"></nz-option>
-                            <nz-option nzValue="C" nzLabel="Sikh"></nz-option>
-                            <nz-option nzValue="D" nzLabel="Christian"></nz-option>
-                            <nz-option nzValue="E" nzLabel="Buddist"></nz-option>
-                            <nz-option nzValue="F" nzLabel="Zoroastrian"></nz-option>
-                            <nz-option nzValue="G" nzLabel="Other (Please Specify)"></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="Hindu"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Muslim"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Sikh"></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="Christian"></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="Buddist"></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="Zoroastrian"></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="Other (Please Specify)"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -568,13 +580,13 @@
                     <nz-form-label [nzNoColon]="true">Caste</nz-form-label>
                     <nz-form-control>
                         <nz-select [(ngModel)]="personalInfo.CASTE">
-                            <nz-option nzValue="A" nzLabel="General"></nz-option>
-                            <nz-option nzValue="B" nzLabel="OBC"></nz-option>
-                            <nz-option nzValue="C" nzLabel="SC"></nz-option>
-                            <nz-option nzValue="D" nzLabel="ST"></nz-option>
-                            <nz-option nzValue="E" nzLabel="NT"></nz-option>
-                            <nz-option nzValue="F" nzLabel="VJNT"></nz-option>
-                            <nz-option nzValue="G" nzLabel="Other (Please Specify)"></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="General"></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="OBC"></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="SC"></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="ST"></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="NT"></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="VJNT"></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="Other (Please Specify)"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
@@ -600,12 +612,12 @@
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="personalInfo.EDUCATION">
-                            <label nz-radio nzValue="S">10th class</label>
-                            <label nz-radio nzValue="H">12th class</label>
-                            <label nz-radio nzValue="D">Degree</label>
-                            <label nz-radio nzValue="G">Graduate</label>
-                            <label nz-radio nzValue="P">Post Graduate</label>
-                            <label nz-radio nzValue="O">Other</label>
+                            <label nz-radio [nzValue]="'S'">10th class</label>
+                            <label nz-radio [nzValue]="'H'">12th class</label>
+                            <label nz-radio [nzValue]="'D'">Degree</label>
+                            <label nz-radio [nzValue]="'G'">Graduate</label>
+                            <label nz-radio [nzValue]="'P'">Post Graduate</label>
+                            <label nz-radio [nzValue]="'O'">Other</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -620,13 +632,13 @@
                     <nz-form-label [nzNoColon]="true">Marital Status</nz-form-label>
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="personalInfo.MARITAL_STATUS">
-                            <label nz-radio nzValue="M">Married</label>
-                            <label nz-radio nzValue="U">Un-Married</label>
+                            <label nz-radio [nzValue]="'M'">Married</label>
+                            <label nz-radio [nzValue]="'U'">Un-Married</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
 
-                <div nz-col nzSpan="1"></div>
+                <!-- <div nz-col nzSpan="1"></div>
 
                 <nz-form-item nz-col nzSpan="11" *ngIf="personalInfo.MARITAL_STATUS == 'M'">
                     <nz-form-label [nzNoColon]="true">Number of Children</nz-form-label>
@@ -643,11 +655,11 @@
                             placeholder="Enter Family Members" />
                     </nz-form-control>
                 </nz-form-item>
+            </div> -->
             </div>
-        </div>
 
-        <!-- Insurance -->
-        <div class="box">
+            <!-- Insurance -->
+            <!-- <div class="box">
             <nz-divider nzText="Insurance"></nz-divider>
             <div nz-row class="content-box">
 
@@ -685,87 +697,180 @@
                 </nz-form-item>
 
             </div>
-        </div>
+        </div> -->
 
-        <!-- If employee -->
-        <div class="box">
-            <nz-divider nzText="If Applicant is Employee"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-control>
-                        <nz-radio-group [(ngModel)]="personalInfo.EMPLOYMENT_DETAIL">
-                            <label nz-radio nzValue="P">Public Company</label>
-                            <label nz-radio nzValue="E">Private Company</label>
-                            <label nz-radio nzValue="C">Centeral/State Goverment</label>
-                            <label nz-radio nzValue="M">Multi-Purpose Company</label>
-                            <label nz-radio nzValue="J">Private Job</label>
-                            <label nz-radio nzValue="O">Other</label>
-                            <label nz-radio nzValue=" ">None</label>
-                        </nz-radio-group>
-                    </nz-form-control>
-                </nz-form-item>
+            <!-- If employee -->
+            <div class="box">
+                <nz-divider nzText="If Applicant is Employee"></nz-divider>
+                <div nz-row class="content-box">
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-control>
+                            <nz-radio-group [(ngModel)]="personalInfo.EMPLOYMENT_DETAIL">
+                                <label nz-radio [nzValue]="'P'">Public Company</label>
+                                <label nz-radio [nzValue]="'E'">Private Company</label>
+                                <label nz-radio [nzValue]="'C'">Centeral/State Goverment</label>
+                                <label nz-radio [nzValue]="'M'">Multi-Purpose Company</label>
+                                <label nz-radio [nzValue]="'J'">Private Job</label>
+                                <label nz-radio [nzValue]="'O'">Other</label>
+                                <label nz-radio [nzValue]="' '">None</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Company / Owner Name</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="con" [(ngModel)]="personalInfo.EMPLOYMENT_COMPANY"
-                            placeholder="Enter Company / Owner Name" />
-                    </nz-form-control>
-                </nz-form-item>
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-label [nzNoColon]="true">Company / Owner Name</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="con" [(ngModel)]="personalInfo.EMPLOYMENT_COMPANY"
+                                placeholder="Enter Company / Owner Name" />
+                        </nz-form-control>
+                    </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Job Profile / Designation</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input name="jpd" [(ngModel)]="personalInfo.EMPLOYMENT_DESIGNATION"
-                            placeholder="Enter Designation" />
-                    </nz-form-control>
-                </nz-form-item>
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-label [nzNoColon]="true">Job Profile / Designation</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="jpd" [(ngModel)]="personalInfo.EMPLOYMENT_DESIGNATION"
+                                placeholder="Enter Designation" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
-        </div>
 
-        <!-- If Proprietor -->
-        <div class="box">
-            <nz-divider nzText="If Applicant is Proprietor"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-control>
-                        <nz-radio-group [(ngModel)]="personalInfo.PROPRIETOR_DETAILS">
-                            <label nz-radio nzValue="C">CA</label>
-                            <label nz-radio nzValue="D">Doctor</label>
-                            <label nz-radio nzValue="A">Advisor</label>
-                            <label nz-radio nzValue="T">Trader</label>
-                            <label nz-radio nzValue="E">Engineer</label>
-                            <label nz-radio nzValue="V">Advocate</label>
-                            <label nz-radio nzValue="S">Software</label>
-                            <label nz-radio nzValue="O">Other</label>
-                            <label nz-radio nzValue=" ">None</label>
-                        </nz-radio-group>
-                    </nz-form-control>
-                </nz-form-item>
+            <!-- If Proprietor -->
+            <div class="box">
+                <nz-divider nzText="If Applicant is Proprietor"></nz-divider>
+                <div nz-row class="content-box">
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-control>
+                            <nz-radio-group [(ngModel)]="personalInfo.PROPRIETOR_DETAILS">
+                                <label nz-radio [nzValue]="'C'">CA</label>
+                                <label nz-radio [nzValue]="'D'">Doctor</label>
+                                <label nz-radio [nzValue]="'A'">Advisor</label>
+                                <label nz-radio [nzValue]="'T'">Trader</label>
+                                <label nz-radio [nzValue]="'E'">Engineer</label>
+                                <label nz-radio [nzValue]="'V'">Advocate</label>
+                                <label nz-radio [nzValue]="'S'">Software</label>
+                                <label nz-radio [nzValue]="'O'">Other</label>
+                                <label nz-radio [nzValue]="' '">None</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
-        </div>
 
-        <!-- If Business -->
-        <div class="box">
-            <nz-divider nzText="If Applicant is Business Person"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-control>
-                        <nz-radio-group [(ngModel)]="personalInfo.BUSINESS_DETAIL">
-                            <label nz-radio nzValue="P">Private Ltd. Company</label>
-                            <label nz-radio nzValue="N">One Person Company</label>
-                            <label nz-radio nzValue="A">Association</label>
-                            <label nz-radio nzValue="R">Partner Organization</label>
-                            <label nz-radio nzValue="T">Trust</label>
-                            <label nz-radio nzValue="O">Other</label>
-                            <label nz-radio nzValue=" ">None</label>
-                        </nz-radio-group>
-                    </nz-form-control>
-                </nz-form-item>
+            <!-- If Business -->
+            <div class="box">
+                <nz-divider nzText="If Applicant is Business Person"></nz-divider>
+                <div nz-row class="content-box">
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-control>
+                            <nz-radio-group [(ngModel)]="personalInfo.BUSINESS_DETAIL">
+                                <label nz-radio [nzValue]="'P'">Private Ltd. Company</label>
+                                <label nz-radio [nzValue]="'N'">One Person Company</label>
+                                <label nz-radio [nzValue]="'A'">Association</label>
+                                <label nz-radio [nzValue]="'R'">Partner Organization</label>
+                                <label nz-radio [nzValue]="'T'">Trust</label>
+                                <label nz-radio [nzValue]="'O'">Other</label>
+                                <label nz-radio [nzValue]="' '">None</label>
+                            </nz-radio-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
             </div>
+
+            <!-- Guardian's Information -->
+            <div class="box">
+                <nz-divider nzText="Guardian's Information"></nz-divider>
+                <div class="content-box" nz-row>
+                    <div nz-col nzSpan="24">
+                        <p>Is applicant minor?
+                            <span>
+                                <nz-switch [(ngModel)]="personalInfo.IS_MINOR" nzCheckedChildren="Yes"
+                                    nzUnCheckedChildren="No">
+                                </nz-switch>
+                            </span>
+                        </p>
+                    </div>
+
+                    <div nz-col nzSpan="24" *ngIf="personalInfo.IS_MINOR">
+
+                        <div nz-row>
+
+                            <nz-form-item nz-col nzSpan="8">
+                                <nz-form-label [nzNoColon]="true">Minor's DOB Proof</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select nzShowSearch [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF"
+                                        style="width: 100%;">
+                                        <nz-option>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-col nzSpan="1"></div>
+
+                            <nz-form-item nz-col nzSpan="7">
+                                <nz-form-label [nzNoColon]="true">Name of the Guardian</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input name="GUARDIAN_NAME" [(ngModel)]="personalInfo.GUARDIAN_NAME"
+                                        placeholder="Enter Name of the Guardian" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-col nzSpan="1"></div>
+
+                            <nz-form-item nz-col nzSpan="7">
+                                <nz-form-label [nzNoColon]="true">Relationship with minor</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select nzShowSearch [(ngModel)]="personalInfo.GUARDIAN_RELATION"
+                                        style="width: 100%;">
+                                        <nz-option *ngFor="let option of relationList" [nzValue]="option.value"
+                                            [nzLabel]="option.label">
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item nz-col nzSpan="8">
+                                <nz-form-label [nzNoColon]="true">Guardian's PAN number</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input name="GUARDIAN_PAN" [(ngModel)]="personalInfo.GUARDIAN_PAN"
+                                        placeholder="Enter Guardian's PAN number" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-col nzSpan="1"></div>
+
+                            <nz-form-item nz-col nzSpan="7">
+                                <nz-form-label [nzNoColon]="true">Gaurdian's other Document</nz-form-label>
+                                <nz-form-control>
+                                    <nz-select nzShowSearch [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT"
+                                        style="width: 100%;">
+                                        <nz-option>
+                                        </nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <div nz-col nzSpan="1"></div>
+
+                            <nz-form-item nz-col nzSpan="7">
+                                <nz-form-label [nzNoColon]="true">Guardian's other Document number</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input name="GUARDIAN_OTHER_DOCUMENT_NUMBER"
+                                        [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT_NUMBER"
+                                        placeholder="Enter other Document number" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
 
     </div>
-
-
-</div>

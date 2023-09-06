@@ -16,5 +16,5 @@ export class Property {
 
     FOUR_WHEELER_MODEL:string = '';
 
-    HOUSE_DETAIL : "O"|"H"|"D"|"G"|"P"= 'O';
+    HOUSE_DETAIL : "A"|"B"|"C"= 'A';
 }

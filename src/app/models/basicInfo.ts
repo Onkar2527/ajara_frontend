@@ -7,7 +7,7 @@ export class BasicInfo {
 
     NO_OF_APPLICANT: number = 1;
 
-    CUSTOMER_TYPE_1: "Mr." | "Mrs." | "Miss." | "Mast." | "Smt." | "M/s." | "Mx." = 'Mr.'
+    CUSTOMER_TYPE_1:  "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
     PRIMARY_APPLICANT_FIRST_NAME: string = '';
     PRIMARY_APPLICANT_MIDDLE_NAME: string = '';
     PRIMARY_APPLICANT_LAST_NAME: string = '';
@@ -16,7 +16,7 @@ export class BasicInfo {
     CUSTOMER_ID_1: string = '';
     CKYC_NUMBER_1: string = ''
 
-    CUSTOMER_TYPE_2: "Mr." | "Mrs." | "Miss." | "Mast." | "Smt." | "M/s." | "Mx." = 'Mr.'
+    CUSTOMER_TYPE_2: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
     APPLICANT2_FIRST_NAME: string = '';
     APPLICANT2_MIDDLE_NAME: string = '';
     APPLICANT2_LAST_NAME: string = '';

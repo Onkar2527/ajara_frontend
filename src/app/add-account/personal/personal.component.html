@@ -113,13 +113,13 @@
                     <nz-form-control>
 
                         <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_1">
-                            <nz-option nzValue="Mr." nzLabel="Mr."></nz-option>
-                            <nz-option nzValue="Mrs." nzLabel="Mrs."></nz-option>
-                            <nz-option nzValue="Miss." nzLabel="Miss."></nz-option>
-                            <nz-option nzValue="Mast." nzLabel="Mast."></nz-option>
-                            <nz-option nzValue="Smt." nzLabel="Smt."></nz-option>
-                            <nz-option nzValue="M/s." nzLabel="M/s."></nz-option>
-                            <nz-option nzValue="Mx." nzLabel="Mx."></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="Mr."></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Mrs."></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Miss."></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="Mast."></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="Smt."></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="M/s."></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="Mx."></nz-option>
                         </nz-select>
 
                     </nz-form-control>
@@ -400,13 +400,13 @@
                     <nz-form-control>
 
                         <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_2">
-                            <nz-option nzValue="Mr." nzLabel="Mr."></nz-option>
-                            <nz-option nzValue="Mrs." nzLabel="Mrs."></nz-option>
-                            <nz-option nzValue="Miss." nzLabel="Miss."></nz-option>
-                            <nz-option nzValue="Mast." nzLabel="Mast."></nz-option>
-                            <nz-option nzValue="Smt." nzLabel="Smt."></nz-option>
-                            <nz-option nzValue="M/s." nzLabel="M/s."></nz-option>
-                            <nz-option nzValue="Mx." nzLabel="Mx."></nz-option>
+                            <nz-option [nzValue]="'A'" nzLabel="Mr."></nz-option>
+                            <nz-option [nzValue]="'B'" nzLabel="Mrs."></nz-option>
+                            <nz-option [nzValue]="'C'" nzLabel="Miss."></nz-option>
+                            <nz-option [nzValue]="'D'" nzLabel="Mast."></nz-option>
+                            <nz-option [nzValue]="'E'" nzLabel="Smt."></nz-option>
+                            <nz-option [nzValue]="'F'" nzLabel="M/s."></nz-option>
+                            <nz-option [nzValue]="'G'" nzLabel="Mx."></nz-option>
                         </nz-select>
 
                     </nz-form-control>
@@ -609,10 +609,10 @@
 
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="basicInfo.ACCOUNT_TYPE">
-                            <label nz-radio nzValue="S">Saving</label>
-                            <label nz-radio nzValue="F">Fixed Deposite</label>
-                            <label nz-radio nzValue="R">Recurring Deposite</label>
-                            <label nz-radio nzValue="P">Pigmy</label>
+                            <label nz-radio [nzValue]="S">Saving</label>
+                            <label nz-radio [nzValue]="F">Fixed Deposite</label>
+                            <label nz-radio [nzValue]="R">Recurring Deposite</label>
+                            <label nz-radio [nzValue]="P">Pigmy</label>
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -626,12 +626,12 @@
 
                     <nz-form-control>
                         <nz-radio-group [(ngModel)]="basicInfo.ACCOUNT_OPERATION">
-                            <label nz-radio nzValue="S">Self</label>
-                            <label nz-radio nzValue="E">Either or Survivor</label>
-                            <label nz-radio nzValue="A">Anyone or Survivor</label>
-                            <label nz-radio nzValue="F">Former or Survivor</label>
-                            <label nz-radio nzValue="J">Jointly by All</label>
-                            <label nz-radio nzValue="O">Other</label>         
+                            <label nz-radio [nzValue]="S">Self</label>
+                            <label nz-radio [nzValue]="E">Either or Survivor</label>
+                            <label nz-radio [nzValue]="A">Anyone or Survivor</label>
+                            <label nz-radio [nzValue]="F">Former or Survivor</label>
+                            <label nz-radio [nzValue]="J">Jointly by All</label>
+                            <label nz-radio [nzValue]="O">Other</label>         
                         </nz-radio-group>
                     </nz-form-control>
                 </nz-form-item>
@@ -683,10 +683,10 @@
                             <nz-form-label [nzNoColon]="true">Relationship with minor</nz-form-label>
                             <nz-form-control>
                                 <nz-radio-group [(ngModel)]="basicInfo.RELATION_WITH_MINOR">
-                                    <label nz-radio nzValue="F">Father</label>
-                                    <label nz-radio nzValue="M">Mother</label>
-                                    <label nz-radio nzValue="C">By Court Order</label>
-                                    <label nz-radio nzValue="O">Other</label>
+                                    <label nz-radio [nzValue]="F">Father</label>
+                                    <label nz-radio [nzValue]="M">Mother</label>
+                                    <label nz-radio [nzValue]="C">By Court Order</label>
+                                    <label nz-radio [nzValue]="O">Other</label>
                                 </nz-radio-group>
                             </nz-form-control>
                         </nz-form-item>

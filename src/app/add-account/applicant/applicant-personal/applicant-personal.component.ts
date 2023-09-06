@@ -35,6 +35,41 @@ export class ApplicantPersonalComponent implements OnInit {
     }
   ]
 
+  relationList = [
+    {
+      label: 'Father',
+      value: 'A',
+    },
+    {
+      label: 'Mother',
+      value: 'B',
+    },
+    {
+      label: 'Brother',
+      value: 'C',
+    },
+    {
+      label: 'Sister',
+      value: 'D',
+    },
+    {
+      label: 'Son',
+      value: 'E',
+    },
+    {
+      label: 'Daughter',
+      value: 'F',
+    },
+    {
+      label: 'Husband',
+      value: 'G',
+    },
+
+    {
+      label: 'Wife',
+      value: 'H',
+    }
+  ]
   getApplicantPersonal(){
    
   }
@@ -82,12 +117,42 @@ export class ApplicantPersonalComponent implements OnInit {
     return personal;
   }
 
-  getOtp() {
+  showOtpField:boolean = false;
 
+  getOtp() {
+    this.api.getEmailOtp(this.personalInfo.EMAIL_ID).subscribe({
+      next:(res)=>{
+        if(res['code'] == 200){
+          this.message.success("OTP has been sent.",'Please check your inbox');
+          this.showOtpField = true;
+        }
+        else{
+          this.message.error("Something Went Wrong!","");
+        }
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
   }
 
   verifyEmail(){
-
+    this.api.verifyEmail(this.OTP,this.personalInfo.EMAIL_ID).subscribe({
+      next:(res)=>{
+        if(res['code'] == 200){
+          this.message.success("Email Verified Successfully!","");
+          this.showOtpField = false;
+          this.personalInfo.IS_EMAIL_VERIFIED = true;
+          this.OTP = '';
+        }
+        else{
+          this.message.error("Something Went Wrong!","");
+        }
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
   }
 
 }

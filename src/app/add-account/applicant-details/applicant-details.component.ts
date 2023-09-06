@@ -66,10 +66,12 @@ export class ApplicantDetailsComponent implements OnInit {
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
+
             this.tabComp.financialComp.getApplicantFinacial();
             this.tabComp.selectedTab = 1;
             this.tabComp.disabledTabs[0].disabled = true;
             this.tabComp.disabledTabs[1].disabled = false;
+            this.showPreviousButton = true
             this.saveButtonLoading = false;
           }
         }, error: () => {
@@ -82,7 +84,7 @@ export class ApplicantDetailsComponent implements OnInit {
     }
 
     else if (this.tabComp.selectedTab == 1) {
-
+     
       let financial = this.tabComp.financialComp.save();
       financial.subscribe({
         next: (res) => {
@@ -91,6 +93,7 @@ export class ApplicantDetailsComponent implements OnInit {
             this.tabComp.selectedTab = 2;
             this.tabComp.disabledTabs[1].disabled = true;
             this.tabComp.disabledTabs[2].disabled = false;
+            this.saveButtonTitle = 'Save and Next';
 
             this.saveButtonLoading = false;
           }
@@ -110,57 +113,13 @@ export class ApplicantDetailsComponent implements OnInit {
       property.subscribe({
         next: (res) => {
           if (res.code == 200) {
-            this.tabComp.loanInfoComp.getApplicantLoanInfo();
-            this.tabComp.selectedTab = 3;
-
-            this.tabComp.disabledTabs[2].disabled = true;
-            this.tabComp.disabledTabs[3].disabled = false;
-
-            this.saveButtonLoading = false;
-
-          }
-        }, error: () => {
-          this.saveButtonLoading = false;
-        },
-        complete: () => {
-          this.saveButtonLoading = false;
-        }
-      })
-
-
-    }
-    else if (this.tabComp.selectedTab == 3) {
-      let loanInfo = this.tabComp.loanInfoComp.save();
-      loanInfo.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.tabComp.otherBankAccountComp.getApplicantOtherBankAccount();
-
-            this.saveButtonTitle = 'Save and Close'
-            this.tabComp.selectedTab = 4;
-            this.tabComp.disabledTabs[3].disabled = true;
-            this.tabComp.disabledTabs[4].disabled = false;
-            this.saveButtonLoading = false;
-
-          }
-        }, error: () => {
-          this.saveButtonLoading = false;
-        },
-        complete: () => {
-          this.saveButtonLoading = false;
-        }
-      })
-
-    }
-    else if (this.tabComp.selectedTab == 4) {
-
-      let otherBank = this.tabComp.otherBankAccountComp.save();
-      otherBank.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
+            // this.tabComp.loanInfoComp.getApplicantLoanInfo();
+            // this.tabComp.selectedTab = 3;
             this.saveButtonTitle = 'Save and Next';
-            this.saveButtonLoading = false;
+            this.tabComp.disabledTabs[2].disabled = true;
+            // this.tabComp.disabledTabs[3].disabled = false;
             this.drawerReferance.close();
+            this.saveButtonLoading = false;
 
           }
         }, error: () => {
@@ -173,7 +132,53 @@ export class ApplicantDetailsComponent implements OnInit {
 
 
     }
+    // else if (this.tabComp.selectedTab == 3) {
+    //   let loanInfo = this.tabComp.loanInfoComp.save();
+    //   loanInfo.subscribe({
+    //     next: (res) => {
+    //       if (res.code == 200) {
+    //         this.tabComp.otherBankAccountComp.getApplicantOtherBankAccount();
+
+    //         this.saveButtonTitle = 'Save and Close'
+    //         this.tabComp.selectedTab = 4;
+    //         this.tabComp.disabledTabs[3].disabled = true;
+    //         this.tabComp.disabledTabs[4].disabled = false;
+    //         this.saveButtonLoading = false;
+
+    //       }
+    //     }, error: () => {
+    //       this.saveButtonLoading = false;
+    //     },
+    //     complete: () => {
+    //       this.saveButtonLoading = false;
+    //     }
+    //   })
+
+    // }
+    // else if (this.tabComp.selectedTab == 4) {
+
+    //   let otherBank = this.tabComp.otherBankAccountComp.save();
+    //   otherBank.subscribe({
+    //     next: (res) => {
+    //       if (res.code == 200) {
+    //         this.saveButtonTitle = 'Save and Next';
+    //         this.saveButtonLoading = false;
+    //         this.drawerReferance.close();
+
+    //       }
+    //     }, error: () => {
+    //       this.saveButtonLoading = false;
+    //     },
+    //     complete: () => {
+    //       this.saveButtonLoading = false;
+    //     }
+    //   })
+
+
+    // }
   }
+
+  showPreviousButton = false;
 
   previous() {
 
@@ -198,26 +203,26 @@ export class ApplicantDetailsComponent implements OnInit {
 
     else if (this.tabComp.selectedTab == 2) {
       this.tabComp.selectedTab = 1;
-
+      
       this.tabComp.disabledTabs[2].disabled = true;
       this.tabComp.disabledTabs[1].disabled = false;
-
+      this.showPreviousButton = false
       this.saveButtonLoading = false;
     }
 
-    else if (this.tabComp.selectedTab == 3) {
+    // else if (this.tabComp.selectedTab == 3) {
 
-      this.tabComp.selectedTab = 2;
-      this.tabComp.disabledTabs[3].disabled = true;
-      this.tabComp.disabledTabs[2].disabled = false;
-    }
+    //   this.tabComp.selectedTab = 2;
+    //   this.tabComp.disabledTabs[3].disabled = true;
+    //   this.tabComp.disabledTabs[2].disabled = false;
+    // }
 
-    else if (this.tabComp.selectedTab == 4) {
-      this.saveButtonTitle = 'Save and Next';
-      this.tabComp.selectedTab = 3;
-      this.tabComp.disabledTabs[4].disabled = true;
-      this.tabComp.disabledTabs[3].disabled = false;
-    }
+    // else if (this.tabComp.selectedTab == 4) {
+    //   this.saveButtonTitle = 'Save and Next';
+    //   this.tabComp.selectedTab = 3;
+    //   this.tabComp.disabledTabs[4].disabled = true;
+    //   this.tabComp.disabledTabs[3].disabled = false;
+    // }
 
   }
 

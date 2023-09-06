@@ -27,35 +27,35 @@ export class ApplicantFinancialComponent implements OnInit {
   incomeList = [
     {
       label: 'Upto ₹60000',
-      value: 'Upto ₹60000'
+      value: 'A'
     },
     {
       label: '₹60001 to ₹120000',
-      value: '₹60001 to ₹120000'
+      value: 'B'
     },
     {
       label: '₹120001 to ₹240000',
-      value: '₹120001 to ₹240000'
+      value: 'C'
     },
     {
       label: '₹240001 to ₹360000',
-      value: '₹240001 to ₹360000'
+      value: 'D'
     },
     {
       label: '₹360001 to ₹600000',
-      value: '₹360001 to ₹600000'
+      value: 'E'
     },
     {
       label: '₹600001 to ₹1200000',
-      value: '₹600001 to ₹1200000'
+      value: 'F'
     },
     {
       label: '₹1200001 to ₹1800000',
-      value: '₹1200001 to ₹1800000'
+      value: 'G'
     },
     {
       label: 'Above ₹1800000',
-      value: 'Above ₹1800000'
+      value: 'H'
     }
   ]
 
