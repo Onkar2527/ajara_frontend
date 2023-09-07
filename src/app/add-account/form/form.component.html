@@ -126,8 +126,6 @@
 
     <!-- Applicant 1 -->
 
-
-
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all heading" style="text-align:center">
         व्यक्तीगत माहिती Personal Details (अर्जदार – १ Applicant – 1)
@@ -669,6 +667,13 @@
 
     </div>
 
+    
+
+  </div>
+
+
+  <div class="page" id="page2">
+
     <div nz-row>
 
       <div nz-col nzSpan="4" class="border-all data-heading">ओव्हीडी OVD
@@ -693,15 +698,6 @@
       </div>
 
     </div>
-
-
-
-
-
-  </div>
-
-
-  <div class="page" id="page2">
 
     <div nz-row>
 
@@ -731,7 +727,6 @@
       <div nz-col nzSpan="6" class="border-all data"></div>
 
     </div>
-
 
     <div nz-row>
 
@@ -1266,6 +1261,11 @@
 
     </div>
 
+    
+  </div>
+
+  <div class="page" id="page3">
+
     <div nz-row>
 
       <div nz-col nzSpan="5" class="border-all data-heading">
@@ -1282,15 +1282,6 @@
       </div>
 
     </div>
-
-
-
-
-
-
-  </div>
-
-  <div class="page" id="page3">
 
     <div nz-row>
 
@@ -1905,7 +1896,7 @@
 
 
 
-  <div id="page5">
+  <div class="page" id="page5">
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_VERNACULAR">
       <div nz-row>
@@ -2015,6 +2006,9 @@
       </div>
     </div>
 
+  </div>
+
+  <div id="page6">
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_DOB_MISMATCH">
       <div nz-row style="margin-top:30px;margin-bottom: 20px;">
@@ -2048,6 +2042,11 @@
           valid DOB proof to support this declaration.
         </div>
       </div>
+
+      <div nz-row style="margin-top:80px;">
+        <div nz-col nzSpan="24">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
+      </div>
+
     </div>
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal.length == 2">
@@ -2083,9 +2082,12 @@
             valid DOB proof to support this declaration.
           </div>
         </div>
+
+        <div nz-row style="margin-top:80px;">
+          <div nz-col nzSpan="24">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
+        </div>
       </div>
     </div>
-
   </div>
 
 
