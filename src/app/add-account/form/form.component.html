@@ -1,9 +1,9 @@
 <div id="contentToConvert" style="width: 100%;">
 
-  
+
 
   <div class="page" id="page1">
- 
+
     <!-- <div nz-row style="background-color: #b0242d;" >
 
       <div nz-col nzSpan="15" style="background-color: #b0242d;width: 100%; height: 45px; display: flex; align-items: center;">
@@ -67,7 +67,7 @@
       <div nz-col nzSpan="5" class="border-all data-heading">Branch Name and Code </div>
       <div nz-col nzSpan="6" class="border-all data"></div>
       <div nz-col nzSpan="3" class="border-all data-heading">Date</div>
-      <div nz-col nzSpan="5" class="border-all data"></div>
+      <div nz-col nzSpan="5" class="border-all data">{{basicInfo.APPLICATION_DATE | date:"dd/MM/yyyy"}}</div>
     </div>
 
     <div nz-row>
@@ -75,20 +75,30 @@
       </div>
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार १ <div>Applicant 1</div>
       </div>
-      <div nz-col nzSpan="6" class="border-all data"></div>
+
+      <div nz-col nzSpan="6" class="border-all data">
+        {{basicInfo.CUSTOMER_ID_1}}
+      </div>
+
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार २ <div>Applicant 2</div>
       </div>
-      <div nz-col nzSpan="6" class="border-all data"></div>
+      <div nz-col nzSpan="6" class="border-all data">
+        {{basicInfo.CUSTOMER_ID_2}}
+      </div>
     </div>
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data-heading">CKYC Number</div>
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार १ <div>Applicant 1</div>
       </div>
-      <div nz-col nzSpan="6" class="border-all data"></div>
+      <div nz-col nzSpan="6" class="border-all data">
+        {{basicInfo.CKYC_NUMBER_1}}
+      </div>
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार २ <div>Applicant 2</div>
       </div>
-      <div nz-col nzSpan="6" class="border-all data"></div>
+      <div nz-col nzSpan="6" class="border-all data">
+        {{basicInfo.CKYC_NUMBER_2}}
+      </div>
     </div>
 
     <div nz-row>
@@ -103,7 +113,7 @@
       <div nz-col nzSpan="4" class="border-all data-heading">खात्याचा प्रकार <div>Account Type</div>
       </div>
       <div nz-col nzSpan="8" class="border-all data">
-        <!-- {{account_type[basicInfo.ACCOUNT_TYPE]}} -->
+        {{account_type[depositInfo.ACCOUNT_TYPE]}}
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">खाते क्रमाांक <div>
@@ -113,12 +123,22 @@
       <div nz-col nzSpan="8" class="border-all data"></div>
     </div>
 
+
     <!-- Applicant 1 -->
+
+
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all heading" style="text-align:center">
         व्यक्तीगत माहिती Personal Details (अर्जदार – १ Applicant – 1)
       </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="4" class="border-all data-heading">Customer Type</div>
+      <div nz-col nzSpan="13" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_1]}}</div>
+      <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
+      <div nz-col nzSpan="4" class="border-all data">{{risk_type[ApplicantPersonal[0].RISK_CATEGORY]}}</div>
     </div>
 
     <div nz-row>
@@ -136,7 +156,11 @@
       <div nz-col nzSpan="8" class="border-all data-heading">
         आईचे नाांव Mother's maiden Name
       </div>
-      <div nz-col nzSpan="16" class="border-all data"></div>
+      <div nz-col nzSpan="16" class="border-all data">
+        {{ApplicantPersonal[0].MOTHERS_LAST_NAME}}
+        {{ApplicantPersonal[0].MOTHERS_NAME}} {{ApplicantPersonal[0].MOTHERS_MIDDLE_NAME}}
+
+      </div>
 
     </div>
 
@@ -157,7 +181,7 @@
       <div nz-col nzSpan="3" class="border-all data-heading">राष्ट्रीयत्व <div>Nationality</div>
       </div>
 
-      <div nz-col nzSpan="3" class="border-all data"></div>
+      <div nz-col nzSpan="3" class="border-all data">Indian</div>
 
       <div nz-col nzSpan="2" class="border-all data-heading">पॅन
         <div>PAN</div>
@@ -177,7 +201,9 @@
         <div>Date of Birth</div>
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        {{ApplicantPersonal[0].DATE_OF_BIRTH}}
+      </div>
 
     </div>
 
@@ -196,7 +222,7 @@
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
-        <!-- {{ApplicantPersonal[0].HOUSE_PHONE}} -->
+        {{ApplicantPersonal[0].MOBILE_NUMBER_2}}
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">ईमेल
@@ -226,7 +252,9 @@
         Gender
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        {{gender[ApplicantPersonal[0].GENDER]}}
+      </div>
 
     </div>
 
@@ -459,7 +487,14 @@
       </div>
 
       <div nz-col nzSpan="4" class="border-all ">
-        {{religion[ApplicantPersonal[0].RELIGION]}}
+
+        <span *ngIf="ApplicantPersonal[0].RELIGION == 'G'">
+          {{ApplicantPersonal[0].OTHER_RELIGION}}
+        </span>
+        <span *ngIf="ApplicantPersonal[0].RELIGION != 'G'">
+          {{religion[ApplicantPersonal[0].RELIGION]}}
+        </span>
+
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">
@@ -469,7 +504,13 @@
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
-        {{caste[ApplicantPersonal[0].CASTE]}}
+
+        <span *ngIf="ApplicantPersonal[0].CASTE == 'G'">
+          {{ApplicantPersonal[0].OTHER_CASTE}}
+        </span>
+        <span *ngIf="ApplicantPersonal[0].CASTE != 'G'">
+          {{religion[ApplicantPersonal[0].CASTE]}}
+        </span>
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">
@@ -507,6 +548,18 @@
     </div>
 
     <div nz-row>
+      <div nz-col nzSpan="4" class="border-all data-heading">Customer Type</div>
+      <div nz-col nzSpan="13" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_2]}}</div>
+      <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
+      <div nz-col nzSpan="4" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{risk_type[ApplicantPersonal[1].RISK_CATEGORY]}}
+        </span>
+      </div>
+    </div>
+
+
+    <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
         संपूर्ण नाव Full Name
       </div>
@@ -523,7 +576,12 @@
       <div nz-col nzSpan="8" class="border-all data-heading">
         आईचे नाांव Mother's maiden Name
       </div>
-      <div nz-col nzSpan="16" class="border-all data"></div>
+      <div nz-col nzSpan="16" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{ApplicantPersonal[1].MOTHERS_LAST_NAME}} {{ApplicantPersonal[1].MOTHERS_NAME}}
+          {{ApplicantPersonal[1].MOTHERS_MIDDLE_NAME}}
+        </span>
+      </div>
 
     </div>
 
@@ -534,7 +592,7 @@
       <div nz-col nzSpan="16" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
           {{ApplicantPersonal[1].F_OR_H_LAST_NAME}} {{ApplicantPersonal[1].F_OR_H_FIRST_NAME}}
-          {{ApplicantPersonal[1].F_OR_H_FIRST_NAME}}
+          {{ApplicantPersonal[1].F_OR_H_MIDDLE_NAME}}
         </span>
       </div>
 
@@ -546,7 +604,9 @@
       <div nz-col nzSpan="3" class="border-all data-heading">राष्ट्रीयत्व <div>Nationality</div>
       </div>
 
-      <div nz-col nzSpan="3" class="border-all data"></div>
+      <div nz-col nzSpan="3" class="border-all data">
+        Indian
+      </div>
 
       <div nz-col nzSpan="2" class="border-all data-heading">पॅन
         <div>PAN</div>
@@ -566,7 +626,11 @@
         <div>Date of Birth</div>
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{ApplicantPersonal[1].DATE_OF_BIRTH}}
+        </span>
+      </div>
 
     </div>
 
@@ -587,7 +651,9 @@
 
       <div nz-col nzSpan="4" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
-          <!-- {{ApplicantPersonal[1].HOUSE_PHONE}} -->
+          <span *ngIf="ApplicantPersonal.length > 1">
+            {{ApplicantPersonal[1].MOBILE_NUMBER_2}}
+          </span>
         </span>
       </div>
 
@@ -620,7 +686,11 @@
         Gender
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{gender[ApplicantPersonal[1].GENDER]}}
+        </span>
+      </div>
 
     </div>
 
@@ -897,7 +967,12 @@
 
       <div nz-col nzSpan="4" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
-          {{religion[ApplicantPersonal[1].RELIGION]}}
+          <span *ngIf="ApplicantPersonal[1].RELIGION == 'G'">
+            {{ApplicantPersonal[1].OTHER_RELIGION}}
+          </span>
+          <span *ngIf="ApplicantPersonal[1].RELIGION != 'G'">
+            {{religion[ApplicantPersonal[1].RELIGION]}}
+          </span>
         </span>
       </div>
 
@@ -909,7 +984,12 @@
 
       <div nz-col nzSpan="4" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
-          {{caste[ApplicantPersonal[1].CASTE]}}
+          <span *ngIf="ApplicantPersonal[1].CASTE == 'G'">
+            {{ApplicantPersonal[1].OTHER_CASTE}}
+          </span>
+          <span *ngIf="ApplicantPersonal[1].CASTE != 'G'">
+            {{religion[ApplicantPersonal[1].CASTE]}}
+          </span>
         </span>
       </div>
 
@@ -962,13 +1042,13 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <!-- {{basicInfo.GUARDIAN_NAME}} -->
+        {{ApplicantPersonal[0].GUARDIAN_NAME}}
       </div>
       <div nz-col nzSpan="2" class="border-all data-heading">
         पॅन PAN
       </div>
       <div nz-col nzSpan="3" class="border-all data">
-
+        {{ApplicantPersonal[0].GUARDIAN_PAN}}
       </div>
       <div nz-col nzSpan="3" class="border-all data">
 
@@ -985,7 +1065,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        <!-- {{basicInfo.MINOR_DOB}} -->
+        {{ApplicantPersonal[0].DATE_OF_BIRTH}}
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
         अज्ञानाच्या जन्मतारीख पुरावा
@@ -999,14 +1079,19 @@
 
     <div nz-row>
 
-      <div nz-col nzSpan="12" class="border-all data-heading">
+      <div nz-col nzSpan="8" class="border-all data-heading">
         अल्पवयीन व्यक्तीशी नाते Relation with minor
       </div>
 
-      <div nz-col nzSpan="12" class="border-all data">
-        <!-- {{relation[basicInfo.RELATION_WITH_MINOR]}} -->
+      <div nz-col nzSpan="6" class="border-all data">
+        {{relation[ApplicantPersonal[0].GUARDIAN_RELATION]}}
       </div>
 
+      <div nz-col nzSpan="3" class="border-all data-heading">पॅन PAN</div>
+
+      <div nz-col nzSpan="7" class="border-all data">
+        {{basicInfo.PAN_NUMBER}}
+      </div>
 
     </div>
 
@@ -1055,7 +1140,7 @@
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
-        <!-- {{account_operation[basicInfo.ACCOUNT_OPERATION]}} -->
+        {{account_operation[depositInfo.ACCOUNT_OPERATION]}}
       </div>
 
     </div>
@@ -1146,7 +1231,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{depositInfo.DEPOSIT_AMOUNT}}
+        
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -1154,7 +1239,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        ₹
+        ₹ {{depositInfo.DEPOSIT_AMOUNT}}
       </div>
 
 
@@ -1433,7 +1518,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        {{nominationInfo.RELATION}}
+        {{relation[nominationInfo.RELATION]}}
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
