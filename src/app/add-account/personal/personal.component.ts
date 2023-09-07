@@ -17,6 +17,23 @@ export class PersonalComponent implements OnInit {
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
 
+  mendetory_all = [
+    { field: 'PRIMARY_APPLICANT_FIRST_NAME', message: 'Applicant 1 First Name' },
+    { field: 'PRIMARY_APPLICANT_MIDDLE_NAME', message: 'Applicant 1 Middle Name' },
+    { field: 'PRIMARY_APPLICANT_LAST_NAME', message: 'Applicant 1 Last Name' },
+    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Customer Type' }
+  ]
+
+  mendetory_applicant_2 = [
+    { field: 'APPLICANT2_FIRST_NAME', message: 'Applicant 2 First Name' },
+    { field: 'APPLICANT2_MIDDLE_NAME', message: 'Applicant 2 Middle Name' },
+    { field: 'APPLICANT2_LAST_NAME', message: 'Applicant 2 Last Name' },
+    { field: 'CUSTOMER_TYPE_2', message: 'Applicant 2 Customer Type' }
+  ]
+
+
+
+
   loadAadhaarButton = false;
   loadAadhaarButton2 = false;
 
@@ -38,10 +55,13 @@ export class PersonalComponent implements OnInit {
   @Input() APPLICANT_ID!: number;
 
   ngOnInit(): void {
-    this.getBasicInfo()
+    if (this.APPLICANT_ID) {
+      this.getBasicInfo()
+    }
+
   }
 
-  saveAadhaarData(applicant_no:number) {
+  saveAadhaarData(applicant_no: number) {
     if (applicant_no == 1) {
       this.aadhaarVerify.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
       this.aadhaarVerify.aadhar_history.APPLICANT_NO = 1;
@@ -68,10 +88,10 @@ export class PersonalComponent implements OnInit {
       this.api.createAadhaarData(data).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            if(data.APPLICANT_NO == 1){
+            if (data.APPLICANT_NO == 1) {
               this.getAdhaarHistory(1);
             }
-            if(data.APPLICANT_NO == 2){
+            if (data.APPLICANT_NO == 2) {
               this.getAdhaarHistory(2);
             }
           }
@@ -89,11 +109,11 @@ export class PersonalComponent implements OnInit {
   getAdhaarHistory(applicant_no: number) {
     let aadhaar_no = '';
 
-    if(applicant_no == 1){
+    if (applicant_no == 1) {
       aadhaar_no = this.basicInfo.AADHAAR_NO_1;
     }
 
-    else if(applicant_no ==2){
+    else if (applicant_no == 2) {
       aadhaar_no = this.basicInfo.AADHAAR_NO_2;
     }
 
@@ -301,7 +321,7 @@ export class PersonalComponent implements OnInit {
 
   hideAadhar = false;
 
-  getHiddenAadhar(aadhaar:string): string {
+  getHiddenAadhar(aadhaar: string): string {
     if (this.hideAadhar && aadhaar) {
       return aadhaar.substring(0, 8).replace(/./g, 'X') + aadhaar.substring(8);
     } else {
@@ -313,56 +333,80 @@ export class PersonalComponent implements OnInit {
     let personal: Subject<any> = new Subject();
 
     this.basicInfo.STATUS = status;
+    let isOk = true;
 
-    
+    for (let field of this.mendetory_all) {
+      if (!this.basicInfo[field.field as keyof BasicInfo]) {
+        this.message.error(`${field.message} is Mandetory`, '');
+        isOk = false;
+      }
 
-    if (this.basicInfo.ID) {
-      this.api.updateBasic(this.basicInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.message.success("Personal Information updated successfully!", '');
-            this.getBasicInfo();
-            personal.next(res);
-          }
-          else {
-            this.message.error('Failed to update personal info', '');
-            personal.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          personal.error('err')
-        },
-        complete: () => {
-          console.info("Add Personal Info Request Completed!");
-          personal.complete();
+    }
+
+    if (this.basicInfo.NO_OF_APPLICANT == 2) {
+      for (let field of this.mendetory_applicant_2) {
+        if (!this.basicInfo[field.field as keyof BasicInfo]) {
+          this.message.error(`${field.message} is Mandetory`, '');
+          isOk = false;
         }
-      })
+      }
+    }
+
+
+
+    if (isOk) {
+      if (this.basicInfo.ID) {
+        this.api.updateBasic(this.basicInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.message.success("Personal Information updated successfully!", '');
+              this.getBasicInfo();
+              personal.next(res);
+            }
+            else {
+              this.message.error('Failed to update personal info', '');
+              personal.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            personal.error('err')
+          },
+          complete: () => {
+            console.info("Add Personal Info Request Completed!");
+            personal.complete();
+          }
+        })
+      }
+      else {
+        this.api.addBasic(this.basicInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.message.success("Personal Information added successfully!", '');
+              this.APPLICANT_ID = res['APPLICANT_ID'];
+              this.getBasicInfo();
+              personal.next(res);
+            }
+            else {
+              this.message.error('Failed to add personal info', '');
+              personal.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            personal.error('err')
+          },
+          complete: () => {
+            console.info("Add Personal Info Request Completed!");
+            personal.complete();
+          }
+        })
+      }
     }
     else {
-      this.api.addBasic(this.basicInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.message.success("Personal Information added successfully!", '');
-            this.APPLICANT_ID = res['APPLICANT_ID'];
-            this.getBasicInfo();
-            personal.next(res);
-          }
-          else {
-            this.message.error('Failed to add personal info', '');
-            personal.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          personal.error('err')
-        },
-        complete: () => {
-          console.info("Add Personal Info Request Completed!");
-          personal.complete();
-        }
-      })
+      personal.error("All mendetory fields are not filled");
     }
+
     return personal;
   }
 
