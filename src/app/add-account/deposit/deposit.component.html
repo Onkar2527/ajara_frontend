@@ -6,7 +6,7 @@
             <div nz-row class="content-box">
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
-                        <nz-form-label [nzNoColon]="true">Account Type</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Account Type</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE">
                             <nz-option [nzValue]="'A'" nzLabel="Saving"></nz-option>
                             <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option>
@@ -23,7 +23,7 @@
 
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
-                        <nz-form-label [nzNoColon]="true">Mode of Operation</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Mode of Operation</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_OPERATION">
                             <nz-option [nzValue]="'A'" nzLabel="Individual"></nz-option>
                             <nz-option [nzValue]="'B'" nzLabel="Joint"></nz-option>
@@ -44,7 +44,7 @@
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true">Initial Amount </nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired >Initial Amount </nz-form-label>
                     <nz-form-control>
 
                         <nz-input-group nzAddOnBefore="₹">
