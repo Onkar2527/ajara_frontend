@@ -104,8 +104,8 @@
                             <nz-form-control>
 
                                 <nz-input-group>
-                                    <input nz-input name="CHEQUE_BRANCH_NAME" [(ngModel)]="depositInfo.CHEQUE_BRANCH_NAME"
-                                        placeholder="Enter Branch Name" />
+                                    <input nz-input name="CHEQUE_BRANCH_NAME"
+                                        [(ngModel)]="depositInfo.CHEQUE_BRANCH_NAME" placeholder="Enter Branch Name" />
                                 </nz-input-group>
 
                             </nz-form-control>
@@ -136,7 +136,8 @@
                                 <nz-input-group>
 
                                     <input nz-input name="TRANSFER_DATE" mask="d0/M0/0000" [leadZeroDateTime]="true"
-                                        [(ngModel)]="depositInfo.TRANSFER_DATE" placeholder="dd/mm/yyyy">
+                                        [dropSpecialCharacters]="false" [(ngModel)]="depositInfo.TRANSFER_DATE"
+                                        placeholder="dd/mm/yyyy">
 
                                 </nz-input-group>
 
@@ -227,7 +228,7 @@
                             <label nz-radio [nzValue]="'H'">Half Yearly</label>
                             <label nz-radio [nzValue]="'Y'">Yearly</label>
                             <label nz-radio [nzValue]="'O'">On Maturity</label>
-                            
+
                         </nz-radio-group>
 
                     </nz-form-control>

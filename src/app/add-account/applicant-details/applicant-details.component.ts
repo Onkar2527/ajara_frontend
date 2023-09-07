@@ -22,7 +22,7 @@ export class ApplicantDetailsComponent implements OnInit {
   @ViewChild('footertpl', { static: false }) applicantFooterTemplate?: TemplateRef<{}>;
 
   APPLICANT_ID?: number;
-  ApplicantData: PersonalInfo[] = [];
+  ApplicantData: PersonalInfo[] = new Array<PersonalInfo>;
   drawerReferance: any
   saveButtonLoading: boolean = false;
   saveButtonTitle: string = 'Save and Next';

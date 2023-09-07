@@ -32,6 +32,8 @@ export class BasicInfo {
     AADHAAR_NO_1:string = '';
     AADHAAR_NO_2:string = '';
 
+    APPLICATION_DATE:string = '';
+
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 
     // ACCOUNT_OPERATION: "S" | "E" | "A" | "F" | "J" | "O" = 'S';

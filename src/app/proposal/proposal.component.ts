@@ -8,6 +8,7 @@ import { BasicInfo } from '../models/basicInfo';
 import { ApiService } from '../service/api.service';
 import { error } from 'pdf-lib';
 import { ExtraInfo } from '../models/extra-info';
+import { Aadhaar_History } from '../models/aadhaar';
 
 @Component({
   selector: 'app-proposal',
@@ -118,10 +119,11 @@ export class ProposalComponent implements OnInit {
   footer: any;
   title: string = '';
 
+
   openTabsDrawer(data: BasicInfo) {
 
     this.getTabs(data.ID);
-
+    
     if (data.STATUS == 'C') {
       this.header = this.TabHeaderTemplate;
       this.footer = this.TabFooterTplChecker;

@@ -2,8 +2,8 @@ export class TermDeposite {
     ID?: number;
     APPLICANT_ID?: number;
 
-    ACCOUNT_TYPE: "A" | "B" | "C" | "D" | "E " | "F" | "G" | "H" = "A";
-    ACCOUNT_OPERATION: "A" | "B" | "C" | "D" | "E " | "F" | "G" | "H" = "A";
+    ACCOUNT_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = "A";
+    ACCOUNT_OPERATION: "A" | "B" | "C" | "D" | "E" | "F" = "A";
 
     INITIAL_AMOUNT!: number;
     MODE_OF_PAYMENT: string = 'C';

@@ -53,55 +53,91 @@ export class NominationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+  mendetory_all = [
+    { field: 'DOB', message: "Nominee's DOB" },
+    { field: 'NOMINEE_NAME', message: 'Name of Nominee' },
+    { field: 'RELATION', message: "Relationship with Applicant" },
+    { field: 'NOMINEE_ADDRESS', message: 'Address of Nominee' }
+  ]
+
+  mendetory_minor = [
+    { field: 'APONITED_NAME', message: "Name of Appointed Person" },
+    { field: 'APONITED_ADDRESS', message: 'Address of Appointed Person' },
+  ]
+
   save() {
     let nominee: Subject<any> = new Subject();
-    if (this.nomineeInfo.ID) {
-      this.api.updateNominee(this.nomineeInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.message.success("Nominee Information updated successfully!", '');
-            this.getNominationInfo();
-            nominee.next(res);
-          }
-          else {
-            this.message.error('Failed to update Nominee info', '');
-            nominee.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          nominee.error('err')
-        },
-        complete: () => {
-          console.info("Add Nominee Info Request Completed!");
-          nominee.complete();
+
+    let isOk = true;
+
+    for (let field of this.mendetory_all) {
+      if (!this.nomineeInfo[field.field as keyof NomineeDetails]) {
+        this.message.error(`${field.message} is Mandetory`, '');
+        isOk = false;
+      }
+    }
+
+    if (this.nomineeInfo.IS_MINOR) {
+      for (let field of this.mendetory_minor) {
+        if (!this.nomineeInfo[field.field as keyof NomineeDetails]) {
+          this.message.error(`${field.message} is Mandetory`, '');
+          isOk = false;
         }
-      })
+      }
+    }
+
+    if (isOk) {
+      if (this.nomineeInfo.ID) {
+        this.api.updateNominee(this.nomineeInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.message.success("Nominee Information updated successfully!", '');
+              this.getNominationInfo();
+              nominee.next(res);
+            }
+            else {
+              this.message.error('Failed to update Nominee info', '');
+              nominee.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            nominee.error('err')
+          },
+          complete: () => {
+            console.info("Add Nominee Info Request Completed!");
+            nominee.complete();
+          }
+        })
+      }
+      else {
+        this.api.addNominee(this.nomineeInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.message.success("Nominee Information added successfully!", '');
+              this.getNominationInfo();
+              nominee.next(res);
+            }
+            else {
+              this.message.error('Failed to add Nominee info', '');
+              nominee.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            nominee.error('err')
+          },
+          complete: () => {
+            console.info("Add Nominee Info Request Completed!");
+            nominee.complete();
+          }
+        })
+      }
     }
     else {
-      this.api.addNominee(this.nomineeInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.message.success("Nominee Information added successfully!", '');
-            this.getNominationInfo();
-            nominee.next(res);
-          }
-          else {
-            this.message.error('Failed to add Nominee info', '');
-            nominee.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          nominee.error('err')
-        },
-        complete: () => {
-          console.info("Add Nominee Info Request Completed!");
-          nominee.complete();
-        }
-      })
+      nominee.error("All mendetory fields are not filled");
     }
+
 
     return nominee;
   }
@@ -123,5 +159,19 @@ export class NominationComponent implements OnInit {
 
       }
     });
+  }
+
+  calculateAge() {
+    let Age = this.nomineeInfo.DOB;
+    if (Age) {
+      let ageArray = Age.split('/');
+      let year = ~~ageArray[2];
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+      this.nomineeInfo.NOMINEE_AGE = currentYear - year;
+    }
+    else {
+      this.nomineeInfo.NOMINEE_AGE = 0;
+    }
   }
 }

@@ -12,7 +12,7 @@
                 <nz-form-item nz-col nzSpan="12">
                     <nz-form-label nzRequired [nzNoColon]="true">Nominee's DOB</nz-form-label>
                     <nz-form-control>
-                        <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB"  mask="d0/M0/0000" [leadZeroDateTime]="true" />
+                        <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB"  mask="d0/M0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" (ngModelChange)="calculateAge()"/>
                     </nz-form-control>
                 </nz-form-item>
 

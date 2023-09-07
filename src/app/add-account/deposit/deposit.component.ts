@@ -10,63 +10,133 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./deposit.component.css']
 })
 export class DepositComponent implements OnInit {
-  APPLICANT_ID!:number
+  APPLICANT_ID!: number
   depositInfo: TermDeposite = new TermDeposite();
   constructor(private api: ApiService, private message: NzNotificationService) { }
   ngOnInit(): void {
-    
+
   }
+
+  mendetory_all = [
+    { field: 'ACCOUNT_TYPE', message: 'Account Type' },
+    { field: 'ACCOUNT_OPERATION', message: 'Account Operation' }
+  ]
+
+  mendetory_saving = [
+    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
+  ]
+
+  mendetory_saving_cheque = [
+    { field: 'TRANSFER_ACCOUNT_NO', message: 'Account Number' },
+    { field: 'CHEQUE_BANK_NAME', message: 'Bank Name' },
+    { field: 'CHEQUE_BRANCH_NAME', message: 'Branch Name' },
+    { field: 'CHAQUE_NO', message: 'Cheque Number' },
+    { field: 'TRANSFER_DATE', message: 'Cheque Date' }
+  ]
+
+  mendetory_non_saving = [
+    { field: 'DEPOSIT_AMOUNT', message: 'Deposit Amount' },
+    { field: 'RATE_OF_INTEREST', message: 'Rate of Interest' },
+    { field: 'DEPOSIT_BANK_NAME', message: 'Bank Name' },
+    { field: 'DEPOSIT_BRANCH_NAME', message: 'Branch Name' },
+    { field: 'DEPOSIT_IFSC_CODE', message: 'IFSC Code' },
+    { field: 'DEPOSIT_ACCOUNT_NUMBER', message: 'Account Number' }
+  ]
 
   save() {
     let deposit: Subject<any> = new Subject();
 
-    if (this.depositInfo.ID) {
-      this.api.updateDeposite(this.depositInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.getDepositInfo();
-            this.message.success("Deposite Information updated successfully!", '');
-            deposit.next(res);
-          }
-          else {
-            this.message.error('Failed to update Deposite info', '');
-            deposit.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          deposit.error('err')
-        },
-        complete: () => {
-          console.info("update Deposite Info Request Completed!");
-          deposit.complete();
-        }
-      })
+    let isOk = true;
+
+    for (let field of this.mendetory_all) {
+      if (!this.depositInfo[field.field as keyof TermDeposite]) {
+        this.message.error(`${field.message} is Mandetory`, '');
+        isOk = false;
+      }
     }
 
-    else {
-      this.api.addDeposite(this.depositInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.getDepositInfo();
-            this.message.success("Deposite Information added successfully!", '');
-            deposit.next(res);
-          }
-          else {
-            this.message.error('Failed to add Deposite info', '');
-            deposit.next(res);
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-          deposit.error('err')
-        },
-        complete: () => {
-          console.info("Add Deposite Info Request Completed!");
-          deposit.complete();
+    if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+      for (let field of this.mendetory_saving) {
+        if (!this.depositInfo[field.field as keyof TermDeposite]) {
+          this.message.error(`${field.message} is Mandetory`, '');
+          isOk = false;
         }
-      })
+      }
+
+      if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
+        for (let field of this.mendetory_saving_cheque) {
+          if (!this.depositInfo[field.field as keyof TermDeposite]) {
+            this.message.error(`${field.message} is Mandetory`, '');
+            isOk = false;
+          }
+        }
+      }
+
     }
+
+    if (this.depositInfo.ACCOUNT_TYPE != 'A') {
+      for (let field of this.mendetory_non_saving) {
+        if (!this.depositInfo[field.field as keyof TermDeposite]) {
+          this.message.error(`${field.message} is Mandetory`, '');
+          isOk = false;
+        }
+      }
+    }
+
+    if (isOk) {
+      if (this.depositInfo.ID) {
+        this.api.updateDeposite(this.depositInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.getDepositInfo();
+              this.message.success("Deposite Information updated successfully!", '');
+              deposit.next(res);
+            }
+            else {
+              this.message.error('Failed to update Deposite info', '');
+              deposit.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            deposit.error('err')
+          },
+          complete: () => {
+            console.info("update Deposite Info Request Completed!");
+            deposit.complete();
+          }
+        })
+      }
+
+      else {
+        this.api.addDeposite(this.depositInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.getDepositInfo();
+              this.message.success("Deposite Information added successfully!", '');
+              deposit.next(res);
+            }
+            else {
+              this.message.error('Failed to add Deposite info', '');
+              deposit.next(res);
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+            deposit.error('err')
+          },
+          complete: () => {
+            console.info("Add Deposite Info Request Completed!");
+            deposit.complete();
+          }
+        })
+      }
+    }
+    else {
+      deposit.error("All mendetory fields are not filled");
+    }
+
+
 
     return deposit;
 

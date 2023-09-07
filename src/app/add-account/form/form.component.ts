@@ -34,8 +34,8 @@ export class FormComponent implements OnInit, AfterViewInit  {
   ApplicantPersonal: PersonalInfo[] = []
   ApplicantFinancial: Financial[] = []
   ApplicantProperty: Property[] = []
-  ApplicantLoanInfo: LoanInfo[] = []
-  ApplicantOtherBank: OtherBankAccount[] = []
+  // ApplicantLoanInfo: LoanInfo[] = []
+  // ApplicantOtherBank: OtherBankAccount[] = []
 
 
 
@@ -44,11 +44,16 @@ export class FormComponent implements OnInit, AfterViewInit  {
 
 
   account_type = {
-    'S' : 'Saving',
-    'F': 'Fixed Deposite',
-    'R': 'Recurring Deposite',
-    'P': 'Pigmy'
+    'A' : 'Saving',
+    'B': 'Janata Deposite',
+    'C': 'Current Account',
+    'D': 'Fixed Deposit',
+    'E':'Fixed Deposit (Reinvestment)',
+    'F':"Recurring Deposit",
+    'G':"Pigmy Deposit",
+    'H':"Other",
   }
+
 
   religion = {
     "A":"Hindu",
@@ -99,20 +104,24 @@ export class FormComponent implements OnInit, AfterViewInit  {
   }
 
   relation = {
-    "F" : "Father",
-    "M" : "Mother",
-    "C" : "By Court Order",
-    "O" : "Other"
+      'A' : 'Father',
+      'B': 'Mother',
+      'C': 'Brother',
+      'D': 'Sister',
+      'E': 'Son',
+      'F': 'Daughter',
+      'G': 'Husband',
+      'H': 'Wife',
   }
   account_operation = {
-    "S" : "Self",
-    "E" : "Either or Survivor",
-    "A" : "Anyone or Survivor",
-    "F" : "Former or Survivor",
-    "J" : "Jointly by All",
-    "O" : "Other"
+    "A":"Individual",
+    "B":"Joint",
+    "C":"Either or Survivor",
+    "D":"Formar of Survivor",
+    "E":"Any One",
+    "F":"Any Two"
   } 
-
+  
   interest_payout = {
     "M" : "Monthly",
     "Q" : "Quarterly",
@@ -153,6 +162,28 @@ export class FormComponent implements OnInit, AfterViewInit  {
     " " : "None"
   }
 
+  customer_type = {
+    "A" :"Mr.",
+    "B":"Mrs.",
+    "C" :"Miss.",
+    "D" :"Mast.",
+    "E" :"Smt.",
+    "F" :"M/s.",
+    "G":"Mx."
+  }
+
+  risk_type = {
+    "A" :"High Risk 1",
+    "B":"Medium Risk 2",
+    "C" :"Low Risk 3",
+  }
+
+  gender = {
+    'M':"Male",
+    'F':"Female",
+    'O':"Transgender"
+  }
+ 
 
   constructor(private api: ApiService, private message: NzNotificationService,private http: HttpClient) { }
   
@@ -256,8 +287,8 @@ export class FormComponent implements OnInit, AfterViewInit  {
     let applicantPersonal = this.getApplicantPersonal();
     let applicantFinancial = this.getApplicantFinancial();
     let applicantProperty = this.getApplicantProperty();
-    let applicantLoanInfo = this.getApplicantLoanInfo();
-    let applicantOtherAccount = this.getApplicantOtherAccount();
+    // let applicantLoanInfo = this.getApplicantLoanInfo();
+    // let applicantOtherAccount = this.getApplicantOtherAccount();
     let applicantPhoto = this.getApplicantPhoto();
     let count = 0;
 
@@ -421,51 +452,51 @@ export class FormComponent implements OnInit, AfterViewInit  {
       }
     })
 
-    applicantLoanInfo.subscribe({
-      next: (res2) => {
-        if (res2 == 200) {
+    // applicantLoanInfo.subscribe({
+    //   next: (res2) => {
+    //     if (res2 == 200) {
 
-          count++;
-          console.log("count in p", count);
-          if (count >= 10) {
-            //this.fillField()
-            //this.fillPdf();
-          }
-        }
-        else {
-          this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
-        }
-      },
-      error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
-      },
-      complete: () => {
+    //       count++;
+    //       console.log("count in p", count);
+    //       if (count >= 10) {
+    //         //this.fillField()
+    //         //this.fillPdf();
+    //       }
+    //     }
+    //     else {
+    //       this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
+    //     }
+    //   },
+    //   error: () => {
+    //     this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
+    //   },
+    //   complete: () => {
 
-      }
-    })
+    //   }
+    // })
 
-    applicantOtherAccount.subscribe({
-      next: (res2) => {
-        if (res2 == 200) {
+    // applicantOtherAccount.subscribe({
+    //   next: (res2) => {
+    //     if (res2 == 200) {
 
-          count++;
-          console.log("count in p", count);
-          if (count >= 10) {
-            //this.fillField()
-            //this.fillPdf();
-          }
-        }
-        else {
-          this.message.warning('Applicant Other Account Details is not Filled.', '');
-        }
-      },
-      error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
-      },
-      complete: () => {
+    //       count++;
+    //       console.log("count in p", count);
+    //       if (count >= 10) {
+    //         //this.fillField()
+    //         //this.fillPdf();
+    //       }
+    //     }
+    //     else {
+    //       this.message.warning('Applicant Other Account Details is not Filled.', '');
+    //     }
+    //   },
+    //   error: () => {
+    //     this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
+    //   },
+    //   complete: () => {
 
-      }
-    })
+    //   }
+    // })
 
     applicantPhoto.subscribe({
       next: (res2) => {
@@ -651,51 +682,51 @@ export class FormComponent implements OnInit, AfterViewInit  {
     return applicantProperty;
   }
 
-  getApplicantLoanInfo() {
-    let applicantLoanInfo: Subject<any> = new Subject();
-    this.api.getAllLoanInfo(this.APPLICANT_ID).subscribe({
-      next: (res) => {
-        if (res['code'] == 200 && res['data'].length > 0) {
-          this.ApplicantLoanInfo = res['data'];
-          console.log("applicant property:", this.ApplicantLoanInfo);
-          applicantLoanInfo.next(200);
-        }
-        else {
-          applicantLoanInfo.next(res);
-        }
-      },
-      error: (err) => {
-        applicantLoanInfo.error(err);
-      },
-      complete: () => {
-        applicantLoanInfo.complete();
-      }
-    });
-    return applicantLoanInfo;
-  }
+  // getApplicantLoanInfo() {
+  //   let applicantLoanInfo: Subject<any> = new Subject();
+  //   this.api.getAllLoanInfo(this.APPLICANT_ID).subscribe({
+  //     next: (res) => {
+  //       if (res['code'] == 200 && res['data'].length > 0) {
+  //         this.ApplicantLoanInfo = res['data'];
+  //         console.log("applicant property:", this.ApplicantLoanInfo);
+  //         applicantLoanInfo.next(200);
+  //       }
+  //       else {
+  //         applicantLoanInfo.next(res);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       applicantLoanInfo.error(err);
+  //     },
+  //     complete: () => {
+  //       applicantLoanInfo.complete();
+  //     }
+  //   });
+  //   return applicantLoanInfo;
+  // }
 
-  getApplicantOtherAccount() {
-    let applicantOtherAccount: Subject<any> = new Subject();
-    this.api.getAllOtherAccount(this.APPLICANT_ID).subscribe({
-      next: (res) => {
-        if (res['code'] == 200 && res['data'].length > 0) {
-          this.ApplicantOtherBank = res['data'];
-          console.log("applicant property:", this.ApplicantOtherBank);
-          applicantOtherAccount.next(200);
-        }
-        else {
-          applicantOtherAccount.next(res);
-        }
-      },
-      error: (err) => {
-        applicantOtherAccount.error(err);
-      },
-      complete: () => {
-        applicantOtherAccount.complete();
-      }
-    });
-    return applicantOtherAccount;
-  }
+  // getApplicantOtherAccount() {
+  //   let applicantOtherAccount: Subject<any> = new Subject();
+  //   this.api.getAllOtherAccount(this.APPLICANT_ID).subscribe({
+  //     next: (res) => {
+  //       if (res['code'] == 200 && res['data'].length > 0) {
+  //         this.ApplicantOtherBank = res['data'];
+  //         console.log("applicant property:", this.ApplicantOtherBank);
+  //         applicantOtherAccount.next(200);
+  //       }
+  //       else {
+  //         applicantOtherAccount.next(res);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       applicantOtherAccount.error(err);
+  //     },
+  //     complete: () => {
+  //       applicantOtherAccount.complete();
+  //     }
+  //   });
+  //   return applicantOtherAccount;
+  // }
 
   getApplicantPhoto() {
     let applicantPhoto: Subject<any> = new Subject();

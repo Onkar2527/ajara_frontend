@@ -63,6 +63,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.BasicInfo.ID) {
       this.getTabs(this.BasicInfo.ID);
+      this.APPLICANT_ID = this.BasicInfo.ID;
     }
 
   }
@@ -184,6 +185,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         if (res['code'] && res['data']) {
           // let data = this.api.decryptData(res['data']);
           this.Tabs = res['data'];
+          // this.personalComp.APPLICANT_ID = applicant_id;
+          // this.personalComp.getBasicInfo();
           this.reset();
           console.log("tabs = ", this.Tabs);
         }
