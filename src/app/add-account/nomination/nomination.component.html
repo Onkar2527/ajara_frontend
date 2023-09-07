@@ -10,7 +10,7 @@
                 </div>
 
                 <nz-form-item nz-col nzSpan="12">
-                    <nz-form-label [nzNoColon]="true">Nominee's DOB</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Nominee's DOB</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB"  mask="d0/M0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" (ngModelChange)="calculateAge()"/>
                     </nz-form-control>
@@ -19,7 +19,7 @@
                 <div nz-col nzSpan="1"></div>
 
                 <nz-form-item nz-col nzSpan="11">
-                    <nz-form-label nzNoColon>Nominee's Age</nz-form-label>
+                    <nz-form-label nzRequired nzNoColon>Nominee's Age</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="NOMINEE_AGE" type="text" style="width: 100%;"
                             [(ngModel)]="nomineeInfo.NOMINEE_AGE" required />
@@ -27,7 +27,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Name of Nominee</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Name of Nominee</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="nominee" [(ngModel)]="nomineeInfo.NOMINEE_NAME"
                             placeholder="Enter Name of Nominee" />
@@ -39,7 +39,7 @@
 
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Relationship with Applicant</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Relationship with Applicant</nz-form-label>
                     <nz-form-control>
                         <nz-select nzShowSearch [(ngModel)]="nomineeInfo.RELATION" style="width: 100%;">
                             <nz-option *ngFor="let option of optionList" [nzValue]="option.value"
@@ -50,7 +50,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Address of Nominee</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Address of Nominee</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
                             <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.NOMINEE_ADDRESS"></textarea>
@@ -68,7 +68,7 @@
 
             <div class="content-box" nz-row>
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Name of Appointed Person</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Name of Appointed Person</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="appointed" [(ngModel)]="nomineeInfo.APONITED_NAME"
                             placeholder="Enter Name of Appointed Person" />
@@ -76,7 +76,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Address of Appointed Person</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Address of Appointed Person</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
                             <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.APONITED_ADDRESS"></textarea>

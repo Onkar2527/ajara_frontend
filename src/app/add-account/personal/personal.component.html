@@ -105,9 +105,11 @@
 
                 <div nz-col nzSpan="13" *ngIf="!basicInfo.IS_OLD_CUSTOMER_1"></div>
 
-                <nz-form-item nz-col nzSpan="4">
+                <nz-form-item nz-col nzSpan="5">
                     <!-- <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label> -->
                     <nz-form-control>
+
+                        <nz-form-label nzRequired nzNoColon>Applicant Type</nz-form-label>
 
                         <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_1">
                             <nz-option [nzValue]="'A'" nzLabel="Mr."></nz-option>
@@ -124,7 +126,8 @@
 
                 <div nz-col nzSpan="1"></div>
 
-                <nz-form-item nz-col nzSpan="19">
+                <nz-form-item nz-col nzSpan="18">
+                    <nz-form-label nzRequired nzNoColon>First Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.PRIMARY_APPLICANT_FIRST_NAME" name="applicant1first"
                             placeholder="Enter First Name" />
@@ -132,6 +135,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label nzRequired nzNoColon>Middle Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME" name="applicant1middle"
                             placeholder="Enter Middle Name" />
@@ -139,6 +143,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label nzRequired nzNoColon>Last Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.PRIMARY_APPLICANT_LAST_NAME" name="applicant1last"
                             placeholder="Enter Last Name" />
@@ -213,9 +218,9 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton"
-                                    (click)="verifyPan(1)">Verify
-                                    PAN</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton" (click)="verifyPan(1)">
+                                    Verify
+                                </button>
                             </div>
                         </div>
                         <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
@@ -237,7 +242,7 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify License</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">
@@ -260,8 +265,7 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify
-                                    Voter ID</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">
@@ -284,8 +288,7 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary">Verify
-                                    Passport</button>
+                                <button nz-button nzType="primary">Verify</button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">
@@ -390,9 +393,11 @@
 
 
 
-                <nz-form-item nz-col nzSpan="4">
+                <nz-form-item nz-col nzSpan="6">
                     <!-- <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label> -->
                     <nz-form-control>
+
+                        <nz-form-label nzRequired nzNoColon>Applicant Type</nz-form-label>
 
                         <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_2">
                             <nz-option [nzValue]="'A'" nzLabel="Mr."></nz-option>
@@ -409,7 +414,8 @@
 
                 <div nz-col nzSpan="1"></div>
 
-                <nz-form-item nz-col nzSpan="19">
+                <nz-form-item nz-col nzSpan="17">
+                    <nz-form-label nzRequired nzNoColon>First Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.APPLICANT2_FIRST_NAME" name="applicant2first"
                             placeholder="Enter First Name" />
@@ -417,6 +423,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label nzRequired nzNoColon>Middle Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.APPLICANT2_MIDDLE_NAME" name="applicant2middle"
                             placeholder="Enter Middle Name" />
@@ -424,6 +431,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
+                    <nz-form-label nzRequired nzNoColon>Last Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input [(ngModel)]="basicInfo.APPLICANT2_LAST_NAME" name="applicant2last"
                             placeholder="Enter Last Name" />
@@ -496,9 +504,9 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton2"
-                                    (click)="verifyPan(2)">Verify
-                                    PAN</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton2" (click)="verifyPan(2)">
+                                    Verify
+                                </button>
                             </div>
                         </div>
                         <div nz-row *ngIf="aadhaarVerify2.showPan" class="success-tip">
@@ -520,7 +528,7 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify License</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">
@@ -543,8 +551,9 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify
-                                    Voter ID</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">
+                                    Verify
+                                </button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">
@@ -567,8 +576,7 @@
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary">Verify
-                                    Passport</button>
+                                <button nz-button nzType="primary">Verify</button>
                             </div>
                         </div>
                         <div nz-row *ngIf="false" class="success-tip">

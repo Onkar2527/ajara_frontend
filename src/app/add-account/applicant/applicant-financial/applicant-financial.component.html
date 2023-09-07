@@ -5,7 +5,7 @@
             <div nz-row class="content-box" style="justify-content: center;">
                 <nz-form-item nz-col nzSpan="12">
                     <nz-form-control>
-
+                        <nz-form-label nzRequired [nzNoColon]="true">Select Income</nz-form-label>
                         <nz-select nzShowSearch nzPlaceHolder="Select Income"
                             [(ngModel)]="financialInfo.INCOME" style="width: 100%;">
                             <nz-option *ngFor="let income of incomeList" [nzValue]="income.value"

@@ -21,7 +21,7 @@
             <div nz-row class="content-box">
 
                 <nz-form-item nz-col nzSpan="5">
-                    <nz-form-label [nzNoColon]="true">Risk Category</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Risk Category</nz-form-label>
                     <nz-form-control>
                         <nz-select [(ngModel)]="personalInfo.RISK_CATEGORY">
                             <nz-option [nzValue]="'A'" nzLabel="High Risk 1"></nz-option>
@@ -34,7 +34,7 @@
                 <div nz-col nzSpan="1"></div>
 
                 <nz-form-item nz-col nzSpan="5">
-                    <nz-form-label [nzNoColon]="true">Blood Type</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Blood Type</nz-form-label>
                     <nz-form-control>
                         <nz-select [(ngModel)]="personalInfo.BLOOD_TYPE">
                             <nz-option [nzValue]="'A'" nzLabel="A+"></nz-option>
@@ -64,7 +64,7 @@
             <nz-divider nzText="Names"></nz-divider>
             <div nz-row class="content-box">
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Applicant Name</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Applicant Name</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col nzSpan="8"><input nz-input name="applicant1first"
@@ -80,7 +80,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Father / Husband Name</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Father / Husband Name</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col nzSpan="8"><input nz-input name="fhfirst"
@@ -98,7 +98,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Mother's Full Name</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Mother's Full Name</nz-form-label>
                     <nz-form-control>
                         <div nz-row>
 
@@ -139,7 +139,7 @@
                 </nz-form-item> -->
 
                 <nz-form-item nz-col nzSpan="4">
-                    <nz-form-label [nzNoColon]="true">Date of Birth</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Date of Birth</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true"
                         [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH" placeholder="dd/mm/yyyy">
@@ -158,7 +158,7 @@
                 <nz-form-item nz-col nzSpan="1"></nz-form-item>
 
                 <nz-form-item nz-col nzSpan="7">
-                    <nz-form-label [nzNoColon]="true">Nationality</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Nationality</nz-form-label>
                     <nz-form-control>
 
                         <nz-select nzShowSearch [(ngModel)]="personalInfo.NATIONALITY" style="width: 100%;">
@@ -213,7 +213,7 @@
                     <nz-form-item nz-col nzSpan="1" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD"></nz-form-item>
 
                     <nz-form-item nz-col nzSpan="8" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
-                        <nz-form-label nzNoColon>Select document for proof of current address</nz-form-label>
+                        <nz-form-label nzRequired nzNoColon>Select document for proof of current address</nz-form-label>
                         <nz-form-control>
 
                             <nz-select nzShowSearch nzPlaceHolder="Select Account Type"
@@ -229,7 +229,7 @@
                     <nz-form-item nz-col nzSpan="1" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD"></nz-form-item>
 
                     <nz-form-item nz-col nzSpan="7" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
-                        <nz-form-label [nzNoColon]="true">Address</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Address</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="ADDRESS_DOCUMENT_NUMBER"
                                 [(ngModel)]="personalInfo.ADDRESS_DOCUMENT_NUMBER"
@@ -260,7 +260,7 @@
 
 
                     <nz-form-item nz-col nzSpan="24">
-                        <nz-form-label [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="adressp" [(ngModel)]="personalInfo.PERMANENT_ADDRESS"
                                 placeholder="Enter Flat No, Name of Building" />
@@ -268,7 +268,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="8">
-                        <nz-form-label [nzNoColon]="true">City / Village</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="cityp" [(ngModel)]="personalInfo.PERMANENT_CITY"
                                 placeholder="Enter City" />
@@ -278,7 +278,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label [nzNoColon]="true">Taluka</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="talukap" [(ngModel)]="personalInfo.PERMANENT_TALUKA"
                                 placeholder="Enter Taluka" />
@@ -288,7 +288,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label [nzNoColon]="true">District</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="distp" [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
                                 placeholder="Enter District" />
@@ -296,7 +296,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
-                        <nz-form-label [nzNoColon]="true">Road, Area Name</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="landmarkp" [(ngModel)]="personalInfo.PERMANENT_LANDMARK"
                                 placeholder="Enter Road , Area Name" />
@@ -304,7 +304,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="12">
-                        <nz-form-label [nzNoColon]="true">State</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="statep" [(ngModel)]="personalInfo.PERMANENT_STATE"
                                 placeholder="Enter State" />
@@ -314,7 +314,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="11">
-                        <nz-form-label [nzNoColon]="true">Pincode</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
                                 placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$"/>
@@ -340,7 +340,7 @@
                     </div>
 
                     <nz-form-item nz-col nzSpan="24">
-                        <nz-form-label [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="adressc" [(ngModel)]="personalInfo.CURRENT_ADDRESS"
                                 placeholder="Enter Flat No, Name of Building" />
@@ -348,7 +348,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="8">
-                        <nz-form-label [nzNoColon]="true">City / Village</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="cityc" [(ngModel)]="personalInfo.CURRENT_CITY"
                                 placeholder="Enter City" />
@@ -358,7 +358,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label [nzNoColon]="true">Taluka</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="talukac" [(ngModel)]="personalInfo.CURRENT_TALUKA"
                                 placeholder="Enter Taluka" />
@@ -368,7 +368,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label [nzNoColon]="true">District</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="distc" [(ngModel)]="personalInfo.CURRENT_DISTRICT"
                                 placeholder="Enter District" />
@@ -376,7 +376,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
-                        <nz-form-label [nzNoColon]="true">Road, Area Name</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="landmarkc" [(ngModel)]="personalInfo.CURRENT_LANDMARK"
                                 placeholder="Enter Road , Area Name" />
@@ -384,7 +384,7 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="12">
-                        <nz-form-label [nzNoColon]="true">State</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="statec" [(ngModel)]="personalInfo.CURRENT_STATE"
                                 placeholder="Enter State" />
@@ -394,7 +394,7 @@
                     <div nz-col nzSpan="1"></div>
 
                     <nz-form-item nz-col nzSpan="11">
-                        <nz-form-label [nzNoColon]="true">Pincode</nz-form-label>
+                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE"
                                 placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$"/>
@@ -418,7 +418,7 @@
                     <div nz-row>
 
                         <nz-form-item nz-col nzSpan="24">
-                            <nz-form-label [nzNoColon]="true">Mobile Number 1</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Mobile Number 1</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
                                     placeholder="Enter Mobile Number 1" maxlength="10" pattern="^[0-9]{10}$" />
@@ -444,7 +444,7 @@
                     <div nz-row>
 
                         <nz-form-item nz-col nzSpan="17">
-                            <nz-form-label [nzNoColon]="true">Email ID</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Email ID</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="email" [(ngModel)]="personalInfo.EMAIL_ID"
                                     placeholder="Enter Email ID" />
@@ -549,7 +549,7 @@
 
             <div nz-row class="content-box">
                 <nz-form-item nz-col nzSpan="6">
-                    <nz-form-label [nzNoColon]="true">Religion</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Religion</nz-form-label>
                     <nz-form-control>
 
                         <nz-select [(ngModel)]="personalInfo.RELIGION">
@@ -566,7 +566,7 @@
 
                 <div nz-col nzSpan="1"></div>
 
-                <nz-form-item nz-col nzSpan="5" *ngIf="personalInfo.RELIGION == 'G'">
+                <nz-form-item nzRequired nz-col nzSpan="5" *ngIf="personalInfo.RELIGION == 'G'">
                     <nz-form-label [nzNoColon]="true">Other Religion</nz-form-label>
                     <nz-form-control>
                         <input type="text" nz-input name="OTHER_RELIGION" [(ngModel)]="personalInfo.OTHER_RELIGION"
@@ -577,7 +577,7 @@
                 <div nz-col nzSpan="1"></div>
 
                 <nz-form-item nz-col nzSpan="5">
-                    <nz-form-label [nzNoColon]="true">Caste</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Caste</nz-form-label>
                     <nz-form-control>
                         <nz-select [(ngModel)]="personalInfo.CASTE">
                             <nz-option [nzValue]="'A'" nzLabel="General"></nz-option>
@@ -594,7 +594,7 @@
                 <div nz-col nzSpan="1"></div>
 
                 <nz-form-item nz-col nzSpan="5" *ngIf="personalInfo.CASTE == 'G'">
-                    <nz-form-label [nzNoColon]="true">Other Caste</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Other Caste</nz-form-label>
                     <nz-form-control>
                         <input type="text" nz-input name="OTHER_CASTE" [(ngModel)]="personalInfo.OTHER_CASTE"
                             placeholder="Please Specify Other Caste">
@@ -718,7 +718,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Company / Owner Name</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Company / Owner Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="con" [(ngModel)]="personalInfo.EMPLOYMENT_COMPANY"
                             placeholder="Enter Company / Owner Name" />
@@ -726,7 +726,7 @@
                 </nz-form-item>
 
                 <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Job Profile / Designation</nz-form-label>
+                    <nz-form-label nzRequired [nzNoColon]="true">Job Profile / Designation</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="jpd" [(ngModel)]="personalInfo.EMPLOYMENT_DESIGNATION"
                             placeholder="Enter Designation" />
@@ -796,7 +796,7 @@
                     <div nz-row>
 
                         <nz-form-item nz-col nzSpan="8">
-                            <nz-form-label [nzNoColon]="true">Minor's DOB Proof</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Minor's DOB Proof</nz-form-label>
                             <nz-form-control>
                                 <nz-select nzShowSearch [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF"
                                     style="width: 100%;">
@@ -809,7 +809,7 @@
                         <div nz-col nzSpan="1"></div>
 
                         <nz-form-item nz-col nzSpan="7">
-                            <nz-form-label [nzNoColon]="true">Name of the Guardian</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Name of the Guardian</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="GUARDIAN_NAME" [(ngModel)]="personalInfo.GUARDIAN_NAME"
                                     placeholder="Enter Name of the Guardian" />
@@ -819,7 +819,7 @@
                         <div nz-col nzSpan="1"></div>
 
                         <nz-form-item nz-col nzSpan="7">
-                            <nz-form-label [nzNoColon]="true">Relationship with minor</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Relationship with minor</nz-form-label>
                             <nz-form-control>
                                 <nz-select nzShowSearch [(ngModel)]="personalInfo.GUARDIAN_RELATION"
                                     style="width: 100%;">
@@ -831,7 +831,7 @@
                         </nz-form-item>
 
                         <nz-form-item nz-col nzSpan="8">
-                            <nz-form-label [nzNoColon]="true">Guardian's PAN number</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Guardian's PAN number</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="GUARDIAN_PAN" [(ngModel)]="personalInfo.GUARDIAN_PAN"
                                     placeholder="Enter Guardian's PAN number" />
@@ -841,7 +841,7 @@
                         <div nz-col nzSpan="1"></div>
 
                         <nz-form-item nz-col nzSpan="7">
-                            <nz-form-label [nzNoColon]="true">Gaurdian's other Document</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Gaurdian's other Document</nz-form-label>
                             <nz-form-control>
                                 <nz-select nzShowSearch [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT"
                                     style="width: 100%;">
@@ -854,7 +854,7 @@
                         <div nz-col nzSpan="1"></div>
 
                         <nz-form-item nz-col nzSpan="7">
-                            <nz-form-label [nzNoColon]="true">Guardian's other Document number</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Guardian's other Document number</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="GUARDIAN_OTHER_DOCUMENT_NUMBER"
                                     [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT_NUMBER"
