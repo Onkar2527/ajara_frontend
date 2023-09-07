@@ -13,7 +13,7 @@
                 <span> {{tab.TAB_NAME}}</span>
             </ng-template>
 
-            <app-personal [basicInfo]="BasicInfo" *ngIf="tab.TAB_ID == 1"></app-personal>
+            <app-personal [basicInfo]="BasicInfo" [APPLICANT_ID]="APPLICANT_ID" *ngIf="tab.TAB_ID == 1"></app-personal>
 
             <app-deposit *ngIf="tab.TAB_ID == 2"></app-deposit>
 

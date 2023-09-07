@@ -29,6 +29,8 @@ export class BasicInfo {
 
     IS_OLD_CUSTOMER_2: boolean = false;
 
+    AADHAAR_NO_1:string = '';
+    AADHAAR_NO_2:string = '';
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 

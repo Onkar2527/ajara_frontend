@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
-import { Aadhaar } from 'src/app/models/aadhaar';
+import { Aadhaar, Aadhaar_History } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -35,11 +35,91 @@ export class PersonalComponent implements OnInit {
 
   @Input() basicInfo: BasicInfo = new BasicInfo();
 
-  APPLICANT_ID?: number;
+  @Input() APPLICANT_ID!: number;
 
   ngOnInit(): void {
+    this.getBasicInfo()
   }
 
+  saveAadhaarData(applicant_no:number) {
+    if (applicant_no == 1) {
+      this.aadhaarVerify.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
+      this.aadhaarVerify.aadhar_history.APPLICANT_NO = 1;
+      this.aadhaarVerify.aadhar_history.ADDRESS_ID = [this.aadhaarVerify.aadhar_address]
+      this.basicInfo.AADHAAR_NO_1 = this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER;
+      this.saveAadhaar(this.aadhaarVerify.aadhar_history);
+    }
+    if (applicant_no == 2) {
+      this.aadhaarVerify2.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
+      this.aadhaarVerify2.aadhar_history.APPLICANT_NO = 2;
+      this.aadhaarVerify2.aadhar_history.ADDRESS_ID = [this.aadhaarVerify2.aadhar_address];
+      this.basicInfo.AADHAAR_NO_2 = this.aadhaarVerify2.aadhar_history.AADHAAR_NUMBER;
+      this.saveAadhaar(this.aadhaarVerify2.aadhar_history);
+    }
+
+  }
+
+
+  private saveAadhaar(data: Aadhaar_History) {
+    if (data.ID) {
+
+    }
+    else {
+      this.api.createAadhaarData(data).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            if(data.APPLICANT_NO == 1){
+              this.getAdhaarHistory(1);
+            }
+            if(data.APPLICANT_NO == 2){
+              this.getAdhaarHistory(2);
+            }
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+  }
+
+  getAdhaarHistory(applicant_no: number) {
+    let aadhaar_no = '';
+
+    if(applicant_no == 1){
+      aadhaar_no = this.basicInfo.AADHAAR_NO_1;
+    }
+
+    else if(applicant_no ==2){
+      aadhaar_no = this.basicInfo.AADHAAR_NO_2;
+    }
+
+    this.api.getAadhaarData(applicant_no, aadhaar_no).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          if (applicant_no == 1) {
+            this.aadhaarVerify.aadhar_history = res['data'][0];
+            if (this.aadhaarVerify.aadhar_history.ADDRESS_ID.length > 0) {
+              this.aadhaarVerify.aadhar_address = this.aadhaarVerify.aadhar_history.ADDRESS_ID[0];
+            }
+            this.hideAadhar = true;
+            this.aadhaarVerify.MakeHistory();
+          }
+          else if (applicant_no == 2) {
+            this.aadhaarVerify2.aadhar_history = res['data'][0];
+            if (this.aadhaarVerify2.aadhar_history.ADDRESS_ID.length > 0) {
+              this.aadhaarVerify2.aadhar_address = this.aadhaarVerify2.aadhar_history.ADDRESS_ID[0];
+            }
+            this.hideAadhar = true;
+            this.aadhaarVerify2.MakeHistory();
+          }
+        }
+      }
+    })
+  }
 
   getOtp(AplicantNo: number) {
 
@@ -106,16 +186,7 @@ export class PersonalComponent implements OnInit {
         aadhar_data.subscribe({
           next: (res) => {
             if (res == true) {
-              if (this.aadhaarVerify.data.age < 18) {
-                // this.basicInfo.IS_MINOR = true;
-                // this.basicInfo.MINOR_DOB = this.aadhaarVerify.data.dob;
-                this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
-              }
-              else {
-                // this.basicInfo.IS_MINOR = false;
-                this.basicInfo.AADHAAR_NUMBER = this.aadhaarVerify.data.aadhaar_no;
-
-              }
+              this.saveAadhaarData(1);
               this.loadAadhaarButton = false
             }
             else {
@@ -136,7 +207,8 @@ export class PersonalComponent implements OnInit {
         aadhar_data.subscribe({
           next: (res) => {
             if (res == true) {
-              this.basicInfo.AADHAAR_NUMBER2 = this.aadhaarVerify2.data.aadhaar_no;
+              this.saveAadhaarData(2);
+              // this.basicInfo.AADHAAR_NUMBER2 = this.aadhaarVerify2.data.aadhaar_no;
               this.loadAadhaarButton2 = false
             }
             else {
@@ -226,23 +298,23 @@ export class PersonalComponent implements OnInit {
     return '';
   }
 
-  
+
   hideAadhar = false;
 
-  getHiddenAadhar(): string {
-    if (this.hideAadhar) {
-      return this.aadhaarVerify.meta.id_number.substring(0, 8).replace(/./g, 'X') + this.aadhaarVerify.meta.id_number.substring(8);
+  getHiddenAadhar(aadhaar:string): string {
+    if (this.hideAadhar && aadhaar) {
+      return aadhaar.substring(0, 8).replace(/./g, 'X') + aadhaar.substring(8);
     } else {
-      return this.aadhaarVerify.meta.id_number;
+      return aadhaar;
     }
   }
 
   save(status: string) {
     let personal: Subject<any> = new Subject();
-    
+
     this.basicInfo.STATUS = status;
 
-    this.hideAadhar = true;
+    
 
     if (this.basicInfo.ID) {
       this.api.updateBasic(this.basicInfo).subscribe({
@@ -299,6 +371,10 @@ export class PersonalComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
+          this.getAdhaarHistory(1);
+          if (this.basicInfo.NO_OF_APPLICANT == 2) {
+            this.getAdhaarHistory(2);
+          }
         }
         else {
         }

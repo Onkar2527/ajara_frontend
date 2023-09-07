@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableInput, from, observable, of, switchMap, tap } from 'rxjs';
-import { AadhaarMeta, } from '../models/aadhaar';
+import { AadhaarMeta, Aadhaar_History, } from '../models/aadhaar';
 import { Facilities } from '../models/facilities';
 import { NomineeDetails } from '../models/nominee-details';
 import { PanMeta } from '../models/pan-meta';
@@ -99,10 +99,10 @@ export class ApiService implements HttpInterceptor {
       'APIKEY': 'prasad',
       'SUPPORTKEY': 'hejUJJSK99gg',
       'TOKEN': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IlVTRVJfSUQiOjkwfSwiaWF0IjoxNjc2ODk1MzgzfQ.V80hoP9N4BRhC-hqrVtLz45hWTVWZrZR5FZD34YcLZE',
-      
+
     });
 
-  
+
   encryptWithPublicKey(valueToEncrypt: any): string {
     const rsa = Forge.pki.publicKeyFromPem(this.server_publickey);
     return window.btoa(rsa.encrypt(valueToEncrypt.toString()));
@@ -118,7 +118,7 @@ export class ApiService implements HttpInterceptor {
   genAadhaarOtpUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/generate-otp";
   getAadhaarDataUrl = "https://kyc-api.aadhaarkyc.io/api/v1/aadhaar-v2/submit-otp ";
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
-  aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
+  // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
   baseUrl = 'https://accountopening.kredpool.in/api/';
 
@@ -367,13 +367,13 @@ export class ApiService implements HttpInterceptor {
   }
   // aadhaar
 
-  GetAllAadhaarData(): Observable<any> {
-    return this.httpClient.get(this.aadhaarBaseUrl + "get", this.options)
-  }
+  // GetAllAadhaarData(): Observable<any> {
+  //   return this.httpClient.get(this.aadhaarBaseUrl + "get", this.options)
+  // }
 
-  PostAadharData(data: any): Observable<any> {
-    return this.httpClient.post<any>(this.aadhaarBaseUrl + "create", data)
-  }
+  // PostAadharData(data: any): Observable<any> {
+  //   return this.httpClient.post<any>(this.aadhaarBaseUrl + "create", data)
+  // }
 
 
   Aadhaar_GetOTP(data: AadhaarMeta): Observable<any> {
@@ -442,10 +442,10 @@ export class ApiService implements HttpInterceptor {
 
   }
 
-  getTabs(applicant_id: number,user_key:any) {
+  getTabs(applicant_id: number, user_key: any) {
     let data = {
       APPLICANT_ID: applicant_id,
-      USER_KEY : user_key
+      USER_KEY: user_key
     }
 
     let encrypted_data = {
@@ -456,57 +456,71 @@ export class ApiService implements HttpInterceptor {
 
   }
 
-  updateTab(data:ExtraInfo){
+  updateTab(data: ExtraInfo) {
 
 
-    return this.httpClient.post<any>(this.baseUrl+'extraInformation/update',data,this.optionMain);
+    return this.httpClient.post<any>(this.baseUrl + 'extraInformation/update', data, this.optionMain);
   }
 
 
-  getDocument(applicant_id:number,applicant_no:number){
+  getDocument(applicant_id: number, applicant_no: number) {
     let data = {
-      APPLICANT_ID:applicant_id,
-      APPLICANT_NO:applicant_no
+      APPLICANT_ID: applicant_id,
+      APPLICANT_NO: applicant_no
     }
 
-    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/getAllApplicants',data,this.optionMain);
+    return this.httpClient.post<any>(this.baseUrl + 'applicantDocuments/getAllApplicants', data, this.optionMain);
 
   }
-  createDocument(data:Documents){
- 
-    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/create',data,this.optionMain);
+  createDocument(data: Documents) {
 
-  }
-
-  updateDocument(data:Documents){
-    
-    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/upload',data,this.optionMain);
+    return this.httpClient.post<any>(this.baseUrl + 'applicantDocuments/create', data, this.optionMain);
 
   }
 
-  updateSingleDocument(data:Documents){
-    
-    return this.httpClient.post<any>(this.baseUrl+'applicantDocuments/update',data,this.optionMain);
+  updateDocument(data: Documents) {
+
+    return this.httpClient.post<any>(this.baseUrl + 'applicantDocuments/upload', data, this.optionMain);
+
+  }
+
+  updateSingleDocument(data: Documents) {
+
+    return this.httpClient.post<any>(this.baseUrl + 'applicantDocuments/update', data, this.optionMain);
 
   }
 
 
-  getEmailOtp(email:string){
-    let data= {
-      EMAIL:email
-    }
-
-    return this.httpClient.post<any>(this.baseUrl+'emailVerification/sendAndVerifyOtp',data,this.optionMain);
-  }
-
-  verifyEmail(otp:string,email:string){
+  getEmailOtp(email: string) {
     let data = {
-      EMAIL:email,
-      OTP:otp
+      EMAIL: email
     }
 
-    return this.httpClient.post<any>(this.baseUrl+'emailVerification/verifyOtp',data,this.optionMain);
+    return this.httpClient.post<any>(this.baseUrl + 'emailVerification/sendAndVerifyOtp', data, this.optionMain);
+  }
 
+  verifyEmail(otp: string, email: string) {
+    let data = {
+      EMAIL: email,
+      OTP: otp
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'emailVerification/verifyOtp', data, this.optionMain);
+
+  }
+
+
+  createAadhaarData(data: Aadhaar_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'aadhaar/create', data, this.optionMain);
+  }
+
+  getAadhaarData(applicant_no: number, aadhaar_no: string) {
+    let data = {
+      APPLICANT_NO: applicant_no,
+      AADHAAR_NUMBER:aadhaar_no
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'aadhaar/get', data, this.optionMain);
   }
 
 

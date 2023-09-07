@@ -33,35 +33,32 @@
             <nz-divider nzText="KYC Details Applicant 1"></nz-divider>
             <div class="content-box ">
                 <div nz-row>
-
                     <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 20px;">
-                        <b>{{aadhaarVerify.data.aadhaar_no}}</b>
+                        <b>{{aadhaarVerify.common.aadhaar_no}}</b>
                     </div>
                     <div nz-col nzSpan="18" style="font-size: 14px;">
                         <div nz-row>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Name :
-                                <b>{{aadhaarVerify.data.full_name}}</b>
+                                <b>{{aadhaarVerify.common.full_name}}</b>
                             </div>
                             <div nz-col nzSpan="18" style="margin-bottom:10px;">DOB :
-                                <b>{{aadhaarVerify.data.dob}}</b>
+                                <b>{{aadhaarVerify.common.dob}}</b>
                             </div>
                             <div nz-col nzSpan="6" style="margin-bottom:10px;">Age :
-                                <b>{{aadhaarVerify.data.age}}</b>
+                                <b>{{aadhaarVerify.common.age}}</b>
                             </div>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Gender :
-                                <b>{{aadhaarVerify.data.gender}}</b>
+                                <b>{{aadhaarVerify.common.gender}}</b>
                             </div>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Address :
-                                <b>{{aadhaarVerify.data.address.vtc}}, {{aadhaarVerify.data.address.street}},
-                                    {{aadhaarVerify.data.address.loc}}, {{aadhaarVerify.data.address.dist}},
-                                    {{aadhaarVerify.data.address.state}}, {{aadhaarVerify.data.address.country}}</b>
+                                <b>{{aadhaarVerify.common.address}}</b>
                             </div>
 
                         </div>
 
                     </div>
                     <div nz-col nzSpan="6" style="text-align:center">
-                        <img width="100px" height="100px" [src]="aadhaarVerify.data.profile_image">
+                        <img width="100px" height="100px" [src]="aadhaarVerify.common.profile_image">
                     </div>
                 </div>
 
@@ -163,7 +160,7 @@
                     <nz-form-control nzErrorTip="The input is not Aadhaar number!">
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify.meta.id_number" [value]="getHiddenAadhar()"
+                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify.aadhar_history.AADHAAR_NUMBER" [value]="getHiddenAadhar(aadhaarVerify.aadhar_history.AADHAAR_NUMBER)"
                                     placeholder="Enter Aadhaar number" maxlength="12" />
                             </div>
                             <div nz-col nzSpan="1">
@@ -322,33 +319,31 @@
                 <div nz-row>
 
                     <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 20px;">
-                        <b>{{aadhaarVerify2.data.aadhaar_no}}</b>
+                        <b>{{aadhaarVerify2.common.aadhaar_no}}</b>
                     </div>
                     <div nz-col nzSpan="18" style="font-size: 14px;">
                         <div nz-row>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Name :
-                                <b>{{aadhaarVerify2.data.full_name}}</b>
+                                <b>{{aadhaarVerify2.common.full_name}}</b>
                             </div>
                             <div nz-col nzSpan="18" style="margin-bottom:10px;">DOB :
-                                <b>{{aadhaarVerify2.data.dob}}</b>
+                                <b>{{aadhaarVerify2.common.dob}}</b>
                             </div>
                             <div nz-col nzSpan="6" style="margin-bottom:10px;">Age :
-                                <b>{{aadhaarVerify2.data.age}}</b>
+                                <b>{{aadhaarVerify2.common.age}}</b>
                             </div>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Gender :
-                                <b>{{aadhaarVerify2.data.gender}}</b>
+                                <b>{{aadhaarVerify2.common.gender}}</b>
                             </div>
                             <div nz-col nzSpan="24" style="margin-bottom:10px;">Address :
-                                <b>{{aadhaarVerify2.data.address.vtc}}, {{aadhaarVerify2.data.address.street}},
-                                    {{aadhaarVerify2.data.address.loc}}, {{aadhaarVerify2.data.address.dist}},
-                                    {{aadhaarVerify2.data.address.state}}, {{aadhaarVerify2.data.address.country}}</b>
+                                <b>{{aadhaarVerify2.common.address}}</b>
                             </div>
 
                         </div>
 
                     </div>
                     <div nz-col nzSpan="6" style="text-align:center">
-                        <img width="100px" height="100px" [src]="aadhaarVerify2.data.profile_image">
+                        <img width="100px" height="100px" [src]="aadhaarVerify2.common.profile_image">
                     </div>
                 </div>
 
@@ -448,7 +443,7 @@
                     <nz-form-control nzErrorTip="The input is not Aadhaar number!">
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="aadhar" [(ngModel)]="aadhaarVerify2.meta.id_number"  [value]="getHiddenAadhar()"
+                                <input nz-input name="aadhar2" [(ngModel)]="aadhaarVerify2.aadhar_history.AADHAAR_NUMBER" 
                                     placeholder="Enter Aadhaar number" maxlength="12" />
                             </div>
                             <div nz-col nzSpan="1">
