@@ -14,6 +14,7 @@ import { LoanInfo } from 'src/app/models/loan-info';
 import { OtherBankAccount } from 'src/app/models/other-bank-account';
 import { ImageData } from 'src/app/models/image-data';
 const html2pdf =  require('html2pdf.js');
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -153,11 +154,12 @@ export class FormComponent implements OnInit, AfterViewInit  {
   }
 
 
-  constructor(private api: ApiService, private message: NzNotificationService) { }
+  constructor(private api: ApiService, private message: NzNotificationService,private http: HttpClient) { }
   
   ngOnInit(): void {
    if(this.APPLICANT_ID){
     this.getAllData();
+    this.convertImageUrlToBase64();
    }
   }
   ngAfterViewInit(): void{
@@ -236,7 +238,12 @@ export class FormComponent implements OnInit, AfterViewInit  {
  
 
   save() {
-    this.generatePDF();
+    const img = new Image();
+    img.src = this.base64Image;
+    img.onload = () => {
+      this.generatePDF();
+    };
+    // this.generatePDF();
   }
 
 
@@ -750,25 +757,68 @@ export class FormComponent implements OnInit, AfterViewInit  {
     return res;
   }
 
+  imageUrl = '../assets/Bank-Name-Shade.png';
+  base64Image: string = '';
+
+  convertImageUrlToBase64() {
+    const img = new Image();
+    img.src = this.imageUrl;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        this.base64Image = canvas.toDataURL('image/svg'); 
+      } else {
+        console.error('Canvas context is null. Unable to draw the image.');
+      }  
+      this.base64Image = canvas.toDataURL('image/svg'); 
+    };
+  }
  
 
-  async generatePDF() {
+  // async generatePDF() {
     
+  //   let data = document.getElementById('contentToConvert');
+  //   let opt = {
+  //     margin: 0.3,
+  //     image: { type: "jpeg", quality: 0.98 },
+  //     html2canvas:{scale:4, useCORS: true},
+  //     pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
+  //     jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
+  //   };
+
+
+  //   await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
+  //   this.pdfButtonLoading.emit(false)
+  //   // console.log("pdf done",this.pdfButtonLoading);
+  // }
+
+  async generatePDF() {
     let data = document.getElementById('contentToConvert');
+    if (!data) {
+      console.error("Element with ID 'contentToConvert' not found in the DOM.");
+      return; 
+    }
+    this.imageUrl = '../assets/BankName.svg';
+    const img = document.createElement('img');
+    img.src = this.imageUrl;
+    data.appendChild(img);
+  
     let opt = {
       margin: 0.3,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas:{scale:4},
-      pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
+      html2canvas: { scale: 4, useCORS: true },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
       jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
     };
-
-    
-    await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
-    this.pdfButtonLoading.emit(false)
-    // console.log("pdf done",this.pdfButtonLoading);
+  
+    // Use html2pdf to generate the PDF, including the image
+    await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form.pdf');
+    this.pdfButtonLoading.emit(false);
   }
-
   
 
 
