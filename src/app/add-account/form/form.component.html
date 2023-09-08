@@ -61,10 +61,10 @@
       </div>
     </div> -->
 
-    <div nz-row nzSpan="24" >
+    <div nz-row nzSpan="24">
 
-      <img [src]="base64Image" alt="Logo" style="border:1px solid black;" width= "100%" height="100%">
-  
+      <img [src]="base64Image" alt="Logo" style="border:1px solid black;" width="100%" height="100%">
+
     </div>
 
     <div nz-row>
@@ -602,9 +602,9 @@
     </div>
 
 
-  
 
-    
+
+
 
   </div>
 
@@ -1168,7 +1168,7 @@
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
-        रोख Cash
+        {{depositInfo.MODE_OF_PAYMENT == 'C' ? 'रोख Cash' : 'Cheque'}}
       </div>
 
       <div nz-col nzSpan="7" class="border-all data-heading">
@@ -1226,9 +1226,9 @@
     </div>
 
 
-   
 
-    
+
+
   </div>
 
   <div class="page" id="page3">
@@ -1240,7 +1240,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        
+
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -1526,7 +1526,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        {{nominationInfo.DOB | date:'dd/mm/yyyy'}}
+        {{nominationInfo.DOB | date:'dd/MM/yyyy'}}
       </div>
 
     </div>

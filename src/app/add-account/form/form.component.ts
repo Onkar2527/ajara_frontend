@@ -10,11 +10,12 @@ import { PDFDocument } from 'pdf-lib';
 import { PersonalInfo } from 'src/app/models/personal-info';
 import { Financial } from 'src/app/models/financial';
 import { Property } from 'src/app/models/property';
-import { LoanInfo } from 'src/app/models/loan-info';
-import { OtherBankAccount } from 'src/app/models/other-bank-account';
+// import { LoanInfo } from 'src/app/models/loan-info';
+// import { OtherBankAccount } from 'src/app/models/other-bank-account';
 import { ImageData } from 'src/app/models/image-data';
 const html2pdf =  require('html2pdf.js');
 import { HttpClient } from '@angular/common/http';
+import { Documents } from 'src/app/models/documents';
 
 @Component({
   selector: 'app-form',
@@ -41,7 +42,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
 
 
   ApplicantPhoto: ImageData[] = [];
-
+  documentData:Documents[] = [];
 
   account_type = {
     'A' : 'Saving',
@@ -197,77 +198,6 @@ export class FormComponent implements OnInit, AfterViewInit  {
     
   }
 
-  pdfSrc = '../../../assets/FACO Adobe Form.pdf'
-  pdfSrc2 = '../../../assets/Applicants Form.pdf'
-
-  MergedPdf: any;
-
-  pdfDoc: any;
-  pdfByte: any
-  showPdf: boolean = false;
-
-  pdfDoc2: any;
-  pdfByte2: any;
-
-  pdfDoc3: any;
-  pdfByte3: any;
-
-  pdfDoc4: any;
-  pdfByte4: any;
-
-  pdfDoc5: any;
-  pdfByte5: any;
-
-  fieldMap: FormField[] = []
-  fieldMap2: FormField[][] = []
-  fieldMap3: FormField[][] = []
-
-
-  getPhoto(applicant_no: number): string {
-    if (this.ApplicantPhoto.length >= applicant_no) {
-      return this.ApplicantPhoto[applicant_no - 1].IMAGE_DATA
-    }
-    else {
-      return '';
-    }
-
-  }
-
-  validateValue(value: any) {
-    if (value) {
-      return value.toString();
-    }
-    else {
-      return ''
-    }
-  }
-
-  validateBlock(value: any, size: number) {
-    let returnArray = []
-    if (value) {
-      if (size) {
-        let tempArray = this.splitInBlock(value.toString());
-        for (let i = 0; i < size; i++) {
-          returnArray.push(tempArray[i]);
-        }
-      }
-    }
-
-    return returnArray;
-  }
-
-  validateRadioButton(value: any, checkChar: any) {
-    if (value == checkChar) {
-      return true;
-    }
-    else {
-      return false;
-    }
-
-  }
-
- 
-
   save() {
     const img = new Image();
     img.src = this.base64Image;
@@ -290,6 +220,7 @@ export class FormComponent implements OnInit, AfterViewInit  {
     // let applicantLoanInfo = this.getApplicantLoanInfo();
     // let applicantOtherAccount = this.getApplicantOtherAccount();
     let applicantPhoto = this.getApplicantPhoto();
+    let applicantDocument = this.getDocuments();
     let count = 0;
 
     personal.subscribe({
@@ -515,6 +446,29 @@ export class FormComponent implements OnInit, AfterViewInit  {
       },
       error: () => {
         this.message.warning('Something went wrong! While getting Applicant Photo.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantDocument.subscribe({
+      next:(res)=>{
+        if(res == 200){
+         
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          this.message.warning('Something went wrong! while getting Document Information.', '');
+        }
+      },
+      error: () => {
+        this.message.warning('Something went wrong! while getting Document Information.', '');
       },
       complete: () => {
 
@@ -750,43 +704,32 @@ export class FormComponent implements OnInit, AfterViewInit  {
     return applicantPhoto;
   }
 
-
-
-
-  splitName(str: string): string[] {
-    let res: string[] = []
-    if (str) {
-      res = str.split(' ');
-    }
-    return res;
-  }
-  splitDate(date: string): string[] {
-    let res: string[] = [];
-    let ires: string[] = [];
-
-    if (date) {
-      ires = this.splitInBlock(date);
-      if (ires.length > 7) {
-        for (let i = 0; i < ires.length; i++) {
-          if (ires[i] != '-' && ires[i] != '/') {
-            res.push(ires[i])
+  getDocuments() { 
+    let document : Subject<any> = new Subject(); 
+    this.api.getDocument(this.APPLICANT_ID, null).subscribe({ 
+        next: (res) => { 
+          if(200 == res.code && res.data.length > 0){
+            (this.documentData = res.data, 
+              document.next(200));
           }
-        }
-      }
-    }
-    return res;
-  }
-  splitInBlock(str: string): string[] {
-    let res: string[] = []
-    if (str) {
-      for (let i = 0; i < str.length; i++) {
-        res.push(str.charAt(i));
-      }
+          
+          else{
+            document.next(res);
+          }
+        },
+      error: err => { 
+        document.error(err) 
+      }, 
 
-    }
+      complete: () => { 
+        document.complete() 
+      } 
+    })
+    return document;
 
-    return res;
-  }
+  } 
+
+
 
   imageUrl = '../assets/Bank-Name-Shade.png';
   base64Image: string = '';
@@ -809,60 +752,636 @@ export class FormComponent implements OnInit, AfterViewInit  {
     };
   }
  
+  async generatePDF() {
 
-  // async generatePDF() {
+    const mergedPdfDoc = await PDFDocument.create();
+    //PDFDocument = pdfDocument
+    let pngArray = [], jpegArray = [], pdfArray = [];
+
+    pngArray = this.documentData.filter(Pn => "image/png" == Pn.FILE_TYPE);
+    jpegArray = this.documentData.filter(Pn => "image/jpeg" == Pn.FILE_TYPE || "image/jpg" == Pn.FILE_TYPE);
+    pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE);
+
+    let totalImageArrayLength = pngArray.length + jpegArray.length,
+        imagePages = new Array(totalImageArrayLength),
+        buffeeImageData = new Array(totalImageArrayLength),
+        imageData = new Array(totalImageArrayLength),
+        embededImageRef = new Array(totalImageArrayLength),
+        index = 0;
+
+    for (let Pn of pngArray) {
+        imageData[index] = await fetch(Pn.IMAGE_DATA);
+        buffeeImageData[index] = await imageData[index].arrayBuffer();
+        embededImageRef[index] = await mergedPdfDoc.embedPng(buffeeImageData[index]);
+        index++;
+    };
+    for (let Pn of jpegArray) {
+        imageData[index] = await fetch(Pn.IMAGE_DATA);
+        buffeeImageData[index] = await imageData[index].arrayBuffer();
+        embededImageRef[index] = await mergedPdfDoc.embedJpg(buffeeImageData[index]);
+        index++;
+        console.log("images", embededImageRef)
+    }
+
+
+
+    for (let Pn = 0; Pn < totalImageArrayLength; Pn++) {
+        imagePages[Pn] = mergedPdfDoc.addPage();
+        imagePages[Pn].drawImage(embededImageRef[Pn],
+            { x: 0, y: 0, width: imagePages[Pn].getWidth(), height: imagePages[Pn].getHeight() }
+        );
+
+    };
+
+    let pdfDataArray = new Array(pdfArray.length),
+        pdfDataBuffer = new Array(pdfArray.length),
+        pdfDataDoc = new Array(pdfArray.length),
+        lt = 0
+
+    for (let Pn of pdfArray) {
+        pdfDataArray[lt] = await fetch(Pn.IMAGE_DATA);
+        pdfDataBuffer[lt] = await pdfDataArray[lt].arrayBuffer();
+        pdfDataDoc[lt] = await PDFDocument.load(pdfDataBuffer[lt]);
+        lt++;
+    }
+
+    let pdfDoc = await PDFDocument.create();
+    for (let Pn of pdfDataDoc) {
+        (await pdfDoc.copyPages(Pn, Pn.getPageIndices())).forEach($mergedPdfDoc => pdfDoc.addPage($mergedPdfDoc))
+    };
+
+    let fetchedFormData, formDataArrayBuffer, ir,
+        formHtmlRef = document.getElementById("contentToConvert"),
+        formPdfData = "";
+
+    let options = {
+        margin: .3, image: { type: "jpeg", quality: .98 },
+        html2canvas: { scale: 4 }, pagebreak: { mode: ["avoid-all", "css", "legecy"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
+    }
+
+    await html2pdf()
+        .from(formHtmlRef)
+        .set(options)
+        .outputPdf()
+        .then(function (Pn:any) {
+            console.log(Pn), formPdfData = btoa(Pn)
+        });
+
+    let formPdfData_base64 = "data:application/pdf;base64," + formPdfData;
+
+    console.log("base 64 ", formPdfData_base64);
+    fetchedFormData = await fetch(formPdfData_base64);
+    formDataArrayBuffer = await fetchedFormData.arrayBuffer();
+
+    ir = await PDFDocument.load(formDataArrayBuffer);
+    let pdfDoc2 = await PDFDocument.create();
+
+    (await pdfDoc2.copyPages(ir, ir.getPageIndices())).forEach(Pn => pdfDoc2.addPage(Pn)), (await pdfDoc2.copyPages(mergedPdfDoc, mergedPdfDoc.getPageIndices())).forEach(Pn => pdfDoc2.addPage(Pn)), (await pdfDoc2.copyPages(pdfDoc, pdfDoc.getPageIndices())).forEach(Pn => pdfDoc2.addPage(Pn));
     
-  //   let data = document.getElementById('contentToConvert');
-  //   let opt = {
-  //     margin: 0.3,
-  //     image: { type: "jpeg", quality: 0.98 },
-  //     html2canvas:{scale:4, useCORS: true},
-  //     pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
-  //     jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
-  //   };
+    let allMergedPDF = await pdfDoc2.save(),
+        blob_AllMergedPDF = new Blob([allMergedPDF], { type: "application/pdf" }),
+        finelPdf = URL.createObjectURL(blob_AllMergedPDF);
+    window.open(finelPdf),
+        this.pdfButtonLoading.emit(!1)
 
 
-  //   await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
-  //   this.pdfButtonLoading.emit(false)
-  //   // console.log("pdf done",this.pdfButtonLoading);
+}
+ 
+
+}
+
+// interface FormField {
+//   field: string;
+//   type: string;
+//   value?: any;
+// }
+
+  // async fillPdf() {
+  //   // console.error("In pdfFill");
+  //   const formPdfBytes = await fetch(this.pdfSrc).then(res => res.arrayBuffer());
+
+  //   const formPdfBytes2 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer());
+
+
+
+
+
+  //   this.MergedPdf = await PDFDocument.create();
+
+  //   this.pdfDoc = await PDFDocument.load(formPdfBytes);
+  //   this.pdfDoc2 = await PDFDocument.load(formPdfBytes2);
+
+
+
+
+  //   const form = this.pdfDoc.getForm();
+  //   const form2 = this.pdfDoc2.getForm();
+  //   let form3;
+  //   let form4;
+  //   let form5;
+
+
+  //   if (this.ApplicantPersonal.length >= 2) {
+  //     const formPdfBytes3 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
+  //     this.pdfDoc3 = await PDFDocument.load(formPdfBytes3);
+  //     form3 = this.pdfDoc3.getForm();
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 3) {
+  //     const formPdfBytes4 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
+  //     this.pdfDoc4 = await PDFDocument.load(formPdfBytes4);
+  //     form4 = this.pdfDoc4.getForm();
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 4) {
+  //     const formPdfBytes5 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
+  //     this.pdfDoc5 = await PDFDocument.load(formPdfBytes5);
+  //     form5 = this.pdfDoc5.getForm();
+  //   }
+
+
+  //   for (let field of this.fieldMap) {
+  //     if (field.type == 'text') {
+  //       if (field.value) {
+  //         form.getTextField(field.field).setText(field.value);
+  //       }
+
+  //     }
+
+  //     if (field.type == 'image') {
+  //       if (field.value) {
+  //         let emblemImageBytes = await fetch(field.value).then(res => res.arrayBuffer())
+  //         let applicantImage = await this.pdfDoc.embedJpg(emblemImageBytes);
+  //         form.getButton(field.field).setImage(applicantImage);
+  //       }
+  //     }
+
+  //   }
+
+  //   for (let i = 0; i < this.ApplicantPersonal.length; i++) {
+  //     if (i == 0) {
+  //       for (let field of this.fieldMap2[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form2.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form2.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+
+  //       for (let field of this.fieldMap3[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form2.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form2.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     if (i == 1) {
+  //       for (let field of this.fieldMap2[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form3.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form3.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+
+  //       for (let field of this.fieldMap3[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form3.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form3.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     if (i == 2) {
+  //       for (let field of this.fieldMap2[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form4.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form4.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+
+  //       for (let field of this.fieldMap3[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form4.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form4.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     if (i == 3) {
+  //       for (let field of this.fieldMap2[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form5.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form5.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+
+  //       for (let field of this.fieldMap3[i]) {
+  //         if (field.type == 'text') {
+  //           if (field.value) {
+  //             form5.getTextField(field.field).setText(field.value)
+  //           }
+  //         }
+  //         if (field.type == 'checkbox') {
+  //           if (field.value) {
+  //             form5.getCheckBox(field.field).check()
+  //           }
+  //         }
+  //       }
+  //     }
+
+
+  //   }
+
+
+
+  //   if (this.basicInfo.IS_MINOR) {
+  //     let gName: string[] = this.splitName(this.basicInfo.GUARDIAN_NAME);
+  //     if (gName.length == 3) {
+  //       form.getTextField('G_FIRST_NAME').setText(gName[0]);
+  //       form.getTextField('G_MIDDLE_NAME').setText(gName[1]);
+  //       form.getTextField('G_LAST_NAME').setText(gName[2]);
+  //     }
+  //     else if (gName.length == 4) {
+  //       form.getTextField('TITLE').setText(gName[0]);
+  //       form.getTextField('G_FIRST_NAME').setText(gName[1]);
+  //       form.getTextField('G_MIDDLE_NAME').setText(gName[2]);
+  //       form.getTextField('G_LAST_NAME').setText(gName[3]);
+  //     }
+
+  //     if (this.basicInfo.MINOR_DOB) {
+  //       let dob = this.splitDate(this.basicInfo.MINOR_DOB);
+  //       form.getTextField('D11').setText(dob[0]);
+  //       form.getTextField('D12').setText(dob[1]);
+  //       form.getTextField('D13').setText(dob[2]);
+  //       form.getTextField('D14').setText(dob[3]);
+  //       form.getTextField('D15').setText(dob[4]);
+  //       form.getTextField('D16').setText(dob[5]);
+  //       form.getTextField('D17').setText(dob[6]);
+  //       form.getTextField('D18').setText(dob[7]);
+  //     }
+  //     if (this.basicInfo.GUARDIAN_DOB) {
+  //       let dob = this.splitDate(this.basicInfo.GUARDIAN_DOB);
+  //       form.getTextField('D21').setText(dob[0]);
+  //       form.getTextField('D22').setText(dob[1]);
+  //       form.getTextField('D23').setText(dob[2]);
+  //       form.getTextField('D24').setText(dob[3]);
+  //       form.getTextField('D25').setText(dob[4]);
+  //       form.getTextField('D26').setText(dob[5]);
+  //       form.getTextField('D27').setText(dob[6]);
+  //       form.getTextField('D28').setText(dob[7]);
+  //     }
+  //     if (this.basicInfo.RELATION_WITH_MINOR == 'F') {
+  //       form.getCheckBox('Check Box3').check();
+  //     }
+  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'M') {
+  //       form.getCheckBox('Check Box4').check();
+  //     }
+  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'C') {
+  //       form.getCheckBox('Check Box5').check();
+  //     }
+  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'O') {
+  //       form.getCheckBox('Check Box6').check();
+  //     }
+
+
+
+  //   }
+  //   if (this.basicInfo.IS_INTRODUCED) {
+  //     form.getCheckBox('Check Box34').check();
+  //     if (this.basicInfo.E_CUSTOMER_NAME) {
+  //       let exName: string[] = this.splitName(this.basicInfo.E_CUSTOMER_NAME);
+  //       if (exName.length > 2) {
+  //         form.getTextField('I_FIRST_NAME').setText(exName[0]);
+  //         form.getTextField('I_MIDDLE_NAME').setText(exName[1]);
+  //         form.getTextField('I_LAST_NAME').setText(exName[2]);
+  //       }
+  //     }
+  //     if (this.basicInfo.E_CUSTOMER_ID) {
+  //       let costomer_id: string[] = this.splitInBlock(this.basicInfo.E_CUSTOMER_ID);
+  //       if (costomer_id.length <= 10) {
+  //         for (let i = 0; i < costomer_id.length; i++) {
+  //           form.getTextField('I' + (i + 1).toString()).setText(costomer_id[i]);
+  //         }
+  //       }
+  //     }
+  //     if (this.basicInfo.E_ACCOUNT_NUMBER) {
+  //       let account_no: string[] = this.splitInBlock(this.basicInfo.E_ACCOUNT_NUMBER);
+  //       if (account_no.length <= 16) {
+  //         for (let i = 0; i < account_no.length; i++) {
+  //           form.getTextField('A1' + (i + 1).toString()).setText(account_no[i]);
+
+  //         }
+  //       }
+  //     }
+  //     if (this.basicInfo.E_YEARS) {
+  //       form.getTextField('I_YEARS').setText(this.basicInfo.E_YEARS.toString())
+  //     }
+  //   }
+
+  //   if (this.basicInfo.ACCOUNT_TYPE) {
+  //     if (this.basicInfo.ACCOUNT_TYPE == 'S') {
+  //       form.getCheckBox('Check Box2').check();
+  //     }
+  //     else if (this.basicInfo.ACCOUNT_TYPE == 'F') {
+  //       form.getCheckBox('Check Box49').check();
+  //     }
+  //     else if (this.basicInfo.ACCOUNT_TYPE == 'R') {
+  //       form.getCheckBox('Check Box50').check();
+  //     }
+  //     else if (this.basicInfo.ACCOUNT_TYPE == 'P') {
+  //       form.getCheckBox('Check Box51').check();
+  //     }
+  //   }
+
+  //   if (this.depositInfo.DEPOSIT_AMOUNT) {
+  //     let deposit_amount: string[] = this.splitInBlock(this.depositInfo.DEPOSIT_AMOUNT.toString());
+  //     if (deposit_amount.length <= 10) {
+  //       for (let i = 0; i < deposit_amount.length; i++) {
+  //         form.getTextField('DA' + (i + 1).toString()).setText(deposit_amount[i]);
+  //       }
+  //     }
+  //   }
+
+  //   if (this.depositInfo.RATE_OF_INTEREST) {
+  //     form.getTextField('RATE_OF_INTEREST').setText(this.depositInfo.RATE_OF_INTEREST.toString());
+  //   }
+
+  //   if (this.depositInfo.TANURE_DAYS) {
+  //     form.getTextField('T_DAYS').setText(this.depositInfo.TANURE_DAYS.toString());
+  //   }
+  //   if (this.depositInfo.TANURE_MONTHS) {
+  //     form.getTextField('T_MONTHS').setText(this.depositInfo.TANURE_MONTHS.toString());
+  //   }
+  //   if (this.depositInfo.TANURE_YEARS) {
+  //     form.getTextField('T_YEARS').setText(this.depositInfo.TANURE_YEARS.toString());
+  //   }
+
+  //   if (this.depositInfo.DEPOSIT_ACCOUNT_NUMBER) {
+  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_ACCOUNT_NUMBER);
+  //     if (d_account.length <= 16) {
+  //       for (let i = 0; i < d_account.length; i++) {
+  //         form.getTextField('ACC' + (i + 1).toString()).setText(d_account[i]);
+  //       }
+  //     }
+  //   }
+
+
+  //   if (this.depositInfo.DEPOSIT_BANK_NAME) {
+  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BANK_NAME);
+  //     if (d_account.length <= 25) {
+  //       for (let i = 0; i < d_account.length; i++) {
+  //         form.getTextField('B_NAME' + (i + 1).toString()).setText(d_account[i]);
+  //       }
+  //     }
+  //   }
+
+  //   if (this.depositInfo.DEPOSIT_BRANCH_NAME) {
+  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BRANCH_NAME);
+  //     if (d_account.length <= 25) {
+  //       for (let i = 0; i < d_account.length; i++) {
+  //         form.getTextField('BR_NAME' + (i + 1).toString()).setText(d_account[i]);
+  //       }
+  //     }
+  //   }
+  //   if (this.depositInfo.DEPOSIT_IFSC_CODE) {
+  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_IFSC_CODE);
+  //     if (d_account.length <= 11) {
+  //       for (let i = 0; i < d_account.length; i++) {
+  //         form.getTextField('IFSC' + (i + 1).toString()).setText(d_account[i]);
+  //       }
+  //     }
+  //   }
+
+
+
+  //   if (this.nominationInfo.IS_MINOR) {
+  //     // form.getCheckBox('Check Box32').check();
+
+  //     if (this.nominationInfo.DOB) {
+  //       let dob = this.splitDate(this.nominationInfo.DOB);
+  //       if (dob.length <= 8) {
+  //         for (let i = 0; i < dob.length; i++) {
+  //           form.getTextField('D' + (i + 31).toString()).setText(dob[i]);
+  //         }
+  //       }
+  //     }
+
+  //     if (this.nominationInfo.APONITED_NAME) {
+  //       form.getTextField('ADDRESS_LINE_1').setText(this.nominationInfo.APONITED_NAME);
+  //     }
+  //     if (this.nominationInfo.APONITED_ADDRESS) {
+  //       form.getTextField('ADDRESS_LINE_2').setText(this.nominationInfo.APONITED_ADDRESS);
+  //     }
+  //   }
+  //   if (this.nominationInfo.RELATION) {
+  //     form.getTextField('RELATION_WTH_APPLICANT').setText(this.nominationInfo.RELATION);
+  //   }
+  //   if (this.nominationInfo.NOMINEE_NAME) {
+  //     form.getTextField('NOMINEE_ADDRESS_LINE_1').setText(this.nominationInfo.NOMINEE_NAME);
+  //   }
+  //   if (this.nominationInfo.NOMINEE_ADDRESS) {
+  //     form.getTextField('NOMINEE_ADDRESS_LINE_2').setText(this.nominationInfo.NOMINEE_ADDRESS);
+  //   }
+
+  //   if (this.serviceInfo.CHEQUE_BOOK) {
+  //     form.getCheckBox('Check Box42').check();
+  //   }
+  //   if (this.serviceInfo.PASS_BOOK) {
+  //     form.getCheckBox('Check Box43').check();
+  //   }
+  //   if (this.serviceInfo.SMS_ALERT) {
+  //     form.getCheckBox('Check Box46').check();
+  //   }
+  //   if (this.serviceInfo.STATEMENT_BY_EMAIL) {
+  //     form.getCheckBox('Check Box44').check();
+  //   }
+  //   if (this.serviceInfo.CONSENT_NEW_PRODUCT) {
+  //     form.getCheckBox('Check Box45').check();
+  //   }
+
+  //   if (this.serviceInfo.ATM_CARD) {
+  //     form.getCheckBox('Check Box47').check();
+  //     if (this.serviceInfo.APPLICANT1_NAME) {
+  //       let app_name = this.splitInBlock(this.serviceInfo.APPLICANT1_NAME);
+  //       if (app_name.length <= 20) {
+  //         for (let i = 0; i < app_name.length; i++) {
+  //           form.getTextField('AP1' + (i + 1).toString()).setText(app_name[i]);
+  //         }
+  //       }
+  //     }
+
+  //     if (this.serviceInfo.ADDON_CARD) {
+  //       form.getCheckBox('Check Box48').check();
+  //       if (this.serviceInfo.APPLICANT2_NAME) {
+  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT2_NAME);
+  //         if (app_name.length <= 20) {
+  //           for (let i = 0; i < app_name.length; i++) {
+  //             form.getTextField('AP2' + (i + 1).toString()).setText(app_name[i]);
+  //           }
+  //         }
+  //       }
+
+  //       if (this.serviceInfo.APPLICANT3_NAME) {
+  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT3_NAME);
+  //         if (app_name.length <= 20) {
+  //           for (let i = 0; i < app_name.length; i++) {
+  //             form.getTextField('AP3' + (i + 1).toString()).setText(app_name[i]);
+  //           }
+  //         }
+  //       }
+
+  //       if (this.serviceInfo.APPLICANT4_NAME) {
+  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT4_NAME);
+  //         if (app_name.length <= 20) {
+  //           for (let i = 0; i < app_name.length; i++) {
+  //             form.getTextField('AP4' + (i + 1).toString()).setText(app_name[i]);
+  //           }
+  //         }
+  //       }
+
+  //     }
+
+  //   }
+
+  //   if (this.depositInfo.INTEREST_PAYOUT == 'M') {
+  //     form.getCheckBox('Check Box19').check();
+  //   }
+  //   else if (this.depositInfo.INTEREST_PAYOUT == 'Q') {
+  //     form.getCheckBox('Check Box20').check();
+  //   }
+  //   else if (this.depositInfo.INTEREST_PAYOUT == 'H') {
+  //     form.getCheckBox('Check Box21').check();
+  //   }
+  //   else if (this.depositInfo.INTEREST_PAYOUT == 'Y') {
+  //     form.getCheckBox('Check Box22').check();
+  //   }
+  //   else if (this.depositInfo.INTEREST_PAYOUT == 'O') {
+  //     form.getCheckBox('Check Box23').check();
+  //   }
+
+
+
+  //   if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'S') {
+  //     form.getCheckBox('Check Box25').check();
+  //   }
+  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'E') {
+  //     form.getCheckBox('Check Box26').check();
+  //   }
+  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'P') {
+  //     form.getCheckBox('Check Box27').check();
+  //   }
+  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'O') {
+  //     form.getCheckBox('Check Box24').check();
+  //   }
+
+
+  //   if (this.depositInfo.AUTO_RENEWAL) {
+  //     form.getCheckBox('Check Box28').check();
+  //   }
+
+
+  //   if (this.depositInfo.TDS == 'T') {
+  //     form.getCheckBox('Check Box30').check();
+  //   }
+  //   else if (this.depositInfo.TDS == 'N') {
+  //     form.getCheckBox('Check Box31').check();
+  //   }
+
+  //   form.flatten();
+
+  //   form2.flatten();
+
+  //   if (this.ApplicantPersonal.length >= 2) {
+  //     form3.flatten();
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 3) {
+  //     form4.flatten();
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 4) {
+  //     form5.flatten();
+  //   }
+
+
+  //   const firstPage = await this.MergedPdf.copyPages(this.pdfDoc, this.pdfDoc.getPageIndices());
+  //   firstPage.forEach((page: any) => this.MergedPdf.addPage(page));
+
+  //   const secondPage = await this.MergedPdf.copyPages(this.pdfDoc2, this.pdfDoc2.getPageIndices());
+  //   secondPage.forEach((page: any) => this.MergedPdf.addPage(page));
+
+
+  //   if (this.ApplicantPersonal.length >= 2) {
+  //     const ThirdPage = await this.MergedPdf.copyPages(this.pdfDoc3, this.pdfDoc3.getPageIndices());
+  //     ThirdPage.forEach((page: any) => this.MergedPdf.addPage(page));
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 3) {
+  //     const forthPage = await this.MergedPdf.copyPages(this.pdfDoc4, this.pdfDoc4.getPageIndices());
+  //     forthPage.forEach((page: any) => this.MergedPdf.addPage(page));
+  //   }
+
+  //   if (this.ApplicantPersonal.length >= 4) {
+  //     const fifthPage = await this.MergedPdf.copyPages(this.pdfDoc5, this.pdfDoc5.getPageIndices());
+  //     fifthPage.forEach((page: any) => this.MergedPdf.addPage(page));
+  //   }
+
+
+
+
+
+  //   // this.pdfByte2 = await this.pdfDoc2.save();
+  //   // this.pdfByte = await this.pdfDoc.save()
+
+  //   this.pdfByte = await this.MergedPdf.save();
+
+  //   this.showPdf = true;
   // }
 
-  async generatePDF() {
-    let data = document.getElementById('contentToConvert');
-    if (!data) {
-      console.error("Element with ID 'contentToConvert' not found in the DOM.");
-      return; 
-    }
-    this.imageUrl = '../assets/BankName.svg';
-    const img = document.createElement('img');
-    img.src = this.imageUrl;
-    data.appendChild(img);
-  
-    let opt = {
-      margin: 0.3,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 4, useCORS: true },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-      jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
-    };
-  
-    // Use html2pdf to generate the PDF, including the image
-    await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form.pdf');
-    this.pdfButtonLoading.emit(false);
-  }
-  
 
-
-}
-
-interface FormField {
-  field: string;
-  type: string;
-  value?: any;
-}
-
-
- // fillField() {
+  // fillField() {
   //   this.fieldMap = [
 
   //     // FOR BANK USE ONLY
@@ -2028,526 +2547,157 @@ interface FormField {
 
   // }
 
-  // async fillPdf() {
-  //   // console.error("In pdfFill");
-  //   const formPdfBytes = await fetch(this.pdfSrc).then(res => res.arrayBuffer());
+   // pdfSrc = '../../../assets/FACO Adobe Form.pdf'
+  // pdfSrc2 = '../../../assets/Applicants Form.pdf'
 
-  //   const formPdfBytes2 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer());
+  // MergedPdf: any;
+
+  // pdfDoc: any;
+  // pdfByte: any
+  // showPdf: boolean = false;
+
+  // pdfDoc2: any;
+  // pdfByte2: any;
+
+  // pdfDoc3: any;
+  // pdfByte3: any;
+
+  // pdfDoc4: any;
+  // pdfByte4: any;
+
+  // pdfDoc5: any;
+  // pdfByte5: any;
+
+  // fieldMap: FormField[] = []
+  // fieldMap2: FormField[][] = []
+  // fieldMap3: FormField[][] = []
 
 
-
-
-
-  //   this.MergedPdf = await PDFDocument.create();
-
-  //   this.pdfDoc = await PDFDocument.load(formPdfBytes);
-  //   this.pdfDoc2 = await PDFDocument.load(formPdfBytes2);
-
-
-
-
-  //   const form = this.pdfDoc.getForm();
-  //   const form2 = this.pdfDoc2.getForm();
-  //   let form3;
-  //   let form4;
-  //   let form5;
-
-
-  //   if (this.ApplicantPersonal.length >= 2) {
-  //     const formPdfBytes3 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
-  //     this.pdfDoc3 = await PDFDocument.load(formPdfBytes3);
-  //     form3 = this.pdfDoc3.getForm();
+  // getPhoto(applicant_no: number): string {
+  //   if (this.ApplicantPhoto.length >= applicant_no) {
+  //     return this.ApplicantPhoto[applicant_no - 1].IMAGE_DATA
+  //   }
+  //   else {
+  //     return '';
   //   }
 
-  //   if (this.ApplicantPersonal.length >= 3) {
-  //     const formPdfBytes4 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
-  //     this.pdfDoc4 = await PDFDocument.load(formPdfBytes4);
-  //     form4 = this.pdfDoc4.getForm();
+  // }
+
+  // validateValue(value: any) {
+  //   if (value) {
+  //     return value.toString();
   //   }
-
-  //   if (this.ApplicantPersonal.length >= 4) {
-  //     const formPdfBytes5 = await fetch(this.pdfSrc2).then(res => res.arrayBuffer())
-  //     this.pdfDoc5 = await PDFDocument.load(formPdfBytes5);
-  //     form5 = this.pdfDoc5.getForm();
+  //   else {
+  //     return ''
   //   }
+  // }
 
-
-  //   for (let field of this.fieldMap) {
-  //     if (field.type == 'text') {
-  //       if (field.value) {
-  //         form.getTextField(field.field).setText(field.value);
-  //       }
-
-  //     }
-
-  //     if (field.type == 'image') {
-  //       if (field.value) {
-  //         let emblemImageBytes = await fetch(field.value).then(res => res.arrayBuffer())
-  //         let applicantImage = await this.pdfDoc.embedJpg(emblemImageBytes);
-  //         form.getButton(field.field).setImage(applicantImage);
-  //       }
-  //     }
-
-  //   }
-
-  //   for (let i = 0; i < this.ApplicantPersonal.length; i++) {
-  //     if (i == 0) {
-  //       for (let field of this.fieldMap2[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form2.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form2.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-
-  //       for (let field of this.fieldMap3[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form2.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form2.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     if (i == 1) {
-  //       for (let field of this.fieldMap2[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form3.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form3.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-
-  //       for (let field of this.fieldMap3[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form3.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form3.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     if (i == 2) {
-  //       for (let field of this.fieldMap2[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form4.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form4.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-
-  //       for (let field of this.fieldMap3[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form4.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form4.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     if (i == 3) {
-  //       for (let field of this.fieldMap2[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form5.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form5.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-
-  //       for (let field of this.fieldMap3[i]) {
-  //         if (field.type == 'text') {
-  //           if (field.value) {
-  //             form5.getTextField(field.field).setText(field.value)
-  //           }
-  //         }
-  //         if (field.type == 'checkbox') {
-  //           if (field.value) {
-  //             form5.getCheckBox(field.field).check()
-  //           }
-  //         }
-  //       }
-  //     }
-
-
-  //   }
-
-
-
-  //   if (this.basicInfo.IS_MINOR) {
-  //     let gName: string[] = this.splitName(this.basicInfo.GUARDIAN_NAME);
-  //     if (gName.length == 3) {
-  //       form.getTextField('G_FIRST_NAME').setText(gName[0]);
-  //       form.getTextField('G_MIDDLE_NAME').setText(gName[1]);
-  //       form.getTextField('G_LAST_NAME').setText(gName[2]);
-  //     }
-  //     else if (gName.length == 4) {
-  //       form.getTextField('TITLE').setText(gName[0]);
-  //       form.getTextField('G_FIRST_NAME').setText(gName[1]);
-  //       form.getTextField('G_MIDDLE_NAME').setText(gName[2]);
-  //       form.getTextField('G_LAST_NAME').setText(gName[3]);
-  //     }
-
-  //     if (this.basicInfo.MINOR_DOB) {
-  //       let dob = this.splitDate(this.basicInfo.MINOR_DOB);
-  //       form.getTextField('D11').setText(dob[0]);
-  //       form.getTextField('D12').setText(dob[1]);
-  //       form.getTextField('D13').setText(dob[2]);
-  //       form.getTextField('D14').setText(dob[3]);
-  //       form.getTextField('D15').setText(dob[4]);
-  //       form.getTextField('D16').setText(dob[5]);
-  //       form.getTextField('D17').setText(dob[6]);
-  //       form.getTextField('D18').setText(dob[7]);
-  //     }
-  //     if (this.basicInfo.GUARDIAN_DOB) {
-  //       let dob = this.splitDate(this.basicInfo.GUARDIAN_DOB);
-  //       form.getTextField('D21').setText(dob[0]);
-  //       form.getTextField('D22').setText(dob[1]);
-  //       form.getTextField('D23').setText(dob[2]);
-  //       form.getTextField('D24').setText(dob[3]);
-  //       form.getTextField('D25').setText(dob[4]);
-  //       form.getTextField('D26').setText(dob[5]);
-  //       form.getTextField('D27').setText(dob[6]);
-  //       form.getTextField('D28').setText(dob[7]);
-  //     }
-  //     if (this.basicInfo.RELATION_WITH_MINOR == 'F') {
-  //       form.getCheckBox('Check Box3').check();
-  //     }
-  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'M') {
-  //       form.getCheckBox('Check Box4').check();
-  //     }
-  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'C') {
-  //       form.getCheckBox('Check Box5').check();
-  //     }
-  //     else if (this.basicInfo.RELATION_WITH_MINOR == 'O') {
-  //       form.getCheckBox('Check Box6').check();
-  //     }
-
-
-
-  //   }
-  //   if (this.basicInfo.IS_INTRODUCED) {
-  //     form.getCheckBox('Check Box34').check();
-  //     if (this.basicInfo.E_CUSTOMER_NAME) {
-  //       let exName: string[] = this.splitName(this.basicInfo.E_CUSTOMER_NAME);
-  //       if (exName.length > 2) {
-  //         form.getTextField('I_FIRST_NAME').setText(exName[0]);
-  //         form.getTextField('I_MIDDLE_NAME').setText(exName[1]);
-  //         form.getTextField('I_LAST_NAME').setText(exName[2]);
-  //       }
-  //     }
-  //     if (this.basicInfo.E_CUSTOMER_ID) {
-  //       let costomer_id: string[] = this.splitInBlock(this.basicInfo.E_CUSTOMER_ID);
-  //       if (costomer_id.length <= 10) {
-  //         for (let i = 0; i < costomer_id.length; i++) {
-  //           form.getTextField('I' + (i + 1).toString()).setText(costomer_id[i]);
-  //         }
-  //       }
-  //     }
-  //     if (this.basicInfo.E_ACCOUNT_NUMBER) {
-  //       let account_no: string[] = this.splitInBlock(this.basicInfo.E_ACCOUNT_NUMBER);
-  //       if (account_no.length <= 16) {
-  //         for (let i = 0; i < account_no.length; i++) {
-  //           form.getTextField('A1' + (i + 1).toString()).setText(account_no[i]);
-
-  //         }
-  //       }
-  //     }
-  //     if (this.basicInfo.E_YEARS) {
-  //       form.getTextField('I_YEARS').setText(this.basicInfo.E_YEARS.toString())
-  //     }
-  //   }
-
-  //   if (this.basicInfo.ACCOUNT_TYPE) {
-  //     if (this.basicInfo.ACCOUNT_TYPE == 'S') {
-  //       form.getCheckBox('Check Box2').check();
-  //     }
-  //     else if (this.basicInfo.ACCOUNT_TYPE == 'F') {
-  //       form.getCheckBox('Check Box49').check();
-  //     }
-  //     else if (this.basicInfo.ACCOUNT_TYPE == 'R') {
-  //       form.getCheckBox('Check Box50').check();
-  //     }
-  //     else if (this.basicInfo.ACCOUNT_TYPE == 'P') {
-  //       form.getCheckBox('Check Box51').check();
-  //     }
-  //   }
-
-  //   if (this.depositInfo.DEPOSIT_AMOUNT) {
-  //     let deposit_amount: string[] = this.splitInBlock(this.depositInfo.DEPOSIT_AMOUNT.toString());
-  //     if (deposit_amount.length <= 10) {
-  //       for (let i = 0; i < deposit_amount.length; i++) {
-  //         form.getTextField('DA' + (i + 1).toString()).setText(deposit_amount[i]);
+  // validateBlock(value: any, size: number) {
+  //   let returnArray = []
+  //   if (value) {
+  //     if (size) {
+  //       let tempArray = this.splitInBlock(value.toString());
+  //       for (let i = 0; i < size; i++) {
+  //         returnArray.push(tempArray[i]);
   //       }
   //     }
   //   }
 
-  //   if (this.depositInfo.RATE_OF_INTEREST) {
-  //     form.getTextField('RATE_OF_INTEREST').setText(this.depositInfo.RATE_OF_INTEREST.toString());
+  //   return returnArray;
+  // }
+
+  // validateRadioButton(value: any, checkChar: any) {
+  //   if (value == checkChar) {
+  //     return true;
+  //   }
+  //   else {
+  //     return false;
   //   }
 
-  //   if (this.depositInfo.TANURE_DAYS) {
-  //     form.getTextField('T_DAYS').setText(this.depositInfo.TANURE_DAYS.toString());
+  // }
+
+
+    // splitName(str: string): string[] {
+  //   let res: string[] = []
+  //   if (str) {
+  //     res = str.split(' ');
   //   }
-  //   if (this.depositInfo.TANURE_MONTHS) {
-  //     form.getTextField('T_MONTHS').setText(this.depositInfo.TANURE_MONTHS.toString());
-  //   }
-  //   if (this.depositInfo.TANURE_YEARS) {
-  //     form.getTextField('T_YEARS').setText(this.depositInfo.TANURE_YEARS.toString());
-  //   }
+  //   return res;
+  // }
+  // splitDate(date: string): string[] {
+  //   let res: string[] = [];
+  //   let ires: string[] = [];
 
-  //   if (this.depositInfo.DEPOSIT_ACCOUNT_NUMBER) {
-  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_ACCOUNT_NUMBER);
-  //     if (d_account.length <= 16) {
-  //       for (let i = 0; i < d_account.length; i++) {
-  //         form.getTextField('ACC' + (i + 1).toString()).setText(d_account[i]);
-  //       }
-  //     }
-  //   }
-
-
-  //   if (this.depositInfo.DEPOSIT_BANK_NAME) {
-  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BANK_NAME);
-  //     if (d_account.length <= 25) {
-  //       for (let i = 0; i < d_account.length; i++) {
-  //         form.getTextField('B_NAME' + (i + 1).toString()).setText(d_account[i]);
-  //       }
-  //     }
-  //   }
-
-  //   if (this.depositInfo.DEPOSIT_BRANCH_NAME) {
-  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_BRANCH_NAME);
-  //     if (d_account.length <= 25) {
-  //       for (let i = 0; i < d_account.length; i++) {
-  //         form.getTextField('BR_NAME' + (i + 1).toString()).setText(d_account[i]);
-  //       }
-  //     }
-  //   }
-  //   if (this.depositInfo.DEPOSIT_IFSC_CODE) {
-  //     let d_account = this.splitInBlock(this.depositInfo.DEPOSIT_IFSC_CODE);
-  //     if (d_account.length <= 11) {
-  //       for (let i = 0; i < d_account.length; i++) {
-  //         form.getTextField('IFSC' + (i + 1).toString()).setText(d_account[i]);
-  //       }
-  //     }
-  //   }
-
-
-
-  //   if (this.nominationInfo.IS_MINOR) {
-  //     // form.getCheckBox('Check Box32').check();
-
-  //     if (this.nominationInfo.DOB) {
-  //       let dob = this.splitDate(this.nominationInfo.DOB);
-  //       if (dob.length <= 8) {
-  //         for (let i = 0; i < dob.length; i++) {
-  //           form.getTextField('D' + (i + 31).toString()).setText(dob[i]);
+  //   if (date) {
+  //     ires = this.splitInBlock(date);
+  //     if (ires.length > 7) {
+  //       for (let i = 0; i < ires.length; i++) {
+  //         if (ires[i] != '-' && ires[i] != '/') {
+  //           res.push(ires[i])
   //         }
   //       }
   //     }
-
-  //     if (this.nominationInfo.APONITED_NAME) {
-  //       form.getTextField('ADDRESS_LINE_1').setText(this.nominationInfo.APONITED_NAME);
-  //     }
-  //     if (this.nominationInfo.APONITED_ADDRESS) {
-  //       form.getTextField('ADDRESS_LINE_2').setText(this.nominationInfo.APONITED_ADDRESS);
-  //     }
   //   }
-  //   if (this.nominationInfo.RELATION) {
-  //     form.getTextField('RELATION_WTH_APPLICANT').setText(this.nominationInfo.RELATION);
-  //   }
-  //   if (this.nominationInfo.NOMINEE_NAME) {
-  //     form.getTextField('NOMINEE_ADDRESS_LINE_1').setText(this.nominationInfo.NOMINEE_NAME);
-  //   }
-  //   if (this.nominationInfo.NOMINEE_ADDRESS) {
-  //     form.getTextField('NOMINEE_ADDRESS_LINE_2').setText(this.nominationInfo.NOMINEE_ADDRESS);
-  //   }
-
-  //   if (this.serviceInfo.CHEQUE_BOOK) {
-  //     form.getCheckBox('Check Box42').check();
-  //   }
-  //   if (this.serviceInfo.PASS_BOOK) {
-  //     form.getCheckBox('Check Box43').check();
-  //   }
-  //   if (this.serviceInfo.SMS_ALERT) {
-  //     form.getCheckBox('Check Box46').check();
-  //   }
-  //   if (this.serviceInfo.STATEMENT_BY_EMAIL) {
-  //     form.getCheckBox('Check Box44').check();
-  //   }
-  //   if (this.serviceInfo.CONSENT_NEW_PRODUCT) {
-  //     form.getCheckBox('Check Box45').check();
-  //   }
-
-  //   if (this.serviceInfo.ATM_CARD) {
-  //     form.getCheckBox('Check Box47').check();
-  //     if (this.serviceInfo.APPLICANT1_NAME) {
-  //       let app_name = this.splitInBlock(this.serviceInfo.APPLICANT1_NAME);
-  //       if (app_name.length <= 20) {
-  //         for (let i = 0; i < app_name.length; i++) {
-  //           form.getTextField('AP1' + (i + 1).toString()).setText(app_name[i]);
-  //         }
-  //       }
-  //     }
-
-  //     if (this.serviceInfo.ADDON_CARD) {
-  //       form.getCheckBox('Check Box48').check();
-  //       if (this.serviceInfo.APPLICANT2_NAME) {
-  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT2_NAME);
-  //         if (app_name.length <= 20) {
-  //           for (let i = 0; i < app_name.length; i++) {
-  //             form.getTextField('AP2' + (i + 1).toString()).setText(app_name[i]);
-  //           }
-  //         }
-  //       }
-
-  //       if (this.serviceInfo.APPLICANT3_NAME) {
-  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT3_NAME);
-  //         if (app_name.length <= 20) {
-  //           for (let i = 0; i < app_name.length; i++) {
-  //             form.getTextField('AP3' + (i + 1).toString()).setText(app_name[i]);
-  //           }
-  //         }
-  //       }
-
-  //       if (this.serviceInfo.APPLICANT4_NAME) {
-  //         let app_name = this.splitInBlock(this.serviceInfo.APPLICANT4_NAME);
-  //         if (app_name.length <= 20) {
-  //           for (let i = 0; i < app_name.length; i++) {
-  //             form.getTextField('AP4' + (i + 1).toString()).setText(app_name[i]);
-  //           }
-  //         }
-  //       }
-
+  //   return res;
+  // }
+  // splitInBlock(str: string): string[] {
+  //   let res: string[] = []
+  //   if (str) {
+  //     for (let i = 0; i < str.length; i++) {
+  //       res.push(str.charAt(i));
   //     }
 
   //   }
 
-  //   if (this.depositInfo.INTEREST_PAYOUT == 'M') {
-  //     form.getCheckBox('Check Box19').check();
+  //   return res;
+  // }
+
+  // async generatePDF() {
+    
+  //   let data = document.getElementById('contentToConvert');
+  //   let opt = {
+  //     margin: 0.3,
+  //     image: { type: "jpeg", quality: 0.98 },
+  //     html2canvas:{scale:4, useCORS: true},
+  //     pagebreak: { mode: ['avoid-all', 'css', 'legecy'] },
+  //     jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
+  //   };
+
+
+  //   await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form'+ '.pdf');
+  //   this.pdfButtonLoading.emit(false)
+  //   // console.log("pdf done",this.pdfButtonLoading);
+  // }
+
+  // async generatePDF() {
+  //   let data = document.getElementById('contentToConvert');
+  //   if (!data) {
+  //     console.error("Element with ID 'contentToConvert' not found in the DOM.");
+  //     return; 
   //   }
-  //   else if (this.depositInfo.INTEREST_PAYOUT == 'Q') {
-  //     form.getCheckBox('Check Box20').check();
-  //   }
-  //   else if (this.depositInfo.INTEREST_PAYOUT == 'H') {
-  //     form.getCheckBox('Check Box21').check();
-  //   }
-  //   else if (this.depositInfo.INTEREST_PAYOUT == 'Y') {
-  //     form.getCheckBox('Check Box22').check();
-  //   }
-  //   else if (this.depositInfo.INTEREST_PAYOUT == 'O') {
-  //     form.getCheckBox('Check Box23').check();
-  //   }
+  //   // this.imageUrl = '../assets/BankName.svg';
+  //   // const img = document.createElement('img');
+  //   // img.src = this.imageUrl;
+  //   // data.appendChild(img);
+  
+  //   let opt = {
+  //     margin: 0.3,
+  //     image: { type: "jpeg", quality: 0.98 },
+  //     html2canvas: { scale: 4, useCORS: true },
+  //     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+  //     jsPDF: { unit: "in", format: "legal", orientation: "portrait" },
+  //   };
+  
+  //   // Use html2pdf to generate the PDF, including the image
+  //   await html2pdf().from(data).set(opt).toPdf().get('pdf').save('Form.pdf');
+  //   this.pdfButtonLoading.emit(false);
 
+  //   const MergedPdf = await PDFDocument.create();
 
+  //   let pngArray= [], jpegArray = [], pdfArray = [];
 
-  //   if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'S') {
-  //     form.getCheckBox('Check Box25').check();
-  //   }
-  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'E') {
-  //     form.getCheckBox('Check Box26').check();
-  //   }
-  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'P') {
-  //     form.getCheckBox('Check Box27').check();
-  //   }
-  //   else if (this.depositInfo.MODE_OF_INTEREST_PAYOUT == 'O') {
-  //     form.getCheckBox('Check Box24').check();
-  //   }
-
-
-  //   if (this.depositInfo.AUTO_RENEWAL) {
-  //     form.getCheckBox('Check Box28').check();
-  //   }
-
-
-  //   if (this.depositInfo.TDS == 'T') {
-  //     form.getCheckBox('Check Box30').check();
-  //   }
-  //   else if (this.depositInfo.TDS == 'N') {
-  //     form.getCheckBox('Check Box31').check();
-  //   }
-
-  //   form.flatten();
-
-  //   form2.flatten();
-
-  //   if (this.ApplicantPersonal.length >= 2) {
-  //     form3.flatten();
-  //   }
-
-  //   if (this.ApplicantPersonal.length >= 3) {
-  //     form4.flatten();
-  //   }
-
-  //   if (this.ApplicantPersonal.length >= 4) {
-  //     form5.flatten();
-  //   }
-
-
-  //   const firstPage = await this.MergedPdf.copyPages(this.pdfDoc, this.pdfDoc.getPageIndices());
-  //   firstPage.forEach((page: any) => this.MergedPdf.addPage(page));
-
-  //   const secondPage = await this.MergedPdf.copyPages(this.pdfDoc2, this.pdfDoc2.getPageIndices());
-  //   secondPage.forEach((page: any) => this.MergedPdf.addPage(page));
-
-
-  //   if (this.ApplicantPersonal.length >= 2) {
-  //     const ThirdPage = await this.MergedPdf.copyPages(this.pdfDoc3, this.pdfDoc3.getPageIndices());
-  //     ThirdPage.forEach((page: any) => this.MergedPdf.addPage(page));
-  //   }
-
-  //   if (this.ApplicantPersonal.length >= 3) {
-  //     const forthPage = await this.MergedPdf.copyPages(this.pdfDoc4, this.pdfDoc4.getPageIndices());
-  //     forthPage.forEach((page: any) => this.MergedPdf.addPage(page));
-  //   }
-
-  //   if (this.ApplicantPersonal.length >= 4) {
-  //     const fifthPage = await this.MergedPdf.copyPages(this.pdfDoc5, this.pdfDoc5.getPageIndices());
-  //     fifthPage.forEach((page: any) => this.MergedPdf.addPage(page));
-  //   }
-
-
-
-
-
-  //   // this.pdfByte2 = await this.pdfDoc2.save();
-  //   // this.pdfByte = await this.pdfDoc.save()
-
-  //   this.pdfByte = await this.MergedPdf.save();
-
-  //   this.showPdf = true;
+  //   // pngArray = this.documentData.filter(Pn => "image/png" == Pn.FILE_TYPE)
+  //   // o = this.documentData.filter(Pn => "image/jpeg" == Pn.FILE_TYPE || "image/jpg" == Pn.FILE_TYPE),
+  //   // a = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE);
+    
   // }

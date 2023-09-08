@@ -9,6 +9,7 @@ import { ApiService } from '../service/api.service';
 import { error } from 'pdf-lib';
 import { ExtraInfo } from '../models/extra-info';
 import { Aadhaar_History } from '../models/aadhaar';
+import { Documents } from '../models/documents';
 
 @Component({
   selector: 'app-proposal',
@@ -300,8 +301,46 @@ export class ProposalComponent implements OnInit {
     this.selectedIndex = this.addAccountComp.selectedIndex;
   }
   saveANext() {
-    this.addAccountComp.saveANext();
+    if(this.selectedIndex !=4){
+      this.addAccountComp.saveANext();
+    }
+    else{
+      this.api.getDocument(this.APPLICANT_ID,null).subscribe({
+        next:(res)=>{
+          if(res['code'] == 200){
+            if(res['data'].length >= 2){
+              this.velidateDocument(res['data'])?this.addAccountComp.saveANext():this.message.error("Please Upload Atleast Two Documents!",'');
+            }
+            else{
+              this.message.error("Please Upload Atleast Two Documents!",'');
+            }
+          }
+          else{
+            this.message.error("Something Went Wrong!","")
+          }
+        },
+        error:(err)=>{
+          this.message.error("Something Went Wrong!","")
+        }
+      })
+    }
+    
   }
+
+  velidateDocument(docArray:Documents[]){
+    let count = 0
+    for(let doc of docArray){
+      if(doc.IMAGE_DATA) count++;
+    }
+
+    if(count >= 2){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
 
   APPLICANT_ID!: number;
 

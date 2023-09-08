@@ -211,7 +211,7 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify.meta1.id_number"
+                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify.pan_history.PAN_NUMBER"
                                     placeholder="Enter Pan Number" />
                             </div>
                             <div nz-col nzSpan="1">
@@ -223,9 +223,9 @@
                                 </button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="aadhaarVerify.showPan" class="success-tip">
+                        <div nz-row *ngIf="aadhaarVerify.pan_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
-                                Pan verified successfully {{aadhaarVerify.meta1.full_name}}
+                                Pan verified successfully {{aadhaarVerify.pan_history.APPLICANT_FULL_NAME}}
                             </div>
                         </div>
                     </nz-form-control>
@@ -497,7 +497,7 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify2.meta1.id_number"
+                                <input nz-input name="pan" [(ngModel)]="aadhaarVerify2.pan_history.PAN_NUMBER"
                                     placeholder="Enter Pan Number" />
                             </div>
                             <div nz-col nzSpan="1">
@@ -509,9 +509,9 @@
                                 </button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="aadhaarVerify2.showPan" class="success-tip">
+                        <div nz-row *ngIf="aadhaarVerify2.pan_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
-                                Pan verified successfully {{aadhaarVerify2.meta1.full_name}}
+                                Pan verified successfully {{aadhaarVerify2.pan_history.APPLICANT_FULL_NAME}}
                             </div>
                         </div>
                     </nz-form-control>

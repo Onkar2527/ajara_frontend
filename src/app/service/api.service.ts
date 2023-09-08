@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableInput, from, observable, of, switchMap, tap } from 'rxjs';
-import { AadhaarMeta, Aadhaar_History, } from '../models/aadhaar';
+import { AadhaarMeta, Aadhaar_History, Pan_History, } from '../models/aadhaar';
 import { Facilities } from '../models/facilities';
 import { NomineeDetails } from '../models/nominee-details';
 import { PanMeta } from '../models/pan-meta';
@@ -463,7 +463,7 @@ export class ApiService implements HttpInterceptor {
   }
 
 
-  getDocument(applicant_id: number, applicant_no: number) {
+  getDocument(applicant_id: number, applicant_no: number|null) {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -524,5 +524,22 @@ export class ApiService implements HttpInterceptor {
   }
 
 
+  createPanData(data:Pan_History){
+    return this.httpClient.post<any>(this.baseUrl + 'pan/create', data, this.optionMain);
+  }
+
+  getPanData(applicant_no: number, pan_no: string) {
+    let data = {
+      APPLICANT_NO: applicant_no,
+      PAN_NUMBER:pan_no
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'pan/get', data, this.optionMain);
+  }
+
+
+  updatePanData(data:Pan_History){
+    return this.httpClient.post<any>(this.baseUrl + 'pan/update', data, this.optionMain);
+  }
 
 }

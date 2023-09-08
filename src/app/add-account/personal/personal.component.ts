@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
-import { Aadhaar, Aadhaar_History } from 'src/app/models/aadhaar';
+import { Aadhaar, Aadhaar_History, Pan_History } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -79,7 +79,6 @@ export class PersonalComponent implements OnInit {
 
   }
 
-
   private saveAadhaar(data: Aadhaar_History) {
     if (data.ID) {
 
@@ -88,6 +87,7 @@ export class PersonalComponent implements OnInit {
       this.api.createAadhaarData(data).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
+            this.saveBasicInfo()
             if (data.APPLICANT_NO == 1) {
               this.getAdhaarHistory(1);
             }
@@ -135,6 +135,126 @@ export class PersonalComponent implements OnInit {
             }
             this.hideAadhar = true;
             this.aadhaarVerify2.MakeHistory();
+          }
+        }
+      }
+    })
+  }
+
+
+  savePanData(applicant_no: number) {
+    if (applicant_no == 1) {
+      this.aadhaarVerify.pan_history.APPLICANT_NO = 1;
+      this.basicInfo.PAN_NUMBER = this.aadhaarVerify.pan_history.PAN_NUMBER;
+      this.savePAN(this.aadhaarVerify.pan_history);
+    }
+    if (applicant_no == 2) {
+      this.aadhaarVerify2.pan_history.APPLICANT_NO = 2;
+      this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.pan_history.PAN_NUMBER;
+      this.savePAN(this.aadhaarVerify2.pan_history);
+    }
+  }
+
+  savePAN(PAN: Pan_History) {
+    if (PAN.ID) {
+      this.api.updatePanData(PAN).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            this.saveBasicInfo();
+            if (PAN.APPLICANT_NO == 1) {
+              this.getPanHistory(1);
+            
+            }
+            if (PAN.APPLICANT_NO == 2) {
+              this.getPanHistory(2);
+            }
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+    else {
+      this.api.createPanData(PAN).subscribe({
+        next: (res) => {
+          this.saveBasicInfo();
+          if (res['code'] == 200) {
+            if (PAN.APPLICANT_NO == 1) {
+              this.getPanHistory(1);
+            }
+            if (PAN.APPLICANT_NO == 2) {
+              this.getPanHistory(2);
+            }
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+  }
+
+  saveBasicInfo(){
+    if (this.basicInfo.ID) {
+      this.api.updateBasic(this.basicInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+           
+          }
+          else {
+           
+            
+          }
+        },
+        error: (err) => {
+        
+        },
+        complete: () => {
+        }
+      })
+    }
+    else {
+      this.api.addBasic(this.basicInfo).subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+          }
+          else {
+          }
+        },
+        error: (err) => {
+        },
+        complete: () => {
+        }
+      })
+    }
+  }
+
+  getPanHistory(applicant_no: number) {
+    let pan_no = '';
+
+    if (applicant_no == 1) {
+      pan_no = this.basicInfo.PAN_NUMBER;
+    }
+
+    else if (applicant_no == 2) {
+      pan_no = this.basicInfo.PAN_NUMBER2;
+    }
+
+    this.api.getPanData(applicant_no, pan_no).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          if (applicant_no == 1) {
+            this.aadhaarVerify.pan_history = res['data'][0];
+          }
+          else if (applicant_no == 2) {
+            this.aadhaarVerify2.pan_history = res['data'][0];
           }
         }
       }
@@ -260,7 +380,8 @@ export class PersonalComponent implements OnInit {
         panverify.subscribe({
           next: (res) => {
             if (res == true) {
-              this.basicInfo.PAN_NUMBER = this.aadhaarVerify.meta1.id_number;
+              this.basicInfo.PAN_NUMBER = this.aadhaarVerify.pan_history.PAN_NUMBER;
+              this.savePanData(1);
               this.loadPanButton = false
             }
             else {
@@ -280,7 +401,8 @@ export class PersonalComponent implements OnInit {
         panverify.subscribe({
           next: (res) => {
             if (res == true) {
-              this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.meta1.id_number;
+              this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.pan_history.PAN_NUMBER;
+              this.savePanData(2);
               this.loadPanButton2 = false;
             }
             else {
@@ -416,8 +538,10 @@ export class PersonalComponent implements OnInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
           this.getAdhaarHistory(1);
+          this.getPanHistory(1);
           if (this.basicInfo.NO_OF_APPLICANT == 2) {
             this.getAdhaarHistory(2);
+            this.getPanHistory(2);
           }
         }
         else {

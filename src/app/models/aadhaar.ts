@@ -11,9 +11,9 @@ export class Aadhaar_History {
   APPLICANT_FULL_NAME: string = '';
   GENDER: string = '';
   PROFILE_IMAGE: string = '';
-  APPLICANT_ID ?: number;
-  APPLICANT_NO ?: number;
-  IS_VERIFIED:boolean = false;
+  APPLICANT_ID?: number;
+  APPLICANT_NO?: number;
+  IS_VERIFIED: boolean = false;
 }
 
 export class Aadhaar_Address_History {
@@ -29,6 +29,16 @@ export class Aadhaar_Address_History {
   LANDMARK: string = '';
   HOUSE: string = '';
   ZIPCODE: string = '';
+}
+
+export class Pan_History {
+  ID!:number;
+  APPLICANT_FULL_NAME: string = '';
+  APPLICANT_NO!: number;
+  APPLICANT_ID!: number;
+  PAN_NUMBER: string = '';
+  IS_VERIFIED: boolean = false;
+  CATEGORY :string = '';
 }
 
 class Aadhaar_Data {
@@ -91,6 +101,7 @@ export class Aadhaar {
 
   aadhar_history: Aadhaar_History = new Aadhaar_History();
   aadhar_address: Aadhaar_Address_History = new Aadhaar_Address_History();
+  pan_history:Pan_History = new Pan_History();
 
 
   getOTP() {
@@ -136,7 +147,7 @@ export class Aadhaar {
               this.aadhar_history.APPLICANT_FULL_NAME = res['data']['full_name'];
               this.aadhar_history.GENDER = this.getGender(res['data']['gender']);
               this.aadhar_history.PROFILE_IMAGE = "data:image/png;base64," + res['data']['profile_image']
-              
+
               this.aadhar_history.IS_VERIFIED = true;
 
               this.aadhar_address.DISTRICT = res['data']['address']['dist'];
@@ -148,7 +159,7 @@ export class Aadhaar {
               this.aadhar_address.STATE = res['data']['address']['state'];
               this.aadhar_address.STREET = res['data']['address']['street'];
               this.aadhar_address.LOC = res['data']['address']['loc']
-           
+
               this.message.success('Infomation fetched  successfully', '');
               this.subject.next(true);
             }
@@ -174,23 +185,28 @@ export class Aadhaar {
     this.showAadhaar = true;
     this.common.aadhaar_no = this.aadhar_history.AADHAAR_NUMBER;
     this.common.full_name = this.aadhar_history.APPLICANT_FULL_NAME;
-    this.common.age = this.FindAge( this.aadhar_history.DOB);
+    this.common.age = this.FindAge(this.aadhar_history.DOB);
     this.common.dob = this.aadhar_history.DOB;
     this.common.profile_image = this.aadhar_history.PROFILE_IMAGE;
     this.common.gender = this.aadhar_history.GENDER;
     this.common.address = `${this.aadhar_address.VTC}, ${this.aadhar_address.STREET}, ${this.aadhar_address.LOC}, ${this.aadhar_address.DISTRICT}
       , ${this.aadhar_address.STATE}, ${this.aadhar_address.COUNTRY}`
-      
+
   }
 
   verifyPan() {
     let panverify = new Subject();
+    this.meta1.id_number = this.pan_history.PAN_NUMBER;
     this.api.Pan_Verify(this.meta1)
       .subscribe({
         next: (res) => {
           if (res['status_code'] == 200) {
             this.meta1.full_name = res['data']['full_name'];
-            // console.log(res['data']);
+            this.pan_history.APPLICANT_FULL_NAME = res['data']['full_name'];
+            this.pan_history.IS_VERIFIED = true;
+            this.pan_history.PAN_NUMBER = res['data']['pan_number'] ;
+            this.pan_history.CATEGORY = res['data']['category'] ;
+            // console.log(res['data']);category
             // console.log(this.meta1.full_name);
             this.isok = true;
             this.showPan = true;
