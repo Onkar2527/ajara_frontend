@@ -142,7 +142,8 @@
                     <nz-form-label nzRequired [nzNoColon]="true">Date of Birth</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true"
-                        [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH" placeholder="dd/mm/yyyy">
+                            [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH"
+                            placeholder="dd/mm/yyyy">
                     </nz-form-control>
                 </nz-form-item>
 
@@ -251,13 +252,80 @@
                 <div nz-row class="content-box">
 
 
-                    <div *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                    <!-- <div *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label [nzSpan]="24" style="font-weight: bold;">
                         </nz-form-label>
                         <span style="position: absolute;left: 299px;"> </span>
 
-                    </div>
+                    </div> -->
 
+
+                    <nz-form-item nz-col nzSpan="12">
+                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="statep" [(ngModel)]="personalInfo.PERMANENT_STATE"
+                                placeholder="Enter State" /> -->
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_STATE"
+                                (ngModelChange)="getDistrictList('P')" [nzLoading]="state_loading">
+                                <nz-option *ngFor="let state of STATE_LIST" [nzValue]="state.STATE"
+                                    [nzLabel]="state.STATE"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="11">
+                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="distp" [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
+                                placeholder="Enter District" /> -->
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
+                                (ngModelChange)="getTalukaList('P')" [nzLoading]="permanent_district_loading">
+                                <nz-option *ngFor="let district of PERMANENT_DISTRICT_LIST"
+                                    [nzValue]="district.DISTRICT" [nzLabel]="district.DISTRICT"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item nz-col nzSpan="8">
+                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="talukap" [(ngModel)]="personalInfo.PERMANENT_TALUKA"
+                                placeholder="Enter Taluka" /> -->
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_TALUKA"
+                                (ngModelChange)="getVillageList('P')" [nzLoading]="permanent_taluka_loading">
+                                <nz-option *ngFor="let taluka of PERMANENT_TALUKA_LIST" [nzValue]="taluka.TALUKA"
+                                    [nzLabel]="taluka.TALUKA"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="8">
+                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="cityp" [(ngModel)]="personalInfo.PERMANENT_CITY"
+                                placeholder="Enter City" /> -->
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_CITY"
+                                [nzLoading]="permanent_village_loading">
+                                <nz-option *ngFor="let city of PERMANENT_VILLAGE_LIST" [nzValue]="city.VILLAGE"
+                                    [nzLabel]="city.VILLAGE"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="5">
+                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
+                                placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
+                        </nz-form-control>
+                    </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
                         <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
@@ -267,33 +335,6 @@
                         </nz-form-control>
                     </nz-form-item>
 
-                    <nz-form-item nz-col nzSpan="8">
-                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="cityp" [(ngModel)]="personalInfo.PERMANENT_CITY"
-                                placeholder="Enter City" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="talukap" [(ngModel)]="personalInfo.PERMANENT_TALUKA"
-                                placeholder="Enter Taluka" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="distp" [(ngModel)]="personalInfo.PERMANENT_DISTRICT"
-                                placeholder="Enter District" />
-                        </nz-form-control>
-                    </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
                         <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
@@ -303,23 +344,6 @@
                         </nz-form-control>
                     </nz-form-item>
 
-                    <nz-form-item nz-col nzSpan="12">
-                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="statep" [(ngModel)]="personalInfo.PERMANENT_STATE"
-                                placeholder="Enter State" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="11">
-                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
-                                placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$"/>
-                        </nz-form-control>
-                    </nz-form-item>
 
                 </div>
             </div>
@@ -331,13 +355,86 @@
                 <nz-divider nzText="Current Address"></nz-divider>
                 <div nz-row class="content-box">
 
-                    <div *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
-                        <nz-form-label [nzSpan]="24" style="font-weight: bold;">
-                        </nz-form-label>
-                        <span style="position: absolute;left: 299px;"> <a (click)="copyClick()"><i nz-icon nzType="copy"
-                                    nzTheme="outline"></i>Copy Permanent Address</a> </span>
+                    <div nz-col [nzSpan]="24" *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD" style="text-align:right">
+                        <span> <a (click)="copyClick()"><i nz-icon nzType="copy" nzTheme="outline"></i>Copy Permanent
+                                Address</a> </span>
 
                     </div>
+
+                    <nz-form-item nz-col nzSpan="12">
+                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="statec" [(ngModel)]="personalInfo.CURRENT_STATE"
+                                placeholder="Enter State" /> -->
+
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_STATE"
+                                (ngModelChange)="getDistrictList('C')" [nzLoading]="state_loading">
+                                <nz-option *ngFor="let state of STATE_LIST" [nzValue]="state.STATE"
+                                    [nzLabel]="state.STATE"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="11">
+                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="distc" [(ngModel)]="personalInfo.CURRENT_DISTRICT"
+                                placeholder="Enter District" /> -->
+
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_DISTRICT"
+                                (ngModelChange)="getTalukaList('C')" [nzLoading]="current_district_loading">
+                                <nz-option *ngFor="let district of CURRENT_DISTRICT_LIST" [nzValue]="district.DISTRICT"
+                                    [nzLabel]="district.DISTRICT"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+
+                    <nz-form-item nz-col nzSpan="8">
+                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="talukac" [(ngModel)]="personalInfo.CURRENT_TALUKA"
+                                placeholder="Enter Taluka" /> -->
+
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_TALUKA"
+                                (ngModelChange)="getVillageList('C')" [nzLoading]="current_taluka_loading">
+                                <nz-option *ngFor="let taluka of CURRENT_TALUKA_LIST" [nzValue]="taluka.TALUKA"
+                                    [nzLabel]="taluka.TALUKA"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="8">
+                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
+                        <nz-form-control>
+                            <!-- <input nz-input name="cityc" [(ngModel)]="personalInfo.CURRENT_CITY"
+                                placeholder="Enter City" /> -->
+
+                            <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY"
+                                [nzLoading]="current_village_loading">
+                                <nz-option *ngFor="let city of CURRENT_VILLAGE_LIST" [nzValue]="city.VILLAGE"
+                                    [nzLabel]="city.VILLAGE"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <div nz-col nzSpan="1"></div>
+
+                    <nz-form-item nz-col nzSpan="5">
+                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
+                        <nz-form-control>
+                            <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE"
+                                placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
+                        </nz-form-control>
+                    </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
                         <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building</nz-form-label>
@@ -347,57 +444,12 @@
                         </nz-form-control>
                     </nz-form-item>
 
-                    <nz-form-item nz-col nzSpan="8">
-                        <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="cityc" [(ngModel)]="personalInfo.CURRENT_CITY"
-                                placeholder="Enter City" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="talukac" [(ngModel)]="personalInfo.CURRENT_TALUKA"
-                                placeholder="Enter Taluka" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="7">
-                        <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="distc" [(ngModel)]="personalInfo.CURRENT_DISTRICT"
-                                placeholder="Enter District" />
-                        </nz-form-control>
-                    </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
                         <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="landmarkc" [(ngModel)]="personalInfo.CURRENT_LANDMARK"
                                 placeholder="Enter Road , Area Name" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <nz-form-item nz-col nzSpan="12">
-                        <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="statec" [(ngModel)]="personalInfo.CURRENT_STATE"
-                                placeholder="Enter State" />
-                        </nz-form-control>
-                    </nz-form-item>
-
-                    <div nz-col nzSpan="1"></div>
-
-                    <nz-form-item nz-col nzSpan="11">
-                        <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE"
-                                placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$"/>
                         </nz-form-control>
                     </nz-form-item>
 
@@ -854,7 +906,8 @@
                         <div nz-col nzSpan="1"></div>
 
                         <nz-form-item nz-col nzSpan="7">
-                            <nz-form-label nzRequired [nzNoColon]="true">Guardian's other Document number</nz-form-label>
+                            <nz-form-label nzRequired [nzNoColon]="true">Guardian's other Document
+                                number</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="GUARDIAN_OTHER_DOCUMENT_NUMBER"
                                     [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT_NUMBER"

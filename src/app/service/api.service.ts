@@ -1,7 +1,7 @@
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableInput, from, observable, of, switchMap, tap } from 'rxjs';
-import { AadhaarMeta, Aadhaar_History, Pan_History, } from '../models/aadhaar';
+import { AadhaarMeta, Aadhaar_History, License_History, Pan_History, Voter_History, } from '../models/aadhaar';
 import { Facilities } from '../models/facilities';
 import { NomineeDetails } from '../models/nominee-details';
 import { PanMeta } from '../models/pan-meta';
@@ -463,7 +463,7 @@ export class ApiService implements HttpInterceptor {
   }
 
 
-  getDocument(applicant_id: number, applicant_no: number|null) {
+  getDocument(applicant_id: number, applicant_no: number | null) {
     let data = {
       APPLICANT_ID: applicant_id,
       APPLICANT_NO: applicant_no
@@ -517,29 +517,126 @@ export class ApiService implements HttpInterceptor {
   getAadhaarData(applicant_no: number, aadhaar_no: string) {
     let data = {
       APPLICANT_NO: applicant_no,
-      AADHAAR_NUMBER:aadhaar_no
+      AADHAAR_NUMBER: aadhaar_no
     }
 
     return this.httpClient.post<any>(this.baseUrl + 'aadhaar/get', data, this.optionMain);
   }
 
 
-  createPanData(data:Pan_History){
+  createPanData(data: Pan_History) {
     return this.httpClient.post<any>(this.baseUrl + 'pan/create', data, this.optionMain);
   }
 
   getPanData(applicant_no: number, pan_no: string) {
     let data = {
       APPLICANT_NO: applicant_no,
-      PAN_NUMBER:pan_no
+      PAN_NUMBER: pan_no
     }
 
     return this.httpClient.post<any>(this.baseUrl + 'pan/get', data, this.optionMain);
   }
 
 
-  updatePanData(data:Pan_History){
+  updatePanData(data: Pan_History) {
     return this.httpClient.post<any>(this.baseUrl + 'pan/update', data, this.optionMain);
   }
+
+  //Address Api
+
+  getState() {
+    return this.httpClient.post<any>(this.baseUrl + 'pincode/getState', '', this.optionMain)
+  }
+
+  getDistrict(state_name: string) {
+    let filter = {
+      filter: state_name
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'pincode/getDistrict', filter, this.optionMain)
+  }
+
+  getTaluka(district_name: string) {
+    let filter = {
+      filter: district_name
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'pincode/getTaluka', filter, this.optionMain)
+  }
+
+  getVillage(taluka_name: string) {
+    let filter = {
+      filter: taluka_name
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'pincode/getVillage', filter, this.optionMain)
+  }
+
+  // End Address Api
+
+  // voter id and License api
+
+  voterID_License_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Mzk4MjU0OSwianRpIjoiNjViMmQ1ODAtZTAyMC00NmU2LTgxYmYtZDUxNTEwZWZhOWI4IiwidHlwZSI6ImFjY2VzcyIsImlkZW50aXR5IjoiZGV2LmtyZWRwb29sQHN1cmVwYXNzLmlvIiwibmJmIjoxNjkzOTgyNTQ5LCJleHAiOjE2OTQ1ODczNDksInVzZXJfY2xhaW1zIjp7InNjb3BlcyI6WyJ1c2VyIl19fQ.Dj97vyCTartwh7MEWIwCb54MJ_AqdyZDLa7c0ykIgA4';
+  voterID_License_httpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.voterID_License_token}`
+  });
+  voterID_License_options = {
+    headers: this.voterID_License_httpHeaders
+  };
+
+  getVoterIDData(voter_id: string) {
+    let data = {
+      id_number: voter_id
+    }
+
+    return this.httpClient.post<any>("https://sandbox.surepass.io/api/v1/voter-id/voter-id", JSON.stringify(data), this.voterID_License_options);
+  }
+
+  getLicenseData(license_no: string, dob: string) {
+    let data = {
+      id_number: license_no,
+      dob: dob
+    }
+
+    return this.httpClient.post<any>("https://sandbox.surepass.io/api/v1/driving-license/driving-license", JSON.stringify(data), this.voterID_License_options);
+  }
+
+  getPassportDetails(passportID: string) {
+    let url = `https://sandbox.surepass.io/api/v1/passport/passport/${passportID}`
+
+    return this.httpClient.get<any>(url, this.voterID_License_options);
+
+  }
+
+  createVoterHistory(Voter: Voter_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'voterId/create', Voter, this.optionMain);
+  }
+
+  getVoterHistory(voter_id: string) {
+    let data = {
+      EPIC_NO: voter_id
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'voterId/get', data, this.optionMain);
+  }
+
+  updateVoterHistory(Voter: Voter_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'voterId/update', Voter, this.optionMain);
+  }
+
+  createLicenseHistory(License: License_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'license/create', License, this.optionMain);
+  }
+
+  getLicenseHistory(license_no: string) {
+    let data = {
+      LICENSE_NUMBER: license_no
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'license/get', data, this.optionMain);
+  }
+
+  updateLicenseHistory(License: License_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'license/update', License, this.optionMain);
+
+  }
+
+  // End voter id and License api
 
 }

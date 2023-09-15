@@ -11,19 +11,23 @@ export class BasicInfo {
     PRIMARY_APPLICANT_FIRST_NAME: string = '';
     PRIMARY_APPLICANT_MIDDLE_NAME: string = '';
     PRIMARY_APPLICANT_LAST_NAME: string = '';
-    AADHAAR_NUMBER: string = '';
+    // AADHAAR_NUMBER: string = '';
     PAN_NUMBER: string = '';
     CUSTOMER_ID_1: string = '';
-    CKYC_NUMBER_1: string = ''
+    CKYC_NUMBER_1: string = '';
+    VOTER_ID_1:string = '';
+    LICENSE_NO_1:string = '';
 
     CUSTOMER_TYPE_2: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
     APPLICANT2_FIRST_NAME: string = '';
     APPLICANT2_MIDDLE_NAME: string = '';
     APPLICANT2_LAST_NAME: string = '';
-    AADHAAR_NUMBER2: string = '';
+    // AADHAAR_NUMBER2: string = '';
     PAN_NUMBER2: string = '';
     CUSTOMER_ID_2: string = '';
-    CKYC_NUMBER_2: string = ''
+    CKYC_NUMBER_2: string = '';
+    VOTER_ID_2:string = '';
+    LICENSE_NO_2:string = '';
 
     IS_OLD_CUSTOMER_1: boolean = false;
 

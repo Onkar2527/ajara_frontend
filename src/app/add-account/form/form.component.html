@@ -1,70 +1,9 @@
 <div id="contentToConvert" style="width: 100%;">
 
-
-
   <div class="page" id="page1">
 
-    <!-- <div nz-row style="background-color: #b0242d;" >
-
-      <div nz-col nzSpan="15" style="background-color: #b0242d;width: 100%; height: 45px; display: flex; align-items: center;">
-        <div style=" top: 0; left: 0; width: 50%; z-index: 1;">
-          <img src="../assets/ajara_bank_logo.svg" alt="Logo" style="width: 85px; height: 80px; margin-left: 10px; ">
-        </div>
-  
-        <span style="font-size: 24px; font-weight: bolder; color: white; margin-left: 115px;" >
-          दि आजरा अर्बन को-ऑप. बँक लि; आजरा(मल्टीस्टेट)
-        </span>
-  
-      </div>
-  
-      <div nz-col nzSpan="9" style="background-color: #f3a11a;width: 100%; height: 43px; 
-        font-weight: bold; color: black; font-size: 26px; display: flex; align-items: center;justify-content: center;">
-  
-        <span>Account Opening Form</span>
-        
-      </div>
-  
-      <div nz-col nzSpan="24" 
-        style="background-color: #f3a11a;width: 100%; height: 30px; text-align: justify; display: flex; align-items: center;">
-        
-        <span style="color: white; margin-left: 115px; font-size: 18px;" >
-          प्रधान शाखा :- ३९३, बी.मेन रोड, आजरा, ता. आजरा, जि. कोल्हापूर फोन : ०२३२३-२४६०८४ 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;चलन नं.५२७
-        </span>
-  
-      </div>
-  
-    </div> -->
-
-
-
-    <!-- <div nz-row style="background-color: #B0242D;">
-      <div nz-col nzSpan="15" style="height: 45px; display: flex; align-items: center;">
-        <div style="top: 0; left: 0;">
-          <img src="../assets/ajara_bank_logo.svg" alt="Logo" style="width: 85px; height: 80px; margin-left: 10px;">
-        </div>
-        <span style="font-size: 24px; font-weight: bolder; color: white; margin-left: 115px;">
-          दि आजरा अर्बन को-ऑप. बँक लि; आजरा(मल्टीस्टेट)
-        </span>
-      </div>
-      <div nz-col nzSpan="9"
-        style="height: 43px; font-weight: bold; color: black; font-size: 26px; display: flex; align-items: center; justify-content: center;">
-        <span>Account Opening Form</span>
-      </div>
-      <div nz-col nzSpan="24" style="height: 30px; text-align: justify; display: flex; align-items: center;">
-        <span style="color: white; margin-left: 115px; font-size: 18px;">
-          प्रधान शाखा :- ३९३, बी.मेन रोड, आजरा, ता. आजरा, जि. कोल्हापूर फोन : ०२३२३-२४६०८४
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;चलन नं.५२७
-        </span>
-      </div>
-    </div> -->
-
     <div nz-row nzSpan="24">
-
       <img [src]="base64Image" alt="Logo" style="border:1px solid black;" width="100%" height="100%">
-
     </div>
 
     <div nz-row>
@@ -546,7 +485,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all heading" style="text-align:center">
-        व्यक्तीगत माहिती Personal Details (अर्जदार – १ Applicant – 1)
+        व्यक्तीगत माहिती Personal Details (अर्जदार – २ Applicant – 2)
       </div>
     </div>
 
@@ -601,13 +540,7 @@
 
     </div>
 
-
-
-
-
-
   </div>
-
 
   <div class="page" id="page2">
 
@@ -1526,7 +1459,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        {{nominationInfo.DOB | date:'dd/MM/yyyy'}}
+        {{nominationInfo.DOB}}
       </div>
 
     </div>
@@ -1903,8 +1836,6 @@
 
   </div>
 
-
-
   <div class="page" id="page5">
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_VERNACULAR">
@@ -2098,7 +2029,6 @@
       </div>
     </div>
   </div>
-
 
 </div>
 

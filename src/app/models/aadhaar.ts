@@ -32,13 +32,13 @@ export class Aadhaar_Address_History {
 }
 
 export class Pan_History {
-  ID!:number;
+  ID!: number;
   APPLICANT_FULL_NAME: string = '';
   APPLICANT_NO!: number;
   APPLICANT_ID!: number;
   PAN_NUMBER: string = '';
   IS_VERIFIED: boolean = false;
-  CATEGORY :string = '';
+  CATEGORY: string = '';
 }
 
 class Aadhaar_Data {
@@ -81,6 +81,96 @@ export class CommonData {
   profile_image: string = '';
 }
 
+export class Voter_History {
+  // "relation_type": "F",
+  //   "gender": "M",
+  //   "age": "29",
+  //   "epic_no": "NLN2089555",
+  //   "client_id": "bkpkzGyssQ",
+  //   "dob": "1990-08-31",
+  //   "relation_name": "KALEEN BHAIYA",
+  //   "name": "MUNNA BHAIYA",
+  //   "area": "Mirzapur",
+  //   "state": "Uttar Pradesh",
+  //   "house_no": "Tripathi Haveli"
+
+  ID?: number;
+  CLIENT_ID: string = '';
+  EPIC_NO: string = '';
+  NAME: string = '';
+  RELATION_TYPE: string = '';
+  RELATION_NAME: string = '';
+  GENDER: string = '';
+  DOB: string = '';
+  AGE?: number;
+  HOUSE_NO: string = '';
+  AREA: string = '';
+  STATE: string = '';
+  IS_VERIFIED: boolean = false;
+}
+
+export class License_History {
+  // "client_id": "license_xlutVlByrhrvycjWGupg",
+  // "license_number": "DL-1020151234509",
+  // "state": "DL",
+  // "name": "JOHNY SINGH",
+  // "permanent_address": "VPO JOHN KLN DISTT DELHI",
+  // "permanent_zip": "110088",
+  // "temporary_address": "VPO JOHN KLN DISTT DELHI",
+  // "temporary_zip": "110088",
+  // "citizenship": "IND",
+  // "ola_name": "RTA,DELHI",
+  // "ola_code": "DL07",
+  // "gender": "M",
+  // "father_or_husband_name": "JOHN SINGH",
+  // "dob": "1979-05-01",
+  // "doe": "2029-04-30",
+  // "transport_doe": "1900-01-01",
+  // "doi": "2015-06-25",
+  // "transport_doi": "1900-01-01",
+  // "profile_image": "",
+  // "has_image": true,
+  // "blood_group": "A+",
+  // "vehicle_classes": [
+  //   "LMV   ",
+  //   "MCWG  "
+  // ],
+  // "less_info": false,
+  // "additional_check": [],
+  // "initial_doi": "2015-06-25"
+
+  ID?: number;
+  CLIENT_ID: string = '';
+  LICENSE_NUMBER: string = '';
+  NAME: string = '';
+  FATHER_OR_HUSBAND_NAME: string = '';
+  GENDER: string = '';
+  CITIZENSHIP: string = '';
+  DOB: string = '';
+  BLOOD_GROUP: string = '';
+
+  PROFILE_IMAGE: string = '';
+  PERMANENT_ADDRESS: string = '';
+  PERMANENT_ZIP: string = '';
+  TEMPORARY_ADDRESS: string = '';
+  TEMPORARY_ZIP: string = '';
+  STATE: string = '';
+
+  OLA_NAME: string = '';
+  OLA_CODE: string = '';
+
+  INITIAL_DOI: string = '';
+  DOI: string = '';
+  DOE: string = '';
+  TRANSPORT_DOI: string = '';
+  TRANSPORT_DOE: string = '';
+
+  VEHICLE_CLASSES: string = '';
+
+  IS_VERIFIED: boolean = false;
+
+}
+
 export class Aadhaar {
   subject = new Subject();
   otpSubject = new Subject();
@@ -101,8 +191,11 @@ export class Aadhaar {
 
   aadhar_history: Aadhaar_History = new Aadhaar_History();
   aadhar_address: Aadhaar_Address_History = new Aadhaar_Address_History();
-  pan_history:Pan_History = new Pan_History();
+  pan_history: Pan_History = new Pan_History();
 
+  voter_history: Voter_History = new Voter_History();
+
+  license_history: License_History = new License_History();
 
   getOTP() {
     this.meta.id_number = this.aadhar_history.AADHAAR_NUMBER;
@@ -204,8 +297,8 @@ export class Aadhaar {
             this.meta1.full_name = res['data']['full_name'];
             this.pan_history.APPLICANT_FULL_NAME = res['data']['full_name'];
             this.pan_history.IS_VERIFIED = true;
-            this.pan_history.PAN_NUMBER = res['data']['pan_number'] ;
-            this.pan_history.CATEGORY = res['data']['category'] ;
+            this.pan_history.PAN_NUMBER = res['data']['pan_number'];
+            this.pan_history.CATEGORY = res['data']['category'];
             // console.log(res['data']);category
             // console.log(this.meta1.full_name);
             this.isok = true;
@@ -226,6 +319,92 @@ export class Aadhaar {
         }
       });
     return panverify;
+  }
+
+  verifyVoterID() {
+    let voter = new Subject();
+
+    this.api.getVoterIDData(this.voter_history.EPIC_NO).subscribe({
+      next: (res) => {
+        if (res['status_code'] == 200) {
+          this.voter_history.CLIENT_ID = res.data["client_id"];
+          this.voter_history.EPIC_NO = res.data["epic_no"];
+          this.voter_history.NAME = res.data["name"];
+          this.voter_history.RELATION_TYPE = res.data["relation_type"];
+          this.voter_history.RELATION_NAME = res.data["relation_name"];
+          this.voter_history.GENDER = this.getGender(res.data["gender"]);
+          this.voter_history.DOB = res.data["dob"];
+          this.voter_history.AGE = Number(res.data["age"]);
+          this.voter_history.HOUSE_NO = res.data["house_no"];
+          this.voter_history.AREA = res.data["area"];
+          this.voter_history.STATE = res.data["state"];
+
+          this.voter_history.IS_VERIFIED = true;
+          voter.next(true);
+          this.message.success("Voter ID Verified", `Name on Voter ID : ${this.voter_history.NAME}`)
+        }
+        else {
+          this.voter_history.IS_VERIFIED = false;
+          this.message.error('Voter ID Verification Failed', 'Entered Voter ID is not Valid');
+          voter.next(res);
+        }
+      },
+      error: (err) => {
+        this.voter_history.IS_VERIFIED = false;
+        this.message.error('Voter ID Verification Failed', 'Please try again after sometimes');
+        voter.error(err);
+      }
+    });
+    return voter;
+  }
+
+  getLicenseData() {
+    let license = new Subject();
+
+    this.api.getLicenseData(this.license_history.LICENSE_NUMBER, this.license_history.DOB).subscribe({
+      next: (res) => {
+        if (res['status_code'] == 200) {
+
+          this.license_history.CLIENT_ID = res.data["client_id"];
+          this.license_history.LICENSE_NUMBER = res.data["license_number"];
+          this.license_history.NAME = res.data["name"];
+          this.license_history.FATHER_OR_HUSBAND_NAME = res.data["father_or_husband_name"];
+          this.license_history.GENDER = this.getGender(res.data["gender"]);
+          this.license_history.CITIZENSHIP = res.data["citizenship"];
+          this.license_history.DOB = res.data["dob"];
+          this.license_history.BLOOD_GROUP = res.data["blood_group"];
+          this.license_history.PROFILE_IMAGE = res.data["profile_image"];
+          this.license_history.PERMANENT_ADDRESS = res.data["permanent_address"];
+          this.license_history.PERMANENT_ZIP = res.data["permanent_zip"];
+          this.license_history.TEMPORARY_ADDRESS = res.data["temporary_address"];
+          this.license_history.TEMPORARY_ZIP = res.data["temporary_zip"];
+          this.license_history.STATE = res.data["state"];
+          this.license_history.OLA_NAME = res.data["ola_name"];
+          this.license_history.OLA_CODE = res.data["ola_code"];
+          this.license_history.INITIAL_DOI = res.data["initial_doi"];
+          this.license_history.DOI = res.data["doi"];
+          this.license_history.DOE = res.data["doe"];
+          this.license_history.TRANSPORT_DOI = res.data["transport_doi"];
+          this.license_history.TRANSPORT_DOE = res.data["transport_doe"];
+          this.license_history.VEHICLE_CLASSES = res.data["vehicle_classes"] ? JSON.stringify(res.data["vehicle_classes"]) : '[]';
+
+          this.license_history.IS_VERIFIED = true;
+          license.next(true);
+          this.message.success("License Verified", `Name on License : ${this.license_history.NAME}`)
+        }
+        else {
+          this.license_history.IS_VERIFIED = false;
+          this.message.error('License Verification Failed', 'Please try again after sometimes');
+          license.next(res)
+        }
+      },
+      error: (err) => {
+        this.license_history.IS_VERIFIED = false;
+        this.message.error('License Verification Failed', 'Please try again after sometimes');
+        license.error(err);
+      }
+    });
+    return license;
   }
 
   private getGender(genderCode: string): string {

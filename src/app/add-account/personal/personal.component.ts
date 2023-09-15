@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject } from 'rxjs';
-import { Aadhaar, Aadhaar_History, Pan_History } from 'src/app/models/aadhaar';
+import { Aadhaar, Aadhaar_History, License_History, Pan_History, Voter_History } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -163,7 +163,7 @@ export class PersonalComponent implements OnInit {
             this.saveBasicInfo();
             if (PAN.APPLICANT_NO == 1) {
               this.getPanHistory(1);
-            
+
             }
             if (PAN.APPLICANT_NO == 2) {
               this.getPanHistory(2);
@@ -201,20 +201,20 @@ export class PersonalComponent implements OnInit {
     }
   }
 
-  saveBasicInfo(){
+  saveBasicInfo() {
     if (this.basicInfo.ID) {
       this.api.updateBasic(this.basicInfo).subscribe({
         next: (res) => {
           if (res.code == 200) {
-           
+
           }
           else {
-           
-            
+
+
           }
         },
         error: (err) => {
-        
+
         },
         complete: () => {
         }
@@ -539,9 +539,13 @@ export class PersonalComponent implements OnInit {
           this.basicInfo = res['data'][0];
           this.getAdhaarHistory(1);
           this.getPanHistory(1);
+          this.getVoterData(1);
+          this.getLicenseData(1);
           if (this.basicInfo.NO_OF_APPLICANT == 2) {
             this.getAdhaarHistory(2);
             this.getPanHistory(2);
+            this.getVoterData(2);
+            this.getLicenseData(2);
           }
         }
         else {
@@ -553,6 +557,289 @@ export class PersonalComponent implements OnInit {
       }
     });
 
+  }
+
+  loadVoterButton: boolean = false;
+  loadVoterButton2: boolean = false;
+
+  verifyVoterID(AplicantNo: number) {
+
+    switch (AplicantNo) {
+      case 1: {
+        this.loadVoterButton = true
+
+        let voterVerify = this.aadhaarVerify.verifyVoterID();
+
+        voterVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.VOTER_ID_1 = this.aadhaarVerify.voter_history.EPIC_NO;
+              this.saveVoterData(1);
+              this.loadVoterButton = false
+            }
+            else {
+              this.loadVoterButton = false
+            }
+          },
+          error: () => {
+            this.loadVoterButton = false
+          }
+        });
+        break;
+      }
+
+      case 2: {
+        this.loadVoterButton2 = true;
+        let voterVerify = this.aadhaarVerify2.verifyVoterID();
+        voterVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.VOTER_ID_2 = this.aadhaarVerify2.voter_history.EPIC_NO;
+              this.saveVoterData(2);
+              this.loadVoterButton2 = false;
+            }
+            else {
+              this.loadVoterButton2 = false;
+            }
+          },
+          error: () => {
+            this.loadVoterButton2 = false;
+          }
+        });
+        break;
+      }
+
+      default: {
+        console.error("Inside function verifyVoterID : AplicantNo is Invalid - ", AplicantNo);
+        break;
+      }
+    }
+
+
+  }
+
+  saveVoterData(applicant_no: number) {
+    if (applicant_no == 1) {
+      this.basicInfo.VOTER_ID_1 = this.aadhaarVerify.voter_history.EPIC_NO;
+      this.saveVoter(this.aadhaarVerify.voter_history, applicant_no);
+    }
+    if (applicant_no == 2) {
+      this.basicInfo.VOTER_ID_2 = this.aadhaarVerify2.voter_history.EPIC_NO;
+      this.saveVoter(this.aadhaarVerify2.voter_history, applicant_no);
+    }
+  }
+
+  saveVoter(Voter: Voter_History, applicant_no: number) {
+    if (Voter.ID) {
+      this.api.updateVoterHistory(Voter).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            this.saveBasicInfo();
+
+            if (applicant_no == 1)
+              this.getVoterData(1);
+
+            if (applicant_no == 2)
+              this.getVoterData(2);
+
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+    else {
+      this.api.createVoterHistory(Voter).subscribe({
+        next: (res) => {
+          this.saveBasicInfo();
+          if (res['code'] == 200) {
+            if (applicant_no == 1) {
+              this.getVoterData(1);
+            }
+            if (applicant_no == 2) {
+              this.getVoterData(2);
+            }
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+  }
+
+  getVoterData(applicant_no: number) {
+    let voter_id = '';
+
+    if (applicant_no == 1) {
+      voter_id = this.basicInfo.VOTER_ID_1;
+    }
+
+    else if (applicant_no == 2) {
+      voter_id = this.basicInfo.VOTER_ID_2;
+    }
+
+    this.api.getVoterHistory(voter_id).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          if (applicant_no == 1) {
+            this.aadhaarVerify.voter_history = res['data'][0];
+          }
+          else if (applicant_no == 2) {
+            this.aadhaarVerify2.voter_history = res['data'][0];
+          }
+        }
+      }
+    })
+  }
+
+
+  loadLicenseButton: boolean = false;
+  loadLicenseButton2: boolean = false;
+
+  verifyLicense(AplicantNo: number) {
+
+    switch (AplicantNo) {
+      case 1: {
+        this.loadLicenseButton = true
+
+        let licenseVerify = this.aadhaarVerify.getLicenseData();
+
+        licenseVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.LICENSE_NO_1 = this.aadhaarVerify.license_history.LICENSE_NUMBER;
+              this.saveLicenseData(1);
+              this.loadLicenseButton = false
+            }
+            else {
+              this.loadLicenseButton = false
+            }
+          },
+          error: () => {
+            this.loadLicenseButton = false
+          }
+        });
+        break;
+      }
+
+      case 2: {
+        this.loadLicenseButton2 = true;
+        let licenseVerify = this.aadhaarVerify2.getLicenseData();
+        licenseVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.LICENSE_NO_2 = this.aadhaarVerify2.license_history.LICENSE_NUMBER;
+              this.saveLicenseData(2);
+              this.loadLicenseButton2 = false;
+            }
+            else {
+              this.loadLicenseButton2 = false;
+            }
+          },
+          error: () => {
+            this.loadLicenseButton2 = false;
+          }
+        });
+        break;
+      }
+
+      default: {
+        console.error("Inside function verifyLicense : AplicantNo is Invalid - ", AplicantNo);
+        break;
+      }
+    }
+
+
+  }
+
+  saveLicenseData(applicant_no: number) {
+    if (applicant_no == 1) {
+      this.basicInfo.LICENSE_NO_1 = this.aadhaarVerify.license_history.LICENSE_NUMBER;
+      this.saveLicense(this.aadhaarVerify.license_history, applicant_no);
+    }
+    if (applicant_no == 2) {
+      this.basicInfo.LICENSE_NO_2 = this.aadhaarVerify2.license_history.LICENSE_NUMBER;
+      this.saveLicense(this.aadhaarVerify.license_history, applicant_no);
+    }
+  }
+
+  saveLicense(license: License_History, applicant_no: number) {
+    if (license.ID) {
+      this.api.updateLicenseHistory(license).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            this.saveBasicInfo();
+
+            if (applicant_no == 1)
+              this.getLicenseData(1);
+
+            if (applicant_no == 2)
+              this.getLicenseData(2);
+
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+    else {
+      this.api.createLicenseHistory(license).subscribe({
+        next: (res) => {
+          this.saveBasicInfo();
+          if (res['code'] == 200) {
+            if (applicant_no == 1) {
+              this.getLicenseData(1);
+            }
+            if (applicant_no == 2) {
+              this.getLicenseData(2);
+            }
+          }
+          else {
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+  }
+
+  getLicenseData(applicant_no: number) {
+    let license_no = '';
+
+    if (applicant_no == 1) {
+      license_no = this.basicInfo.LICENSE_NO_1;
+    }
+
+    else if (applicant_no == 2) {
+      license_no = this.basicInfo.LICENSE_NO_2;
+    }
+
+    this.api.getVoterHistory(license_no).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          if (applicant_no == 1) {
+            this.aadhaarVerify.license_history = res['data'][0];
+          }
+          else if (applicant_no == 2) {
+            this.aadhaarVerify2.license_history = res['data'][0];
+          }
+        }
+      }
+    })
   }
 
 

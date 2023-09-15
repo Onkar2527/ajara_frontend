@@ -19,6 +19,7 @@ export class ApplicantPersonalComponent implements OnInit {
   OTP: string = '';
 
   ngOnInit(): void {
+    this.getAllAddress();
   }
 
 
@@ -132,6 +133,198 @@ export class ApplicantPersonalComponent implements OnInit {
       value: 'H',
     }
   ]
+
+  //Address Module
+
+  STATE_LIST: ADDRESS_STATE[] = [];
+  PERMANENT_DISTRICT_LIST: ADDRESS_DISTRICT[] = [];
+  PERMANENT_TALUKA_LIST: ADDRESS_TALUKA[] = [];
+  PERMANENT_VILLAGE_LIST: ADDRESS_VILLAGE[] = [];
+
+  CURRENT_DISTRICT_LIST: ADDRESS_DISTRICT[] = [];
+  CURRENT_TALUKA_LIST: ADDRESS_TALUKA[] = [];
+  CURRENT_VILLAGE_LIST: ADDRESS_VILLAGE[] = [];
+
+
+  state_loading: boolean = false;
+  permanent_district_loading: boolean = false;
+  permanent_taluka_loading: boolean = false;
+  permanent_village_loading: boolean = false;
+
+  current_district_loading: boolean = false;
+  current_taluka_loading: boolean = false;
+  current_village_loading: boolean = false;
+
+  getStateList() {
+    this.state_loading = true;
+    this.api.getState().subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.state_loading = false;
+          this.STATE_LIST = res['data'];
+        }
+        else {
+          this.state_loading = false;
+        }
+      },
+      error: () => {
+        this.state_loading = false;
+      }
+    })
+  }
+
+  changeDistrictLoadingStatus(address_type: 'P' | 'C', value: boolean = false) {
+    switch (address_type) {
+      case 'P':
+        this.permanent_district_loading = value;
+        break;
+
+      case 'C':
+        this.current_district_loading = value;
+        break;
+    }
+  }
+
+  getDistrictList(address_type: 'P' | 'C') { // 'P' is permanet address and 'C' is Current Address
+    let state_name = '';
+
+    this.changeDistrictLoadingStatus(address_type, true);
+
+    switch (address_type) {
+      case 'P':
+        state_name = this.personalInfo.PERMANENT_STATE;
+        break;
+
+      case 'C':
+        state_name = this.personalInfo.CURRENT_STATE;
+        break;
+    }
+
+    this.api.getDistrict(state_name).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+
+          switch (address_type) {
+            case 'P':
+              this.PERMANENT_DISTRICT_LIST = res['data'];
+              break;
+
+            case 'C':
+              this.CURRENT_DISTRICT_LIST = res['data'];
+              break;
+          }
+
+          this.changeDistrictLoadingStatus(address_type);
+
+        }
+        else {
+          this.changeDistrictLoadingStatus(address_type);
+        }
+      },
+      error: () => {
+        this.changeDistrictLoadingStatus(address_type);
+      }
+    })
+
+  }
+
+  changeTalukaLoadingStatus(address_type: 'P' | 'C', value: boolean = false) {
+    switch (address_type) {
+      case 'P':
+        this.permanent_taluka_loading = value;
+        break;
+
+      case 'C':
+        this.current_taluka_loading = value;
+        break;
+    }
+  }
+
+  getTalukaList(address_type: 'P' | 'C') {
+    this.changeTalukaLoadingStatus(address_type, true);
+
+    let district_name = address_type == 'P' ? this.personalInfo.PERMANENT_DISTRICT : this.personalInfo.CURRENT_DISTRICT;
+
+    this.api.getTaluka(district_name).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          switch (address_type) {
+            case 'P':
+              this.PERMANENT_TALUKA_LIST = res['data'];
+              break;
+
+            case 'C':
+              this.CURRENT_TALUKA_LIST = res['data'];
+              break;
+          }
+          this.changeTalukaLoadingStatus(address_type, false);
+
+        }
+        else {
+          this.changeTalukaLoadingStatus(address_type, false);
+        }
+      },
+      error: () => {
+        this.changeTalukaLoadingStatus(address_type, false);
+      }
+    })
+  }
+
+  changeVillageLoadingStatus(address_type: 'P' | 'C', value: boolean = false) {
+    switch (address_type) {
+      case 'P':
+        this.permanent_village_loading = value;
+        break;
+
+      case 'C':
+        this.current_village_loading = value;
+        break;
+    }
+  }
+
+  getVillageList(address_type: 'P' | 'C') {
+    this.changeVillageLoadingStatus(address_type, true);
+
+    let taluka_list = address_type == 'P' ? this.personalInfo.PERMANENT_TALUKA : this.personalInfo.CURRENT_TALUKA;
+
+    this.api.getVillage(taluka_list).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+
+          switch (address_type) {
+            case 'P':
+              this.PERMANENT_VILLAGE_LIST = res['data'];
+              break;
+
+            case 'C':
+              this.CURRENT_VILLAGE_LIST = res['data'];
+              break;
+          }
+          this.changeVillageLoadingStatus(address_type, false);
+        }
+        else {
+          this.changeVillageLoadingStatus(address_type, false);
+        }
+      },
+      error: () => {
+        this.changeVillageLoadingStatus(address_type, false);
+      }
+    })
+
+  }
+
+  getAllAddress() {
+    this.getStateList();
+    this.getDistrictList('P');
+    this.getTalukaList('P');
+    this.getVillageList('P');
+    this.getDistrictList('C');
+    this.getTalukaList('C');
+    this.getVillageList('C');
+  }
+
+  //Address Module
+
   getApplicantPersonal() {
 
   }
@@ -145,6 +338,7 @@ export class ApplicantPersonalComponent implements OnInit {
     this.personalInfo.CURRENT_STATE = this.personalInfo.PERMANENT_STATE;
     this.personalInfo.CURRENT_PINCODE = this.personalInfo.PERMANENT_PINCODE;
 
+    this.getAllAddress();
   }
 
   save() {
@@ -259,4 +453,21 @@ export class ApplicantPersonalComponent implements OnInit {
     })
   }
 
+}
+
+interface ADDRESS_STATE {
+  STATE: string;
+}
+
+
+interface ADDRESS_DISTRICT {
+  DISTRICT: string;
+}
+
+interface ADDRESS_TALUKA {
+  TALUKA: string;
+}
+
+interface ADDRESS_VILLAGE {
+  VILLAGE: string;
 }

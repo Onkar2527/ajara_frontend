@@ -236,16 +236,16 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" placeholder="Enter Driving License Number" />
+                                <input nz-input name="LICENSE_NUMBER"  [(ngModel)]="aadhaarVerify.license_history.LICENSE_NUMBER" placeholder="Enter Driving License Number" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadLicenseButton" (click)="verifyLicense(1)">Verify</button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="false" class="success-tip">
+                        <div nz-row *ngIf="aadhaarVerify.license_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Driving License verified successfully
                                 <!-- {{aadhaarVerify.meta1.full_name}} -->
@@ -259,16 +259,16 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" placeholder="Enter Voter ID" />
+                                <input nz-input name="VOTER_ID" [(ngModel)]="aadhaarVerify.voter_history.EPIC_NO" placeholder="Enter Voter ID" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
+                                <button nz-button nzType="primary" [nzLoading]="loadVoterButton" (click)="verifyVoterID(1)">Verify</button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="false" class="success-tip">
+                        <div nz-row *ngIf="aadhaarVerify.voter_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Voter ID verified successfully
                                 <!-- {{aadhaarVerify.meta1.full_name}} -->
@@ -522,16 +522,16 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" placeholder="Enter Driving License Number" />
+                                <input nz-input name="LICENSE_NUMBER_2" [(ngModel)]="aadhaarVerify2.license_history.LICENSE_NUMBER" placeholder="Enter Driving License Number" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">Verify</button>
+                                <button nz-button nzType="primary"[nzLoading]="loadLicenseButton2" (click)="verifyLicense(2)">Verify</button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="false" class="success-tip">
+                        <div nz-row *ngIf="aadhaarVerify2.license_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Driving License verified successfully
                                 <!-- {{aadhaarVerify.meta1.full_name}} -->
@@ -545,18 +545,18 @@
                     <nz-form-control>
                         <div nz-row>
                             <div nz-col [nzSpan]="17">
-                                <input nz-input name="pan" placeholder="Enter Voter ID" />
+                                <input nz-input name="VOTER_ID_2" [(ngModel)]="this.aadhaarVerify2.voter_history.EPIC_NO" placeholder="Enter Voter ID" />
                             </div>
                             <div nz-col nzSpan="1">
 
                             </div>
                             <div nz-col [nzSpan]="5">
-                                <button nz-button nzType="primary" [nzLoading]="loadPanButton">
+                                <button nz-button nzType="primary" [nzLoading]="loadVoterButton2"  (click)="verifyVoterID(2)">
                                     Verify
                                 </button>
                             </div>
                         </div>
-                        <div nz-row *ngIf="false" class="success-tip">
+                        <div nz-row *ngIf="this.aadhaarVerify2.voter_history.IS_VERIFIED" class="success-tip">
                             <div nz-col nzSpan="24">
                                 Voter ID verified successfully
                                 <!-- {{aadhaarVerify.meta1.full_name}} -->
