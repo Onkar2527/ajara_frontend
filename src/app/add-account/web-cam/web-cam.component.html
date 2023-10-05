@@ -102,7 +102,7 @@
                 <th>View</th>
                 <th>Document name</th>
 
-                <th>Is Approved by Chacker</th>
+                <th>Is Approved by Checker</th>
                 <th>Is Approved by Verifier</th>
 
                 <th>Remark (Maker)</th>
@@ -124,8 +124,9 @@
 
                 </td>
                 <td>
-                    <a (click)="ViewDocument(document)"><span nz-icon nzType="eye" nzTheme="outline"
+                    <a (click)="ViewDocument(document)" *ngIf="document.IMAGE_DATA"><span nz-icon nzType="eye" nzTheme="outline"
                             style="font-size: large;"></span></a>
+                    <span *ngIf="!document.IMAGE_DATA">Please upload document to view.</span>
                 </td>
                 <td>
                     {{document.DOCUMENT_NAME}}

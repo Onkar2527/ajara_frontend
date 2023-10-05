@@ -1,14 +1,15 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { SessionUserDetails } from './common_modules/session_storage/SessionUserDetails';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   title = 'FACO';
   //find a better alternative for 
   isLoggedIn = false           //
@@ -22,72 +23,40 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   constructor(public router: Router, private api: ApiService, private message: NzNotificationService) {
-    // this.router.events.subscribe((event)=>{
-    //   if(event instanceof NavigationEnd){
-    //     router.navigateByUrl('/');
-    //   }
-    // })
   }
 
   sideMenu = []
   userDetails = {
-    BRANCH_ID: 1,
-    ID: 1,
+    BRANCH_ID: '',
     NAME: "",
-    PASSWORD: "",
-    ROLE_ID: 1,
-    USER_NAME: ""
+    ROLE_ID: '',
+    USER_ID: ''
   }
-  ngOnInit(): void {
 
-    if (sessionStorage.getItem("lk0oh6fdb4567") == null) {
+  ngOnInit(): void {
+    if (SessionUserDetails.checkSessionStorage()) {
+      this.login();
+    }
+    else {
       this.router.navigate(['login']);
       this.route = 'login';
     }
-    else {
-      this.login();
-    }
   }
 
-  ngOnChanges() {
 
-  }
   login() {
-    this.router.navigate(['/proposal']);
-    this.getSideMenu();
+
+    console.log("userDetails", this.userDetails);
     this.getUser();
+    this.getSideMenu();
+    this.router.navigate(['/proposal']);
     this.route = 'tabs';
   }
   user: string = '';
 
 
   getUser() {
-    let user_key = sessionStorage.getItem('lk0oh6fdb4567');
-
-    if (user_key) {
-      this.api.getUser(user_key).subscribe({
-        next: (res) => {
-          if (res['code'] && res['data']) {
-            console.log("res['data']", res['data']);
-            let data = this.api.decryptData(res);
-            this.userDetails = data;
-            if (this.userDetails.ROLE_ID == 1) {
-              this.user = 'BA';
-
-            }
-            else if (this.userDetails.ROLE_ID == 2) {
-              this.user = 'BM';
-            }
-            else if (this.userDetails.ROLE_ID == 3) {
-              this.user = 'HO';
-            }
-          }
-        },
-        error: () => {
-
-        }
-      })
-    }
+    this.userDetails = SessionUserDetails.getSessionStorage();
   }
 
   logout() {
@@ -96,13 +65,12 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   getSideMenu() {
-    let user_key = sessionStorage.getItem('lk0oh6fdb4567');
 
-    this.api.getSideMenu(user_key).subscribe({
+    this.api.getSideMenu(this.userDetails.ROLE_ID).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data']) {
-          let data = this.api.decryptData(res);
-          this.sideMenu = data;
+
+          this.sideMenu = res['data'];
         }
         else {
           this.message.error("Internal server Error!", '')

@@ -180,7 +180,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
 
   getTabs(applicant_id: number) {
-    this.api.getTabs(applicant_id, sessionStorage.getItem('lk0oh6fdb4567')).subscribe({
+    this.api.getTabs(applicant_id, sessionStorage.getItem('ROLE_ID')).subscribe({
       next: (res) => {
         if (res['code'] && res['data']) {
           // let data = this.api.decryptData(res['data']);

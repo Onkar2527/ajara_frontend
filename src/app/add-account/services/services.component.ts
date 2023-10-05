@@ -145,11 +145,25 @@ export class ServicesComponent implements OnInit {
 
   }
 
+  updateChacked(){
+    this.checkOptionsOne = [
+      { label: 'Cheque Book', checked: this.serviceInfo.CHEQUE_BOOK?true:false, value: 'CHEQUE_BOOK' },
+      { label: 'Passbook', checked: this.serviceInfo.PASS_BOOK?true:false, value: 'PASS_BOOK' },
+      { label: 'Statement By Email', checked: this.serviceInfo.STATEMENT_BY_EMAIL?true:false, value: 'STATEMENT_BY_EMAIL' },
+      { label: 'SMS Alerts', checked: this.serviceInfo.SMS_ALERT?true:false, value: 'SMS_ALERT' },
+      { label: 'Debit Cum ATM Card', checked: this.serviceInfo.ATM_CARD?true:false, value: 'ATM_CARD' },
+      { label: 'Consent to communicate new products', checked: this.serviceInfo.CONSENT_NEW_PRODUCT?true:false, value: 'CONSENT_NEW_PRODUCT' },
+      { label: 'Add on  Card', checked: this.serviceInfo.ADDON_CARD?true:false, value: 'ADDON_CARD' },
+    ]
+  }
+
   getServiceInfo() {
     this.api.getService(this.APPLICANT_ID).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.serviceInfo = res['data'][0];
+          this.updateChacked();
+          this.changeInOption();
         }
         else {
 

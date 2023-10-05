@@ -453,6 +453,58 @@ export class ApplicantPersonalComponent implements OnInit {
     })
   }
 
+  PROFESSION_LIST = [
+    {value:'A',lable:'Employee'},
+    {value:'B',lable:'Self Employeed'},
+    {value:'C',lable:'Business'},
+    {value:'D',lable:'Retired'},
+    {value:'E',lable:'Student'},
+    {value:'F',lable:'House Wife'},
+    {value:'G',lable:'Other'},
+    {value:' ',lable:'None'}
+  ];
+
+
+  NATURE_OF_SERVICE_LIST = [
+    {value:'A',lable:'Central/State Government'},
+    {value:'B',lable:'Private Company'},
+    {value:' ',lable:'None'}
+  ];
+
+  SELF_EMPLOYED_LIST = [
+    {value:'A',lable:'CA'},
+    {value:'B',lable:'Doctor'},
+    {value:'C',lable:'Advisor'},
+    {value:'D',lable:'Trader'},
+    {value:'E',lable:'Engineer'},
+    {value:'F',lable:'Advocate'},
+    {value:'G',lable:'Software'},
+    {value:'H',lable:'Other'},
+    {value:' ',lable:'None'}
+
+  ];
+
+  NATURE_OF_BUSINESS_LIST = [
+    {value:'A',lable:'Agriculture'},
+    {value:'B',lable:'Trader'},
+    {value:'C',lable:'Manufacture'},
+    {value:'D',lable:'Retailer'},
+    {value:'E',lable:'Wholesaler'},
+    {value:'F',lable:'Businessman'},
+    {value:' ',lable:'None'}
+  ];
+
+  SOURCE_OF_FUNDS_LIST = [
+    {value:'A',lable:'Business income'},
+    {value:'B',lable:'Commission Income'},
+    {value:'C',lable:'Salary Income'},
+    {value:'D',lable:'Rent Income'},
+    {value:'E',lable:'Agri Income'},
+    {value:'F',lable:'Pension Income'},
+    {value:'G',lable:'Family Income'},
+    {value:' ',lable:'None'}
+  ];
+
 }
 
 interface ADDRESS_STATE {

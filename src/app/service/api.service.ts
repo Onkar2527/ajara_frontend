@@ -120,10 +120,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  baseUrl = 'https://accountopening.kredpool.in/api/';
+  // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://192.168.1.22:8080/api/';
+  baseUrl = 'http://localhost:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -144,10 +144,8 @@ export class ApiService implements HttpInterceptor {
       USER_NAME: username,
       PASSWORD: password
     }
-    let encrypted_data = {
-      data: this.encryptWithPublicKey(JSON.stringify(data))
-    };
-    return this.httpClient.post(this.baseUrl + "user/login", encrypted_data, this.optionMain);
+   
+    return this.httpClient.post(this.baseUrl + "user/login", data, this.optionMain);
   }
 
 
@@ -357,11 +355,11 @@ export class ApiService implements HttpInterceptor {
 
   //draft 
 
-  getDraft(pageSize: number, pageIndex: number, user_id: string | null): Observable<any> {
+  getDraft(pageSize: number, pageIndex: number,user_data:any): Observable<any> {
     let data = {
       pageSize: pageSize,
       pageIndex: pageIndex,
-      USER_KEY: user_id
+      user_details:user_data
     }
     return this.httpClient.post(this.baseUrl + 'basicDetails/getAll', data, this.optionMain);
   }
@@ -419,15 +417,12 @@ export class ApiService implements HttpInterceptor {
   }
 
 
-  getSideMenu(user_key: string | null) {
+  getSideMenu(role_id: any) {
     let data = {
-      USER_KEY: user_key
+      ROLE_ID: role_id
     }
-    let encrypted_data = {
-      data: this.encryptWithPublicKey(JSON.stringify(data))
-    };
 
-    return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', encrypted_data, this.optionMain)
+    return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', data, this.optionMain)
   }
 
   getUser(user_key: string | null) {
@@ -442,17 +437,13 @@ export class ApiService implements HttpInterceptor {
 
   }
 
-  getTabs(applicant_id: number, user_key: any) {
+  getTabs(applicant_id: number, role_id: any) {
     let data = {
       APPLICANT_ID: applicant_id,
-      USER_KEY: user_key
+      ROLE_ID: role_id
     }
 
-    let encrypted_data = {
-      data: this.encryptWithPublicKey(JSON.stringify(data))
-    };
-
-    return this.httpClient.post<any>(this.baseUrl + 'tabs/getTabs', encrypted_data, this.optionMain);
+    return this.httpClient.post<any>(this.baseUrl + 'tabs/getTabs', data, this.optionMain);
 
   }
 

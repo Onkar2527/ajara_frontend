@@ -101,5 +101,11 @@ export class PersonalInfo {
     MINOR_DATE_OF_BIRTH_PROOF:string = ''; //dropdown
 
 
+    PROFESSION:'A'|'B'|'C'|'D'|'E'|'F'|'G'|' ' = ' '
+    NATURE_OF_SERVICE:'A'|'B'|' ' = ' ';
+    SELF_EMPLOYED:'A'|'B'|'C'|'D'|'E'|'F'|'H'|'G'|' ' = ' ';
+    NATURE_OF_BUSINESS:'A'|'B'|'C'|'D'|'E'|'F'|' ' = ' ';
+    SOURCE_OF_FUNDS:'A'|'B'|'C'|'D'|'E'|'F'|'G'|' ' = ' ';
+
 
 }

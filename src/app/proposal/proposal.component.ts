@@ -6,10 +6,9 @@ import { FormComponent } from '../add-account/form/form.component';
 import { PersonalComponent } from '../add-account/personal/personal.component';
 import { BasicInfo } from '../models/basicInfo';
 import { ApiService } from '../service/api.service';
-import { error } from 'pdf-lib';
 import { ExtraInfo } from '../models/extra-info';
-import { Aadhaar_History } from '../models/aadhaar';
 import { Documents } from '../models/documents';
+import { SessionUserDetails } from '../common_modules/session_storage/SessionUserDetails';
 
 @Component({
   selector: 'app-proposal',
@@ -70,7 +69,7 @@ export class ProposalComponent implements OnInit {
   userDetails: any;
 
   getTabs(applicant_id: number) {
-    this.api.getTabs(applicant_id, sessionStorage.getItem('lk0oh6fdb4567')).subscribe({
+    this.api.getTabs(applicant_id, sessionStorage.getItem('ROLE_ID')).subscribe({
       next: (res) => {
         if (res['code'] && res['data']) {
           this.Tabs = res['data'];
@@ -83,24 +82,10 @@ export class ProposalComponent implements OnInit {
 
 
   getUser() {
-    let user_key = sessionStorage.getItem('lk0oh6fdb4567');
 
-    if (user_key) {
-      this.api.getUser(user_key).subscribe({
-        next: (res) => {
-          if (res['code'] && res['data']) {
-            console.log("res['data']", res['data']);
-            let data = this.api.decryptData(res);
-            this.ROLE_ID = data.ROLE_ID;
+    this.ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
+    this.userDetails = SessionUserDetails.getSessionStorage();
 
-            this.userDetails = data;
-          }
-        },
-        error: () => {
-
-        }
-      })
-    }
   }
 
 
@@ -124,7 +109,7 @@ export class ProposalComponent implements OnInit {
   openTabsDrawer(data: BasicInfo) {
 
     this.getTabs(data.ID);
-    
+
     if (data.STATUS == 'C') {
       this.header = this.TabHeaderTemplate;
       this.footer = this.TabFooterTplChecker;
@@ -238,9 +223,12 @@ export class ProposalComponent implements OnInit {
 
   getDrafts() {
     this.TableLoading = true;
-    let User_id = sessionStorage.getItem('lk0oh6fdb4567');
+    // let User_id = sessionStorage.getItem('lk0oh6fdb4567');
     console.log("In Draft Function");
-    this.api.getDraft(this.pageSize, this.pageIndex, User_id).subscribe({
+
+    let user_data = SessionUserDetails.getSessionStorage();
+
+    this.api.getDraft(this.pageSize, this.pageIndex, user_data).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           console.log("res['data']", res['data'])
@@ -301,42 +289,42 @@ export class ProposalComponent implements OnInit {
     this.selectedIndex = this.addAccountComp.selectedIndex;
   }
   saveANext() {
-    if(this.selectedIndex !=4){
+    if (this.selectedIndex != 4) {
       this.addAccountComp.saveANext();
     }
-    else{
-      this.api.getDocument(this.APPLICANT_ID,null).subscribe({
-        next:(res)=>{
-          if(res['code'] == 200){
-            if(res['data'].length >= 2){
-              this.velidateDocument(res['data'])?this.addAccountComp.saveANext():this.message.error("Please Upload Atleast Two Documents!",'');
+    else {
+      this.api.getDocument(this.APPLICANT_ID, null).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            if (res['data'].length >= 2) {
+              this.velidateDocument(res['data']) ? this.addAccountComp.saveANext() : this.message.error("Please Upload Atleast Two Documents!", '');
             }
-            else{
-              this.message.error("Please Upload Atleast Two Documents!",'');
+            else {
+              this.message.error("Please Upload Atleast Two Documents!", '');
             }
           }
-          else{
-            this.message.error("Something Went Wrong!","")
+          else {
+            this.message.error("Something Went Wrong!", "")
           }
         },
-        error:(err)=>{
-          this.message.error("Something Went Wrong!","")
+        error: (err) => {
+          this.message.error("Something Went Wrong!", "")
         }
       })
     }
-    
+
   }
 
-  velidateDocument(docArray:Documents[]){
+  velidateDocument(docArray: Documents[]) {
     let count = 0
-    for(let doc of docArray){
-      if(doc.IMAGE_DATA) count++;
+    for (let doc of docArray) {
+      if (doc.IMAGE_DATA) count++;
     }
 
-    if(count >= 2){
+    if (count >= 2) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -367,16 +355,16 @@ export class ProposalComponent implements OnInit {
 
   }
 
-  loadPdfButton:boolean = false;
+  loadPdfButton: boolean = false;
 
   downloadPDF() {
     this.loadPdfButton = true;
     this.formComp.save();
   }
 
-  
 
-  pdfLoading(event:boolean){
+
+  pdfLoading(event: boolean) {
     this.loadPdfButton = event;
   }
 

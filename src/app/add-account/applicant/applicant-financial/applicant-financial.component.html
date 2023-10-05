@@ -2,27 +2,21 @@
     <div nz-col nzSpan="24">
         <div class="box">
             <nz-divider nzText="Yearly Income"></nz-divider>
-            <div nz-row class="content-box" style="justify-content: center;">
-                <nz-form-item nz-col nzSpan="12">
+            <div nz-row class="content-box">
+
+                <nz-form-item nz-col nzSpan="24">
+
                     <nz-form-control>
-                        <nz-form-label nzRequired [nzNoColon]="true">Select Income</nz-form-label>
-                        <nz-select nzShowSearch nzPlaceHolder="Select Income"
+                        <nz-form-label nzRequired [nzNoColon]="true">Income Information</nz-form-label>
+                        <!-- <nz-select nzShowSearch nzPlaceHolder="Select Income"
                             [(ngModel)]="financialInfo.INCOME" style="width: 100%;">
                             <nz-option *ngFor="let income of incomeList" [nzValue]="income.value"
                                 [nzLabel]="income.label">
                             </nz-option>
-                        </nz-select>
+                        </nz-select> -->
 
-                        <!-- <nz-radio-group [(ngModel)]="financialInfo.INCOME">
-                            <label nz-radio [nzValue]="1">Upto ₹5000</label>
-                            <label nz-radio [nzValue]="2">₹5001 to ₹10000</label>
-                            <label nz-radio [nzValue]="3">₹10001 to ₹20000</label>
-                            <label nz-radio [nzValue]="4">₹20001 to ₹30000</label>
-                            <label nz-radio [nzValue]="5">₹30001 to ₹50000</label>
-                            <label nz-radio [nzValue]="6">₹50001 to ₹100000</label>
-                            <label nz-radio [nzValue]="7">₹100001 to ₹150000</label>
-                            <label nz-radio [nzValue]="8">Above ₹150001</label>
-                        </nz-radio-group> -->
+                        <input type="text" nz-input name="INCOME" [(ngModel)]="financialInfo.INCOME">
+
                     </nz-form-control>
                 </nz-form-item>
 

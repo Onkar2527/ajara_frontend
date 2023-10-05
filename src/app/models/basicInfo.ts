@@ -7,7 +7,7 @@ export class BasicInfo {
 
     NO_OF_APPLICANT: number = 1;
 
-    CUSTOMER_TYPE_1:  "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
+    CUSTOMER_TYPE_1: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
     PRIMARY_APPLICANT_FIRST_NAME: string = '';
     PRIMARY_APPLICANT_MIDDLE_NAME: string = '';
     PRIMARY_APPLICANT_LAST_NAME: string = '';
@@ -15,8 +15,8 @@ export class BasicInfo {
     PAN_NUMBER: string = '';
     CUSTOMER_ID_1: string = '';
     CKYC_NUMBER_1: string = '';
-    VOTER_ID_1:string = '';
-    LICENSE_NO_1:string = '';
+    VOTER_ID_1: string = '';
+    LICENSE_NO_1: string = '';
 
     CUSTOMER_TYPE_2: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
     APPLICANT2_FIRST_NAME: string = '';
@@ -26,17 +26,25 @@ export class BasicInfo {
     PAN_NUMBER2: string = '';
     CUSTOMER_ID_2: string = '';
     CKYC_NUMBER_2: string = '';
-    VOTER_ID_2:string = '';
-    LICENSE_NO_2:string = '';
+    VOTER_ID_2: string = '';
+    LICENSE_NO_2: string = '';
 
     IS_OLD_CUSTOMER_1: boolean = false;
 
     IS_OLD_CUSTOMER_2: boolean = false;
 
-    AADHAAR_NO_1:string = '';
-    AADHAAR_NO_2:string = '';
+    AADHAAR_NO_1: string = '';
+    AADHAAR_NO_2: string = '';
 
-    APPLICATION_DATE:string = '';
+    APPLICATION_DATE: string = '';
+
+    CREATED_BRANCH_ID?: number;
+
+    MAKER_USER_ID?: number;
+    CHACKER_USER_ID?: number;
+    VERIFIER_USER_ID?: number;
+
+    TRACK_ID?:number;
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 

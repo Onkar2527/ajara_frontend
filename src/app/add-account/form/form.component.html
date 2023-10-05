@@ -36,35 +36,35 @@
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार १ <div>Applicant 1</div>
       </div>
       <div nz-col nzSpan="6" class="border-all data">
-        {{basicInfo.CKYC_NUMBER_1}}
+        <!-- {{basicInfo.CKYC_NUMBER_1}} -->
       </div>
       <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार २ <div>Applicant 2</div>
       </div>
       <div nz-col nzSpan="6" class="border-all data">
-        {{basicInfo.CKYC_NUMBER_2}}
+        <!-- {{basicInfo.CKYC_NUMBER_2}} -->
       </div>
     </div>
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all data-heading">
-        मी/आम्ही आपल्या बँके शी नाते र्ोडण्यासाठी खाते उघडण्यास इच्छुक आहे/आहोत. I/We hereby apply for a relationship
+        मी/आम्ही आपल्या बँकेशी नाते जोडण्यासाठी खाते उघडण्यास इच्छुक आहे/आहोत. I/We hereby apply for a relationship
         with your Bank under which I/We
         wish to open an account
       </div>
     </div>
 
     <div nz-row>
-      <div nz-col nzSpan="4" class="border-all data-heading">खात्याचा प्रकार <div>Account Type</div>
+      <div nz-col nzSpan="7" class="border-all data-heading">खात्याचा प्रकार Account Type
       </div>
-      <div nz-col nzSpan="8" class="border-all data">
+      <div nz-col nzSpan="6" class="border-all data">
         {{account_type[depositInfo.ACCOUNT_TYPE]}}
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data-heading">खाते क्रमाांक <div>
-          Account Number</div>
+      <div nz-col nzSpan="6" class="border-all data-heading">खाते क्रमाांक 
+          Account Number
       </div>
 
-      <div nz-col nzSpan="8" class="border-all data"></div>
+      <div nz-col nzSpan="5" class="border-all data"></div>
     </div>
 
 
@@ -77,15 +77,17 @@
     </div>
 
     <div nz-row>
-      <div nz-col nzSpan="4" class="border-all data-heading">Customer Type</div>
-      <div nz-col nzSpan="13" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_1]}}</div>
+      <div nz-col nzSpan="7" class="border-all data-heading">Customer Type
+        ग्राहकाचा प्रकार
+      </div>
+      <div nz-col nzSpan="10" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_1]}}</div>
       <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
       <div nz-col nzSpan="4" class="border-all data">{{risk_type[ApplicantPersonal[0].RISK_CATEGORY]}}</div>
     </div>
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        सांपूणज नाांव Full Name
+        संपूर्ण नांव Full Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         {{ApplicantPersonal[0].LAST_NAME}} {{ApplicantPersonal[0].FIRST_NAME}}
@@ -96,7 +98,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        आईचे नाांव Mother's maiden Name
+        आईचे नांव Mother's maiden Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         {{ApplicantPersonal[0].MOTHERS_LAST_NAME}}
@@ -108,7 +110,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        वडिलांचे नाव Father's Name
+        वडिलांचे नांव Father's Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         {{ApplicantPersonal[0].F_OR_H_LAST_NAME}} {{ApplicantPersonal[0].F_OR_H_FIRST_NAME}}
@@ -151,7 +153,7 @@
 
     <div nz-row>
 
-      <div nz-col nzSpan="4" class="border-all data-heading">मोबाइल Mobile
+      <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल Mobile
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
@@ -159,7 +161,7 @@
       </div>
 
 
-      <div nz-col nzSpan="4" class="border-all data-heading">मोबाइल
+      <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल
         Mobile
       </div>
 
@@ -218,12 +220,10 @@
 
     <div nz-row>
 
-      <div nz-col nzSpan="12" class="border-all data-heading">
+      <div nz-col nzSpan="18" class="border-all data-heading">
         If the Proof of Address (OVD) provided does not contain
         current address-please provide any of the documents
       </div>
-
-      <div nz-col nzSpan="6" class="border-all data"></div>
 
       <div nz-col nzSpan="6" class="border-all data"></div>
 
@@ -359,7 +359,7 @@
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
-        {{work[ApplicantPersonal[0].WORK]}}
+        {{profession[ApplicantPersonal[0].PROFESSION]}}
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">
@@ -368,15 +368,17 @@
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
-        {{employee[ApplicantPersonal[0].EMPLOYMENT_DETAIL]}}
+        {{nature_of_service[ApplicantPersonal[0].NATURE_OF_SERVICE]}}
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
-        स्वयंरोजगार व्यावसायिक
+        स्वयंरोजगार व्यवसायिक
         <div>Self-employed professional</div>
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        {{self_employed[ApplicantPersonal[0].SELF_EMPLOYED]}}
+      </div>
 
     </div>
 
@@ -388,14 +390,18 @@
         Nature of business
       </div>
 
-      <div nz-col nzSpan="5" class="border-all data"></div>
+      <div nz-col nzSpan="5" class="border-all data">
+        {{nature_of_business[ApplicantPersonal[0].NATURE_OF_BUSINESS]}}
+      </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
         निधीचा स्रोत
         Source of funds
       </div>
 
-      <div nz-col nzSpan="6" class="border-all data"></div>
+      <div nz-col nzSpan="6" class="border-all data">
+        {{source_of_fund[ApplicantPersonal[0].SOURCE_OF_FUNDS]}}
+      </div>
 
     </div>
 
@@ -407,7 +413,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="ApplicantFinancial.length > 0">{{income[ApplicantFinancial[0].INCOME]}}</span>
+        <span *ngIf="ApplicantFinancial.length > 0">{{ApplicantFinancial[0].INCOME}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -428,7 +434,7 @@
         धर्म Religion
       </div>
 
-      <div nz-col nzSpan="4" class="border-all ">
+      <div nz-col nzSpan="4" class="border-all data">
 
         <span *ngIf="ApplicantPersonal[0].RELIGION == 'G'">
           {{ApplicantPersonal[0].OTHER_RELIGION}}
@@ -451,7 +457,7 @@
           {{ApplicantPersonal[0].OTHER_CASTE}}
         </span>
         <span *ngIf="ApplicantPersonal[0].CASTE != 'G'">
-          {{religion[ApplicantPersonal[0].CASTE]}}
+          {{caste[ApplicantPersonal[0].CASTE]}}
         </span>
       </div>
 
@@ -490,8 +496,10 @@
     </div>
 
     <div nz-row>
-      <div nz-col nzSpan="4" class="border-all data-heading">Customer Type</div>
-      <div nz-col nzSpan="13" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_2]}}</div>
+      <div nz-col nzSpan="7" class="border-all data-heading">Customer Type
+        ग्राहकाचा प्रकार
+      </div>
+      <div nz-col nzSpan="10" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_2]}}</div>
       <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
       <div nz-col nzSpan="4" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
@@ -503,7 +511,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        संपूर्ण नाव Full Name
+        संपूर्ण नांव Full Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
@@ -516,7 +524,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        आईचे नाांव Mother's maiden Name
+        आईचे नांव Mother's maiden Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
@@ -529,7 +537,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
-        वडिलांचे नाव Father's Name
+        वडिलांचे नांव Father's Name
       </div>
       <div nz-col nzSpan="16" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
@@ -581,7 +589,7 @@
 
     <div nz-row>
 
-      <div nz-col nzSpan="4" class="border-all data-heading">मोबाइल Mobile
+      <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल Mobile
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
@@ -590,7 +598,7 @@
         </span>
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data-heading">मोबाइल
+      <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल
         Mobile
       </div>
 
@@ -657,12 +665,11 @@
 
     <div nz-row>
 
-      <div nz-col nzSpan="12" class="border-all data-heading">
+      <div nz-col nzSpan="18" class="border-all data-heading">
         If the Proof of Address (OVD) provided does not contain
         current address-please provide any of the documents
       </div>
 
-      <div nz-col nzSpan="6" class="border-all data"></div>
 
       <div nz-col nzSpan="6" class="border-all data"></div>
 
@@ -827,7 +834,7 @@
 
       <div nz-col nzSpan="4" class="border-all data">
         <span *ngIf="ApplicantPersonal.length > 1">
-          {{work[ApplicantPersonal[1].WORK]}}
+          {{profession[ApplicantPersonal[1].PROFESSION]}}
         </span>
 
       </div>
@@ -839,7 +846,7 @@
 
       <div nz-col nzSpan="3" class="border-all ">
         <span *ngIf="ApplicantPersonal.length > 1">
-          {{employee[ApplicantPersonal[1].EMPLOYMENT_DETAIL]}}
+          {{nature_of_service[ApplicantPersonal[1].NATURE_OF_SERVICE]}}
         </span>
       </div>
 
@@ -848,7 +855,11 @@
         <div>Self-employed professional</div>
       </div>
 
-      <div nz-col nzSpan="4" class="border-all data"></div>
+      <div nz-col nzSpan="4" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{self_employed[ApplicantPersonal[1].SELF_EMPLOYED]}}
+        </span>
+      </div>
 
     </div>
 
@@ -860,14 +871,22 @@
         Nature of business
       </div>
 
-      <div nz-col nzSpan="5" class="border-all data"></div>
+      <div nz-col nzSpan="5" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{nature_of_business[ApplicantPersonal[1].NATURE_OF_BUSINESS]}}
+        </span>
+      </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
         निधीचा स्रोत
         Source of funds
       </div>
 
-      <div nz-col nzSpan="6" class="border-all data"></div>
+      <div nz-col nzSpan="6" class="border-all data">
+        <span *ngIf="ApplicantPersonal.length > 1">
+          {{source_of_fund[ApplicantPersonal[1].SOURCE_OF_FUNDS]}}
+        </span>
+      </div>
 
     </div>
 
@@ -879,7 +898,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="ApplicantFinancial.length > 1">{{income[ApplicantFinancial[1].INCOME]}}</span>
+        <span *ngIf="ApplicantFinancial.length > 1">{{ApplicantFinancial[1].INCOME}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -923,7 +942,7 @@
             {{ApplicantPersonal[1].OTHER_CASTE}}
           </span>
           <span *ngIf="ApplicantPersonal[1].CASTE != 'G'">
-            {{religion[ApplicantPersonal[1].CASTE]}}
+            {{caste[ApplicantPersonal[1].CASTE]}}
           </span>
         </span>
       </div>
@@ -973,7 +992,7 @@
     <div nz-row>
 
       <div nz-col nzSpan="7" class="border-all data-heading">
-        पालकाचे नाव Name of Guardian
+        पालकांचे नांव Name of Guardian
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -996,14 +1015,14 @@
     <div nz-row>
 
       <div nz-col nzSpan="7" class="border-all data-heading">
-        अज्ञानाची जन्मतारीख minor`s date of birth
+        अज्ञानाची जन्म दिनांक minor`s date of birth
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
         {{ApplicantPersonal[0].DATE_OF_BIRTH}}
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
-        अज्ञानाच्या जन्मतारीख पुरावा
+        अज्ञानाच्या जन्मदिनांकचा पुरावा
       </div>
       <div nz-col nzSpan="6" class="border-all data">
 
@@ -1033,16 +1052,13 @@
     <div nz-row>
 
       <div nz-col nzSpan="20" class="border-all data-heading">
-        सदर अल्पवयीनव्यक्ती सदण्यान होईपयंत मी त्याच्या/पतच्या वतीने खाते चालवीन. या खट् यमध्ये के लेल्या
-        व्यवहारासांबांधी
-        कोणत्याही डावयाबब्त बँकेची क्षपतपूती करण्याचे मी मान्य करीत आहे. मे बँकेच्या फोनबँपकां ग, मोबाइलबँपकां गइांटरनेट
-        बँपकां ग, पबल
-        पे, यूपीआय इत्यादी सेवाांचा वापर के वळ अल्पवयीन व्यक्तीच्या फायद्यासाठी करीन. या पवपवध सेवाांशी सांबपधत सवज अटी
-        व शतीचां
-        मी पालन कारेन. तसेच अल्पवयीन व्यपक्त सदण्यान झाल्यावर त्यापवषयी मी बँकेस कळपवण याची र्बाबदारी मी घेतो.
+        सदर अल्पवयीनव्यक्ती सज्ञान होईपर्यंत मी त्याच्या/तिच्या वतीने खाते चालवीन. या खात्यामध्ये केलेल्या
+        व्यवहारासंबंधी कोणत्याही दाव्याबाबत बँकेची क्षतिपूर्ति करण्याचे मी मान्य करीत आहे. मी बँकेच्या फोनबँकिंग, मोबाईल
+        बँकिंग, इंटरनेट बँकिंग, बिल पे, यूपीआय इत्यादी सेवांचा वापर केवळ अल्पवयीन व्यक्तीच्या फायद्यासाठी करीन. या विविध
+        सेवांशी संबंधित सर्व अटी व शर्तींचे मी पालन करेन. तसेच अल्पवयीन व्यक्ती सज्ञान झाल्यावर त्याविषयी मी बँकेस कळविण
+        याची जबाबदारी मी घेतो.
 
         I shall represent the said minor in operating the Bank Account till he/ she attains majority. I agree to
-
         indemnify the Bank against any claims for any transaction made in the account. I undertake and confirm
         that I shall avail various services of the Bank like Phone Banking, Mobile Banking, Internet Banking, Bill
         pay, UPI etc for the befit of the minor and I shall abide by all terms and conditions governing the various
@@ -1071,7 +1087,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="12" class="border-all data-heading">
-        खाते चालवण्याची सूचना Instructions for account operations
+        खाते चालविणे संबंधीच्या सूचना Instructions for account operations
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
@@ -1083,8 +1099,8 @@
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all data-heading" style="font-size:10px; ">
-        *संयुक्‍त ठेवीदाराांपैकी कोणाचाही ठेवीचा कालावधी पूणज होण्याआधी मृत्यू झाल्यास मुदत ठेव मुदतीआधी काढण्यास अन्य
-        ठेवीदाराांना परवानगी देण्याचे आम्ही सांयुक्तपणे मान्य करतो आपण पद आर्रा अबजन को-ऑप बँक याांना तसे ​अधिकार देतो.
+        *संयुक्त ठेवीदारांपैकी कोणाचाही ठेवीचा कालावधी पूर्ण होण्याआधी मृत्यू झाल्यास मुदत ठेव मुदती आधी काढण्यास अन्य
+        ठेवीदारांना परवानगी देण्याचे आम्ही संयुक्तपणे मान्य करतो आणि दि आजरा को-ऑप बँक यांना तसे अधिकार देतो.
         *We jointly agree and authorise The Ajara Urban Cooperative Bank Ltd., to permit premature withdrawals of the
         Fixed Deposit by survivor/s in the event of the death of the deposit holder/s before maturity.
       </div>
@@ -1093,7 +1109,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="1" class="border-all data">
-        ₹
+        Rs.
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -1116,7 +1132,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data-heading">
-        बँकेचे नाांव Bank Name
+        बँकेचे नांव Bank Name
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -1151,8 +1167,9 @@
     <div nz-row>
 
       <div nz-col nzSpan="24" class="border-all data-heading">
-        प्रारंभिक ठेव रकमेचा धनादेश ठेवीदाराने स्व-स्वाक्षरी केलेला असावा आणि अजरा अर्बन कोऑपरेटिव्ह बँक लि.,
-        (ठेवीदाराचे नाव) च्या A/c च्या नावे असावा. Cheque for initial deposit amount should be self-signed by the
+        19. प्राथमिक जमा रकमेसाठी ठेवीदार यांनी दिलेला धनादेश हा स्वतःच्या स्वाक्षरीने द्यावा आणि तो दि आजरा अर्बन
+        को-ऑपरेटिव्ह बँक लि. खाते (ठेवीदार यांचे नाव) असा लिहिलेला असावा.
+        Cheque for initial deposit amount should be self-signed by the
         depositor and in favour of The Ajara Urban Cooperative Bank Ltd., A/c of (Depositor name)
       </div>
 
@@ -1199,7 +1216,7 @@
       </div>
 
       <div nz-col nzSpan="10" class="border-all data-heading">
-        व्यार् दर (द.सा.द.शे.) Rate of Interest (Per Annum)
+        व्याज दर (द.सा.द.शे.) Rate of Interest (Per Annum)
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
@@ -1219,8 +1236,8 @@
       </div>
 
       <div nz-col nzSpan="17" class="border-all data-heading">
-        कोणतेही आपोआप नूतनीकरण हे मूळ मुदती नुसार आपण प्रचपलत व्यार्दराने बँकेच्या धोरण, पनयम यानुसार केले र्ाईल. Auto
-        Renewal will be done as per Bank policy, rules at the original period and prevailing rate of interest
+        कोणतेही आपोआप नूतनीकरण हे मूळ मुदती नुसार आणि प्रचलित व्याजदराने बँकेच्या धोरण, नियम यानुसार केले जाईल.
+        Auto Renewal will be done as per Bank policy, rules at the original period and prevailing rate of interest
       </div>
 
     </div>
@@ -1228,7 +1245,7 @@
     <div nz-row>
 
       <div nz-col nzSpan="12" class="border-all data-heading">
-        ठेवी वरील ​ व्‍याज जामा करण्‍याचा पर्याय Desired interest payout
+        ठेवीवरील व्याज जमा करण्याचा पर्याय Desired interest payout
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
@@ -1248,7 +1265,8 @@
     <div nz-row>
 
       <div nz-col nzSpan="24" class="border-all data-heading">
-        ठेवीवरील ​व्‍याज / मुदत सांपल्यावर ​​जेथे जमा करावयाची आहे त्या खात्याचा तपशील Details of Bank account in which
+        ठेवीवरील व्याज मुदत संपल्यावर रक्कम जेथे जमा करावयाची आहे त्या खात्याचा तपशील
+        Details of Bank account in which
         interest/ amount payable on maturity desired to be deposited
       </div>
 
@@ -1257,7 +1275,7 @@
     <div nz-row>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
-        बँकेचे नाांव Bank Name
+        बँकेचे नांव Bank Name
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -1285,11 +1303,11 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
-        शाखेचे नांव Branch Name
+        खाते क्र. Account No.
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{depositInfo.DEPOSIT_BRANCH_NAME}}
+        {{depositInfo.DEPOSIT_ACCOUNT_NUMBER}}
       </div>
 
     </div>
@@ -1303,7 +1321,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="9" class="border-all data-heading">
-        चेक बुक / Cheque Book
+        चेक पुस्तिका / Cheque Book
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
@@ -1322,7 +1340,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="9" class="border-all data-heading">
-        ई-मेलद्वारे खाते उतारा/ Statement By Email
+        ई-मेलद्वारे खाते उतारा / Statement By Email
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
@@ -1342,7 +1360,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="9" class="border-all data-heading">
-        डेबिट कम एटीएम कार्ड Debit Cum ATM Card
+        डेबिट कम एटीएम कार्ड / Debit Cum ATM Card
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
@@ -1350,11 +1368,11 @@
       </div>
 
       <div nz-col nzSpan="9" class="border-all data-heading">
-        पासबुक Passbook
+        युपीआय / UPI
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
-        {{serviceInfo.PASS_BOOK == true ? "Yes" : "No"}}
+        <!-- {{serviceInfo.PASS_BOOK == true ? "Yes" : "No"}} -->
       </div>
 
     </div>
@@ -1362,7 +1380,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="9" class="border-all data-heading">
-        अतिरिक्‍त कार्ड ​Add on Card
+        अतिरिक्‍त कार्ड / Add on Card
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
@@ -1370,7 +1388,7 @@
       </div>
 
       <div nz-col nzSpan="9" class="border-all data-heading">
-        मोबाईल ​बँकिंग/ Mobile Banking
+        मोबाईल ​बँकिंग / Mobile Banking
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
@@ -1380,24 +1398,6 @@
     </div>
 
 
-    <div nz-row>
-      <div nz-col nzSpan="9" class="border-all data-heading">
-        यूपीआय
-      </div>
-
-      <div nz-col nzSpan="3" class="border-all data">
-
-      </div>
-
-      <div nz-col nzSpan="9" class="border-all data">
-
-      </div>
-
-      <div nz-col nzSpan="3" class="border-all data">
-
-      </div>
-
-    </div>
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all heading">
@@ -1422,10 +1422,11 @@
     <div nz-row>
 
       <div nz-col nzSpan="24" class="border-all data-heading">
-        बँकिंग रेग्युलेशन कायद्याच्या कलाम ४५ झेडए आपण सहकारी बँक (​नामनिर्देशन ) ​नियमावली (१९८५) च्या कलम २ (१) नुसार
-        बँकेतील ठेवींच्या सांदर्ाजतील नामपनदेशन नुसार मी/ आम्ही खालील व्यपक्तला नामपनदेपशत करीत आहोत. माझा/ आमचा/
-        अल्पवयीन व्यक्तीचा मृत्यू झाल्यास पद आर्रा अबजन को-ऑपरेटीव्ह बँक पल. याांनी वरील खात्यातील ठेवींची रक्कम
-        ​नामनिर्देशित ​ व्यक्तीला परत करावी. Nomination under section 45ZA of the Banking Regulation Act (1949) and rule
+        28. बँकिंग रेग्युलेशन कायद्याच्या कलम ४५ झेडए आणि सहकारी बँक (नामनिर्देशन) नियमावली १९८५ च्या कलम २ (१) नुसार
+        बँकेतील ठेवींच्या संदर्भातील नामनिर्देशन नुसार मी/ आम्ही खालील व्यक्तीला नामनिर्देशित करीत आहोत. माझा/ आमचा/
+        अल्पवयीन व्यक्तीचा मृत्यू झाल्यास दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांनी वरील खात्यातील ठेवींची रक्कम
+        नामनिर्देशित व्यक्तीला परत करावी.
+        Nomination under section 45ZA of the Banking Regulation Act (1949) and rule
         2(1) of the Co-operative Bank (Nomination) Rules (1985) in respect of bank deposits. I / We nominate the
         following person to whom in the event of my / our / minor’s death the amount of deposit in the above account,
         may be returned to the nominee by The Ajara Urban Cooperative Bank Ltd.,
@@ -1435,7 +1436,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data-heading" style="text-align: center;">
-        नामनिर्देशित व्यक्तिचे नाव आणि पत्ता <div>Nominee Name & Address</div>
+        नामनिर्देशित व्यक्तीचे नांव आणि पत्ता <div>Nominee Name & Address</div>
       </div>
 
       <div nz-col nzSpan="18" class="border-all data">
@@ -1459,7 +1460,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        {{nominationInfo.DOB}}
+        <span *ngIf="nominationInfo.IS_MINOR">{{nominationInfo.DOB}}</span>
       </div>
 
     </div>
@@ -1468,9 +1469,9 @@
     <div nz-row>
 
       <div nz-col nzSpan="24" class="border-all data-heading">
-        *​नामनिर्देशित व्यक्ती या तारखेला अल्पवयीन असल्याने, नामनिर्देशित व्यक्तीच्या अल्पसंख्याक असताना माझा/आमचा
-        मृत्यू झाल्यास नामनिर्देशित व्यक्तीच्या वतीने ठेवीची रक्कम/खात्यात जमा करण्यासाठी मी/आम्ही खाली नमूद केलेल्या
-        व्यक्तीची नियुक्ती करतो. * As the nominee is a minor on this date, I / we appoint the below mentioned person to
+        * नामनिर्देशित व्यक्ती ही आजच्या दिनांकास अल्पवयीन असल्याने माझा/ आमचा मृत्यू झाल्यास मी/ आम्ही खालील
+        व्यक्तीला ठेवीची रक्कम/ खात्यातील रक्कम नामनिर्देशित व्यक्तीच्या वतीने स्वीकारण्यास नेमत आहे.
+        * As the nominee is a minor on this date, I / we appoint the below mentioned person to
         receive the amount of the deposit / in the account on behalf of the nominee in the event of my / our death
         during the minority of the nominee.
       </div>
@@ -1479,7 +1480,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading" style="text-align: center;">
-        अज्ञान पालन कर्त्याचे चे नाांव व पत्ता
+        अज्ञान पालन कर्त्याचे चे नांव व पत्ता
         <div>Name & Address of Minor guardian</div>
       </div>
 
@@ -1492,7 +1493,8 @@
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all data-heading">
-        मी/आम्ही हे घोपषत करतो की, ​वर जे लिहिलं आहे ते माझ्या आमच्या ​आमच्या ज्ञान आणि वशवासानुसार खरे आहे. I / We do
+        मी/ आम्ही घोषित करतो की वर जे लिहिले आहे ते माझ्या आमच्या ज्ञान आणि विश्वासानुसार खरे आहे.
+        I / We do
         hereby declare that what is stated above is true to the best of my / our knowledge and belief.
       </div>
     </div>
@@ -1520,7 +1522,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="24" class="border-all data-heading" style="text-align:center">
-        ठेवीदार याांचा अांगठ्याचा ठसा असल्यास दोन साक्षीदार आवश्यक आहेत WITNESSES Thumb impression(s) shall be attested
+        ठेवीदार याांचा अंगठ्याचा ठसा असल्यास दोन साक्षीदार आवश्यक आहेत WITNESSES Thumb impression(s) shall be attested
         by two witnesses.
       </div>
     </div>
@@ -1552,7 +1554,7 @@
 
     <div nz-row>
       <div nz-col nzSpan="4" class="border-all data-heading" style="text-align: center;">
-        साक्षीदार 1 नाांव आपण पत्ता Witness 1 Name & Address
+        साक्षीदार 1 नांव आपण पत्ता Witness 1 Name & Address
       </div>
 
       <div nz-col nzSpan="8" class="border-all data">
@@ -1561,7 +1563,7 @@
 
       <div nz-col nzSpan="4" class="border-all data-heading" style="text-align: center;">
 
-        साक्षीदार 2 नाांव आपण पत्ता Witness 2 Name & Address
+        साक्षीदार 2 नांव आपण पत्ता Witness 2 Name & Address
       </div>
 
       <div nz-col nzSpan="8" class="border-all data">
@@ -1575,82 +1577,83 @@
 
   <div class="page" id="page4">
     <div nz-row style="text-align:justify;">
-      <div nz-col nzSpan="12" class="border-all data-heading" style="font-size: 9px !important;">
-        घोषणा-
-        मी/आम्ही ​दी आजरा अर्बन को-ऑपरेटीव्ह बँक पल. आर्रा याांनी लागू केलेल्या आझा/आमच्या खात्याला लागू असलेल्या “अटी
-        आपण शती” वाढल्या आहेत. त्या समर्ल्या असून त्या मला मान्य आहेत. यातील कोणतेही बदल/अद्यावत सूचना बँके तील सूचना
-        फलक आपण बँके च्या वेबसाइट www.ajarabank.com या ​संकेतस्थळावर उपलब्ध असतील याची ​जाणीव मला/ आम्हाला आहे, त्याबाबत
-        माझी/ आमची तक्रार असणार नाही ​या आर्जात नमूद केलेली माहती माझ्या/ आमच्या ज्ञान आणि विश्वासानुसार खरी आणि अचूक
-        असल्याचे मी/आम्ही जाहीर करतो. मी/आम्ही एटीएम, ​डेबिट कार्ड र्ारी करण्यासाठी आपण फोन ​बँकिंग, मोबाइल ​बँकिंग
-        सेवा, इांटरनेट ​बँकिंग, यूपीआय आपण पबल पेमेंट सेवेसाठी अपधकार देत आहोत. मला/आम्हाला पवपवध सेवाांसाठी लागू
-        असलेल्या शुल्काब􀄥ल मापहती असून मी/आम्ही फोन बँपकां ग, मोबाईल बँकिंग, इांटरनेट बँकिंग, ​​बिल पेमेंट, यूपीआय
-        सेवेच्या वापरासाठी ​ ​दी आजरा अर्बन को- ऑपरेटीव्ह बँके ने त्याांच्या शाखेच्या सूचना फलकावर आपण बँके च्या
-        www.ajarabank.com या अपधकृत ​संकेतस्थळावर लागू के लेल्या “अटी व शती” मला/ आम्हाला समर्ल्या असून मी/ आम्ही त्या
-        स्तवीकारतो/ मान्य करतो आपण तशी हमी देतो. तसेच वेळोवेळी लागू केलेल्या अटी व शती याांचे पालन करण्याची मी/ आम्ही
-        ग्वाही देतो. आमच्या खात्यातून कोणत्याही / पवपवध सेवाांसाठी/ पुरपवलेल्या सेवाांसाठी वेळोवेळी लागू के लेले शुल्क
-        वसूल करण्यासाठी माझ्या/आमच्या खात्यातून रक्कम काढण्याचे अपधकार मे/आम्ही बँके ला देतो. मोबाइल अलटज सुपवधा अद्यावत
-        करण्यासाठी/ सुरू करण्यासाठी केलेल्या पवनांतीला पदलेली मान्यता र्ोपयंत मी/आम्ही टी बांद करण्याची पवनती लेखी
-        स्तवरुपात देत नाही तो पयजन्त सुरू राहील तशी स्तपष्ट सूचना पदली र्ात नाही तोपयंत ठेवीदाराने पवनती केलेल्या मोबाइल
-        नांबरवर बँके कडून एसएमएस अलटज सुरूच ठेवण्यात येईल. मोबाइल क्रमाांक बदलल्यामुळे होणार् या पररणामाांसाठी बँक
-        र्बाबदार राहणार नाही.
-        मी/आम्ही घोषणा करतो, प्रमापणत करतो, समर्तो, स्तवीकारतो, पुष्टी करतो आपण मान्य करतो की,
+      <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 9px !important;">
+        घोषणा-<br>
+        मी/ आम्ही दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि आजरा यांनी लागू केलेल्या माझ्या/आमच्या खात्याला लागू असलेल्या
+        अटी आणि शर्ती वाचल्या आहेत.त्या समजल्या असून त्या मला मान्य आहेत. यातील कोणतेही बदल/ अद्यावत सूचना बँकेतील सूचना
+        फलक आणि बँकेच्या वेबसाईट www.ajarabank.com या संकेतस्थळावर उपलब्ध असतील ती जाणीव मला/ आम्हाला आहे त्याबाबत माझी/
+        आमची तक्रार असणार नाही.
+
+        या अर्जात नमूद केलेली माहिती माझ्या/आमच्या ज्ञान आणि विश्वासानुसार खरी आणि अचूक असल्याचे मी/आम्ही जाहीर करतो.
+        मी/ आम्ही एटीएम, डेबिट कार्ड जारी करण्यासाठी आणि फोन बँकिंग, मोबाईल बँकिंग सेवा, इंटरनेट बँकिंग, यूपीआय आणि बिल
+        पेमेंट सेवेसाठी अधिकार देत आहोत. मला/ आम्हाला विविध सेवांसाठी लागू असलेल्या शुल्काबद्दल माहिती असून मी/ आम्ही
+        फोन बँकिंग, मोबाईल बँकिंग, इंटरनेट बँकिंग बिल पेमेंट यूपीआय सेवेच्या वापरासाठी दी आजरा अर्बन को-ऑपरेटिव्ह बँकने
+        त्यांच्या शाखेच्या सूचना फलकावर आणि बँकेच्या www.ajarabank.com या अधिकृत संकेतस्थळावर लागू केलेल्या अटी व शर्ती
+        मला/ आम्हाला समजले असून मी/ आम्ही त्या स्वीकारतो/ मान्य करतो आणि तशी हमी देतो. तसेच वेळोवेळी लागू केलेल्या अटी व
+        शर्ती यांचे पालन करण्याची मी/ आम्ही ग्वाही देतो. आमच्या खात्यातून मोबाईल अलर्ट सुविधा अद्यावत करण्यासाठी/ सुरू
+        करण्यासाठी केलेल्या विनंतीला दिलेली मान्यता जोपर्यंत मी/ आम्ही ती बंद करण्याची विनंती लेखी स्वरुपात देत नाही
+        तोपर्यंत सुरू राहील तशी स्पष्ट सूचना दिली जात नाही तोपर्यंत ठेवीदाराने विनंती केलेल्या मोबाईल नंबर वर बँकेकडून
+        एसएमएस अलर्ट सुरूच ठेवण्यात येईल. मोबाईल क्रमांक बदलल्यामुळे होणाऱ्या परिणामांसाठी बँक जबाबदार राहणार नाही.
+
+        मी/ आम्ही घोषणा करतो, प्रमाणित करतो, समजतो, स्वीकारतो, पुष्टी करतो आणि मान्य करतो की,
+
         <div>
-          ०१) या ​आर्जात नमूद के लेल्या सवज तपशील आपण ​माहिती(आपण त्याची पुष्टी करण्यासाठी पदलेली कागदपत्रे) ​खरी पुर्ण
-          योग्य आहे आणि अद्यावत असून मी कोणतीही ​​माहिती
-          लपवलेली नाही मी/ आम्ही पदलेली काही मापहती बँके साठी लागू असलेल्या ​मार्गदर्शक तत्त्वानुसार आवश्यक असल्याचे
-          मला/
-          आम्हाला ​माहीत आहे. ​बँके ला आणखी काही माहिती
-          लागल्यास जशी आणि जेव्हा आवश्यक असेल तशी पुरवण्याचे मी/ आम्ही मान्य करतो व तशी हमी देतो
+          ०१) एक या अर्जात नमूद केलेला सर्व तपशील आणि माहिती (आणि त्याची पुष्टी करण्यासाठी दिलेली कागदपत्रे) सर्व खरी
+          योग्य पूर्ण आणि अद्यावत असून मी कोणतीही माहिती लपवलेली नाही. मी/ आम्ही दिलेली काही माहिती बँकेसाठी लागू
+          असलेल्या मार्गदर्शक तत्त्वानुसार आवश्यक असल्याचे मला/ आम्हाला माहित आहे. बँकेला आणखी काही माहिती लागल्यास जशी
+          आम्ही जेव्हा आवश्यक असेल तशी पुरवण्याचे मी/ आम्ही मान्य करतो व तशी हमी देतो.
+        </div>
+
+        <div>
+          ०२) माझ्या/ आमच्याविरुद्ध दिवाळीपूर्वीची कोणतीही प्रक्रिया सुरू नसून मला/ आम्हाला कधीही दिवाळखोर घोषित करण्यात
+          आलेले नाही.
+        </div>
+
+        <div>
+          ०३) मी/ आम्ही अर्ज आणि माहितीपत्रक वाचले असून बँकेकडून वित्त सेवा आणि उत्पादने मिळवण्यासाठीच्या सर्व अटी व
+          शर्तींची मला/ आम्हाला माहिती आहे.
         </div>
         <div>
-          ०२) माझ्या/ आमच्यापवरुद्द पदवाळीपूवीची कोणतीही प्रपक्रया सुरू नसून मला/ आम्हाला कधीही पदवाळखोर घोपषत करण्यात
-          आलेले नाही
+          ०४) मला/ आम्हाला कोणतेही कारण आणि संदर्भ न देता कोणताही अर्ज नाकारण्याचा हक्क बँक राखून ठेवत आहे. अर्ज,
+          छायाचित्रांसह त्याच्यासोबत जोडलेली कागदपत्रे त्यांच्याकडे ठेवून घेण्याचा हक्कही बँक राखून ठेवत आहे आणि या
+          गोष्टी बँक मला/ आम्हाला परत करणार नाही याची मला आम्हाला जाणीव आहे.
         </div>
         <div>
-          ०३) मी/ आम्ही अर्ज आपण ​माहिती पत्रक वाचले असून बँकेकडून पवत्त सेवा आपण उत्पादने मिळवण्या साठीच्या ​सर्व अटी व
-          शरती मला/ आम्हाला ​माहिती आहे
+          ०५) माझ्या/ आमच्या निवासाचा पत्ता नोकरीतील बदलाबाबत बँकेला कळवणे आणि बँकेला हवी असलेली माहिती अधिक जशी आणि
+          जेव्हा हवी तशी वेळोवेळी पूरवीन.
         </div>
         <div>
-          ०४) ​मला/आम्हाला कोणतेही कारण आणि संदर्भ न देता कोणताही अर्ज नाकारण्याचा अधिकार बँकेने राखून ठेवला आहे. मी /
-          आम्ही सहमत आहोत आणि समजतो की बँकेने अर्ज आणि कागदपत्रे ठेवण्याचा अधिकार राखून ठेवला आहे छायाचित्रांसह प्रदान
-          केले आहे आणि ते मला/आम्हाला परत करणार नाही.
-        </div>
-        <div>
-          ०५) माझ्या/ आमच्या पनवासाचा पत्ता नोकरीतील बदलाबाबत बँके ला कळवणे आपण बँके ला हवी असलेली अपधक मापहती
-          र्शी आपण र्ेव्हा हवी असेल तशी वेळोवेळी पुरवीन.
-        </div>
-        <div>
-          ०६) र्र खाते कापोरेट सॅलरी योर्नेअांतगजत असेल तर माझ्या/ आमच्या सांस्तिेला आपण कमजचार्याांना ज्यानुसार सॅलरी
-          योर्ना पुरवण्यात आली आहे त्याच्या अटी व शती ही मी/ आम्ही वाचल्या आहेत माझ्या/ आमच्या सांस्तिेने खात्यात
-          र्मा करण्याची सूचना पदलेली कोणतीही रक्कम तीन पदवसाच्या आत रोखण्याच्या सूचना राखून ठेवण्याचा अपधकार
-          आहे असे मी/ आम्ही मान्य करतो आपण यासांबांधी आम्ही बँके शी वाद करणार नाही अिवा बँके ला र्बाबदार धरणार नाही
-          असेही मी/ आम्ही मान्य करतो माझ्या/ आमच्या सध्याच्या सांस्तिेकडे माझी/ आमची नोकरी बांद झाल्यास बँके ला तातडीने
-          कळवणे (लेखी स्तवरुपात) ही माझी/ आमची र्बाबदारी असल्याचेही मी/ आम्ही मान्य करतो त्यानांतर मला आम्हाला
-          सॅलरी योर्नेअांतगजत कोणतेही लार् पमळणार नाहीत.
+          ०६) जर खाते कॉर्पोरेट सॅलरी योजनेअंतर्गत असेल तर माझ्या आमच्या संस्थेला आणि कर्मचाऱ्यांना ज्यानुसार सॅलरी
+          योजना पुरविण्यात आली आहे त्याच्या अटी व शर्ती ही मी/ आम्ही वाचल्या आहेत. माझ्या/ आमच्या संस्थेने खात्यात जमा
+          करण्याची सूचना दिलेली कोणतीही रक्कम तीन दिवसाच्या आत रोखण्याचा सूचना राखून ठेवण्याचा अधिकार आहे असे मी/ आम्ही
+          मान्य करतो आणि यासंबंधी आम्ही बँकेशी वाद करणार नाही अथवा बँकेला जबाबदार धरणार नाही असेही मी/ आम्ही मान्य करतो
+          माझ्या/ आमच्या सध्याच्या संस्थेकडे माझी/ आमची नोकरी बंद झाल्यास बँकेला तातडीने कळवणे (लेखी स्वरूपात) ही माझी/
+          आमची जबाबदारी असल्याचेही मी/ आम्ही मान्य करतो त्यानंतर मला/ आम्हाला सॅलरी योजनेअंतर्गत कोणतेही लाभ मिळणार
+          नाहीत.
         </div>
 
         <div>
 
-          ०७)​प्रक्रिया केलेली माहिती/डेटा/उत्पादने इतर बँकांना देण्यासाठी मी/आम्ही बँकेला जबाबदार धरणार नाही./वित्तीय
-          संस्था / क्रेडिट प्रदाते. मला/आम्हाला विशिष्ट दायित्वासाठी पुढील अर्ज पूर्ण करावे लागतील
-          बँकेकडून वेळोवेळी विहित केलेली उत्पादने/सेवा आणि असे पुढील अर्ज विचारात घेतले जातील
-          या अर्जाचा अविभाज्य भाग म्हणून (आणि त्याउलट) आणि जोपर्यंत पुढील स्वरूपात खुलासा केला जात नाही तोपर्यंत विहित,
-          येथे नमूद केलेले तपशील आणि माहिती तसेच संदर्भित किंवा प्रदान केलेली कागदपत्रे
+          ०७) ​बँकेच्या प्रक्रियेची तपशील उत्पादने याची माहिती अन्य बँका वित्त संस्था वित्त पुरवठा संस्था यांना
+          पुरवल्याबद्दल मी बँकेला जबाबदार धरणारा नाही. बँकेचे विशिष्ट उत्पादने सेवा यासाठी मला/ आम्हाला बँकेने वेळोवेळी
+          निर्धारित केल्यानुसार वेगळे अर्ज भरून द्यावे लागतील आणि असे या अर्जाचा अविभाज्य घटक असतील आणि (या उलटही) आणि
+          अशा वेगळ्या अर्जामढील लेखानुसार जोवर त्याहून वेगळे काही घड होत नाही तोवर या अर्जात नमूद केलेला तपशील आणि
+          माहिती खरी अचूक पूर्ण आणि सर्व प्रकारे अद्यावत आहे.
 
         </div>
 
         <div>
-          ०८) मला आम्हाला डेपबट काडज देण्यासाठी मी/ आम्ही बँके ला अपधकार देत आहोत डेपबट कम एटीएम काडजचा मु􀄥ा आपण
-          वापर यासांबांधी वेळोवेळी लागू असलेल्या अटी व शक्तीनुसार पनणजय घेण्यात येईल आपण मी/ आम्ही त्याचे पालन करण्याचे
-          आमच्यावर बांधन आहे डेपबट कम एटीएम काडज ला बँके ने वेळोवेळी के लेल्या सुधाररत अटी व शती लागू राहतील.
+          ०८) मला/ आम्हाला डेबिट कार्ड देण्यासाठी मी/ आम्ही बँकेला अधिकार देत आहोत डेबिट कम एटीएम कार्डचा मुद्दा आणि
+          वापर यासंबंधी वेळोवेळी लागू असलेल्या अटी व शर्तीनुसार निर्णय घेण्यात येईल आणि मी/ आम्ही त्याचे पालन करण्याचे
+          आमच्यावर बंधन आहे. डेबिट कम एटीएम कार्ड ला बँकेने वेळोवेळी केलेल्या सुधारित अटी व शर्ती लागू राहतील.
         </div>
 
         <div>
-          ०९) माझ्या/ आमच्या खात्यातून डेपबट कम एटीएम काडज साठी लागू असलेले वापषजक शुल्क आपण त्याच्या खचाजइतकी रक्कम
-          आमच्या खात्यातून काढण्यासाठी मी/ आम्ही बँके ला पवनाशतज अपधकार देतो. खाते कायम चालू ठेवण्याबाबतचे सांपूणज
-          अपधकार बँके कडे असतील आपण खात्याच्या/ खातेदाराच्या व्यवहाराबाबत बँक असमाधानी असल्यास मला आम्हाला
-          एक मपहन्याची नोटीस देऊन खाते बांद करण्याचा पकां वा पदलेली सवलत काढून घेण्याचा पकां वा मला/ आम्हाला पदलेली
-          एखादी सेवा बांद करण्याचा पकां वा अशा सेवाांसाठी लागू असलेले दर लागू करण्याचा बँके ला अपधकार असेल.
+          ०९) माझ्या/ आमच्या खात्यातून डेबिट कम एटीएम कार्ड साठी लागू असलेले वार्षिक शुल्क आणि त्याच्या खर्चाइतकी रक्कम
+          आमच्या खात्यातून काढण्यासाठी मी/ आम्ही बँकेला विणशर्त अधिकार देतो. खाते कायम चालू ठेवण्याबाबतचे संपूर्ण अधिकार
+          बँकेकडे असतील आणि खात्याच्या/ खातेदाराच्या व्यवहाराबाबत बँक असमाधानी असल्यास मला आम्हाला एक महिन्याची नोटीस
+          देऊन खाते बंद करण्याचा किंवा दिलेली सवलत काढून घेण्याचा किंवा मला/ आम्हाला दिलेली एखादी सेवा बंद करण्याचा
+          किंवा अशा सेवांसाठी लागू असलेले दर लागू करण्याचा बँकेला अधिकार असेल.
         </div>
 
         <div>
@@ -1671,8 +1674,8 @@
 
       </div>
 
-      <div nz-col nzSpan="12" class="border-all data-heading" style="font-size: 8px !important;">
-        DECLARATIONS
+      <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8px !important;">
+        DECLARATIONS<br>
         I / We have read, understood and hereby agree to the “Terms and conditions as applicable to my/ our account” set
         forth by The Ajara Urban Cooperative Bank Ltd., Ajara. I/ We understand that access to any changes/ updates in
         terms and conditions applicable to this relationship shall be available on the Bank’s Branch Notice board &
@@ -1789,9 +1792,9 @@
     </div>
 
     <div nz-row>
-      <div nz-col nzSpan="6" class="border-all data" style="min-height: 240px;">
+      <div nz-col nzSpan="6" class="border-all data" style="min-height: 230px;">
         <span *ngIf="ApplicantPhoto.length > 0">
-          <img [src]="ApplicantPhoto[0].IMAGE_DATA" width="100%" height="240px">
+          <img [src]="ApplicantPhoto[0].IMAGE_DATA" width="100%" height="230px">
         </span>
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -1801,7 +1804,7 @@
         </div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies verified
         </div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC & AML norms verified
+        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC ML norms verified
         </div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> ATM Card Issued</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents verification
@@ -1842,21 +1845,16 @@
       <div nz-row>
         <div nz-col nzSpan="24">
 
-          <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ ​अशिक्षित व्यक्तीने द्यावयाचे घोषणा
+          <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ अशिक्षित व्यक्तीने द्यावयाचे घोषणापत्र
               पत्र</b></div>
           <div>
-            मी श्री/श्रीमती _________________________________________________________________ (बँकेचे अपधकारी पकांवा
-            बँकेचे
-            ग्राहक) पद आर्रा अबजन को-ऑपरेटीव्ह बँक पल. आर्रा याांचा ठेव खाते उघडणेचा अर्ज व या अर्ाजतील सवज तपशील
-            अर्जदार
-            श्री./श्रीमती ……………………………………………………………………. याांना ......................................... या र्ाषेत वाचून
-            दाखपवला
-            आहे व उलगडून साांपगतला आहे आपण अर्जदार याांना तो समर्ला असून या खाते उघडण्याच्या अर्ाजतील सवज अटी व शती
-            मान्य
-            केल्याचे साांपगतले आहे. त्याच्या पुष्टर्थयज वरील अर्जदार याांची स्तवाक्षरी/ डाव्या हाताचा आगांठ्याचा ठसा
-            खाली
-            देत
-            आहोत.
+            मी श्री / श्रीमती _________________________________________________________________
+            (बँकेचे अधिकारी किंवा बँकेचे ग्राहक) दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांचा ठेव खाते उघडणेचा अर्ज व
+            या अर्जातील सर्व तपशील अर्जदार
+            श्री./श्रीमती ……………………………………………………………………. याांना ......................................... या भाषेत वाचून
+            दाखविला आहे व उलगडून सांगितला आहे आणि अर्जदार यांना तो समजला असून या खाते उघडण्याच्या अर्जातील सर्व अटी व
+            शर्ती मान्य केल्याचे सांगितले आहे. त्याच्या अर्थया पुष्ट्यर्थ वरील अर्जदार यांची स्वाक्षरी/ डाव्या हाताचा
+            अंगठ्याचा ठसा खाली देत आहोत.
           </div>
 
           <div style="margin-bottom: 20px;margin-top: 20px;"><b>DECLARATION REGARDING SIGNING IN VERNACULAR LANGUAGE /
@@ -1881,10 +1879,10 @@
       </div>
 
       <div nz-row style="margin-top:80px;">
-        <div nz-col nzSpan="10">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
+        <div nz-col nzSpan="10">अर्जदार यांची स्वाक्षरी Signature of the Customer </div>
 
 
-        <div nz-col nzSpan="14" style="text-align:right">घोषणा ​कर्त्याचे नाांव आपण सही Name and signature of the
+        <div nz-col nzSpan="14" style="text-align:right">घोषणाकर्त्याचे नांव आणि सही Name and signature of the
           Declarant</div>
 
       </div>
@@ -1895,21 +1893,17 @@
         <div nz-row>
           <div nz-col nzSpan="24">
 
-            <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ ​अशिक्षित व्यक्तीने द्यावयाचे घोषणा
+            <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ अशिक्षित व्यक्तीने द्यावयाचे
+                घोषणापत्र
                 पत्र</b></div>
             <div>
-              मी श्री/श्रीमती _________________________________________________________________ (बँकेचे अपधकारी पकांवा
-              बँकेचे
-              ग्राहक) पद आर्रा अबजन को-ऑपरेटीव्ह बँक पल. आर्रा याांचा ठेव खाते उघडणेचा अर्ज व या अर्ाजतील सवज तपशील
-              अर्जदार
-              श्री./श्रीमती ……………………………………………………………………. याांना ......................................... या र्ाषेत वाचून
-              दाखपवला
-              आहे व उलगडून साांपगतला आहे आपण अर्जदार याांना तो समर्ला असून या खाते उघडण्याच्या अर्ाजतील सवज अटी व शती
-              मान्य
-              केल्याचे साांपगतले आहे. त्याच्या पुष्टर्थयज वरील अर्जदार याांची स्तवाक्षरी/ डाव्या हाताचा आगांठ्याचा ठसा
-              खाली
-              देत
-              आहोत.
+              मी श्री / श्रीमती _________________________________________________________________
+              (बँकेचे अधिकारी किंवा बँकेचे ग्राहक) दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांचा ठेव खाते उघडणेचा अर्ज व
+              या अर्जातील सर्व तपशील अर्जदार
+              श्री./श्रीमती ……………………………………………………………………. याांना ......................................... या भाषेत वाचून
+              दाखविला आहे व उलगडून सांगितला आहे आणि अर्जदार यांना तो समजला असून या खाते उघडण्याच्या अर्जातील सर्व अटी व
+              शर्ती मान्य केल्याचे सांगितले आहे. त्याच्या अर्थया पुष्ट्यर्थ वरील अर्जदार यांची स्वाक्षरी/ डाव्या हाताचा
+              अंगठ्याचा ठसा खाली देत आहोत.
             </div>
 
             <div style="margin-bottom: 20px;margin-top: 20px;"><b>DECLARATION REGARDING SIGNING IN VERNACULAR LANGUAGE /
@@ -1936,10 +1930,10 @@
         </div>
 
         <div nz-row style="margin-top:80px;">
-          <div nz-col nzSpan="10">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
+          <div nz-col nzSpan="10">अर्जदार यांची स्वाक्षरी Signature of the Customer </div>
 
 
-          <div nz-col nzSpan="14" style="text-align:right">घोषणा ​कर्त्याचे नाांव आपण सही Name and signature of the
+          <div nz-col nzSpan="14" style="text-align:right">घोषणाकर्त्याचे नांव आणि सही Name and signature of the
             Declarant</div>
 
         </div>
@@ -1952,7 +1946,7 @@
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_DOB_MISMATCH">
       <div nz-row style="margin-top:30px;margin-bottom: 20px;">
-        <div nz-col nzSpan="24">जन्‍मदिनंका​मध्ये तफावत असल्यास त्या बाबतचे घोषणापत्र Date of Birth Mismatch (If
+        <div nz-col nzSpan="24">जन्मदिनांक मध्ये तफावत असल्यास त्याबाबतचे घोषणापत्र Date of Birth Mismatch (If
           necessary) Declaration :</div>
       </div>
 
@@ -1970,9 +1964,8 @@
 
       <div nz-row style="margin-top: 20px;font-size: 11;">
         <div nz-col nzSpan="24">
-          मी याद्वारे पुष्टी करतो की माझा वास्तविक DOB ___ /___ /______ आहे ज्याचा AOF मध्ये उल्लेख आहे आणि मी या
-          घोषणेचे
-          समर्थन करण्यासाठी वैध DOB पुरावा जोडला आहे.
+          मी खात्रीपूर्वक घोषित करतो की अर्जावर नमूद केलेली___ /___ /______ही माझी खरी जन्मदिनांक आहे आणि या
+          घोषणपत्राच्या पुष्ट्यर्थ मी जन्मदिनांकाचा वैध पुरावा जोडला आहे.
         </div>
       </div>
 
@@ -1992,7 +1985,7 @@
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal.length == 2">
       <div style="width:100%;" *ngIf="ApplicantPersonal[1].IS_DOB_MISMATCH">
         <div nz-row style="margin-top:30px;margin-bottom: 20px;">
-          <div nz-col nzSpan="24">जन्‍मदिनंका​मध्ये तफावत असल्यास त्या बाबतचे घोषणापत्र Date of Birth Mismatch (If
+          <div nz-col nzSpan="24">जन्मदिनांक मध्ये तफावत असल्यास त्याबाबतचे घोषणापत्र Date of Birth Mismatch (If
             necessary) Declaration :</div>
         </div>
 
@@ -2010,9 +2003,8 @@
 
         <div nz-row style="margin-top: 20px;font-size: 11;">
           <div nz-col nzSpan="24">
-            मी याद्वारे पुष्टी करतो की माझा वास्तविक DOB ___ /___ /______ आहे ज्याचा AOF मध्ये उल्लेख आहे आणि मी या
-            घोषणेचे
-            समर्थन करण्यासाठी वैध DOB पुरावा जोडला आहे.
+            मी खात्रीपूर्वक घोषित करतो की अर्जावर नमूद केलेली___ /___ /______ही माझी खरी जन्मदिनांक आहे आणि या
+            घोषणपत्राच्या पुष्ट्यर्थ मी जन्मदिनांकाचा वैध पुरावा जोडला आहे.
           </div>
         </div>
 
@@ -2031,7 +2023,6 @@
   </div>
 
 </div>
-
 
 <!-- <pdf-viewer *ngIf="pdfByte && showPdf"
  [src]="pdfByte" [render-text]="true" [original-size]="false"
