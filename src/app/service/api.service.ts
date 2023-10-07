@@ -120,10 +120,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  // baseUrl = 'https://accountopening.kredpool.in/api/';
+  baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://localhost:8079/api/';
+  // baseUrl = 'http://localhost:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -144,7 +144,7 @@ export class ApiService implements HttpInterceptor {
       USER_NAME: username,
       PASSWORD: password
     }
-   
+
     return this.httpClient.post(this.baseUrl + "user/login", data, this.optionMain);
   }
 
@@ -355,11 +355,11 @@ export class ApiService implements HttpInterceptor {
 
   //draft 
 
-  getDraft(pageSize: number, pageIndex: number,user_data:any): Observable<any> {
+  getDraft(pageSize: number, pageIndex: number, user_data: any): Observable<any> {
     let data = {
       pageSize: pageSize,
       pageIndex: pageIndex,
-      user_details:user_data
+      user_details: user_data
     }
     return this.httpClient.post(this.baseUrl + 'basicDetails/getAll', data, this.optionMain);
   }
@@ -425,22 +425,22 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', data, this.optionMain)
   }
 
-  getUser(user_key: string | null) {
+  getUser(role_id: number, branch_id?: number) {
     let data = {
-      USER_KEY: user_key
+      ROLE_ID: role_id,
+      BRANCH_ID: branch_id
     }
-    let encrypted_data = {
-      data: this.encryptWithPublicKey(JSON.stringify(data))
-    };
 
-    return this.httpClient.post<any>(this.baseUrl + 'user/getUserIdByKey', encrypted_data, this.optionMain);
+
+    return this.httpClient.post<any>(this.baseUrl + 'user/getUser', data, this.optionMain);
 
   }
 
-  getTabs(applicant_id: number, role_id: any) {
+  getTabs(applicant_id: number, role_id: any, track_id: any) {
     let data = {
       APPLICANT_ID: applicant_id,
-      ROLE_ID: role_id
+      ROLE_ID: role_id,
+      TRACK_ID: track_id
     }
 
     return this.httpClient.post<any>(this.baseUrl + 'tabs/getTabs', data, this.optionMain);
@@ -629,5 +629,24 @@ export class ApiService implements HttpInterceptor {
   }
 
   // End voter id and License api
+
+  getStatusList() {
+    return this.httpClient.post<any>(this.baseUrl + 'status/getList', '', this.optionMain)
+  }
+
+  getUserBranch(branch_id?: number) {
+    let data = {
+      BRANCH_ID: branch_id
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'user/getUserBranch', data, this.optionMain);
+  }
+
+  getUserRole(role_id?: number) {
+    let data = {
+      ROLE_ID: role_id
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'user/getUserRole', data, this.optionMain)
+  }
+
 
 }

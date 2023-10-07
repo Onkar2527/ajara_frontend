@@ -59,6 +59,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
@@ -130,8 +131,8 @@ registerLocaleData(en);
     NzSelectModule,
     NzUploadModule,
     NzPopconfirmModule,
-    NzAvatarModule
-    
+    NzAvatarModule,
+    NzPopoverModule
   ],
   providers: [
 

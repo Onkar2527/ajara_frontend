@@ -33,6 +33,11 @@ export class AppComponent implements OnInit {
     USER_ID: ''
   }
 
+  userExtraInformation = {
+    ROLE: '',
+    BRANCH: ""
+  }
+
   ngOnInit(): void {
     if (SessionUserDetails.checkSessionStorage()) {
       this.login();
@@ -45,7 +50,6 @@ export class AppComponent implements OnInit {
 
 
   login() {
-
     console.log("userDetails", this.userDetails);
     this.getUser();
     this.getSideMenu();
@@ -57,6 +61,22 @@ export class AppComponent implements OnInit {
 
   getUser() {
     this.userDetails = SessionUserDetails.getSessionStorage();
+
+    this.api.getUserBranch(Number(this.userDetails.BRANCH_ID)).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.userExtraInformation.BRANCH = res['data'][0]['BRANCH_NAME']
+        }
+      }
+    })
+
+    this.api.getUserRole(Number(this.userDetails.ROLE_ID)).subscribe({
+      next:(res)=>{
+        if(res['code'] ==200&& res['data'].length>0){
+          this.userExtraInformation.ROLE = res['data'][0]['NAME']
+        }
+      }
+    })
   }
 
   logout() {

@@ -145,8 +145,29 @@ nz-layout {
 
 .header-trigger {
   height: 36px;
-  color: #9d9d9d;
+  color: white;
   font-size: 30px;
   cursor: pointer;
   transition: all .3s, padding 0s;
+}
+
+.logout-button {
+  background-color: #f44336 !important;
+  color: #fff !important;
+  border: none;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  width:100%;
+}
+
+.logout-button:hover {
+  background-color: #ff5b50 !important;
 }

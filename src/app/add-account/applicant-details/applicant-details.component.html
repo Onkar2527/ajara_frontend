@@ -32,4 +32,14 @@
   </div>
 </ng-template>
 
+<ng-template #noActionTamplate>
+  <div style="float:right">
+    <button nz-button style="margin-right: 8px;" *ngIf="showPreviousButton" (click)="previous()" >Previous</button>
+    <button nz-button nzType="primary" (click)="next()" [nzLoading]="saveButtonLoading">
+      <span *ngIf="tabComp.selectedTab != 2">Next</span>
+      <span *ngIf="tabComp.selectedTab == 2">Close</span>
+    </button>
+  </div>
+</ng-template>
+
 

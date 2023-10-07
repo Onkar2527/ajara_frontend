@@ -451,10 +451,10 @@ export class PersonalComponent implements OnInit {
     }
   }
 
-  save(status: string) {
+  save() {
     let personal: Subject<any> = new Subject();
 
-    this.basicInfo.STATUS = status;
+    // this.basicInfo.STATUS = status;
     let isOk = true;
 
     for (let field of this.mendetory_all) {
@@ -501,6 +501,9 @@ export class PersonalComponent implements OnInit {
         })
       }
       else {
+        this.basicInfo.MAKER_USER_ID = Number(sessionStorage.getItem('USER_ID'));
+        this.basicInfo.CREATED_BRANCH_ID = Number(sessionStorage.getItem('BRANCH_ID'));
+        this.basicInfo.TRACK_ID = 1;
         this.api.addBasic(this.basicInfo).subscribe({
           next: (res) => {
             if (res.code == 200) {

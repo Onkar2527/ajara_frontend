@@ -45,6 +45,7 @@ export class ProposalComponent implements OnInit {
   @ViewChild('footerTpl2', { static: false }) TabFooterTemplate?: TemplateRef<{}>;
   @ViewChild('footerTpl3', { static: false }) FormFooterTemplate?: TemplateRef<{}>;
   @ViewChild('footerTpl4', { static: false }) DocFooterTemplate?: TemplateRef<{}>;
+  @ViewChild('noActionTpl', { static: false }) noActionFooter?: TemplateRef<{}>;
 
 
   @ViewChild('TabFooterTplChecker', { static: false }) TabFooterTplChecker?: TemplateRef<{}>;
@@ -68,8 +69,10 @@ export class ProposalComponent implements OnInit {
   Tabs: ExtraInfo[] = []
   userDetails: any;
 
-  getTabs(applicant_id: number) {
-    this.api.getTabs(applicant_id, sessionStorage.getItem('ROLE_ID')).subscribe({
+  STATUS_LIST: any = []
+
+  getTabs(applicant_id: number, track_id?: number) {
+    this.api.getTabs(applicant_id, sessionStorage.getItem('ROLE_ID'), track_id).subscribe({
       next: (res) => {
         if (res['code'] && res['data']) {
           this.Tabs = res['data'];
@@ -82,10 +85,8 @@ export class ProposalComponent implements OnInit {
 
 
   getUser() {
-
     this.ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
     this.userDetails = SessionUserDetails.getSessionStorage();
-
   }
 
 
@@ -108,20 +109,38 @@ export class ProposalComponent implements OnInit {
 
   openTabsDrawer(data: BasicInfo) {
 
-    this.getTabs(data.ID);
+    this.getTabs(data.ID, data.TRACK_ID);
 
-    if (data.STATUS == 'C') {
-      this.header = this.TabHeaderTemplate;
-      this.footer = this.TabFooterTplChecker;
-      this.title = 'Check All Information';
-    }
-    else if (data.STATUS == 'D') {
+    this.APPLICANT_ID = data.ID;
+    console.log("APPLICANT_ID", this.APPLICANT_ID);
+
+    let role_id = Number(sessionStorage.getItem('ROLE_ID'))
+
+    this.title = this.getStatusName(data.TRACK_ID);
+
+    if (role_id == 1 && data.TRACK_ID == 1) {
       this.header = this.tabHeaderMakerTamplete;
       this.footer = this.TabFooterTemplate;
-      this.title = 'Fill All Information';
     }
 
-    else if (data.STATUS == 'V') {
+    else if (role_id == 1 && data.TRACK_ID != 1) {
+      this.footer = this.noActionFooter;
+    }
+
+    else if (role_id == 2 && data.TRACK_ID != 2) {
+      this.footer = this.noActionFooter;
+    }
+
+    else if (role_id == 3 && data.TRACK_ID != 3) {
+      this.footer = this.noActionFooter;
+    }
+
+    if (role_id == 2 && data.TRACK_ID == 2) {
+      this.header = this.TabHeaderTemplate;
+      this.footer = this.TabFooterTplChecker;
+    }
+
+    else if (role_id == 3 && data.TRACK_ID == 3) {
       this.header = this.tabHeaderVerifierTamplete;
       this.footer = this.TabFooterTplVerifier;
       this.title = 'Verify All Information';
@@ -131,14 +150,13 @@ export class ProposalComponent implements OnInit {
     this.drawerDraftData = data;
 
     const drawerRef = this.drawerService.create({
-      nzTitle: "Fill All Info",
+      nzTitle: this.title,
       nzFooter: this.footer,
       nzContent: this.addAccountDrawerTemp,
       nzExtra: this.header,
       nzWidth: 1095,
 
     });
-
 
 
     this.drawerReferance = drawerRef;
@@ -175,6 +193,7 @@ export class ProposalComponent implements OnInit {
   Accept(user: string) {
     this.addAccountComp.Accept(this.selectedIndex, user);
   }
+
   completeChecker() {
     this.addAccountComp.completeChecker();
   }
@@ -182,6 +201,7 @@ export class ProposalComponent implements OnInit {
   completeVerifier() {
     this.addAccountComp.completeVerifier();
   }
+
   openBasicDrawer() {
     const drawerRef = this.drawerService.create({
       nzTitle: "New Account",
@@ -205,7 +225,7 @@ export class ProposalComponent implements OnInit {
 
   createProposal() {
     this.loadSaveButton = true;
-    let basic = this.basicComp.save('D');
+    let basic = this.basicComp.save();
     basic.subscribe({
       next: (res) => {
         if (res.code == 200) {
@@ -237,6 +257,7 @@ export class ProposalComponent implements OnInit {
           console.log("res['data']", res['data'])
           this.TableLoading = false;
           console.log("this.TableLoading", this.TableLoading)
+          this.getStatusList();
         }
         else {
           this.TableLoading = false;
@@ -251,7 +272,28 @@ export class ProposalComponent implements OnInit {
     })
   }
 
+  getStatusList() {
+    this.api.getStatusList().subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.STATUS_LIST = res['data'];
+        }
+      }
+    })
+  }
 
+  getStatusName(track_id?: number) {
+    if (!track_id)
+      return ''
+
+    let result = ''
+
+    let our_status = this.STATUS_LIST.filter((value: any) => {
+      return value.ID == track_id
+    });
+
+    return our_status[0].NAME ? our_status[0].NAME : ''
+  }
 
   selectedIndex = 0;
   verifyButtonTitle = ''
@@ -284,10 +326,12 @@ export class ProposalComponent implements OnInit {
   closeDrawer() {
     this.drawerReferance.close();
   }
+
   previous() {
     this.addAccountComp.previous();
     this.selectedIndex = this.addAccountComp.selectedIndex;
   }
+
   saveANext() {
     if (this.selectedIndex != 4) {
       this.addAccountComp.saveANext();
@@ -329,11 +373,13 @@ export class ProposalComponent implements OnInit {
     }
   }
 
-
   APPLICANT_ID!: number;
 
   openFormDrawer(data: BasicInfo) {
+
     this.APPLICANT_ID = data.ID;
+    console.log("APPLICANT_ID", this.APPLICANT_ID);
+
     const drawerRef = this.drawerService.create({
       nzTitle: "Form",
       nzFooter: this.FormFooterTemplate,
@@ -345,7 +391,6 @@ export class ProposalComponent implements OnInit {
 
     drawerRef.afterOpen.subscribe(() => {
       console.log('Drawer(Template) open');
-
     });
 
     drawerRef.afterClose.subscribe(() => {
@@ -361,8 +406,6 @@ export class ProposalComponent implements OnInit {
     this.loadPdfButton = true;
     this.formComp.save();
   }
-
-
 
   pdfLoading(event: boolean) {
     this.loadPdfButton = event;
@@ -397,5 +440,14 @@ export class ProposalComponent implements OnInit {
   saveUploadDrawer() {
     this.drawerReferance.close();
   }
+
+  next() {
+
+    this.addAccountComp.next()
+
+
+  }
+
+
 
 }

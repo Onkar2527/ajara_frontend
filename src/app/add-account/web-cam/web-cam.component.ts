@@ -52,20 +52,8 @@ export class WebCamComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    let key = sessionStorage.getItem('lk0oh6fdb4567');
-
-    this.api.getUser(key).subscribe({
-      next: (res) => {
-        if (res['code'] && res['data']) {
-          console.log("res['data']", res['data']);
-          let data = this.api.decryptData(res);
-          this.ROLE_ID = data.ROLE_ID;
-        }
-      },
-      error: () => {
-
-      }
-    })
+    this.ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
+   
 
     if (this.APPLICANT_ID) {
       this.getApplicant();

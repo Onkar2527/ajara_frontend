@@ -4,6 +4,7 @@ import { PersonalInfo } from 'src/app/models/personal-info';
 import { ApiService } from 'src/app/service/api.service';
 import { ApplicantTabsComponent } from '../applicant/applicant-tabs/applicant-tabs.component';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { BasicInfo } from 'src/app/models/basicInfo';
 
 @Component({
   selector: 'app-applicant-details',
@@ -21,13 +22,18 @@ export class ApplicantDetailsComponent implements OnInit {
 
   @ViewChild('footertpl', { static: false }) applicantFooterTemplate?: TemplateRef<{}>;
 
+  @ViewChild('noActionTamplate', { static: false }) noActionFooter?: TemplateRef<{}>;
+
   APPLICANT_ID?: number;
   ApplicantData: PersonalInfo[] = new Array<PersonalInfo>;
   drawerReferance: any
   saveButtonLoading: boolean = false;
   saveButtonTitle: string = 'Save and Next';
   DrawerVisible: boolean = false;
-  personalInfo: PersonalInfo = new PersonalInfo()
+  personalInfo: PersonalInfo = new PersonalInfo();
+
+  basicInfo: BasicInfo = new BasicInfo();
+
   constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
   ngOnInit(): void {
@@ -39,9 +45,25 @@ export class ApplicantDetailsComponent implements OnInit {
   edit(data: PersonalInfo) {
     this.personalInfo = data;
 
+    let ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
+
+
+    let title;
+
+    let footer;
+
+    if (ROLE_ID == 1 && this.basicInfo.TRACK_ID == 1) {
+      footer = this.applicantFooterTemplate;
+      title = "Fill Applicant All Info";
+    }
+    else {
+      footer = this.noActionFooter;
+      title = "See All the Info";
+    }
+
     const drawerRef = this.drawerService.create({
-      nzTitle: "Fill Applicant All Info",
-      nzFooter: this.applicantFooterTemplate,
+      nzTitle: title,
+      nzFooter: footer,
       nzContent: this.applicantTamplate,
       nzWidth: 1095
     });
@@ -54,6 +76,7 @@ export class ApplicantDetailsComponent implements OnInit {
 
     drawerRef.afterClose.subscribe(() => {
       console.log('Drawer(Template) close');
+      this.showPreviousButton = false;
       this.getAllApplicant();
     });
 
@@ -84,7 +107,7 @@ export class ApplicantDetailsComponent implements OnInit {
     }
 
     else if (this.tabComp.selectedTab == 1) {
-     
+
       let financial = this.tabComp.financialComp.save();
       financial.subscribe({
         next: (res) => {
@@ -192,7 +215,7 @@ export class ApplicantDetailsComponent implements OnInit {
     // }
 
     if (this.tabComp.selectedTab == 1) {
-
+      this.showPreviousButton = false
       this.tabComp.selectedTab = 0;
 
       this.tabComp.disabledTabs[1].disabled = true;
@@ -203,10 +226,10 @@ export class ApplicantDetailsComponent implements OnInit {
 
     else if (this.tabComp.selectedTab == 2) {
       this.tabComp.selectedTab = 1;
-      
+
       this.tabComp.disabledTabs[2].disabled = true;
       this.tabComp.disabledTabs[1].disabled = false;
-      this.showPreviousButton = false
+
       this.saveButtonLoading = false;
     }
 
@@ -234,6 +257,38 @@ export class ApplicantDetailsComponent implements OnInit {
         }
       }
     })
+  }
+
+  next() {
+    this.saveButtonLoading = true;
+    if (this.tabComp.selectedTab == 0) {
+      this.tabComp.financialComp.getApplicantFinacial();
+      this.tabComp.selectedTab = 1;
+      this.tabComp.disabledTabs[0].disabled = true;
+      this.tabComp.disabledTabs[1].disabled = false;
+      this.showPreviousButton = true
+      this.saveButtonLoading = false;
+    }
+
+    else if (this.tabComp.selectedTab == 1) {
+
+      this.tabComp.propertyComp.getApplicantProperty();
+      this.tabComp.selectedTab = 2;
+      this.tabComp.disabledTabs[1].disabled = true;
+      this.tabComp.disabledTabs[2].disabled = false;
+      this.saveButtonTitle = 'Save and Next';
+
+      this.saveButtonLoading = false;
+
+    }
+
+    else if (this.tabComp.selectedTab == 2) {
+      this.saveButtonTitle = 'Save and Next';
+      this.tabComp.disabledTabs[2].disabled = true;
+      this.drawerReferance.close();
+      this.saveButtonLoading = false;
+    }
+
   }
 
 }

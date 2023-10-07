@@ -10,20 +10,22 @@
 
       <div nz-col nzSpan="7" style="display: flex;align-items: center;">
         <img src="../assets/ajara_bank_logo.svg" height="50px" width="50px">
-        <span style="color: rgb(157, 157, 157);font-size: 16px;margin-left: 5px;">The Ajara Urban Co-op. Bank Ltd.
+        <span style="color: white;font-size: 16px;margin-left: 5px;">The Ajara Urban Co-op. Bank Ltd.
           Ajara</span>
       </div>
       <div nz-col nzSpan="13"></div>
       <div nz-col nzSpan="3" style="display: flex;align-items: center;
       justify-content: right;">
-        <span style="color: rgb(157, 157, 157);font-size: 16px;margin-right: 5px;">{{userDetails.NAME}}</span>
+        <span style="color: white;font-size: 14px;margin-right: 5px;cursor: pointer;font-weight: bold;" nz-popover
+          nzPopoverTitle="User Information" nzPopoverPlacement="bottom"
+          [nzPopoverContent]="userPopover">{{userDetails.NAME}}</span>
 
-        <a nz-popconfirm nzPopconfirmTitle="Do you want to logout?" (nzOnConfirm)="logout()">
+        <!-- <a >
           <span
-            style="height: 36px;color: rgb(157, 157, 157);font-size: 30px;cursor: pointer;display: flex;align-items: center;justify-content: right;">
-            <i nz-icon nzType="logout"></i>
+            style="height: 36px;color: white;font-size: 30px;cursor: pointer;display: flex;align-items: center;justify-content: right;">
+            
           </span>
-        </a>
+        </a> -->
       </div>
 
       <!-- <div nz-col nzSpan="2">
@@ -69,5 +71,15 @@
   </nz-layout>
 
 </nz-layout>
+
+<ng-template #userPopover>
+  <div>
+    <p nz-row><span nz-col nzSpan="12"> Branch </span> <span nz-col nzSpan="12"><b>{{userExtraInformation.BRANCH}}</b></span></p>
+    <p nz-row><span nz-col nzSpan="12"> Role </span> <span nz-col nzSpan="12"><b>{{userExtraInformation.ROLE}}</b></span></p>
+    
+    <nz-divider></nz-divider>
+    <button (click)="logout()" class="logout-button">logout</button>
+  </div>
+</ng-template>
 
 <app-login *ngIf="route == 'login'" (logined)="login()"></app-login>
