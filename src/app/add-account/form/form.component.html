@@ -1798,8 +1798,8 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data" style="min-height: 230px;">
-        <span *ngIf="ApplicantPhoto.length > 0">
-          <img [src]="ApplicantPhoto[0].IMAGE_DATA" width="100%" height="230px">
+        <span *ngIf="PHOTOS.length > 0">
+          <img [src]="PHOTOS[0]" width="100%" height="230px">
         </span>
       </div>
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -1829,8 +1829,8 @@
 
       </div>
       <div nz-col nzSpan="6" class="border-all data" style="min-height: 240px;">
-        <span *ngIf="ApplicantPhoto.length > 1">
-          <img [src]="ApplicantPhoto[1].IMAGE_DATA" width="100%" height="240px">
+        <span *ngIf="PHOTOS.length > 1">
+          <img [src]="PHOTOS[1]" width="100%" height="240px">
         </span>
       </div>
     </div>

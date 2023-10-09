@@ -44,6 +44,8 @@ export class FormComponent implements OnInit, AfterViewInit {
   ApplicantPhoto: ImageData[] = [];
   documentData: Documents[] = [];
 
+  PHOTOS:any[] = [];
+
   account_type = {
     'A': 'Saving',
     'B': 'Janata Deposite',
@@ -756,12 +758,22 @@ export class FormComponent implements OnInit, AfterViewInit {
   }
 
   getDocuments() {
+    this.PHOTOS = [];
     let document: Subject<any> = new Subject();
     this.api.getDocument(this.APPLICANT_ID, null).subscribe({
       next: (res) => {
         if (200 == res.code && res.data.length > 0) {
-          (this.documentData = res.data,
-            document.next(200));
+          this.documentData = res.data;
+          for(let document of this.documentData){
+            if(document.DOCUMENT_NAME == 'Applicant Photo'){
+              this.PHOTOS.push(document.IMAGE_DATA)
+
+            }
+          }
+
+          console.log("IMAGE DATA",this.PHOTOS)
+          document.next(200)
+
         }
 
         else {

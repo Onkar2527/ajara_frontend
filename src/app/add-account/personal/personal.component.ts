@@ -845,5 +845,17 @@ export class PersonalComponent implements OnInit {
     })
   }
 
+  previewAdhaar1: string = '';
+  previewAdhaar2: string = '';
+
+  showAadharNo(value: string, num: number) {
+    if (num == 1) {
+      this.previewAdhaar1 = value;
+    }
+    else if (num == 2) {
+      this.previewAdhaar2 = value;
+    }
+  }
+
 
 }

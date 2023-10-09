@@ -63,3 +63,7 @@ nz-form-item{
     margin-left: 5px;
     font-size: 12px;
   }
+
+  td{
+    text-align: center;
+  }

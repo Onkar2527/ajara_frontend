@@ -42,7 +42,7 @@ export class WebCamComponent implements OnInit {
   showCamera: boolean = false;
   showImage: boolean = false;
   ApplicantData: ImageData[] = [];
-  ImageData: ImageData = new ImageData();
+  ImageData: Documents = new Documents();
   @Input() APPLICANT_ID!: number;
   @Input() basicInfo!: BasicInfo;
   ROLE_ID!: number;
@@ -75,7 +75,7 @@ export class WebCamComponent implements OnInit {
     })
   }
 
-  takePicture(applicant: ImageData) {
+  takePicture(applicant: Documents) {
     this.ImageData = applicant;
     if (applicant.IMAGE_DATA) {
       this.showCamera = false;
@@ -168,10 +168,13 @@ export class WebCamComponent implements OnInit {
 
 
   save() {
-    this.api.postImageFile(this.ImageData).subscribe({
+    this.ImageData.FILE_TYPE = 'image/jpeg'
+    this.api.updateDocument(this.ImageData).subscribe({
       next: (res) => {
         if (res['code'] == 200) {
           this.message.success("Image uploaded successfully", '');
+          this.ImageData = new Documents();
+          this.getDocument(this.ApplicantDetails);
           this.drawerReferance.close();
         }
 
@@ -320,7 +323,7 @@ export class WebCamComponent implements OnInit {
     let header;
 
     if (this.ROLE_ID == 1) {
-      footer = ''
+      footer = this.DocumentFooter
       header = ''
     }
     else {
