@@ -87,7 +87,7 @@ export class ApplicantPersonalComponent implements OnInit {
   optionList = [
     {
       label: 'Indian',
-      value: 'Indian'
+      value: 'A'
     }
   ]
 
@@ -454,56 +454,93 @@ export class ApplicantPersonalComponent implements OnInit {
   }
 
   PROFESSION_LIST = [
-    {value:'A',lable:'Employee'},
-    {value:'B',lable:'Self Employeed'},
-    {value:'C',lable:'Business'},
-    {value:'D',lable:'Retired'},
-    {value:'E',lable:'Student'},
-    {value:'F',lable:'House Wife'},
-    {value:'G',lable:'Other'},
-    {value:' ',lable:'None'}
+    { value: 'A', lable: 'Employee' },
+    { value: 'B', lable: 'Self Employeed' },
+    { value: 'C', lable: 'Business' },
+    { value: 'D', lable: 'Retired' },
+    { value: 'E', lable: 'Student' },
+    { value: 'F', lable: 'House Wife' },
+    { value: 'G', lable: 'Other' },
+    { value: ' ', lable: 'None' }
   ];
 
 
   NATURE_OF_SERVICE_LIST = [
-    {value:'A',lable:'Central/State Government'},
-    {value:'B',lable:'Private Company'},
-    {value:' ',lable:'None'}
+    { value: 'A', lable: 'Central/State Government' },
+    { value: 'B', lable: 'Private Company' },
+    { value: ' ', lable: 'None' }
   ];
 
   SELF_EMPLOYED_LIST = [
-    {value:'A',lable:'CA'},
-    {value:'B',lable:'Doctor'},
-    {value:'C',lable:'Advisor'},
-    {value:'D',lable:'Trader'},
-    {value:'E',lable:'Engineer'},
-    {value:'F',lable:'Advocate'},
-    {value:'G',lable:'Software'},
-    {value:'H',lable:'Other'},
-    {value:' ',lable:'None'}
+    { value: 'A', lable: 'CA' },
+    { value: 'B', lable: 'Doctor' },
+    { value: 'C', lable: 'Advisor' },
+    { value: 'D', lable: 'Trader' },
+    { value: 'E', lable: 'Engineer' },
+    { value: 'F', lable: 'Advocate' },
+    { value: 'G', lable: 'Software' },
+    { value: 'H', lable: 'Other' },
+    { value: ' ', lable: 'None' }
 
   ];
 
   NATURE_OF_BUSINESS_LIST = [
-    {value:'A',lable:'Agriculture'},
-    {value:'B',lable:'Trader'},
-    {value:'C',lable:'Manufacture'},
-    {value:'D',lable:'Retailer'},
-    {value:'E',lable:'Wholesaler'},
-    {value:'F',lable:'Businessman'},
-    {value:' ',lable:'None'}
+    { value: 'A', lable: 'Agriculture' },
+    { value: 'B', lable: 'Trader' },
+    { value: 'C', lable: 'Manufacture' },
+    { value: 'D', lable: 'Retailer' },
+    { value: 'E', lable: 'Wholesaler' },
+    { value: 'F', lable: 'Businessman' },
+    { value: ' ', lable: 'None' }
   ];
 
   SOURCE_OF_FUNDS_LIST = [
-    {value:'A',lable:'Business income'},
-    {value:'B',lable:'Commission Income'},
-    {value:'C',lable:'Salary Income'},
-    {value:'D',lable:'Rent Income'},
-    {value:'E',lable:'Agri Income'},
-    {value:'F',lable:'Pension Income'},
-    {value:'G',lable:'Family Income'},
-    {value:' ',lable:'None'}
+    { value: 'A', lable: 'Business income' },
+    { value: 'B', lable: 'Commission Income' },
+    { value: 'C', lable: 'Salary Income' },
+    { value: 'D', lable: 'Rent Income' },
+    { value: 'E', lable: 'Agri Income' },
+    { value: 'F', lable: 'Pension Income' },
+    { value: 'G', lable: 'Family Income' },
+    { value: ' ', lable: 'None' }
   ];
+
+  showFund: boolean = true;
+  showBusiness: boolean = false;
+  showService: boolean = false;
+  showSelfEmployed: boolean = false;
+
+  changeProfession() {
+    if(this.personalInfo.PROFESSION == 'A'){
+      this.showService = true;
+      this.showBusiness =false;
+      this.showSelfEmployed =false;
+      this.personalInfo.SELF_EMPLOYED = ' ';
+      this.personalInfo.NATURE_OF_BUSINESS = ' '
+    }
+    else if(this.personalInfo.PROFESSION == 'B'){
+      this.showService = false;
+      this.showBusiness =false;
+      this.showSelfEmployed =true;
+      this.personalInfo.NATURE_OF_SERVICE = ' ';
+      this.personalInfo.NATURE_OF_BUSINESS = ' '
+    }
+    else if(this.personalInfo.PROFESSION == 'C'){
+      this.showService = false;
+      this.showBusiness =true;
+      this.showSelfEmployed =false;
+      this.personalInfo.NATURE_OF_SERVICE = ' ';
+      this.personalInfo.SELF_EMPLOYED = ' '
+    }
+    else{
+      this.showService = false;
+      this.showBusiness =false;
+      this.showSelfEmployed =false;
+      this.personalInfo.NATURE_OF_SERVICE = ' ';
+      this.personalInfo.SELF_EMPLOYED = ' '
+      this.personalInfo.NATURE_OF_BUSINESS = ' '
+    }
+  }
 
 }
 

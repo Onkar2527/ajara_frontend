@@ -74,7 +74,7 @@
         <div nz-col nzSpan="6">
 
             <nz-form-item>
-                <!-- <nz-form-label [nzNoColon]="true">Document Name</nz-form-label> -->
+                <nz-form-label nzRequired [nzNoColon]="true">Document Name</nz-form-label>
                 <nz-form-control>
                     <input nz-input name="document" [(ngModel)]="SingleDocument.DOCUMENT_NAME"
                         placeholder="Enter the name of new Document" />
@@ -84,8 +84,8 @@
         </div>
         <div nz-col nzSpan="1"></div>
         <div nz-col nzSpan="6">
-            <nz-form-item>
-                <!-- <nz-form-label [nzNoColon]="true">Document Name</nz-form-label> -->
+            <nz-form-item >
+                <nz-form-label nzRequired  [nzNoColon]="true">Maker Remark</nz-form-label>
                 <nz-form-control>
                     <input nz-input name="document" [(ngModel)]="SingleDocument.MAKER_REMARK"
                         placeholder="Enter Remark or description for document" />
@@ -95,10 +95,17 @@
         <div nz-col nzSpan="1"></div>
 
         <div nz-col nzSpan="6">
-            <button nz-button nzType="primary" (click)="createDocument()">
-                <span nz-icon nzType="plus-circle" nzTheme="outline" style="font-size: large;"></span>
-                New Document
-            </button>
+            <nz-form-item nz-row>
+                <nz-form-label nzNoColon>
+                </nz-form-label>
+                <nz-form-control nz-col nzSpan="24" >
+                    <button nz-button nzType="primary" (click)="createDocument()">
+                        <span nz-icon nzType="plus-circle" nzTheme="outline" style="font-size: large;"></span>
+                        New Document
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+           
         </div>
 
         <div nz-col nzSpan="4">

@@ -143,7 +143,7 @@
                     <nz-form-control>
                         <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true"
                             [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH"
-                            placeholder="dd/mm/yyyy">
+                            placeholder="dd/mm/yyyy" disabled>
                     </nz-form-control>
                 </nz-form-item>
 
@@ -180,7 +180,7 @@
 
                     <nz-form-control>
 
-                        <nz-radio-group [(ngModel)]="personalInfo.GENDER">
+                        <nz-radio-group [(ngModel)]="personalInfo.GENDER" disabled>
 
                             <label nz-radio [nzValue]="'M'">Male</label>
                             <label nz-radio [nzValue]="'F'">Female</label>
@@ -211,7 +211,7 @@
                         </nz-form-control>
                     </nz-form-item>
 
-                    <nz-form-item nz-col nzSpan="1" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD"></nz-form-item>
+                    <!-- <nz-form-item nz-col nzSpan="1" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD"></nz-form-item>
 
                     <nz-form-item nz-col nzSpan="8" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                         <nz-form-label nzRequired nzNoColon>Select document for proof of current address</nz-form-label>
@@ -236,7 +236,7 @@
                                 [(ngModel)]="personalInfo.ADDRESS_DOCUMENT_NUMBER"
                                 placeholder="Enter Document Number" />
                         </nz-form-control>
-                    </nz-form-item>
+                    </nz-form-item> -->
 
                 </div>
             </div>
@@ -344,6 +344,21 @@
                         </nz-form-control>
                     </nz-form-item>
 
+
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-label nzRequired nzNoColon>Proof of Permanent Address</nz-form-label>
+                        <nz-form-control>
+
+                            <input nz-input name="PERMANENT_ADDRESS_PROOF" [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF">
+                            <!-- <nz-select nzShowSearch nzPlaceHolder="Select Account Type"
+                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF" style="width: 100%;">
+                                <nz-option *ngFor="let address of addressList" [nzValue]="address.value"
+                                    [nzLabel]="address.label">
+                                </nz-option>
+                            </nz-select> -->
+
+                        </nz-form-control>
+                    </nz-form-item>
 
                 </div>
             </div>
@@ -453,6 +468,21 @@
                         </nz-form-control>
                     </nz-form-item>
 
+                    <nz-form-item nz-col nzSpan="24" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
+                        <nz-form-label nzRequired nzNoColon>Proof of Current Address</nz-form-label>
+                        <nz-form-control>
+
+                            <input nz-input name="CURRUNT_ADDRESS_PROOF" [(ngModel)]="personalInfo.CURRUNT_ADDRESS_PROOF">
+                            <!-- <nz-select nzShowSearch nzPlaceHolder="Select Account Type"
+                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF" style="width: 100%;">
+                                <nz-option *ngFor="let address of addressList" [nzValue]="address.value"
+                                    [nzLabel]="address.label">
+                                </nz-option>
+                            </nz-select> -->
+
+                        </nz-form-control>
+                    </nz-form-item>
+
                 </div>
             </div>
 
@@ -473,7 +503,7 @@
                             <nz-form-label nzRequired [nzNoColon]="true">Mobile Number 1</nz-form-label>
                             <nz-form-control>
                                 <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
-                                    placeholder="Enter Mobile Number 1" maxlength="10" pattern="^[0-9]{10}$" />
+                                    placeholder="Enter Mobile Number 1" maxlength="10" pattern="^[0-9]{10}$" disabled />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -697,8 +727,8 @@
                                     <nz-option>
                                     </nz-option>
                                 </nz-select> -->
-                                <input nz-input name="MINOR_DATE_OF_BIRTH_PROOF" [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF"
-                                 />
+                                <input nz-input name="MINOR_DATE_OF_BIRTH_PROOF"
+                                    [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF" />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -745,8 +775,8 @@
                                     </nz-option>
                                 </nz-select> -->
 
-                                <input nz-input name="GUARDIAN_OTHER_DOCUMENT" [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT"
-                                 />
+                                <input nz-input name="GUARDIAN_OTHER_DOCUMENT"
+                                    [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT" />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -782,7 +812,7 @@
                     <nz-form-label nzRequired [nzNoColon]="true">Profession</nz-form-label>
                     <nz-form-control>
 
-                        <nz-select [(ngModel)]="personalInfo.PROFESSION">
+                        <nz-select [(ngModel)]="personalInfo.PROFESSION" (ngModelChange)="changeProfession()">
                             <nz-option *ngFor="let option of PROFESSION_LIST" [nzValue]="option.value"
                                 [nzLabel]="option.lable"></nz-option>
                         </nz-select>
@@ -793,57 +823,6 @@
                 <div nz-col nzSpan="2"></div>
 
                 <nz-form-item nz-col nzSpan="11">
-
-                    <nz-form-label nzRequired [nzNoColon]="true">Nature of Service</nz-form-label>
-                    <nz-form-control>
-
-                        <nz-select [(ngModel)]="personalInfo.NATURE_OF_SERVICE">
-                            <nz-option *ngFor="let option of NATURE_OF_SERVICE_LIST" [nzValue]="option.value"
-                                [nzLabel]="option.lable"></nz-option>
-                        </nz-select>
-
-                    </nz-form-control>
-
-                </nz-form-item>
-
-
-
-                <nz-form-item nz-col nzSpan="7">
-
-                    <nz-form-label nzRequired [nzNoColon]="true">Self-employed Professional</nz-form-label>
-                    <nz-form-control>
-
-                        <nz-select [(ngModel)]="personalInfo.SELF_EMPLOYED">
-                            <nz-option *ngFor="let option of SELF_EMPLOYED_LIST" [nzValue]="option.value"
-                                [nzLabel]="option.lable"></nz-option>
-                        </nz-select>
-
-                    </nz-form-control>
-
-                </nz-form-item>
-
-
-
-                <div nz-col nzSpan="2"></div>
-
-                <nz-form-item nz-col nzSpan="6">
-
-                    <nz-form-label nzRequired [nzNoColon]="true">Nature of Business</nz-form-label>
-                    <nz-form-control>
-
-                        <nz-select [(ngModel)]="personalInfo.NATURE_OF_BUSINESS">
-                            <nz-option *ngFor="let option of NATURE_OF_BUSINESS_LIST" [nzValue]="option.value"
-                                [nzLabel]="option.lable"></nz-option>
-                        </nz-select>
-
-                    </nz-form-control>
-                </nz-form-item>
-
-
-
-                <div nz-col nzSpan="2"></div>
-
-                <nz-form-item nz-col nzSpan="7">
 
                     <nz-form-label nzRequired [nzNoColon]="true">Source of Fund</nz-form-label>
                     <nz-form-control>
@@ -856,6 +835,57 @@
                     </nz-form-control>
 
                 </nz-form-item>
+
+
+
+                <div nz-col nzSpan="11">
+                    <nz-form-item *ngIf="showBusiness" nz-row>
+
+                        <nz-form-label nzRequired [nzNoColon]="true">Nature of Business</nz-form-label>
+                        <nz-form-control nz-col nzSpan="24">
+
+                            <nz-select [(ngModel)]="personalInfo.NATURE_OF_BUSINESS">
+                                <nz-option *ngFor="let option of NATURE_OF_BUSINESS_LIST" [nzValue]="option.value"
+                                    [nzLabel]="option.lable"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item *ngIf="showService" nz-row>
+
+                        <nz-form-label nzRequired [nzNoColon]="true">Nature of Service</nz-form-label>
+                        <nz-form-control nz-col nzSpan="24">
+
+                            <nz-select [(ngModel)]="personalInfo.NATURE_OF_SERVICE">
+                                <nz-option *ngFor="let option of NATURE_OF_SERVICE_LIST" [nzValue]="option.value"
+                                    [nzLabel]="option.lable"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+
+                    </nz-form-item>
+
+                    <nz-form-item *ngIf="showSelfEmployed" nz-row>
+
+                        <nz-form-label nzRequired [nzNoColon]="true">Self-employed Professional</nz-form-label>
+                        <nz-form-control nz-col nzSpan="24">
+
+                            <nz-select [(ngModel)]="personalInfo.SELF_EMPLOYED">
+                                <nz-option *ngFor="let option of SELF_EMPLOYED_LIST" [nzValue]="option.value"
+                                    [nzLabel]="option.lable"></nz-option>
+                            </nz-select>
+
+                        </nz-form-control>
+
+                    </nz-form-item>
+
+
+                </div>
+
+
+
+
 
             </div>
 

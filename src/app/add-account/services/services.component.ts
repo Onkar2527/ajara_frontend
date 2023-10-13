@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/service/api.service';
 export class ServicesComponent implements OnInit {
   serviceInfo: Facilities = new Facilities();
 
-  APPLICANT_ID!:number
+  APPLICANT_ID!: number
   AccountType: string = 'S';
   //checkOptionsOne is a temprary veriable (leter use much better alternative)
   checkOptionsOne: checkInterface[] = [
@@ -23,37 +23,23 @@ export class ServicesComponent implements OnInit {
     { label: 'Debit Cum ATM Card', checked: this.serviceInfo.ATM_CARD, value: 'ATM_CARD' },
     { label: 'Consent to communicate new products', checked: this.serviceInfo.CONSENT_NEW_PRODUCT, value: 'CONSENT_NEW_PRODUCT' },
     { label: 'Add on  Card', checked: this.serviceInfo.ADDON_CARD, value: 'ADDON_CARD' },
+    { label: 'UPI', checked: this.serviceInfo.UPI, value: 'UPI' },
+    { label: 'Mobile Banking', checked: this.serviceInfo.MOBILE_BANKING, value: 'MOBILE_BANKING' }
   ]
   changeInOption() {
-    let j = 0;
+
     let count = 0;
     console.log(this.checkOptionsOne);
     for (let option of this.checkOptionsOne) {
-      if (j == 0) {
-        this.serviceInfo['CHEQUE_BOOK'] = option.checked;
-      }
-      if (j == 1) {
-        this.serviceInfo['PASS_BOOK'] = option.checked;
-      }
-      if (j == 2) {
-        this.serviceInfo['STATEMENT_BY_EMAIL'] = option.checked;
-      }
-      if (j == 3) {
-        this.serviceInfo['SMS_ALERT'] = option.checked;
-      }
-      if (j == 4) {
-        this.serviceInfo['ATM_CARD'] = option.checked;
-      }
-      if (j == 5) {
-        this.serviceInfo['CONSENT_NEW_PRODUCT'] = option.checked;
-      }
-      if (j == 6) {
-        this.serviceInfo['ADDON_CARD'] = option.checked;
-      }
+
+
+
+      this.serviceInfo[option.value] = option.checked;
+
       if (option.checked) {
         count++;
       }
-      if (count == 7) {
+      if (count == this.checkOptionsOne.length) {
         this.indeterminate = false;
         this.allChecked = true;
       } else if (count == 0) {
@@ -68,7 +54,7 @@ export class ServicesComponent implements OnInit {
         this.serviceInfo.ADDON_CARD = false;
 
       }
-      j++;
+
     }
   }
   indeterminate = false;
@@ -117,7 +103,7 @@ export class ServicesComponent implements OnInit {
         }
       })
     }
-    else{
+    else {
       this.api.addService(this.serviceInfo).subscribe({
         next: (res) => {
           if (res.code == 200) {
@@ -140,20 +126,23 @@ export class ServicesComponent implements OnInit {
         }
       })
     }
-    
+
     return service;
 
   }
 
-  updateChacked(){
+  updateChacked() {
     this.checkOptionsOne = [
-      { label: 'Cheque Book', checked: this.serviceInfo.CHEQUE_BOOK?true:false, value: 'CHEQUE_BOOK' },
-      { label: 'Passbook', checked: this.serviceInfo.PASS_BOOK?true:false, value: 'PASS_BOOK' },
-      { label: 'Statement By Email', checked: this.serviceInfo.STATEMENT_BY_EMAIL?true:false, value: 'STATEMENT_BY_EMAIL' },
-      { label: 'SMS Alerts', checked: this.serviceInfo.SMS_ALERT?true:false, value: 'SMS_ALERT' },
-      { label: 'Debit Cum ATM Card', checked: this.serviceInfo.ATM_CARD?true:false, value: 'ATM_CARD' },
-      { label: 'Consent to communicate new products', checked: this.serviceInfo.CONSENT_NEW_PRODUCT?true:false, value: 'CONSENT_NEW_PRODUCT' },
-      { label: 'Add on  Card', checked: this.serviceInfo.ADDON_CARD?true:false, value: 'ADDON_CARD' },
+      { label: 'Cheque Book', checked: this.serviceInfo.CHEQUE_BOOK ? true : false, value: 'CHEQUE_BOOK' },
+      { label: 'Passbook', checked: this.serviceInfo.PASS_BOOK ? true : false, value: 'PASS_BOOK' },
+      { label: 'Statement By Email', checked: this.serviceInfo.STATEMENT_BY_EMAIL ? true : false, value: 'STATEMENT_BY_EMAIL' },
+      { label: 'SMS Alerts', checked: this.serviceInfo.SMS_ALERT ? true : false, value: 'SMS_ALERT' },
+      { label: 'Debit Cum ATM Card', checked: this.serviceInfo.ATM_CARD ? true : false, value: 'ATM_CARD' },
+      { label: 'Consent to communicate new products', checked: this.serviceInfo.CONSENT_NEW_PRODUCT ? true : false, value: 'CONSENT_NEW_PRODUCT' },
+      { label: 'Add on  Card', checked: this.serviceInfo.ADDON_CARD ? true : false, value: 'ADDON_CARD' },
+      { label: 'UPI', checked: this.serviceInfo.UPI ? true : false, value: 'UPI' },
+      { label: 'Mobile Banking', checked: this.serviceInfo.MOBILE_BANKING ? true : false, value: 'MOBILE_BANKING' },
+   
     ]
   }
 
@@ -185,5 +174,13 @@ export class ServicesComponent implements OnInit {
 interface checkInterface {
   label: string;
   checked: boolean;
-  value: string;
+  value: "CHEQUE_BOOK" |
+  "PASS_BOOK" |
+  "STATEMENT_BY_EMAIL" |
+  "SMS_ALERT" |
+  "ATM_CARD" |
+  "CONSENT_NEW_PRODUCT" |
+  "ADDON_CARD" |
+  "UPI" |
+  "MOBILE_BANKING"
 }

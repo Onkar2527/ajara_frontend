@@ -36,23 +36,48 @@ export class PersonalComponent implements OnInit {
 
   loadAadhaarButton = false;
   loadAadhaarButton2 = false;
-
+  loadAadhaarButton3 = false;
+  loadAadhaarButton4 = false;
 
   loadOtpButton = false;
   loadOtpButton2 = false;
+  loadOtpButton3 = false;
+  loadOtpButton4 = false;
 
 
   loadPanButton = false;
   loadPanButton2 = false;
+  loadPanButton3 = false;
+  loadPanButton4 = false;
 
 
   aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
   aadhaarVerify2: Aadhaar = new Aadhaar(this.api, this.message);
+  aadhaarVerify3: Aadhaar = new Aadhaar(this.api, this.message);
+  aadhaarVerify4: Aadhaar = new Aadhaar(this.api, this.message);
 
 
   @Input() basicInfo: BasicInfo = new BasicInfo();
 
   @Input() APPLICANT_ID!: number;
+
+
+  selectedApplicant: number = 1;
+
+  applicantOptions = [
+    { lable: 'Applicant 1', value: 1 }
+  ]
+
+  changeApplicant(no_of_applicant: number) {
+    this.selectedApplicant = 1;
+
+    this.applicantOptions = [];
+
+    for (let i = 0; i < no_of_applicant; i++) {
+      this.applicantOptions.push({ lable: `Applicant ${i + 1}`, value: i + 1 })
+    }
+
+  }
 
   ngOnInit(): void {
     if (this.APPLICANT_ID) {
@@ -69,12 +94,26 @@ export class PersonalComponent implements OnInit {
       this.basicInfo.AADHAAR_NO_1 = this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER;
       this.saveAadhaar(this.aadhaarVerify.aadhar_history);
     }
-    if (applicant_no == 2) {
+    else if (applicant_no == 2) {
       this.aadhaarVerify2.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
       this.aadhaarVerify2.aadhar_history.APPLICANT_NO = 2;
       this.aadhaarVerify2.aadhar_history.ADDRESS_ID = [this.aadhaarVerify2.aadhar_address];
       this.basicInfo.AADHAAR_NO_2 = this.aadhaarVerify2.aadhar_history.AADHAAR_NUMBER;
       this.saveAadhaar(this.aadhaarVerify2.aadhar_history);
+    }
+    else if (applicant_no == 3) {
+      this.aadhaarVerify3.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
+      this.aadhaarVerify3.aadhar_history.APPLICANT_NO = 3;
+      this.aadhaarVerify3.aadhar_history.ADDRESS_ID = [this.aadhaarVerify3.aadhar_address];
+      this.basicInfo.AADHAAR_NUMBER3 = this.aadhaarVerify3.aadhar_history.AADHAAR_NUMBER;
+      this.saveAadhaar(this.aadhaarVerify3.aadhar_history);
+    }
+    else if (applicant_no == 4) {
+      this.aadhaarVerify4.aadhar_history.APPLICANT_ID = this.APPLICANT_ID;
+      this.aadhaarVerify4.aadhar_history.APPLICANT_NO = 4;
+      this.aadhaarVerify4.aadhar_history.ADDRESS_ID = [this.aadhaarVerify4.aadhar_address];
+      this.basicInfo.AADHAAR_NUMBER4 = this.aadhaarVerify4.aadhar_history.AADHAAR_NUMBER;
+      this.saveAadhaar(this.aadhaarVerify4.aadhar_history);
     }
 
   }
@@ -87,12 +126,18 @@ export class PersonalComponent implements OnInit {
       this.api.createAadhaarData(data).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            this.saveBasicInfo()
+            //this.saveBasicInfo()
             if (data.APPLICANT_NO == 1) {
               this.getAdhaarHistory(1);
             }
-            if (data.APPLICANT_NO == 2) {
+            else if (data.APPLICANT_NO == 2) {
               this.getAdhaarHistory(2);
+            }
+            else if (data.APPLICANT_NO == 3) {
+              this.getAdhaarHistory(3);
+            }
+            else if (data.APPLICANT_NO == 4) {
+              this.getAdhaarHistory(4);
             }
           }
           else {
@@ -117,6 +162,14 @@ export class PersonalComponent implements OnInit {
       aadhaar_no = this.basicInfo.AADHAAR_NO_2;
     }
 
+    else if (applicant_no == 3) {
+      aadhaar_no = this.basicInfo.AADHAAR_NUMBER3;
+    }
+
+    else if (applicant_no == 4) {
+      aadhaar_no = this.basicInfo.AADHAAR_NUMBER4;
+    }
+
     this.api.getAadhaarData(applicant_no, aadhaar_no).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
@@ -125,7 +178,7 @@ export class PersonalComponent implements OnInit {
             if (this.aadhaarVerify.aadhar_history.ADDRESS_ID.length > 0) {
               this.aadhaarVerify.aadhar_address = this.aadhaarVerify.aadhar_history.ADDRESS_ID[0];
             }
-            this.hideAadhar = true;
+            // this.hideAadhar = true;
             this.aadhaarVerify.MakeHistory();
           }
           else if (applicant_no == 2) {
@@ -133,8 +186,26 @@ export class PersonalComponent implements OnInit {
             if (this.aadhaarVerify2.aadhar_history.ADDRESS_ID.length > 0) {
               this.aadhaarVerify2.aadhar_address = this.aadhaarVerify2.aadhar_history.ADDRESS_ID[0];
             }
-            this.hideAadhar = true;
+            // this.hideAadhar = true;
             this.aadhaarVerify2.MakeHistory();
+          }
+
+          else if (applicant_no == 3) {
+            this.aadhaarVerify3.aadhar_history = res['data'][0];
+            if (this.aadhaarVerify3.aadhar_history.ADDRESS_ID.length > 0) {
+              this.aadhaarVerify3.aadhar_address = this.aadhaarVerify3.aadhar_history.ADDRESS_ID[0];
+            }
+            // this.hideAadhar = true;
+            this.aadhaarVerify3.MakeHistory();
+          }
+
+          else if (applicant_no == 4) {
+            this.aadhaarVerify4.aadhar_history = res['data'][0];
+            if (this.aadhaarVerify4.aadhar_history.ADDRESS_ID.length > 0) {
+              this.aadhaarVerify4.aadhar_address = this.aadhaarVerify4.aadhar_history.ADDRESS_ID[0];
+            }
+            // this.hideAadhar = true;
+            this.aadhaarVerify4.MakeHistory();
           }
         }
       }
@@ -148,10 +219,20 @@ export class PersonalComponent implements OnInit {
       this.basicInfo.PAN_NUMBER = this.aadhaarVerify.pan_history.PAN_NUMBER;
       this.savePAN(this.aadhaarVerify.pan_history);
     }
-    if (applicant_no == 2) {
+    else if (applicant_no == 2) {
       this.aadhaarVerify2.pan_history.APPLICANT_NO = 2;
       this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.pan_history.PAN_NUMBER;
       this.savePAN(this.aadhaarVerify2.pan_history);
+    }
+    else if (applicant_no == 3) {
+      this.aadhaarVerify3.pan_history.APPLICANT_NO = 3;
+      this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.pan_history.PAN_NUMBER;
+      this.savePAN(this.aadhaarVerify3.pan_history);
+    }
+    else if (applicant_no == 4) {
+      this.aadhaarVerify4.pan_history.APPLICANT_NO = 4;
+      this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.pan_history.PAN_NUMBER;
+      this.savePAN(this.aadhaarVerify4.pan_history);
     }
   }
 
@@ -160,13 +241,18 @@ export class PersonalComponent implements OnInit {
       this.api.updatePanData(PAN).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            this.saveBasicInfo();
+            //this.saveBasicInfo();
             if (PAN.APPLICANT_NO == 1) {
               this.getPanHistory(1);
-
             }
-            if (PAN.APPLICANT_NO == 2) {
+            else if (PAN.APPLICANT_NO == 2) {
               this.getPanHistory(2);
+            }
+            else if (PAN.APPLICANT_NO == 3) {
+              this.getPanHistory(3);
+            }
+            else if (PAN.APPLICANT_NO == 4) {
+              this.getPanHistory(4);
             }
           }
           else {
@@ -181,13 +267,19 @@ export class PersonalComponent implements OnInit {
     else {
       this.api.createPanData(PAN).subscribe({
         next: (res) => {
-          this.saveBasicInfo();
+          //this.saveBasicInfo();
           if (res['code'] == 200) {
             if (PAN.APPLICANT_NO == 1) {
               this.getPanHistory(1);
             }
-            if (PAN.APPLICANT_NO == 2) {
+            else if (PAN.APPLICANT_NO == 2) {
               this.getPanHistory(2);
+            }
+            else if (PAN.APPLICANT_NO == 3) {
+              this.getPanHistory(3);
+            }
+            else if (PAN.APPLICANT_NO == 4) {
+              this.getPanHistory(4);
             }
           }
           else {
@@ -201,40 +293,40 @@ export class PersonalComponent implements OnInit {
     }
   }
 
-  saveBasicInfo() {
-    if (this.basicInfo.ID) {
-      this.api.updateBasic(this.basicInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
+  // saveBasicInfo() {
+  //   if (this.basicInfo.ID) {
+  //     this.api.updateBasic(this.basicInfo).subscribe({
+  //       next: (res) => {
+  //         if (res.code == 200) {
 
-          }
-          else {
+  //         }
+  //         else {
 
 
-          }
-        },
-        error: (err) => {
+  //         }
+  //       },
+  //       error: (err) => {
 
-        },
-        complete: () => {
-        }
-      })
-    }
-    else {
-      this.api.addBasic(this.basicInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-          }
-          else {
-          }
-        },
-        error: (err) => {
-        },
-        complete: () => {
-        }
-      })
-    }
-  }
+  //       },
+  //       complete: () => {
+  //       }
+  //     })
+  //   }
+  //   else {
+  //     this.api.addBasic(this.basicInfo).subscribe({
+  //       next: (res) => {
+  //         if (res.code == 200) {
+  //         }
+  //         else {
+  //         }
+  //       },
+  //       error: (err) => {
+  //       },
+  //       complete: () => {
+  //       }
+  //     })
+  //   }
+  // }
 
   getPanHistory(applicant_no: number) {
     let pan_no = '';
@@ -246,6 +338,12 @@ export class PersonalComponent implements OnInit {
     else if (applicant_no == 2) {
       pan_no = this.basicInfo.PAN_NUMBER2;
     }
+    else if (applicant_no == 3) {
+      pan_no = this.basicInfo.PAN_NUMBER3;
+    }
+    else if (applicant_no == 4) {
+      pan_no = this.basicInfo.PAN_NUMBER4;
+    }
 
     this.api.getPanData(applicant_no, pan_no).subscribe({
       next: (res) => {
@@ -255,6 +353,12 @@ export class PersonalComponent implements OnInit {
           }
           else if (applicant_no == 2) {
             this.aadhaarVerify2.pan_history = res['data'][0];
+          }
+          else if (applicant_no == 3) {
+            this.aadhaarVerify3.pan_history = res['data'][0];
+          }
+          else if (applicant_no == 4) {
+            this.aadhaarVerify4.pan_history = res['data'][0];
           }
         }
       }
@@ -308,6 +412,50 @@ export class PersonalComponent implements OnInit {
         break;
       }
 
+      case 3: {
+        this.loadOtpButton3 = true
+        let otpData = this.aadhaarVerify3.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton3 = false;
+
+            }
+            else {
+              this.loadOtpButton3 = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton3 = false;
+
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadOtpButton4 = true
+        let otpData = this.aadhaarVerify4.getOTP();
+        otpData.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.loadOtpButton4 = false;
+
+            }
+            else {
+              this.loadOtpButton4 = false;
+
+            }
+          },
+          error: () => {
+            this.loadOtpButton4 = false;
+
+          }
+        });
+        break;
+      }
+
       default: {
         console.error("Inside function getOtp : AplicantNo is Invalid - ", AplicantNo);
         break;
@@ -348,7 +496,6 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               this.saveAadhaarData(2);
-              // this.basicInfo.AADHAAR_NUMBER2 = this.aadhaarVerify2.data.aadhaar_no;
               this.loadAadhaarButton2 = false
             }
             else {
@@ -357,6 +504,50 @@ export class PersonalComponent implements OnInit {
           },
           error: (err) => {
             this.loadAadhaarButton2 = false
+          }
+
+        });
+
+        break;
+      }
+
+      case 3: {
+        this.loadAadhaarButton3 = true
+        let aadhar_data = this.aadhaarVerify3.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.saveAadhaarData(3);
+              this.loadAadhaarButton3 = false
+            }
+            else {
+              this.loadAadhaarButton3 = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton3 = false
+          }
+
+        });
+
+        break;
+      }
+
+      case 4: {
+        this.loadAadhaarButton4 = true
+        let aadhar_data = this.aadhaarVerify4.getData();
+        aadhar_data.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.saveAadhaarData(4);
+              this.loadAadhaarButton4 = false
+            }
+            else {
+              this.loadAadhaarButton4 = false
+            }
+          },
+          error: (err) => {
+            this.loadAadhaarButton4 = false
           }
 
         });
@@ -415,6 +606,47 @@ export class PersonalComponent implements OnInit {
         });
         break;
       }
+      case 3: {
+        this.loadPanButton3 = true;
+        let panverify = this.aadhaarVerify3.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.pan_history.PAN_NUMBER;
+              this.savePanData(3);
+              this.loadPanButton3 = false;
+            }
+            else {
+              this.loadPanButton3 = false;
+            }
+          },
+          error: () => {
+            this.loadPanButton3 = false;
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadPanButton4 = true;
+        let panverify = this.aadhaarVerify4.verifyPan();
+        panverify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.pan_history.PAN_NUMBER;
+              this.savePanData(4);
+              this.loadPanButton4 = false;
+            }
+            else {
+              this.loadPanButton4 = false;
+            }
+          },
+          error: () => {
+            this.loadPanButton4 = false;
+          }
+        });
+        break;
+      }
 
       default: {
         console.error("Inside function verifyPan : AplicantNo is Invalid - ", AplicantNo);
@@ -441,15 +673,6 @@ export class PersonalComponent implements OnInit {
   }
 
 
-  hideAadhar = false;
-
-  getHiddenAadhar(aadhaar: string): string {
-    if (this.hideAadhar && aadhaar) {
-      return aadhaar.substring(0, 8).replace(/./g, 'X') + aadhaar.substring(8);
-    } else {
-      return aadhaar;
-    }
-  }
 
   save() {
     let personal: Subject<any> = new Subject();
@@ -483,6 +706,7 @@ export class PersonalComponent implements OnInit {
             if (res.code == 200) {
               this.message.success("Personal Information updated successfully!", '');
               this.getBasicInfo();
+             
               personal.next(res);
             }
             else {
@@ -510,6 +734,7 @@ export class PersonalComponent implements OnInit {
               this.message.success("Personal Information added successfully!", '');
               this.APPLICANT_ID = res['APPLICANT_ID'];
               this.getBasicInfo();
+             
               personal.next(res);
             }
             else {
@@ -528,9 +753,7 @@ export class PersonalComponent implements OnInit {
         })
       }
     }
-    else {
-      personal.error("All mendetory fields are not filled");
-    }
+ 
 
     return personal;
   }
@@ -540,15 +763,28 @@ export class PersonalComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
+          this.changeApplicant(this.basicInfo.NO_OF_APPLICANT);
           this.getAdhaarHistory(1);
           this.getPanHistory(1);
           this.getVoterData(1);
           this.getLicenseData(1);
-          if (this.basicInfo.NO_OF_APPLICANT == 2) {
+          if (this.basicInfo.NO_OF_APPLICANT >= 2) {
             this.getAdhaarHistory(2);
             this.getPanHistory(2);
             this.getVoterData(2);
             this.getLicenseData(2);
+          }
+          if (this.basicInfo.NO_OF_APPLICANT >= 3) {
+            this.getAdhaarHistory(3);
+            this.getPanHistory(3);
+            this.getVoterData(3);
+            this.getLicenseData(3);
+          }
+          if (this.basicInfo.NO_OF_APPLICANT >= 4) {
+            this.getAdhaarHistory(4);
+            this.getPanHistory(4);
+            this.getVoterData(4);
+            this.getLicenseData(4);
           }
         }
         else {
@@ -564,6 +800,8 @@ export class PersonalComponent implements OnInit {
 
   loadVoterButton: boolean = false;
   loadVoterButton2: boolean = false;
+  loadVoterButton3: boolean = false;
+  loadVoterButton4: boolean = false;
 
   verifyVoterID(AplicantNo: number) {
 
@@ -612,12 +850,53 @@ export class PersonalComponent implements OnInit {
         break;
       }
 
+      case 3: {
+        this.loadVoterButton3 = true;
+        let voterVerify = this.aadhaarVerify3.verifyVoterID();
+        voterVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.VOTER_ID_3 = this.aadhaarVerify3.voter_history.EPIC_NO;
+              this.saveVoterData(3);
+              this.loadVoterButton3 = false;
+            }
+            else {
+              this.loadVoterButton3 = false;
+            }
+          },
+          error: () => {
+            this.loadVoterButton3 = false;
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadVoterButton4 = true;
+        let voterVerify = this.aadhaarVerify4.verifyVoterID();
+        voterVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.VOTER_ID_4 = this.aadhaarVerify4.voter_history.EPIC_NO;
+              this.saveVoterData(4);
+              this.loadVoterButton4 = false;
+            }
+            else {
+              this.loadVoterButton4 = false;
+            }
+          },
+          error: () => {
+            this.loadVoterButton4 = false;
+          }
+        });
+        break;
+      }
+
       default: {
         console.error("Inside function verifyVoterID : AplicantNo is Invalid - ", AplicantNo);
         break;
       }
     }
-
 
   }
 
@@ -626,9 +905,19 @@ export class PersonalComponent implements OnInit {
       this.basicInfo.VOTER_ID_1 = this.aadhaarVerify.voter_history.EPIC_NO;
       this.saveVoter(this.aadhaarVerify.voter_history, applicant_no);
     }
-    if (applicant_no == 2) {
+    else if (applicant_no == 2) {
       this.basicInfo.VOTER_ID_2 = this.aadhaarVerify2.voter_history.EPIC_NO;
       this.saveVoter(this.aadhaarVerify2.voter_history, applicant_no);
+    }
+
+    else if (applicant_no == 3) {
+      this.basicInfo.VOTER_ID_3 = this.aadhaarVerify3.voter_history.EPIC_NO;
+      this.saveVoter(this.aadhaarVerify3.voter_history, applicant_no);
+    }
+
+    else if (applicant_no == 4) {
+      this.basicInfo.VOTER_ID_4 = this.aadhaarVerify4.voter_history.EPIC_NO;
+      this.saveVoter(this.aadhaarVerify4.voter_history, applicant_no);
     }
   }
 
@@ -637,13 +926,19 @@ export class PersonalComponent implements OnInit {
       this.api.updateVoterHistory(Voter).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            this.saveBasicInfo();
+            //this.saveBasicInfo();
 
             if (applicant_no == 1)
               this.getVoterData(1);
 
             if (applicant_no == 2)
               this.getVoterData(2);
+
+            if (applicant_no == 3)
+              this.getVoterData(3);
+
+            if (applicant_no == 4)
+              this.getVoterData(4);
 
           }
           else {
@@ -658,13 +953,19 @@ export class PersonalComponent implements OnInit {
     else {
       this.api.createVoterHistory(Voter).subscribe({
         next: (res) => {
-          this.saveBasicInfo();
+          //this.saveBasicInfo();
           if (res['code'] == 200) {
             if (applicant_no == 1) {
               this.getVoterData(1);
             }
             if (applicant_no == 2) {
               this.getVoterData(2);
+            }
+            if (applicant_no == 3) {
+              this.getVoterData(3);
+            }
+            if (applicant_no == 4) {
+              this.getVoterData(4);
             }
           }
           else {
@@ -689,6 +990,14 @@ export class PersonalComponent implements OnInit {
       voter_id = this.basicInfo.VOTER_ID_2;
     }
 
+    else if (applicant_no == 3) {
+      voter_id = this.basicInfo.VOTER_ID_3;
+    }
+
+    else if (applicant_no == 4) {
+      voter_id = this.basicInfo.VOTER_ID_4;
+    }
+
     this.api.getVoterHistory(voter_id).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
@@ -698,6 +1007,12 @@ export class PersonalComponent implements OnInit {
           else if (applicant_no == 2) {
             this.aadhaarVerify2.voter_history = res['data'][0];
           }
+          else if (applicant_no == 3) {
+            this.aadhaarVerify3.voter_history = res['data'][0];
+          }
+          else if (applicant_no == 4) {
+            this.aadhaarVerify4.voter_history = res['data'][0];
+          }
         }
       }
     })
@@ -706,6 +1021,8 @@ export class PersonalComponent implements OnInit {
 
   loadLicenseButton: boolean = false;
   loadLicenseButton2: boolean = false;
+  loadLicenseButton3: boolean = false;
+  loadLicenseButton4: boolean = false;
 
   verifyLicense(AplicantNo: number) {
 
@@ -754,6 +1071,49 @@ export class PersonalComponent implements OnInit {
         break;
       }
 
+      case 3: {
+        this.loadLicenseButton3 = true;
+        let licenseVerify = this.aadhaarVerify3.getLicenseData();
+        licenseVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.LICENSE_NO_3 = this.aadhaarVerify3.license_history.LICENSE_NUMBER;
+              this.saveLicenseData(3);
+              this.loadLicenseButton3 = false;
+            }
+            else {
+              this.loadLicenseButton3 = false;
+            }
+          },
+          error: () => {
+            this.loadLicenseButton3 = false;
+          }
+        });
+        break;
+      }
+
+      case 4: {
+        this.loadLicenseButton4 = true;
+        let licenseVerify = this.aadhaarVerify4.getLicenseData();
+        licenseVerify.subscribe({
+          next: (res) => {
+            if (res == true) {
+              this.basicInfo.LICENSE_NO_4 = this.aadhaarVerify4.license_history.LICENSE_NUMBER;
+              this.saveLicenseData(4);
+              this.loadLicenseButton4 = false;
+            }
+            else {
+              this.loadLicenseButton4 = false;
+            }
+          },
+          error: () => {
+            this.loadLicenseButton4 = false;
+          }
+        });
+        break;
+      }
+
+
       default: {
         console.error("Inside function verifyLicense : AplicantNo is Invalid - ", AplicantNo);
         break;
@@ -768,9 +1128,17 @@ export class PersonalComponent implements OnInit {
       this.basicInfo.LICENSE_NO_1 = this.aadhaarVerify.license_history.LICENSE_NUMBER;
       this.saveLicense(this.aadhaarVerify.license_history, applicant_no);
     }
-    if (applicant_no == 2) {
+    else if (applicant_no == 2) {
       this.basicInfo.LICENSE_NO_2 = this.aadhaarVerify2.license_history.LICENSE_NUMBER;
-      this.saveLicense(this.aadhaarVerify.license_history, applicant_no);
+      this.saveLicense(this.aadhaarVerify2.license_history, applicant_no);
+    }
+    else if (applicant_no == 3) {
+      this.basicInfo.LICENSE_NO_3 = this.aadhaarVerify3.license_history.LICENSE_NUMBER;
+      this.saveLicense(this.aadhaarVerify3.license_history, applicant_no);
+    }
+    else if (applicant_no == 4) {
+      this.basicInfo.LICENSE_NO_4 = this.aadhaarVerify4.license_history.LICENSE_NUMBER;
+      this.saveLicense(this.aadhaarVerify4.license_history, applicant_no);
     }
   }
 
@@ -779,13 +1147,19 @@ export class PersonalComponent implements OnInit {
       this.api.updateLicenseHistory(license).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            this.saveBasicInfo();
+            //this.saveBasicInfo();
 
             if (applicant_no == 1)
               this.getLicenseData(1);
 
             if (applicant_no == 2)
               this.getLicenseData(2);
+
+            if (applicant_no == 3)
+              this.getLicenseData(3);
+
+            if (applicant_no == 4)
+              this.getLicenseData(4);
 
           }
           else {
@@ -800,13 +1174,19 @@ export class PersonalComponent implements OnInit {
     else {
       this.api.createLicenseHistory(license).subscribe({
         next: (res) => {
-          this.saveBasicInfo();
+          //this.saveBasicInfo();
           if (res['code'] == 200) {
             if (applicant_no == 1) {
               this.getLicenseData(1);
             }
             if (applicant_no == 2) {
               this.getLicenseData(2);
+            }
+            if (applicant_no == 3) {
+              this.getLicenseData(3);
+            }
+            if (applicant_no == 4) {
+              this.getLicenseData(4);
             }
           }
           else {
@@ -831,6 +1211,14 @@ export class PersonalComponent implements OnInit {
       license_no = this.basicInfo.LICENSE_NO_2;
     }
 
+    else if (applicant_no == 3) {
+      license_no = this.basicInfo.LICENSE_NO_3;
+    }
+
+    else if (applicant_no == 4) {
+      license_no = this.basicInfo.LICENSE_NO_4;
+    }
+
     this.api.getVoterHistory(license_no).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
@@ -840,6 +1228,12 @@ export class PersonalComponent implements OnInit {
           else if (applicant_no == 2) {
             this.aadhaarVerify2.license_history = res['data'][0];
           }
+          else if (applicant_no == 3) {
+            this.aadhaarVerify3.license_history = res['data'][0];
+          }
+          else if (applicant_no == 4) {
+            this.aadhaarVerify4.license_history = res['data'][0];
+          }
         }
       }
     })
@@ -847,6 +1241,8 @@ export class PersonalComponent implements OnInit {
 
   previewAdhaar1: string = '';
   previewAdhaar2: string = '';
+  previewAdhaar3: string = '';
+  previewAdhaar4: string = '';
 
   showAadharNo(value: string, num: number) {
     if (num == 1) {
@@ -855,7 +1251,38 @@ export class PersonalComponent implements OnInit {
     else if (num == 2) {
       this.previewAdhaar2 = value;
     }
+    else if (num == 3) {
+      this.previewAdhaar3 = value;
+    }
+    else if (num == 4) {
+      this.previewAdhaar4 = value;
+    }
   }
 
+  saveDocuments(){
+    if(this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER){
+      this.saveAadhaarData(1);
+    }
+    if(this.aadhaarVerify2.aadhar_history.AADHAAR_NUMBER){
+      this.saveAadhaarData(2);
+    }
+  }
+
+  calculateAge(applicant_no:1|2|3|4) {
+
+    let key:'AGE_1'|'AGE_2'|'AGE_3'|'AGE_4' = `AGE_${applicant_no}`
+    let dob_key:'DOB_1'|'DOB_2'|'DOB_3'|'DOB_4' = `DOB_${applicant_no}`
+    let Age = this.basicInfo[dob_key];
+    if (Age) {
+      let ageArray = Age.split('/');
+      let year = ~~ageArray[2];
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+      this.basicInfo[key] = currentYear - year;
+    }
+    else {
+      this.basicInfo[key] = 0;
+    }
+  }
 
 }

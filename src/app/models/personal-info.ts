@@ -33,7 +33,7 @@ export class PersonalInfo {
     IS_EMAIL_VERIFIED: boolean = false;
 
 
-    RISK_CATEGORY:"A"|"B"|"C" = "A";
+    RISK_CATEGORY: "A" | "B" | "C" = "A";
 
     MOBILE_NUMBER: string = '';
     MOBILE_NUMBER_2: string = '';
@@ -80,32 +80,45 @@ export class PersonalInfo {
     MOTHERS_LAST_NAME: string = '';
 
     PAN_NO: string = '';
-    NATIONALITY: string = '';
+    NATIONALITY: string = 'A';
     DATE_OF_BIRTH: string = '';
-    GENDER: "M" | "F" | "O" = 'M';
+    GENDER: "M" | "F" | "O" = "M";
 
-    IS_CURRENT_ADDRESS_ON_OVD: boolean = false;
-    ADDRESS_DOCUMENT: string = '';
-    ADDRESS_DOCUMENT_NUMBER: string = '';
+   
     IS_DOB_MISMATCH: boolean = false;
     IS_VERNACULAR: boolean = false;
 
 
 
-    IS_MINOR:boolean = false;
-    GUARDIAN_NAME:string = '';
-    GUARDIAN_PAN:string= '';
-    GUARDIAN_RELATION:'A'|'B'|'C'|'D'|'E'|'F'|'G' | 'H' = 'A';
-    GUARDIAN_OTHER_DOCUMENT:string = ''; //dropdown
-    GUARDIAN_OTHER_DOCUMENT_NUMBER:string = '';
-    MINOR_DATE_OF_BIRTH_PROOF:string = ''; //dropdown
+    IS_MINOR: boolean = false;
+    GUARDIAN_NAME: string = '';
+    GUARDIAN_PAN: string = '';
+    GUARDIAN_RELATION: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' = 'A';
+    GUARDIAN_OTHER_DOCUMENT: string = ''; //dropdown
+    GUARDIAN_OTHER_DOCUMENT_NUMBER: string = '';
+    MINOR_DATE_OF_BIRTH_PROOF: string = ''; //dropdown
 
 
-    PROFESSION:'A'|'B'|'C'|'D'|'E'|'F'|'G'|' ' = ' '
-    NATURE_OF_SERVICE:'A'|'B'|' ' = ' ';
-    SELF_EMPLOYED:'A'|'B'|'C'|'D'|'E'|'F'|'H'|'G'|' ' = ' ';
-    NATURE_OF_BUSINESS:'A'|'B'|'C'|'D'|'E'|'F'|' ' = ' ';
-    SOURCE_OF_FUNDS:'A'|'B'|'C'|'D'|'E'|'F'|'G'|' ' = ' ';
+    PROFESSION: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ' = ' '
+    NATURE_OF_SERVICE: 'A' | 'B' | ' ' = ' ';
+    SELF_EMPLOYED: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'H' | 'G' | ' ' = ' ';
+    NATURE_OF_BUSINESS: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | ' ' = ' ';
+    SOURCE_OF_FUNDS: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ' = ' ';
 
+
+    DRIVING_LICENSE_NO: string = '';
+    VOTER_ID: string = '';
+    PASSPORT_NO: string = '';
+    
+
+    OVD_DOC: string = '';
+    OVD_DOC_NO:string = '';
+
+    IS_CURRENT_ADDRESS_ON_OVD: boolean = false;
+    ADDRESS_DOCUMENT: string = '';
+    ADDRESS_DOCUMENT_NUMBER: string = '';
+
+    PERMANENT_ADDRESS_PROOF:string = '';
+    CURRUNT_ADDRESS_PROOF:string = '';
 
 }

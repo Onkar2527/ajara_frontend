@@ -44,7 +44,18 @@ export class FormComponent implements OnInit, AfterViewInit {
   ApplicantPhoto: ImageData[] = [];
   documentData: Documents[] = [];
 
-  PHOTOS:any[] = [];
+  branchData: any;
+
+  makerUserData:any = {
+    NAME:''
+  };
+  checkerUserData:any ={
+    NAME:''
+  };
+
+
+
+  PHOTOS: any[] = [];
 
   account_type = {
     'A': 'Saving',
@@ -56,7 +67,6 @@ export class FormComponent implements OnInit, AfterViewInit {
     'G': "Pigmy Deposit",
     'H': "Other"
   }
-
 
   religion = {
     "A": "Hindu",
@@ -288,11 +298,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Something went wrong! while getting Basic Information.', '');
+          // this.message.warning('Something went wrong! while getting Basic Information.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! while getting Basic Information.', '');
+        // this.message.warning('Something went wrong! while getting Basic Information.', '');
       },
       complete: () => {
 
@@ -310,11 +320,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Deposit Information is not Filled.', '');
+          // this.message.warning('Deposit Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting deposite Information.', '');
+        // this.message.warning('Something went wrong! While getting deposite Information.', '');
       },
       complete: () => {
 
@@ -333,11 +343,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Nominee Information is not filled.', '');
+          // this.message.warning('Nominee Information is not filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting nominee Information.', '');
+        // this.message.warning('Something went wrong! While getting nominee Information.', '');
       },
       complete: () => {
 
@@ -355,11 +365,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Information about required service is not filled.', '');
+          // this.message.warning('Information about required service is not filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! while getting service information.', '');
+        // this.message.warning('Something went wrong! while getting service information.', '');
       },
       complete: () => {
 
@@ -379,11 +389,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Applicant Personal Information is not filled.', '');
+          // this.message.warning('Applicant Personal Information is not filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Personal Information.', '');
+        // this.message.warning('Something went wrong! While getting Applicant Personal Information.', '');
       },
       complete: () => {
 
@@ -402,11 +412,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Applicant Financial Information is not Filled.', '');
+          // this.message.warning('Applicant Financial Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Financial Information.', '');
+        // this.message.warning('Something went wrong! While getting Applicant Financial Information.', '');
       },
       complete: () => {
 
@@ -425,11 +435,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Applicant Property Information is not Filled.', '');
+          // this.message.warning('Applicant Property Information is not Filled.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Property Information.', '');
+        // this.message.warning('Something went wrong! While getting Applicant Property Information.', '');
       },
       complete: () => {
 
@@ -448,11 +458,11 @@ export class FormComponent implements OnInit, AfterViewInit {
     //       }
     //     }
     //     else {
-    //       this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
+    //       // this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
     //     }
     //   },
     //   error: () => {
-    //     this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
+    //     // this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
     //   },
     //   complete: () => {
 
@@ -471,11 +481,11 @@ export class FormComponent implements OnInit, AfterViewInit {
     //       }
     //     }
     //     else {
-    //       this.message.warning('Applicant Other Account Details is not Filled.', '');
+    //       // this.message.warning('Applicant Other Account Details is not Filled.', '');
     //     }
     //   },
     //   error: () => {
-    //     this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
+    //     // this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
     //   },
     //   complete: () => {
 
@@ -494,11 +504,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Applicant Photo is not Uploaded.', '');
+          // this.message.warning('Applicant Photo is not Uploaded.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! While getting Applicant Photo.', '');
+        // this.message.warning('Something went wrong! While getting Applicant Photo.', '');
       },
       complete: () => {
 
@@ -517,11 +527,11 @@ export class FormComponent implements OnInit, AfterViewInit {
           }
         }
         else {
-          this.message.warning('Something went wrong! while getting Document Information.', '');
+          // this.message.warning('Something went wrong! while getting Document Information.', '');
         }
       },
       error: () => {
-        this.message.warning('Something went wrong! while getting Document Information.', '');
+        // this.message.warning('Something went wrong! while getting Document Information.', '');
       },
       complete: () => {
 
@@ -536,6 +546,9 @@ export class FormComponent implements OnInit, AfterViewInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
+          this.getBranchData();
+          this.getUserMaker();
+          this.getUserChecker();
           personal.next(200);
         }
         else {
@@ -597,6 +610,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     });
     return service;
   }
+
   getNominee() {
     let nominee: Subject<any> = new Subject();
     this.api.getNominee(this.APPLICANT_ID).subscribe({
@@ -627,6 +641,10 @@ export class FormComponent implements OnInit, AfterViewInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantPersonal = res['data'];
           console.log("applicant personal:", this.ApplicantPersonal);
+          if(this.ApplicantPersonal.length < 2){
+            this.ApplicantPersonal.push(new PersonalInfo())
+          }
+          this.getOVD();
           applicantPersonal.next(200);
         }
         else {
@@ -764,14 +782,14 @@ export class FormComponent implements OnInit, AfterViewInit {
       next: (res) => {
         if (200 == res.code && res.data.length > 0) {
           this.documentData = res.data;
-          for(let document of this.documentData){
-            if(document.DOCUMENT_NAME == 'Applicant Photo'){
+          for (let document of this.documentData) {
+            if (document.DOCUMENT_NAME == 'Applicant Photo') {
               this.PHOTOS.push(document.IMAGE_DATA)
 
             }
           }
 
-          console.log("IMAGE DATA",this.PHOTOS)
+          console.log("IMAGE DATA", this.PHOTOS)
           document.next(200)
 
         }
@@ -790,6 +808,39 @@ export class FormComponent implements OnInit, AfterViewInit {
     })
     return document;
 
+  }
+
+  getBranchData() {
+    this.api.getUserBranch(Number(this.basicInfo.CREATED_BRANCH_ID)).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.branchData = res['data'][0]
+        }
+      }
+    })
+  }
+
+  getUserMaker(){
+    this.api.getUser({user_id:this.basicInfo.MAKER_USER_ID}).subscribe({
+      next:(res)=>{
+        if(res['code'] ==200 && res['data'].length > 0){
+          this.makerUserData = res['data'][0]
+        }
+      }
+    })
+  }
+
+  getUserChecker(){
+    if(this.basicInfo.CHACKER_USER_ID){
+      this.api.getUser({user_id:this.basicInfo.CHACKER_USER_ID}).subscribe({
+        next:(res)=>{
+          if(res['code'] ==200 && res['data'].length > 0){
+            this.checkerUserData = res['data'][0]
+          }
+        }
+      })
+    }
+   
   }
 
 
@@ -879,7 +930,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     let options = {
       margin: .3, image: { type: "jpeg", quality: .98 },
-      html2canvas: { scale: 4 }, pagebreak: { mode: ["avoid-all", "css", "legecy"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
+      html2canvas: { scale: 4 }, pagebreak: {after: [".page"]  }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
     }
 
     await html2pdf()
@@ -904,11 +955,52 @@ export class FormComponent implements OnInit, AfterViewInit {
     let allMergedPDF = await pdfDoc2.save(),
       blob_AllMergedPDF = new Blob([allMergedPDF], { type: "application/pdf" }),
       finelPdf = URL.createObjectURL(blob_AllMergedPDF);
-    window.open(finelPdf),
-      this.pdfButtonLoading.emit(!1)
+
+    let a = document.createElement("a");
+    a.href = finelPdf;
+    a.download = `${this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME} ${this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME} ${this.basicInfo.PRIMARY_APPLICANT_LAST_NAME} (${this.basicInfo.ID})`;
+    document.body.appendChild(a);;
+    a.click();
+
+    this.pdfButtonLoading.emit(!1)
 
 
   }
 
+  OVD_1: any = '';
+  OVD_2: any = '';
+  OVD_3: any = '';
+  OVD_4: any = '';
+
+  OVD_DOCS = [
+    { ID: 1, NAME: 'Aadhaar', SEQ: 1, KEY: 'AADHAAR_NUMBER' },
+    { ID: 2, NAME: 'Driving License', SEQ: 2, KEY: 'DRIVING_LICENSE_NO' },
+    { ID: 3, NAME: 'Voter ID', SEQ: 3, KEY: 'VOTER_ID' },
+    { ID: 4, NAME: 'Passport', SEQ: 4, KEY: 'PASSPORT' },
+  ]
+
+  getOVD() {
+    let sorted_OVD_arr = this.sortObjectArray(this.OVD_DOCS, 'SEQ')
+    for (let applicant of this.ApplicantPersonal) {
+      for (let doc of sorted_OVD_arr) {
+        if (applicant[doc.KEY as keyof PersonalInfo]) {
+          applicant['OVD_DOC'] = doc.NAME;
+          applicant['OVD_DOC_NO'] = String(applicant[doc.KEY as keyof PersonalInfo]);
+          break;
+        }
+      }
+    }
+
+    console.log("applicant personal",this.ApplicantPersonal);
+  }
+
+  sortObjectArray(src_array: any, sort_key: string) {
+    let source = src_array;
+    source.sort(function (a: any, b: any) {
+      a[sort_key] - b[sort_key];
+    })
+    console.log("source array",source);
+    return source;
+  }
 
 }

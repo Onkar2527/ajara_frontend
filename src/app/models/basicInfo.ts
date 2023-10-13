@@ -3,7 +3,6 @@ export class BasicInfo {
 
     ID!: number;
     APPLICANT_ID?: number;
-    STATUS: string = 'D';
 
     NO_OF_APPLICANT: number = 1;
 
@@ -36,6 +35,34 @@ export class BasicInfo {
     AADHAAR_NO_1: string = '';
     AADHAAR_NO_2: string = '';
 
+    APPLICANT3_FIRST_NAME: string = '';
+    APPLICANT3_MIDDLE_NAME: string = '';
+    APPLICANT3_LAST_NAME: string = '';
+    AADHAAR_NUMBER3: string = '';
+    PAN_NUMBER3: string = '';
+
+    //new field
+    IS_OLD_CUSTOMER_3: boolean = false;
+    CUSTOMER_ID_3: string = '';
+    CKYC_NUMBER_3: string = '';
+    VOTER_ID_3: string = '';
+    LICENSE_NO_3: string = '';
+    CUSTOMER_TYPE_3: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
+
+    APPLICANT4_FIRST_NAME: string = '';
+    APPLICANT4_MIDDLE_NAME: string = '';
+    APPLICANT4_LAST_NAME: string = '';
+    AADHAAR_NUMBER4: string = '';
+    PAN_NUMBER4: string = '';
+
+    //new field
+    IS_OLD_CUSTOMER_4: boolean = false;
+    CUSTOMER_ID_4: string = '';
+    CKYC_NUMBER_4: string = '';
+    VOTER_ID_4: string = '';
+    LICENSE_NO_4: string = '';
+    CUSTOMER_TYPE_4: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
+
     APPLICATION_DATE: string = '';
 
     CREATED_BRANCH_ID?: number;
@@ -44,7 +71,39 @@ export class BasicInfo {
     CHACKER_USER_ID?: number;
     VERIFIER_USER_ID?: number;
 
-    TRACK_ID?:number;
+    TRACK_ID?: number;
+
+    ROLE_ID?: number;
+
+
+    FILLED_DATE_TIME: string = '';
+    VERIFIED_DATE_TIME: string = '';
+
+    DOB_1: string = '';
+    GENDER_1: "M" | "F" | "O" = "M";
+    MOBILE_1: string = '';
+    AGE_1!: number;
+
+    DOB_2: string = '';
+    GENDER_2: "M" | "F" | "O" = "M";
+    MOBILE_2: string = '';
+    AGE_2!: number;
+
+
+
+    DOB_3: string = '';
+    GENDER_3: "M" | "F" | "O" = "M";
+    MOBILE_3: string = '';
+    AGE_3!: number;
+
+
+
+    DOB_4: string = '';
+    GENDER_4: "M" | "F" | "O" = "M";
+    MOBILE_4: string = '';
+    AGE_4!: number;
+
+
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 
@@ -56,13 +115,7 @@ export class BasicInfo {
     // PAN_NUMBER4: string = '';
 
 
-    // APPLICANT3_FIRST_NAME: string = '';
-    // APPLICANT3_MIDDLE_NAME: string = '';
-    // APPLICANT3_LAST_NAME: string = '';
 
-    // APPLICANT4_FIRST_NAME: string = '';
-    // APPLICANT4_MIDDLE_NAME: string = '';
-    // APPLICANT4_LAST_NAME: string = '';
 
     // IS_MINOR: boolean = false
     // MINOR_DOB: string = '';

@@ -13,7 +13,11 @@
         <a (click)="edit(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></a>
       </td>
       <td>{{ data.FIRST_NAME }} {{data.MIDDLE_NAME}} {{ data.LAST_NAME }}</td>
-      <td>{{ data.AADHAAR_NUMBER }}</td>
+      <td>
+        <input [hiddenInput]="true" mask="XXXX XXXX 0000"
+        style="border :none !important;font-weight: bold;text-align: center;" disabled
+        [ngModel]="data.AADHAAR_NUMBER">
+      </td>
       <td>{{ data.MOBILE_NUMBER }}</td>
     </tr>
   </tbody>

@@ -53,7 +53,7 @@ export class WebCamComponent implements OnInit {
   public ngOnInit(): void {
 
     this.ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
-   
+
 
     if (this.APPLICANT_ID) {
       this.getApplicant();
@@ -185,7 +185,7 @@ export class WebCamComponent implements OnInit {
   DocumentTableData: Documents[] = []
   loadDocumentTable: boolean = false;
 
-  drawerReferanceDoc:any;
+  drawerReferanceDoc: any;
   openDocuments(applicant: ImageData) {
     this.ApplicantDetails = applicant;
 
@@ -256,26 +256,44 @@ export class WebCamComponent implements OnInit {
   ApplicantDetails: ImageData = new ImageData();
   SingleDocument: Documents = new Documents();
 
+  createDocMendetory = [
+    { field: 'DOCUMENT_NAME', message: 'Document Name' },
+    { field: 'MAKER_REMARK', message: 'Maker Remark' }
+  ]
+
   createDocument() {
-    this.SingleDocument.APPLICANT_ID = this.ApplicantDetails.APPLICANT_ID;
-    this.SingleDocument.APPLICANT_NO = this.ApplicantDetails.APPLICANT_NO;
 
-    this.api.createDocument(this.SingleDocument).subscribe({
-      next: (res) => {
-        if (res['code'] == 200) {
-          this.SingleDocument = new Documents();
-          this.getDocument(this.ApplicantDetails);
-        }
-        else {
-          this.message.error("Failed to create document", '');
+    let isOk = true;
 
-        }
-
-      },
-      error: () => {
-        this.message.error("Failed to create document", '');
+    for (let field of this.createDocMendetory) {
+      if (!this.SingleDocument[field.field as keyof Documents]) {
+        this.message.error(`${field.message} is Mandetory`, '');
+        isOk = false;
       }
-    })
+
+    }
+
+    if (isOk) {
+      this.SingleDocument.APPLICANT_ID = this.ApplicantDetails.APPLICANT_ID;
+      this.SingleDocument.APPLICANT_NO = this.ApplicantDetails.APPLICANT_NO;
+
+      this.api.createDocument(this.SingleDocument).subscribe({
+        next: (res) => {
+          if (res['code'] == 200) {
+            this.SingleDocument = new Documents();
+            this.getDocument(this.ApplicantDetails);
+          }
+          else {
+            this.message.error("Failed to create document", '');
+
+          }
+
+        },
+        error: () => {
+          this.message.error("Failed to create document", '');
+        }
+      })
+    }
 
   }
 
@@ -368,7 +386,7 @@ export class WebCamComponent implements OnInit {
 
   SendToRefill() {
 
-    this.basicInfo.STATUS = 'D';
+    this.basicInfo.TRACK_ID = 1;
     if (this.basicInfo.ID) {
       this.api.updateBasic(this.basicInfo).subscribe({
         next: (res) => {

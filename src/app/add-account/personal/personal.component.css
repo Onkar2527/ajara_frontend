@@ -35,3 +35,13 @@ nz-form-item{
     margin-left: 5px;
     font-size: 12px;
   } */
+
+  .verified{
+    color:green;
+    font-weight: bold;
+  }
+
+  .not-verified{
+    color:red;
+    font-weight: bold;
+  }

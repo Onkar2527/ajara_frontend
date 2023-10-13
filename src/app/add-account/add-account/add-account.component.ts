@@ -162,8 +162,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     else {
       this.personalComp.basicInfo.TRACK_ID = 3;
-
-      this.api.getUser(3).subscribe({
+      this.personalComp.basicInfo.VERIFIED_DATE_TIME = new Date().toString();
+      this.api.getUser({role_id:3}).subscribe({
         next: (res) => {
           if (res['code'] == 200 && res['data'].length > 0) {
             this.personalComp.basicInfo.VERIFIER_USER_ID = res.data[0].ID;
@@ -650,8 +650,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     // this.personalComp.basicInfo.STATUS = 'C';
     this.personalComp.basicInfo.TRACK_ID = 2;
-
-    this.api.getUser(2, this.personalComp.basicInfo.CREATED_BRANCH_ID).subscribe({
+    this.personalComp.basicInfo.FILLED_DATE_TIME = new Date().toString();
+    this.api.getUser({role_id:2, branch_id:this.personalComp.basicInfo.CREATED_BRANCH_ID}).subscribe({
       next: (res) => {
         if (res.code == 200 && res.data.length > 0) {
           this.personalComp.basicInfo.CHACKER_USER_ID = res.data[0].ID;

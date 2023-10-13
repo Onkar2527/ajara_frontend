@@ -120,10 +120,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  // baseUrl = 'https://accountopening.kredpool.in/api/';
+  baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  baseUrl = 'http://localhost:8079/api/';
+  // baseUrl = 'http://localhost:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -158,6 +158,7 @@ export class ApiService implements HttpInterceptor {
   }
 
   updateBasic(data: BasicInfo): Observable<any> {
+    data.ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
     return this.httpClient.post(this.baseUrl + "basicDetails/update", data, this.optionMain)
   }
 
@@ -425,10 +426,11 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', data, this.optionMain)
   }
 
-  getUser(role_id: number, branch_id?: number) {
+  getUser(arg:{role_id?: number, branch_id?: number,user_id?:number}) {
     let data = {
-      ROLE_ID: role_id,
-      BRANCH_ID: branch_id
+      ROLE_ID: arg.role_id,
+      BRANCH_ID: arg.branch_id,
+      ID:arg.user_id
     }
 
 

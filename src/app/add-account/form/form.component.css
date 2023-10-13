@@ -1,10 +1,18 @@
-.page{
+/* .page{
   page-break-after: always !important;
-  margin-bottom: 20px;
+  margin-top: 15px;
+} */
+
+/* #page6{
+  margin-top: 10px;
+} */
+
+.page-margin-top{
+  margin-top:15px;
 }
 .border-all{
   border:1px solid black;
-  font-size: 12px;
+  /* font-size: 12px; */
   padding: 5px;
   padding-left: 10px;
 }
@@ -17,7 +25,7 @@
 }
 
 .margin{
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .data{
@@ -29,4 +37,8 @@
   background-color: rgb(252, 233, 241);
 }
 
+#contentToConvert{
+  font-weight:bold;
+  font-size: 11px;
+}
 
