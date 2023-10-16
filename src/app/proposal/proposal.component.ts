@@ -333,7 +333,7 @@ export class ProposalComponent implements OnInit {
   }
 
   saveANext() {
-    if (this.selectedIndex != 4) {
+    if (this.selectedIndex != 5) {
       this.addAccountComp.saveANext();
     }
     else {

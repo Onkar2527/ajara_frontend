@@ -18,6 +18,7 @@ import * as Forge from 'node-forge';
 import { Buffer } from 'buffer';
 import { ExtraInfo } from '../models/extra-info';
 import { Documents } from '../models/documents';
+import { RemarkModel } from '../models/remark-model';
 
 @Injectable({
   providedIn: 'root'
@@ -120,10 +121,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  baseUrl = 'https://accountopening.kredpool.in/api/';
+  // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://localhost:8079/api/';
+  baseUrl = 'http://localhost:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -426,11 +427,11 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'componunts/getComponunts', data, this.optionMain)
   }
 
-  getUser(arg:{role_id?: number, branch_id?: number,user_id?:number}) {
+  getUser(arg: { role_id?: number, branch_id?: number, user_id?: number }) {
     let data = {
       ROLE_ID: arg.role_id,
       BRANCH_ID: arg.branch_id,
-      ID:arg.user_id
+      ID: arg.user_id
     }
 
 
@@ -650,5 +651,16 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'user/getUserRole', data, this.optionMain)
   }
 
+  getAllRemark(applicant_id: number) {
+    let data = {
+      APPLICANT_ID: applicant_id
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'remark/getAll', data, this.optionMain);
+  }
+
+  createRemark(data: RemarkModel) {
+
+    return this.httpClient.post<any>(this.baseUrl + 'remark/create', data, this.optionMain);
+  }
 
 }

@@ -10,6 +10,8 @@ import { DepositComponent } from '../deposit/deposit.component';
 import { NominationComponent } from '../nomination/nomination.component';
 import { PersonalComponent } from '../personal/personal.component';
 import { ServicesComponent } from '../services/services.component';
+import { RemarkCompComponent } from '../remark-comp/remark-comp.component';
+import { RemarkModel } from 'src/app/models/remark-model';
 
 @Component({
   selector: 'app-add-account',
@@ -28,6 +30,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   @ViewChild(CheckerVerificationComponent) checkerComp!: CheckerVerificationComponent;
   @ViewChild(VerifierVerificationComponent) verifierComp!: VerifierVerificationComponent;
 
+  @ViewChild(RemarkCompComponent) remarkComp!: RemarkCompComponent;
 
 
   @Input() BasicInfo: BasicInfo = new BasicInfo();
@@ -82,13 +85,21 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (send_to_refill) {
+    let isOk = true;
+
+    if (!this.remarkComp.REMARK) {
+      this.message.error("Remark in mendetory field", '');
+      isOk = false;
+    }
+
+    if (send_to_refill && isOk) {
       this.personalComp.basicInfo.TRACK_ID = 1;
       let personal = this.personalComp.save();
       // this.personalComp.basicInfo.STATUS = 'D';
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
+            this.saveRemark();
             this.message.success("Proposal has been sent to Refill", '')
             this.CloseDrawer.emit();
           }
@@ -104,13 +115,14 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
 
-    else {
+    else if(isOk) {
       this.personalComp.basicInfo.TRACK_ID = 4;
       let personal = this.personalComp.save();
       // this.personalComp.basicInfo.STATUS = 'V';
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
+            this.saveRemark();
             this.message.success("Account has been created", '')
             this.CloseDrawer.emit();
           }
@@ -137,7 +149,14 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (send_to_refill) {
+    let isOk = true;
+
+    if (!this.remarkComp.REMARK) {
+      this.message.error("Remark in mendetory field", '');
+      isOk = false;
+    }
+
+    if (send_to_refill && isOk) {
       this.personalComp.basicInfo.TRACK_ID = 1;
 
       let personal = this.personalComp.save();
@@ -145,6 +164,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       personal.subscribe({
         next: (res) => {
           if (res.code == 200) {
+            this.saveRemark();
             this.message.success("Proposal has been sent to Refill", '')
             this.CloseDrawer.emit();
           }
@@ -160,10 +180,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
 
-    else {
+    else if (isOk) {
       this.personalComp.basicInfo.TRACK_ID = 3;
       this.personalComp.basicInfo.VERIFIED_DATE_TIME = new Date().toString();
-      this.api.getUser({role_id:3}).subscribe({
+      this.api.getUser({ role_id: 3 }).subscribe({
         next: (res) => {
           if (res['code'] == 200 && res['data'].length > 0) {
             this.personalComp.basicInfo.VERIFIER_USER_ID = res.data[0].ID;
@@ -171,6 +191,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             personal.subscribe({
               next: (res) => {
                 if (res.code == 200) {
+                  this.saveRemark();
                   this.message.success("Proposal has been sent to Verification", '')
                   this.CloseDrawer.emit();
                 }
@@ -298,16 +319,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           }
 
           else if (this.selectedIndex == 4) {
-            this.Tabs[4].disabled = true
-            if (user == 'C') {
-              this.checkerDisable = false;
-              this.checkerComp.Tabs = this.Tabs;
-            }
-
-            if (user == 'V') {
-              this.verifierDisable = false;
-              this.verifierComp.Tabs = this.Tabs;
-            }
+            this.Tabs[4].disabled = true;
+            this.Tabs[5].disabled = false;
+            this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+            this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+            this.remarkComp.show_remark = true;
+            this.remarkComp.getRemarkData();
             this.selectedIndex++;
             this.changeIndex();
           }
@@ -382,16 +399,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           }
 
           else if (this.selectedIndex == 4) {
-            this.Tabs[4].disabled = true
-            if (user == 'C') {
-              this.checkerDisable = false;
-              this.checkerComp.Tabs = this.Tabs;
-            }
-
-            if (user == 'V') {
-              this.verifierDisable = false;
-              this.verifierComp.Tabs = this.Tabs;
-            }
+            this.Tabs[4].disabled = true;
+            this.Tabs[5].disabled = false;
+            this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+            this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+            this.remarkComp.show_remark = true;
+            this.remarkComp.getRemarkData();
             this.selectedIndex++;
             this.changeIndex();
           }
@@ -504,7 +517,15 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     }
     else if (this.selectedIndex == 4) {
       this.Tabs[4].disabled = true;
+      this.Tabs[5].disabled = false;
       this.updateTabsProvided(this.selectedIndex);
+      this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+      this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+      this.remarkComp.show_remark = true;
+      this.remarkComp.getRemarkData();
+      this.loadSaveButton = false;
+    }
+    else if (this.selectedIndex == 5) {
       this.saveAsComplete();
       this.loadSaveButton = false;
     }
@@ -515,13 +536,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     this.loadPreviousButton = true;
 
-    if (this.selectedIndex == 6) {
-      this.Tabs[6].disabled = true;
-      this.Tabs[5].disabled = false;
-      this.selectedIndex = 5;
-      this.loadPreviousButton = false;
-    }
-    else if (this.selectedIndex == 5) {
+    if (this.selectedIndex == 5) {
       this.Tabs[5].disabled = true;
       this.Tabs[4].disabled = false;
       this.selectedIndex = 4;
@@ -645,43 +660,78 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   }
 
+  saveRemark() {
+    let _REMARK_: RemarkModel = new RemarkModel();
+    _REMARK_.APPLICANT_ID = this.APPLICANT_ID;
+    _REMARK_.REMARK_DATE = new Date().toString();
+    _REMARK_.USER_ID = Number(sessionStorage.getItem('USER_ID'));
+    _REMARK_.REMARK = this.remarkComp.REMARK;
 
-  saveAsComplete() {
-
-    // this.personalComp.basicInfo.STATUS = 'C';
-    this.personalComp.basicInfo.TRACK_ID = 2;
-    this.personalComp.basicInfo.FILLED_DATE_TIME = new Date().toString();
-    this.api.getUser({role_id:2, branch_id:this.personalComp.basicInfo.CREATED_BRANCH_ID}).subscribe({
+    this.api.getUserRole(Number(sessionStorage.getItem('ROLE_ID'))).subscribe({
       next: (res) => {
-        if (res.code == 200 && res.data.length > 0) {
-          this.personalComp.basicInfo.CHACKER_USER_ID = res.data[0].ID;
-          let personal = this.personalComp.save();
-          personal.subscribe({
-            next: (res) => {
-              if (res.code == 200) {
-                this.message.success("Proposal has been sent to verify", '')
-                this.CloseDrawer.emit();
+        if (res['code'] == 200 && res['data'].length > 0) {
+          _REMARK_.ROLE = res['data'][0]['NAME']
+          this.api.getUser({ user_id: _REMARK_.USER_ID }).subscribe({
+            next: (result) => {
+              if (result['code'] == 200 && result['data'].length > 0) {
+                _REMARK_.USER_NAME = result['data'][0]['NAME']
+                this.remarkComp.createRemark(_REMARK_);
               }
-              else {
-                this.message.error("Something went wrong", '');
-              }
-            }, error: () => {
-
-            },
-            complete: () => {
-
             }
           })
 
         }
-        else {
-          this.message.error("Something went wrong", '');
-        }
-      },
-      error: () => {
-        this.message.error("Something went wrong", '');
       }
     })
+
+  }
+
+  saveAsComplete() {
+
+    let isOk = true;
+
+    if (!this.remarkComp.REMARK) {
+      this.message.error("Remark in mendetory field", '');
+      isOk = false;
+    }
+
+    if (isOk) {
+      this.personalComp.basicInfo.TRACK_ID = 2;
+      this.personalComp.basicInfo.FILLED_DATE_TIME = new Date().toString();
+      this.api.getUser({ role_id: 2, branch_id: this.personalComp.basicInfo.CREATED_BRANCH_ID }).subscribe({
+        next: (res) => {
+          if (res.code == 200 && res.data.length > 0) {
+            this.personalComp.basicInfo.CHACKER_USER_ID = res.data[0].ID;
+            this.saveRemark();
+            let personal = this.personalComp.save();
+            personal.subscribe({
+              next: (res) => {
+                if (res.code == 200) {
+                  this.message.success("Proposal has been sent to verify", '')
+                  this.CloseDrawer.emit();
+                }
+                else {
+                  this.message.error("Something went wrong", '');
+                }
+              }, error: () => {
+
+              },
+              complete: () => {
+
+              }
+            })
+
+          }
+          else {
+            this.message.error("Something went wrong", '');
+          }
+        },
+        error: () => {
+          this.message.error("Something went wrong", '');
+        }
+      })
+    }
+
 
   }
 
@@ -732,6 +782,18 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     }
     else if (this.selectedIndex == 4) {
+      this.Tabs[4].disabled = true;
+      this.Tabs[5].disabled = false;
+      this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+      this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+      this.remarkComp.show_remark = false;
+      this.remarkComp.getRemarkData();
+      this.nextTab_noaction(this.selectedIndex);
+      this.loadSaveButton = false;
+
+    }
+
+    else if (this.selectedIndex == 5) {
       this.CloseDrawer.emit();
     }
 

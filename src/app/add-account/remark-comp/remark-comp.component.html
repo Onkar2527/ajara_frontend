@@ -1,0 +1,78 @@
+<div nz-row>
+    <div nz-col nzSpan="11">
+        <nz-table [nzData]="Tabs" style="margin-top: 20px;" nzBordered #table nzShowSizeChanger
+            [nzFrontPagination]="false" [nzLoading]="TableLoading">
+
+            <thead nzSingleSort>
+                <tr>
+                    <th [nzAlign]="'center'">Tab Name</th>
+                    <th [nzAlign]="'center'">Accepted By BM</th>
+                    <th [nzAlign]="'center'">Accepted By CPC</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let tab of table.data">
+                    <td>{{tab.TAB_NAME}}</td>
+                    <td>
+
+                        <span *ngIf="!tab.IS_CHECKED"> <i nz-icon nzType="close-circle" style="color: #f10404;"></i>
+                            Not Accepted</span>
+
+                        <span *ngIf="tab.IS_CHECKED"><i nz-icon nzType="check-circle" style="color: #00b963;"></i>
+                            Accepted</span>
+
+                    </td>
+
+                    <td>
+                        <span *ngIf="!tab.IS_VERIFIED"> <i nz-icon nzType="close-circle" style="color: #f10404;"></i>
+                            Not Accepted</span>
+
+                        <span *ngIf="tab.IS_VERIFIED"><i nz-icon nzType="check-circle" style="color: #00b963;"></i>
+                            Accepted</span>
+                    </td>
+
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+
+    <div nz-col nzSpan="2"></div>
+
+    <div nz-col nzSpan="11">
+        <nz-table [nzData]="REMARK_DATA" style="margin-top: 20px;" nzBordered #remarkTable nzShowSizeChanger
+            [nzFrontPagination]="false" [nzLoading]="remark_table_loading" [nzScroll]="{ y: '400px' }">
+
+            <thead nzSingleSort>
+                <tr>
+                    <th nzWidth="100px" [nzAlign]="'center'">Sr No.</th>
+                    <th nzWidth="200px" [nzAlign]="'center'">User Name</th>
+                    <th nzWidth="100px" [nzAlign]="'center'">Role</th>
+                    <th nzWidth="400px" [nzAlign]="'center'">Remark</th>
+                    <th nzWidth="200px" [nzAlign]="'center'">Date & Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let data of remarkTable.data;index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{data.USER_NAME}}</td>
+                    <td>{{data.ROLE}}</td>
+                    <td>{{data.REMARK}}</td>
+                    <td>{{data.REMARK_DATE | date:'dd/MM/yyyy'}} {{data.REMARK_DATE | date:'HH:mm:ss'}}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+
+    </div>
+
+    <nz-form-item nz-col nzSpan="24" *ngIf="show_remark">
+        <nz-form-label nzRequired [nzNoColon]="true">Remark</nz-form-label>
+        <nz-form-control>
+            <div nz-row>
+                <textarea rows="2" nz-input [(ngModel)]="REMARK"></textarea>
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+
+</div>

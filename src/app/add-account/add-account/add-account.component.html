@@ -6,9 +6,10 @@
             <ng-template #titleTemplate33>
 
                 <i nz-icon nzType="exclamation-circle" nzTheme="fill" style="color: #f18304;"
-                    *ngIf="!Tabs[i].IS_PROVIDED"></i>
+                    *ngIf="!Tabs[i].IS_PROVIDED && i!=5"></i>
 
-                <i nz-icon nzType="check-circle" nzTheme="fill" style="color: #00b963;" *ngIf="Tabs[i].IS_PROVIDED"></i>
+                <i nz-icon nzType="check-circle" nzTheme="fill" style="color: #00b963;"
+                    *ngIf="Tabs[i].IS_PROVIDED && i!=5"></i>
 
                 <span> {{tab.TAB_NAME}}</span>
             </ng-template>
@@ -23,11 +24,12 @@
 
             <app-applicant-details *ngIf="tab.TAB_ID == 5"></app-applicant-details>
 
-            <app-checker-verification *ngIf="tab.TAB_ID == 6"></app-checker-verification>
+            <app-remark-comp *ngIf="tab.TAB_ID == 6"></app-remark-comp>
 
-            <app-verifier-verification *ngIf="tab.TAB_ID == 7"></app-verifier-verification>
+            <!-- <app-verifier-verification *ngIf="tab.TAB_ID == 7"></app-verifier-verification> -->
 
         </nz-tab>
+
 
     </nz-tabset>
 

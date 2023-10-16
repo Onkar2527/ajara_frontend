@@ -66,6 +66,7 @@ import { MakerVerificationComponent } from './verification/maker-verification/ma
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
 import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { RemarkCompComponent } from './add-account/remark-comp/remark-comp.component';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -93,7 +94,8 @@ registerLocaleData(en);
     AddAccountComponent,
     MakerVerificationComponent,
     CheckerVerificationComponent,
-    VerifierVerificationComponent
+    VerifierVerificationComponent,
+    RemarkCompComponent
 
   ],
   imports: [
