@@ -195,11 +195,11 @@ export class ProposalComponent implements OnInit {
   }
 
   completeChecker() {
-    this.addAccountComp.completeChecker();
+    this.validateDocs('C');
   }
 
   completeVerifier() {
-    this.addAccountComp.completeVerifier();
+    this.validateDocs('V');
   }
 
   openBasicDrawer() {
@@ -231,6 +231,9 @@ export class ProposalComponent implements OnInit {
         if (res.code == 200) {
           this.loadSaveButton = false;
           this.drawerReferance.close();
+        }
+        else if(res.code == 300){
+          this.loadSaveButton = false;
         }
       }, error: () => {
         this.loadSaveButton = false;
@@ -446,6 +449,51 @@ export class ProposalComponent implements OnInit {
     this.addAccountComp.next()
 
 
+  }
+
+  validateDocs(type: 'C' | 'V') {
+
+    this.api.getDocument(this.APPLICANT_ID, null).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          if (type == 'C')
+            this.velidateDocChacker(res['data'], type) ? this.addAccountComp.completeChecker() : this.message.error("Verify All Documents first", '');
+
+          if (type == 'V')
+            this.velidateDocChacker(res['data'], type) ? this.addAccountComp.completeVerifier() : this.message.error("Verify All Documents first", '');
+        }
+        else {
+          this.message.error("Something Went Wrong!", "")
+        }
+      },
+      error: (err) => {
+        this.message.error("Something Went Wrong!", "")
+      }
+    })
+
+  }
+
+  velidateDocChacker(docArray: Documents[], role: 'C' | 'V') {
+    let ok = true;
+
+    if (role == 'C')
+      for (let doc of docArray) {
+        if (doc.IMAGE_DATA)
+          if (!doc.IS_APPROVED_CHECKER) {
+            ok = false
+          }
+      }
+
+
+    if (role == 'V')
+      for (let doc of docArray) {
+        if (doc.IMAGE_DATA)
+          if (!doc.IS_APPROVED_VERIFIER) {
+            ok = false
+          }
+      }
+
+    return ok
   }
 
 

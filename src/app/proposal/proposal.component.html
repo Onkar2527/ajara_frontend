@@ -53,7 +53,7 @@
 <ng-template #footerTpl>
     <div style="float: right">
         <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
-        <button nz-button nzType="primary" (click)="createProposal()" [nzLoading]="loadSaveButton">Submit</button>
+        <button nz-button nzType="primary" (click)="createProposal()" >Submit</button>
     </div>
 </ng-template>
 
@@ -146,7 +146,7 @@
 
 <ng-template #tabHeaderTamplete>
 
-    <div nz-row>
+    <div nz-row *ngIf="selectedIndex != 5">
 
         <div nz-col nzSpan="10">
             Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
@@ -171,7 +171,7 @@
 
 <ng-template #tabHeaderVerifierTamplete>
 
-    <div nz-row>
+    <div nz-row *ngIf="selectedIndex != 5">
 
         <div nz-col nzSpan="10">
             Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
@@ -230,7 +230,7 @@
 
 <ng-template #tabHeaderMakerTamplete>
 
-    <div nz-row *ngIf="Tabs[selectedIndex].SEND_TO_REFILL && Tabs[selectedIndex].SEND_TO_REFILL_COUNT > 0">
+    <div nz-row *ngIf="Tabs[selectedIndex].SEND_TO_REFILL && Tabs[selectedIndex].SEND_TO_REFILL_COUNT > 0 && selectedIndex != 5">
 
         <div nz-col nzSpan="10">
             Send to refill<nz-switch [disabled]="true" [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
@@ -243,8 +243,13 @@
         <div nz-col nzSpan="1"></div>
 
         <div nz-col nzSpan="13">
-            <span>
+            <span *ngIf="Tabs[selectedIndex].REFILL_BY == 3">
                 <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK"
+                    placeholder="Remark" nzAutosize></textarea>
+            </span>
+
+            <span *ngIf="Tabs[selectedIndex].REFILL_BY == 2">
+                <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK"
                     placeholder="Remark" nzAutosize></textarea>
             </span>
         </div>

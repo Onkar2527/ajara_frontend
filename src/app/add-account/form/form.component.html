@@ -228,7 +228,10 @@
         the Bank
       </div>
 
-      <div nz-col nzSpan="3" class="border-all data"></div>
+      <div nz-col nzSpan="3" class="border-all data">
+        <span *ngIf="i == 0">{{consent_options[basicInfo.OTP_AUTH_1]}}</span>
+        <span *ngIf="i == 1">{{consent_options[basicInfo.OTP_AUTH_2]}}</span>
+      </div>
 
     </div>
 
@@ -1342,7 +1345,7 @@
       <div nz-col nzSpan="6" class="border-all data-heading">
         <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan
           verification done</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> OVD verification done
+        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹': '□'}}</b></span> OVD verification done
         </div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies verified
         </div>
@@ -1360,7 +1363,7 @@
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Nomination verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Mobile number
           verification</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Email verified</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].IS_EMAIL_VERIFIED ? '🗹': '□'}}</b></span> Email verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Required documents
           attached</div>
 

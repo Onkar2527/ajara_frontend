@@ -13,5 +13,6 @@ export class ExtraInfo {
     CHECKER_REMARK:string = '';
     MAKER_REMARK:string = '';
     VERIFIER_REMARK:string = '';
+    REFILL_BY!:number;
 }
 

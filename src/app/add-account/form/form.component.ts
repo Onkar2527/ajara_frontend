@@ -249,6 +249,12 @@ export class FormComponent implements OnInit, AfterViewInit {
     ' ': 'None'
   };
 
+  consent_options = {
+    "A":"Yes",
+    "B":"No",
+    "C":"Not Applicable"
+  }
+
   constructor(private api: ApiService, private message: NzNotificationService, private http: HttpClient) { }
 
   ngOnInit(): void {

@@ -104,6 +104,8 @@ export class BasicInfo {
     AGE_4!: number;
 
 
+    OTP_AUTH_1:'A'|'B'|'C' = 'C'
+    OTP_AUTH_2:'A'|'B'|'C' = 'C'
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 

@@ -8,6 +8,7 @@ import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Documents } from 'src/app/models/documents';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { BasicInfo } from 'src/app/models/basicInfo';
+import { RemarkModel } from 'src/app/models/remark-model';
 
 @Component({
   selector: 'app-web-cam',
@@ -46,6 +47,10 @@ export class WebCamComponent implements OnInit {
   @Input() APPLICANT_ID!: number;
   @Input() basicInfo!: BasicInfo;
   ROLE_ID!: number;
+
+  show_remark: boolean = false;
+  REMARK: string = '';
+
   constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
 
 
@@ -190,11 +195,21 @@ export class WebCamComponent implements OnInit {
     this.ApplicantDetails = applicant;
 
     this.getDocument(applicant);
+
+    let footer
+
+
+    if ((this.ROLE_ID == 2 && this.basicInfo.TRACK_ID == 2) || (this.ROLE_ID == 3 && this.basicInfo.TRACK_ID == 3)) {
+      footer = this.SendToRefillFooter;
+      this.show_remark = true;
+    }
+
+
     const drawerRef = this.drawerService.create({
       nzTitle: "Create Documents",
       nzContent: this.documentAddTpl,
       nzWidth: 1095,
-      nzFooter: this.SendToRefillFooter
+      nzFooter: footer
     });
 
     this.drawerReferanceDoc = drawerRef;
@@ -386,25 +401,73 @@ export class WebCamComponent implements OnInit {
 
   SendToRefill() {
 
-    this.basicInfo.TRACK_ID = 1;
-    if (this.basicInfo.ID) {
-      this.api.updateBasic(this.basicInfo).subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.message.success("Sent to refill", '');
-            this.drawerReferanceDoc.close();
-          }
-          else {
-            this.message.error('Failed to Sent to refill', '');
-          }
-        },
-        error: (err) => {
-          this.message.error("Internal Server Error!", err);
-        },
-        complete: () => {
-        }
-      })
+    let isOk = true;
+    if (!this.REMARK) {
+      this.message.error("Remark is mendetory field", '');
+      isOk = false;
     }
+
+    if (isOk) {
+      this.basicInfo.TRACK_ID = 1;
+      if (this.basicInfo.ID) {
+        this.api.updateBasic(this.basicInfo).subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.saveRemark()
+              this.message.success("Sent to refill", '');
+              this.drawerReferanceDoc.close();
+            }
+            else {
+              this.message.error('Failed to Sent to refill', '');
+            }
+          },
+          error: (err) => {
+            this.message.error("Internal Server Error!", err);
+          },
+          complete: () => {
+          }
+        })
+      }
+    }
+    
+
+  }
+
+
+  saveRemark() {
+    let _REMARK_: RemarkModel = new RemarkModel();
+    _REMARK_.APPLICANT_ID = this.APPLICANT_ID;
+    _REMARK_.REMARK_DATE = new Date().toString();
+    _REMARK_.USER_ID = Number(sessionStorage.getItem('USER_ID'));
+    _REMARK_.REMARK = this.REMARK;
+
+    this.api.getUserRole(Number(sessionStorage.getItem('ROLE_ID'))).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          _REMARK_.ROLE = res['data'][0]['NAME']
+          this.api.getUser({ user_id: _REMARK_.USER_ID }).subscribe({
+            next: (result) => {
+              if (result['code'] == 200 && result['data'].length > 0) {
+                _REMARK_.USER_NAME = result['data'][0]['NAME']
+                this.createRemark(_REMARK_);
+              }
+            }
+          })
+
+        }
+      }
+    })
+
+  }
+
+  createRemark(data: RemarkModel) {
+    this.api.createRemark(data).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+
+        }
+      }
+    })
   }
 
 

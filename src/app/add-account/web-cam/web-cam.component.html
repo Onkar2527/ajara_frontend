@@ -181,6 +181,16 @@
 
     </nz-table>
 
+
+    <nz-form-item nz-col nzSpan="24" *ngIf="show_remark">
+        <nz-form-label nzRequired [nzNoColon]="true">Remark</nz-form-label>
+        <nz-form-control>
+            <div nz-row>
+                <textarea rows="2" nz-input [(ngModel)]="REMARK"></textarea>
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+
 </ng-template>
 
 <ng-template #DocumentFooter>
@@ -257,10 +267,10 @@
 </ng-template>
 
 <ng-template #SendToRefillFooter>
-    <div style="float: right" *ngIf="refillVisisble">
+    <div style="float: right">
         <button nz-button nzType="primary" (click)="SendToRefill()" style="margin-right: 10px;">
             <span>
-                sendToRefill
+                Send to Refill
             </span>
         </button>
 

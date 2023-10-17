@@ -21,14 +21,19 @@ export class PersonalComponent implements OnInit {
     { field: 'PRIMARY_APPLICANT_FIRST_NAME', message: 'Applicant 1 First Name' },
     { field: 'PRIMARY_APPLICANT_MIDDLE_NAME', message: 'Applicant 1 Middle Name' },
     { field: 'PRIMARY_APPLICANT_LAST_NAME', message: 'Applicant 1 Last Name' },
-    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Customer Type' }
+    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Customer Type' },
+
+    { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
+    { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' }
   ]
 
   mendetory_applicant_2 = [
     { field: 'APPLICANT2_FIRST_NAME', message: 'Applicant 2 First Name' },
     { field: 'APPLICANT2_MIDDLE_NAME', message: 'Applicant 2 Middle Name' },
     { field: 'APPLICANT2_LAST_NAME', message: 'Applicant 2 Last Name' },
-    { field: 'CUSTOMER_TYPE_2', message: 'Applicant 2 Customer Type' }
+    { field: 'CUSTOMER_TYPE_2', message: 'Applicant 2 Customer Type' },
+    { field: 'DOB_2', message: 'Applicant 2 Date Of Birth' },
+    { field: 'MOBILE_2', message: 'Applicant 2 Mobile Number' }
   ]
 
 
@@ -684,6 +689,7 @@ export class PersonalComponent implements OnInit {
       if (!this.basicInfo[field.field as keyof BasicInfo]) {
         this.message.error(`${field.message} is Mandetory`, '');
         isOk = false;
+        personal.next({code:300})
       }
 
     }
@@ -693,6 +699,7 @@ export class PersonalComponent implements OnInit {
         if (!this.basicInfo[field.field as keyof BasicInfo]) {
           this.message.error(`${field.message} is Mandetory`, '');
           isOk = false;
+          personal.next({code:300})
         }
       }
     }

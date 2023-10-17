@@ -88,7 +88,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp.REMARK) {
-      this.message.error("Remark in mendetory field", '');
+      this.message.error("Remark is mendetory field", '');
       isOk = false;
     }
 
@@ -152,7 +152,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp.REMARK) {
-      this.message.error("Remark in mendetory field", '');
+      this.message.error("Remark is mendetory field", '');
       isOk = false;
     }
 
@@ -262,6 +262,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   sendToRefill(index: number, remark: string, user: string) {
     this.Tabs[index].SEND_TO_REFILL_COUNT++;
     this.Tabs[index].SEND_TO_REFILL = true;
+    this.Tabs[index].REFILL_BY = Number(sessionStorage.getItem('ROLE_ID'));
 
     if (user == 'C') {
       this.Tabs[index].IS_CHECKED = false;
@@ -691,7 +692,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp.REMARK) {
-      this.message.error("Remark in mendetory field", '');
+      this.message.error("Remark is mendetory field", '');
       isOk = false;
     }
 

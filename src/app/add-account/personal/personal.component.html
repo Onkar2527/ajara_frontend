@@ -137,6 +137,25 @@
                                         </span>
                                     </div>
 
+                                    <nz-form-item nz-col nzSpan="24" style="margin-bottom:10px;">
+
+                                        <nz-form-label [nzNoColon]="true">Did applicant submitted aadhaar card voluntarily for verfication?</nz-form-label>
+
+                                        <nz-form-control>
+
+                                            <nz-radio-group [(ngModel)]="basicInfo.OTP_AUTH_1">
+
+                                                <label nz-radio [nzValue]="'C'">Not Applicable</label>
+                                                <label nz-radio [nzValue]="'A'">Yes</label>
+                                                <label nz-radio [nzValue]="'B'">No</label>
+
+
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+
+
                                 </div>
 
                             </div>
@@ -462,7 +481,7 @@
 
             <div nz-col nzSpan="11">
                 <div class="box" *ngIf="aadhaarVerify2.showAadhaar">
-                    <nz-divider nzText="KYC Details Applicant 2"></nz-divider>
+                    <nz-divider nzText="Aadhaar Details"></nz-divider>
                     <div class="content-box ">
                         <div nz-row>
 
@@ -547,6 +566,23 @@
                                             {{false ?'Verified':'Not Verified'}}
                                         </span>
                                     </div>
+
+                                    <nz-form-item nz-col nzSpan="24" style="margin-bottom:10px;">
+
+                                        <nz-form-label [nzNoColon]="true">Did applicant 2 submitted aadhaar card voluntarily for verfication?</nz-form-label>
+
+                                        <nz-form-control>
+
+                                            <nz-radio-group [(ngModel)]="basicInfo.OTP_AUTH_2">
+
+                                                <label nz-radio [nzValue]="'C'">Not Applicable</label>
+                                                <label nz-radio [nzValue]="'A'">Yes</label>
+                                                <label nz-radio [nzValue]="'B'">No</label>
+
+
+                                            </nz-radio-group>
+                                        </nz-form-control>
+                                    </nz-form-item>
 
                                 </div>
 
@@ -645,7 +681,7 @@
                             </nz-form-control>
                         </nz-form-item>
 
-                        
+
                         <nz-form-item nz-col nzSpan="24">
 
                             <nz-form-label [nzNoColon]="true">Gender</nz-form-label>
