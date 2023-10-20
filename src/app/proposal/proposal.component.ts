@@ -135,7 +135,7 @@ export class ProposalComponent implements OnInit {
       this.footer = this.noActionFooter;
     }
 
-    if (role_id == 2 && data.TRACK_ID == 2) {
+    else if (role_id == 2 && data.TRACK_ID == 2) {
       this.header = this.TabHeaderTemplate;
       this.footer = this.TabFooterTplChecker;
     }
@@ -145,6 +145,12 @@ export class ProposalComponent implements OnInit {
       this.footer = this.TabFooterTplVerifier;
       this.title = 'Verify All Information';
     }
+
+    else {
+      this.footer = this.noActionFooter;
+    }
+
+
 
 
     this.drawerDraftData = data;
@@ -232,7 +238,7 @@ export class ProposalComponent implements OnInit {
           this.loadSaveButton = false;
           this.drawerReferance.close();
         }
-        else if(res.code == 300){
+        else if (res.code == 300) {
           this.loadSaveButton = false;
         }
       }, error: () => {
