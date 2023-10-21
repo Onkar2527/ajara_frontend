@@ -1,0 +1,88 @@
+<div nz-row>
+
+  <nz-form-item nz-col nzSpan="11">
+      <nz-form-label nzNoColon nzRequired>Dropdown Name
+      </nz-form-label>
+      <nz-form-control>
+          <input nz-input name="NAME" type="text" [(ngModel)]="DROPDOWN_OPTIONS.NAME" />
+      </nz-form-control>
+  </nz-form-item>
+
+  <div nz-col nzSpan="2"></div>
+
+  <nz-form-item nz-col nzSpan="11">
+      <nz-form-label nzNoColon nzRequired>Dropdown Table
+      </nz-form-label>
+      <nz-form-control>
+          <input nz-input name="TABLE_NAME" type="text" [disabled]="!IS_NEW" [(ngModel)]="DROPDOWN_OPTIONS.TABLE_NAME" />
+      </nz-form-control>
+  </nz-form-item>
+
+</div>
+
+<div nz-row style="margin-top:20px;" *ngIf="!IS_NEW">
+  <div nz-col nzSpan="24" style="text-align:right">
+      <button nz-button nzType="primary" (click)="addNewField()" [disabled]="disableNewButton">Add New Field</button>
+  </div>
+</div>
+
+
+<div nz-row style="margin-top:20px;" *ngIf="!IS_NEW">
+  <div nz-col nzSpan="24">
+      <nz-table #fieldsTable [nzData]="DROPDOWN_OPTIONS.FIELDS" [nzBordered]="true"
+          [nzLoading]="TABLE_LOADING" style="width:100%;">
+          <thead>
+              <tr>
+                  <th>Sr. No.</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <!-- <th>Table</th> -->
+                  <th>Action</th>
+              </tr>
+          </thead>
+
+          <tbody>
+              <tr *ngFor="let data of fieldsTable.data;index as i">
+                  <ng-container *ngIf="!editCache[data.ID.toString()].edit; else editTemplate">
+                      <td>{{i+1}}</td>
+                      <td>{{data.FIELD_NAME}}</td>
+                      <td>{{data.FIELD_TYPE}}</td>
+                      <!-- <td>{{data.TABLE_NAME}}</td> -->
+                      <td>
+                          <a (click)="editRow(data)">Edit</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a nz-popconfirm nzPopconfirmTitle="Do you want to delete this field?"
+                              nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(data)"><i nz-icon nzType="delete"
+                                  nzTheme="twotone" [nzTwotoneColor]="'#ff4d4f'"></i></a>
+                      </td>
+                  </ng-container>
+
+                  <ng-template #editTemplate>
+                      <td>{{i+1}}</td>
+                      <td><input type="text" nz-input [(ngModel)]="editCache[data.ID.toString()].data.FIELD_NAME" /></td>
+                      <td><input type="text" nz-input [(ngModel)]="editCache[data.ID.toString()].data.FIELD_TYPE" /></td>
+                      <!-- <td><input type="text" nz-input [(ngModel)]="editCache[data.ID.toString()].data.TABLE_NAME" /></td> -->
+                      <td style="width:fit-content">
+                          <a (click)="saveEdit(data)" class="save">Save</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?"
+                              (nzOnConfirm)="cancelEdit(data)">Cancel</a>
+                      </td>
+                  </ng-template>
+
+              </tr>
+          </tbody>
+
+      </nz-table>
+  </div>
+</div>
+
+<!-- <div class="footer">
+
+  <button type="button" nz-button (click)="close()" class="ant-btn"
+      style="margin-right: 8px;"><span>close
+      </span></button>
+
+  <button type="button" class="ant-btn ant-btn-primary" nz-button [nzLoading]="saveButtonLoading"
+      (click)="save()"><span>save</span></button>
+</div> -->

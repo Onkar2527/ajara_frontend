@@ -68,6 +68,8 @@ import { VerifierVerificationComponent } from './verification/verifier-verificat
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RemarkCompComponent } from './add-account/remark-comp/remark-comp.component';
 import { MastersComponent } from './admin-panel/masters/masters.component';
+import { DropdownEditComponent } from './admin-panel/masters/dropdown-edit/dropdown-edit.component';
+import { DropdownItemsEditComponent } from './admin-panel/masters/dropdown-items-edit/dropdown-items-edit.component';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -97,7 +99,9 @@ registerLocaleData(en);
     CheckerVerificationComponent,
     VerifierVerificationComponent,
     RemarkCompComponent,
-    MastersComponent
+    MastersComponent,
+    DropdownEditComponent,
+    DropdownItemsEditComponent
 
   ],
   imports: [

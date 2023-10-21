@@ -1,1 +1,94 @@
-<p>masters works!</p>
+<div nz-row style="text-align: right;">
+
+  <div nz-col nzSpan="13"></div>
+
+  <nz-form-item nz-col nzSpan="6">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" name="search" nz-input [(ngModel)]="SEARCH_FIELD" placeholder="Search any Master" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="search()"><i nz-icon nzType="search"></i></button>
+    </ng-template>
+  </nz-form-item>
+
+  <div nz-col nzSpan="1"></div>
+
+  <nz-form-item nz-col nzSpan="4">
+    <button nz-button nzType="primary" (click)="addNewDropdown()"><i nz-icon nzType="plus"></i>Add New
+      Dropdown</button>
+  </nz-form-item>
+
+</div>
+
+
+<div nz-row style="margin-top:20px;">
+  <div nz-col nzSpan="24">
+    <nz-table #dropdownTable [nzData]="DROPDOWN_TABLE.DROPDOWN_LIST" [nzFrontPagination]="false"
+      [nzTotal]="DROPDOWN_TABLE.TOTAL_RECORDS" [nzBordered]="true" [nzLoading]="DROPDOWN_TABLE.LOADING"
+      [nzShowSizeChanger]="true" [(nzPageIndex)]="DROPDOWN_TABLE.PAGE_INDEX" [(nzPageSize)]="DROPDOWN_TABLE.PAGE_SIZE"
+      style="width:100%;" (nzPageSizeChange)="getAllDropdownData()" (nzPageIndexChange)="getAllDropdownData()">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Name</th>
+          <th>Edit Dropdown Items</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of dropdownTable.data;index as i">
+
+          <td>{{i+1}}</td>
+          <td>{{data.NAME}}</td>
+
+          <td><a (click)="editItems(data)">Edit Dropdown Items</a></td>
+
+          <td>
+            <a (click)="editDropdown(data)">Edit</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-popconfirm nzPopconfirmTitle="Do you want to delete this dropdown?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="deleteDropdown(data)">
+              <i nz-icon nzType="delete" nzTheme="twotone" [nzTwotoneColor]="'#ff4d4f'"></i></a>
+          </td>
+
+        </tr>
+      </tbody>
+
+    </nz-table>
+  </div>
+</div>
+
+<!-- <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1050" [nzVisible]="editDrawer.VISIBILITY"
+  [nzTitle]="editDrawer.TITLE" (nzOnClose)="closeEditDrawer()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+    <app-dropdown-edit (closeDrawer)="closeEditDrawer()"></app-dropdown-edit>
+  </ng-container>
+</nz-drawer> -->
+
+
+<!-- <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzClosable]="true" [nzMask]="true" [nzMaskClosable]="false" [nzWidth]="1050" [nzVisible]="editItemDrawer.VISIBILITY"
+  [nzTitle]="editItemDrawer.TITLE" (nzOnClose)="closeEditItemDrawer()" (nzKeyboard)="true">
+  <ng-container *nzDrawerContent>
+    <app-dropdown-items-edit (closeDrawer)="closeEditItemDrawer()"></app-dropdown-items-edit>
+  </ng-container>
+
+</nz-drawer> -->
+
+<ng-template #editFields>
+  <app-dropdown-edit (closeDrawer)="closeEditDrawer()"></app-dropdown-edit>
+</ng-template>
+
+
+<ng-template #editItem>
+  <app-dropdown-items-edit></app-dropdown-items-edit>
+</ng-template>
+
+<ng-template #editFieldFooter>
+  <div style="float: right">
+    <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+    <button nz-button nzType="primary" (click)="saveEditField()">Save</button>
+  </div>
+</ng-template>

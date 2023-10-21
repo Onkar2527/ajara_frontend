@@ -1,0 +1,54 @@
+<div nz-row>
+  <div nz-col nzSpan="24" style="text-align:right">
+      <button nz-button nzType="primary" (click)="addNewItem()" [disabled]="disableNewButton">Add New Item</button>
+  </div>
+</div>
+
+<div nz-row style="margin-top:20px;">
+  <div nz-col nzSpan="24">
+      <nz-table #fieldsTable [nzData]="DROPDOWN_ITEM_DATA.DROPDOWN_DATA" [nzBordered]="true"
+          [nzLoading]="TABLE_LOADING" style="width:100%;">
+          <thead>
+              <tr>
+                  <th>Sr. No.</th>
+                  <th [nzWidth]="'100px'">Action</th>
+                  <th *ngFor="let field of DROPDOWN_ITEM_DATA.FIELDS">{{field.FIELD_NAME}}</th>
+              </tr>
+          </thead>
+
+          <tbody>
+              <tr *ngFor="let data of fieldsTable.data;index as i">
+
+                  <ng-container *ngIf="!editCache[data.ID.toString()].edit; else editTemplate">
+                      <td>{{i+1}}</td>
+                      <td>
+                          <a (click)="editRow(data)">Edit</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a nz-popconfirm nzPopconfirmTitle="Do you want to delete this field?"
+                              nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(data)"><i nz-icon nzType="delete"
+                                  nzTheme="twotone" [nzTwotoneColor]="'#ff4d4f'"></i></a>
+                      </td>
+                      <td *ngFor="let field of DROPDOWN_ITEM_DATA.FIELDS">{{data[field.FIELD_NAME]}}</td>
+                  </ng-container>
+
+                  <ng-template #editTemplate>
+                      <td>{{i+1}}</td>
+                      <td>
+                          <a (click)="saveEdit(data)" class="save">Save</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a nz-popconfirm nzPopconfirmTitle="Sure to cancel?"
+                              (nzOnConfirm)="cancelEdit(data)">Cancel</a>
+                      </td>
+                      <td *ngFor="let field of DROPDOWN_ITEM_DATA.FIELDS"><input type="text" nz-input
+                              [(ngModel)]="editCache[data.ID.toString()].data[field.FIELD_NAME]" /></td>
+                  </ng-template>
+
+
+              </tr>
+
+
+          </tbody>
+
+      </nz-table>
+  </div>
+</div>
