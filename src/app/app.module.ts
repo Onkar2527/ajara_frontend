@@ -62,6 +62,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
@@ -145,7 +146,8 @@ registerLocaleData(en);
     NzAvatarModule,
     NzPopoverModule,
     NzToolTipModule,
-    NzModalModule
+    NzModalModule,
+    NzCollapseModule
   ],
   providers: [
 
