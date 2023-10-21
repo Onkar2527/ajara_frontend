@@ -1,284 +1,293 @@
 <div nz-row *ngIf="ROLE_ID == 1">
-    <div nz-col nzSpan="16"></div>
-    <div nz-col nzSpan="8" style="text-align:right;">
+  <div nz-col nzSpan="16"></div>
+  <div nz-col nzSpan="8" style="text-align:right;">
 
-        <button nz-button nzType="primary" nzJustify="end" (click)="openBasicDrawer()">
-            <i nz-icon nzType="plus"></i>New Proposal
-        </button>
-    </div>
+    <button nz-button nzType="primary" nzJustify="end" (click)="openBasicDrawer()">
+      <i nz-icon nzType="plus"></i>New Proposal
+    </button>
+  </div>
 </div>
 
 <nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-    (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }"
-    style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false"
-    [nzLoading]="TableLoading">
-    <thead nzSingleSort>
-        <tr>
-            <th [nzWidth]="'120px'" [nzAlign]="'center'">Information</th>
-            <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Documents</th>
-            <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
-            <th [nzWidth]="'100px'" [nzAlign]="'center'">ID</th>
-            <th [nzWidth]="'140px'" [nzAlign]="'center'">No of applicant</th>
-            <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
-            <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 Aadhaar</th>
-            <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 PAN</th>
-            <th [nzWidth]="'200px'" [nzAlign]="'center'">Status</th>
-            <th [nzWidth]="'200px'" [nzAlign]="'center'">Date of Application</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let proposal of table.data">
-            <td><a (click)="openTabsDrawer(proposal)"> <i nz-icon nzType="edit"></i></a></td>
-            <td><a (click)="openUploadDrawer(proposal)"> <i nz-icon nzType="file-add"></i></a></td>
-            <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
-            <td>{{proposal.ID}}</td>
-            <td>{{proposal.NO_OF_APPLICANT}}</td>
-            <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
-                {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
-                {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
-            </td>
-            <td>{{proposal.AADHAAR_NO_1}}</td>
-            <td>{{proposal.PAN_NUMBER}}</td>
-            <td>{{getStatusName(proposal.TRACK_ID)}}</td>
-            <td>{{proposal.APPLICATION_DATE | date:"dd/MM/yyyy"}}</td>
-        </tr>
-    </tbody>
+  (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }"
+  style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading">
+  <thead nzSingleSort>
+    <tr>
+      <th [nzWidth]="'120px'" [nzAlign]="'center'">Information</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Documents</th>
+      <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
+      <th [nzWidth]="'100px'" [nzAlign]="'center'">ID</th>
+      <th [nzWidth]="'140px'" [nzAlign]="'center'">No of applicant</th>
+      <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 Aadhaar</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 PAN</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Status</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Date of Application</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let proposal of table.data">
+      <td><a (click)="openTabsDrawer(proposal)"> <i nz-icon nzType="edit"></i></a></td>
+      <td><a (click)="openUploadDrawer(proposal)"> <i nz-icon nzType="file-add"></i></a></td>
+      <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
+      <td>{{proposal.ID}}</td>
+      <td>{{proposal.NO_OF_APPLICANT}}</td>
+      <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
+        {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
+        {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
+      </td>
+      <td>{{proposal.AADHAAR_NO_1}}</td>
+      <td>{{proposal.PAN_NUMBER}}</td>
+      <td>
+        <a *ngIf="ROLE_ID == 4" (click)="editStatusFn(proposal)">
+
+              <span nz-icon nzType="edit"></span>
+        </a>
+        {{getStatusName(proposal.TRACK_ID)}}
+      </td>
+
+      <td>{{proposal.APPLICATION_DATE | date:"dd/MM/yyyy"}}</td>
+    </tr>
+  </tbody>
 </nz-table>
+
+<ng-template #editStatus>
+  <app-edit-status></app-edit-status>
+</ng-template>
 
 
 <ng-template #drawerTemplate let-drawerRef="drawerRef">
-    <app-personal></app-personal>
+  <app-personal></app-personal>
 </ng-template>
 
 <ng-template #footerTpl>
-    <div style="float: right">
-        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
-        <button nz-button nzType="primary" (click)="createProposal()" >Submit</button>
-    </div>
+  <div style="float: right">
+    <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+    <button nz-button nzType="primary" (click)="createProposal()">Submit</button>
+  </div>
 </ng-template>
 
 
 <ng-template #addAccountDrawerTemp let-drawerRef="drawerRef">
-    <app-add-account (ChangeIndex)="changeIndex($event)" (CloseDrawer)="closeDrawer()"
-        [BasicInfo]="drawerDraftData"></app-add-account>
+  <app-add-account (ChangeIndex)="changeIndex($event)" (CloseDrawer)="closeDrawer()"
+    [BasicInfo]="drawerDraftData"></app-add-account>
 </ng-template>
 
 <ng-template #footerTpl2>
-    <div style="float: right">
-        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
-            <span *ngIf="selectedIndex != 0">
-                Previous
-            </span>
-        </button>
+  <div style="float: right">
+    <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+      <span *ngIf="selectedIndex != 0">
+        Previous
+      </span>
+    </button>
 
 
-        <button nz-button nzType="primary" (click)="saveANext()">
+    <button nz-button nzType="primary" (click)="saveANext()">
 
-            <span *ngIf="selectedIndex != 5">
-                Save and Next
-            </span>
+      <span *ngIf="selectedIndex != 5">
+        Save and Next
+      </span>
 
-            <span *ngIf="selectedIndex == 5">
-                Send to Verify
-            </span>
+      <span *ngIf="selectedIndex == 5">
+        Send to Verify
+      </span>
 
-        </button>
+    </button>
 
-    </div>
+  </div>
 </ng-template>
 
 <ng-template #noActionTpl>
-    <div style="float: right">
-        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
-            <span *ngIf="selectedIndex != 0">
-                Previous
-            </span>
-        </button>
+  <div style="float: right">
+    <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+      <span *ngIf="selectedIndex != 0">
+        Previous
+      </span>
+    </button>
 
 
-        <button nz-button nzType="primary" (click)="next()">
+    <button nz-button nzType="primary" (click)="next()">
 
-            <span *ngIf="selectedIndex != 5">
-                Next
-            </span>
+      <span *ngIf="selectedIndex != 5">
+        Next
+      </span>
 
-            <span *ngIf="selectedIndex == 5">
-                Close
-            </span>
+      <span *ngIf="selectedIndex == 5">
+        Close
+      </span>
 
-        </button>
-    </div>
+    </button>
+  </div>
 </ng-template>
 
 <ng-template #TabFooterTplChecker>
 
-    <div style="float: right">
-        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
-            <span *ngIf="selectedIndex != 0">
-                Previous
-            </span>
-        </button>
+  <div style="float: right">
+    <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+      <span *ngIf="selectedIndex != 0">
+        Previous
+      </span>
+    </button>
 
-        <span *ngIf="selectedIndex < 5">
-            <button nz-button nzType="primary" (click)="sendTorefill('C')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
-                <span>
-                    Send to refill and Next
-                </span>
-            </button>
-
-            <button nz-button nzType="primary" (click)="Accept('C')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
-                <span>
-                    Accept and Next
-                </span>
-            </button>
+    <span *ngIf="selectedIndex < 5">
+      <button nz-button nzType="primary" (click)="sendTorefill('C')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
+        <span>
+          Send to refill and Next
         </span>
+      </button>
 
-        <span *ngIf="selectedIndex == 5">
-            <button nz-button nzType="primary" (click)="completeChecker()">
-                {{verifyButtonTitle}}
-            </button>
+      <button nz-button nzType="primary" (click)="Accept('C')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
+        <span>
+          Accept and Next
         </span>
+      </button>
+    </span>
 
-    </div>
+    <span *ngIf="selectedIndex == 5">
+      <button nz-button nzType="primary" (click)="completeChecker()">
+        {{verifyButtonTitle}}
+      </button>
+    </span>
+
+  </div>
 
 </ng-template>
 
 
 <ng-template #tabHeaderTamplete>
 
-    <div nz-row *ngIf="selectedIndex != 5">
+  <div nz-row *ngIf="selectedIndex != 5">
 
-        <div nz-col nzSpan="10">
-            Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
-                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
-                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
-            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
-            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
-        </div>
-
-        <div nz-col nzSpan="1"></div>
-
-        <div nz-col nzSpan="13">
-            <span>
-                <textarea nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK" placeholder="Remark"
-                    nzAutosize></textarea>
-            </span>
-        </div>
-
+    <div nz-col nzSpan="10">
+      Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+        (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+        [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+      <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+      <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
     </div>
+
+    <div nz-col nzSpan="1"></div>
+
+    <div nz-col nzSpan="13">
+      <span>
+        <textarea nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK" placeholder="Remark" nzAutosize></textarea>
+      </span>
+    </div>
+
+  </div>
 
 </ng-template>
 
 <ng-template #tabHeaderVerifierTamplete>
 
-    <div nz-row *ngIf="selectedIndex != 5">
+  <div nz-row *ngIf="selectedIndex != 5">
 
-        <div nz-col nzSpan="10">
-            Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
-                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
-                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
-            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
-            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
-        </div>
-
-        <div nz-col nzSpan="1"></div>
-
-        <div nz-col nzSpan="13">
-            <span>
-                <textarea nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK" placeholder="Remark"
-                    nzAutosize></textarea>
-            </span>
-        </div>
-
+    <div nz-col nzSpan="10">
+      Send to refill<nz-switch [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+        (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+        [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+      <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+      <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
     </div>
+
+    <div nz-col nzSpan="1"></div>
+
+    <div nz-col nzSpan="13">
+      <span>
+        <textarea nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK" placeholder="Remark" nzAutosize></textarea>
+      </span>
+    </div>
+
+  </div>
 
 </ng-template>
 
 <ng-template #TabFooterTplVerifier>
 
-    <div style="float: right">
-        <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
-            <span *ngIf="selectedIndex != 0">
-                Previous
-            </span>
-        </button>
+  <div style="float: right">
+    <button nz-button nzType="default" (click)="previous()" style="margin-right: 10px;">
+      <span *ngIf="selectedIndex != 0">
+        Previous
+      </span>
+    </button>
 
-        <span *ngIf="selectedIndex < 5">
-            <button nz-button nzType="primary" (click)="sendTorefill('V')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
-                <span>
-                    Send to refill and Next
-                </span>
-            </button>
-
-            <button nz-button nzType="primary" (click)="Accept('V')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
-                <span>
-                    Accept and Next
-                </span>
-            </button>
+    <span *ngIf="selectedIndex < 5">
+      <button nz-button nzType="primary" (click)="sendTorefill('V')" *ngIf="Tabs[selectedIndex].SEND_TO_REFILL">
+        <span>
+          Send to refill and Next
         </span>
+      </button>
 
-        <span *ngIf="selectedIndex == 5">
-            <button nz-button nzType="primary" (click)="completeVerifier()">
-                {{verifyButtonTitle}}
-            </button>
+      <button nz-button nzType="primary" (click)="Accept('V')" *ngIf="!Tabs[selectedIndex].SEND_TO_REFILL">
+        <span>
+          Accept and Next
         </span>
+      </button>
+    </span>
 
-    </div>
+    <span *ngIf="selectedIndex == 5">
+      <button nz-button nzType="primary" (click)="completeVerifier()">
+        {{verifyButtonTitle}}
+      </button>
+    </span>
+
+  </div>
 
 </ng-template>
 
 
 <ng-template #tabHeaderMakerTamplete>
 
-    <div nz-row *ngIf="Tabs[selectedIndex].SEND_TO_REFILL && Tabs[selectedIndex].SEND_TO_REFILL_COUNT > 0 && selectedIndex != 5">
+  <div nz-row
+    *ngIf="Tabs[selectedIndex].SEND_TO_REFILL && Tabs[selectedIndex].SEND_TO_REFILL_COUNT > 0 && selectedIndex != 5">
 
-        <div nz-col nzSpan="10">
-            Send to refill<nz-switch [disabled]="true" [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
-                (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
-                [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
-            <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
-            <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
-        </div>
-
-        <div nz-col nzSpan="1"></div>
-
-        <div nz-col nzSpan="13">
-            <span *ngIf="Tabs[selectedIndex].REFILL_BY == 3">
-                <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK"
-                    placeholder="Remark" nzAutosize></textarea>
-            </span>
-
-            <span *ngIf="Tabs[selectedIndex].REFILL_BY == 2">
-                <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK"
-                    placeholder="Remark" nzAutosize></textarea>
-            </span>
-        </div>
-
+    <div nz-col nzSpan="10">
+      Send to refill<nz-switch [disabled]="true" [(ngModel)]="Tabs[selectedIndex].SEND_TO_REFILL"
+        (ngModelChange)="changeTabStatus($event)" [nzCheckedChildren]="checkedTemplate"
+        [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+      <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
+      <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
     </div>
+
+    <div nz-col nzSpan="1"></div>
+
+    <div nz-col nzSpan="13">
+      <span *ngIf="Tabs[selectedIndex].REFILL_BY == 3">
+        <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].VERIFIER_REMARK" placeholder="Remark"
+          nzAutosize></textarea>
+      </span>
+
+      <span *ngIf="Tabs[selectedIndex].REFILL_BY == 2">
+        <textarea [disabled]="true" nz-input [(ngModel)]="Tabs[selectedIndex].CHECKER_REMARK" placeholder="Remark"
+          nzAutosize></textarea>
+      </span>
+    </div>
+
+  </div>
 
 </ng-template>
 
 
 
 <ng-template #formDrawerTemp let-drawerRef="drawerRef">
-    <app-form [APPLICANT_ID]="APPLICANT_ID" style="width:100% !important"
-        (pdfButtonLoading)="pdfLoading($event)"></app-form>
+  <app-form [APPLICANT_ID]="APPLICANT_ID" style="width:100% !important"
+    (pdfButtonLoading)="pdfLoading($event)"></app-form>
 </ng-template>
 
 <ng-template #footerTpl3>
-    <div style="float: right">
-        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
-        <button nz-button nzType="primary" (click)="downloadPDF()" [nzLoading]="loadPdfButton">Download PDF</button>
-    </div>
+  <div style="float: right">
+    <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+    <button nz-button nzType="primary" (click)="downloadPDF()" [nzLoading]="loadPdfButton">Download PDF</button>
+  </div>
 </ng-template>
 
 <ng-template #docDrawerTemp let-drawerRef="drawerRef">
-    <app-web-cam [APPLICANT_ID]="APPLICANT_ID" [basicInfo]="basicInfo"></app-web-cam>
+  <app-web-cam [APPLICANT_ID]="APPLICANT_ID" [basicInfo]="basicInfo"></app-web-cam>
 </ng-template>
 
 <ng-template #footerTpl4>
-    <div style="float: right">
-        <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
-        <button nz-button nzType="primary" (click)="saveUploadDrawer()">Save</button>
-    </div>
+  <div style="float: right">
+    <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
+    <button nz-button nzType="primary" (click)="saveUploadDrawer()">Save</button>
+  </div>
 </ng-template>

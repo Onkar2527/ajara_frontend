@@ -1,0 +1,13 @@
+<div nz-row>
+
+  <nz-form-item nz-col nzSpan="24">
+    <nz-form-label nzRequired [nzNoColon]="true">Select Status</nz-form-label>
+    <nz-form-control>
+      <nz-select nzShowSearch [(ngModel)]="basicInfo.TRACK_ID" style="width: 100%;">
+        <nz-option *ngFor="let option of STATUS_LIST" [nzValue]="option.ID" [nzLabel]="option.NAME">
+        </nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+</div>

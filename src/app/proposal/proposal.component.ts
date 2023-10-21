@@ -9,6 +9,8 @@ import { ApiService } from '../service/api.service';
 import { ExtraInfo } from '../models/extra-info';
 import { Documents } from '../models/documents';
 import { SessionUserDetails } from '../common_modules/session_storage/SessionUserDetails';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { EditStatusComponent } from '../admin-panel/proposal-master/edit-status/edit-status.component';
 
 @Component({
   selector: 'app-proposal',
@@ -58,9 +60,11 @@ export class ProposalComponent implements OnInit {
 
   @ViewChild('TabFooterTplVerifier', { static: false }) TabFooterTplVerifier?: TemplateRef<{}>;
 
-  constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService) { }
+  constructor(private api: ApiService, private message: NzNotificationService, private drawerService: NzDrawerService, private modal: NzModalService) { }
 
   ROLE_ID!: number;
+
+  popover_visible: boolean = false;
 
   ngOnInit(): void {
     this.getDrafts();
@@ -135,7 +139,7 @@ export class ProposalComponent implements OnInit {
       this.footer = this.noActionFooter;
     }
 
-    if (role_id == 2 && data.TRACK_ID == 2) {
+    else if (role_id == 2 && data.TRACK_ID == 2) {
       this.header = this.TabHeaderTemplate;
       this.footer = this.TabFooterTplChecker;
     }
@@ -145,6 +149,12 @@ export class ProposalComponent implements OnInit {
       this.footer = this.TabFooterTplVerifier;
       this.title = 'Verify All Information';
     }
+
+    else {
+      this.footer = this.noActionFooter;
+    }
+
+
 
 
     this.drawerDraftData = data;
@@ -232,7 +242,7 @@ export class ProposalComponent implements OnInit {
           this.loadSaveButton = false;
           this.drawerReferance.close();
         }
-        else if(res.code == 300){
+        else if (res.code == 300) {
           this.loadSaveButton = false;
         }
       }, error: () => {
@@ -494,6 +504,37 @@ export class ProposalComponent implements OnInit {
       }
 
     return ok
+  }
+
+  @ViewChild('editStatus', { static: false }) editStatus?: TemplateRef<{
+    $implicit: {};
+    drawerRef: NzModalRef<any>;
+  }>;
+
+  @ViewChild(EditStatusComponent) editStatusComp!: EditStatusComponent;
+
+  editStatusFn(proposal: BasicInfo) {
+    this.STATUS_LIST
+    const modalRef = this.modal.create({
+      nzTitle: 'Edit Status',
+      nzContent: this.editStatus,
+      // nzFooter: tplFooter,
+      nzMaskClosable: true,
+      nzClosable: true,
+      nzOnOk: () => {
+        this.editStatusComp.save();
+      }
+    });
+
+    modalRef.afterOpen.subscribe(() => {
+      this.editStatusComp.STATUS_LIST = this.STATUS_LIST;
+      Object.assign(this.editStatusComp.basicInfo, proposal);
+    })
+
+    modalRef.afterClose.subscribe(() => {
+      this.getDrafts();
+    })
+
   }
 
 

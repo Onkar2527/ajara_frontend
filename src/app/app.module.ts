@@ -61,12 +61,17 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
 import { VerifierVerificationComponent } from './verification/verifier-verification/verifier-verification.component';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { RemarkCompComponent } from './add-account/remark-comp/remark-comp.component';
+import { MastersComponent } from './admin-panel/masters/masters.component';
+import { DropdownEditComponent } from './admin-panel/masters/dropdown-edit/dropdown-edit.component';
+import { DropdownItemsEditComponent } from './admin-panel/masters/dropdown-items-edit/dropdown-items-edit.component';
+import { EditStatusComponent } from './admin-panel/proposal-master/edit-status/edit-status.component';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -95,8 +100,11 @@ registerLocaleData(en);
     MakerVerificationComponent,
     CheckerVerificationComponent,
     VerifierVerificationComponent,
-    RemarkCompComponent
-
+    RemarkCompComponent,
+    MastersComponent,
+    DropdownEditComponent,
+    DropdownItemsEditComponent,
+    EditStatusComponent
   ],
   imports: [
     //System Imports
@@ -136,7 +144,8 @@ registerLocaleData(en);
     NzPopconfirmModule,
     NzAvatarModule,
     NzPopoverModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzModalModule
   ],
   providers: [
 
