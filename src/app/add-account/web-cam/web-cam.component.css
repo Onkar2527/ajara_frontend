@@ -1,5 +1,58 @@
 .cam-card {
-    width: 640px;
-    margin: auto;
-    border-radius: 2px;
+  max-width: 100%;
+  height: 500px;
+  margin: auto;
+  border-radius: 2px;
+  padding: 5px;
+
+  /* background-color: gray; */
+
+}
+
+.image-area {
+  /* background-color: aqua; */
+  display: flex;
+  align-items: baseline;
+  justify-content: baseline;
+  height: 500px;
+  overflow: auto;
+
+}
+
+.image-area-2 img{
+  cursor: grab;
+  height: auto;
+}
+
+.side-area {
+  /* background-color: blue; */
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+
+
+}
+
+.side-menu {
+  background-color: rgba(125, 125, 125, 0.5);
+  border-radius: 10px;
+  height: 300px;
+  width: 50px;
+  padding: 5px;
+  text-align: center;
+}
+
+.menu-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+}
+
+.icon-container-2 {
+  margin-top: 20px;
 }

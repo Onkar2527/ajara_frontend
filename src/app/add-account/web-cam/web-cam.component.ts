@@ -429,7 +429,7 @@ export class WebCamComponent implements OnInit {
         })
       }
     }
-    
+
 
   }
 
@@ -469,6 +469,87 @@ export class WebCamComponent implements OnInit {
       }
     })
   }
+
+
+  zoomIn() {
+    let img_ref: any = document.getElementById('img');
+
+    let currWidth = img_ref.clientWidth;
+
+    img_ref.style.width = (Number(currWidth) + 100) + "px";
+  }
+
+  zoomOut() {
+    let img_ref: any = document.getElementById('img');
+    let currWidth = img_ref.clientWidth;
+
+    // if (currWidth == 100) return false;
+    // else {
+    img_ref.style.width = (currWidth - 100) + "px";
+    //   return;
+    // }
+  }
+  rotateRight() {
+    let img_ref: any = document.getElementById('img');
+
+    const transform = img_ref.style.transform;
+
+    let rotation = 0;
+
+    if (transform) {
+      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg',''));
+
+      console.log(rotation);
+    }
+
+    if(rotation+90 > 360){
+      rotation = 0;
+    }
+
+    console.log(rotation);
+
+    img_ref.style.transform = `rotate(${rotation + 90}deg)`;
+  }
+
+  rotateLeft() {
+
+    let img_ref: any = document.getElementById('img');
+
+    const transform = img_ref.style.transform;
+
+    let rotation = 0;
+
+    if (transform) {
+      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg',''));
+
+      console.log(rotation);
+    }
+
+    if(rotation-90 < -360){
+      rotation = 0;
+    }
+
+    console.log(rotation);
+
+    img_ref.style.transform = `rotate(${rotation - 90}deg)`;
+
+  }
+
+  removeFilters() {
+    let img_ref: any = document.getElementById('img');
+    img_ref.style.transform = `rotate(0deg)`;
+    img_ref.style.width = img_ref.naturalWidth +'px';
+  }
+
+  download() {
+    let a = document.createElement("a");
+    a.href = this.FileSrc;
+    a.download = `${this.current_Doc.DOCUMENT_NAME} (${this.basicInfo.ID})`;
+    document.body.appendChild(a);;
+    a.click();
+  }
+
+
 
 
 }

@@ -846,7 +846,7 @@ export class FormComponent implements OnInit, AfterViewInit {
         }
       })
     }
-   
+
   }
 
 
@@ -964,7 +964,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     let a = document.createElement("a");
     a.href = finelPdf;
-    a.download = `${this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME} ${this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME} ${this.basicInfo.PRIMARY_APPLICANT_LAST_NAME} (${this.basicInfo.ID})`;
+    a.download = `${this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME} ${this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME} ${this.basicInfo.PRIMARY_APPLICANT_LAST_NAME} (${this.account_type[this.depositInfo.ACCOUNT_TYPE]}) (${this.basicInfo.ID})`;
     document.body.appendChild(a);;
     a.click();
 
