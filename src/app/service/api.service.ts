@@ -509,6 +509,10 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'aadhaar/create', data, this.optionMain);
   }
 
+  updateAadhaarData(data: Aadhaar_History) {
+    return this.httpClient.post<any>(this.baseUrl + 'aadhaar/update', data, this.optionMain);
+  }
+
   getAadhaarData(applicant_no: number, aadhaar_no: string) {
     let data = {
       APPLICANT_NO: applicant_no,

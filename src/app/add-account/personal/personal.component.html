@@ -210,7 +210,7 @@
                     </div>
                   </div>
                   <p>{{previewAdhaar1}}</p>
-                  <div nz-row *ngIf="aadhaarVerify.showAadhaar" class="success-tip">
+                  <div nz-row *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED" class="success-tip">
                     <div nz-col nzSpan="24">
                       Aadhaar verified successfully
                     </div>
@@ -343,7 +343,7 @@
 
         <!-- show aadhaar applicant 1  -->
         <div nz-col nzSpan="11">
-          <div class="box" *ngIf="aadhaarVerify.showAadhaar">
+          <div class="box" *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED">
             <nz-divider nzText="Aadhaar Details"></nz-divider>
             <div class="content-box ">
               <div nz-row>
@@ -394,8 +394,8 @@
                   <div nz-row>
 
                     <div nz-col nzSpan="24" style="margin-bottom:10px;">Aadhaar :
-                      <span [ngClass]="aadhaarVerify.showAadhaar ? 'verified' : 'not-verified'">
-                        {{aadhaarVerify.showAadhaar ?'Verified':'Not Verified'}}
+                      <span [ngClass]="aadhaarVerify.aadhar_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+                        {{aadhaarVerify.aadhar_history.IS_VERIFIED ?'Verified':'Not Verified'}}
                       </span>
                     </div>
 
@@ -622,7 +622,7 @@
                     </div>
                   </div>
                   <p>{{previewAdhaar2}}</p>
-                  <div nz-row *ngIf="aadhaarVerify2.showAadhaar" class="success-tip">
+                  <div nz-row *ngIf="aadhaarVerify2.aadhar_history.IS_VERIFIED" class="success-tip">
                     <div nz-col nzSpan="24">
                       Aadhaar verified successfully
                     </div>
@@ -761,7 +761,7 @@
         <!-- show aadhaar applicant 2  -->
 
         <div nz-col nzSpan="11">
-          <div class="box" *ngIf="aadhaarVerify2.showAadhaar">
+          <div class="box" *ngIf="aadhaarVerify2.aadhar_history.IS_VERIFIED">
             <nz-divider nzText="Aadhaar Details"></nz-divider>
             <div class="content-box ">
               <div nz-row>
@@ -815,8 +815,8 @@
                   <div nz-row>
 
                     <div nz-col nzSpan="24" style="margin-bottom:10px;">Aadhaar :
-                      <span [ngClass]="aadhaarVerify2.showAadhaar ? 'verified' : 'not-verified'">
-                        {{aadhaarVerify2.showAadhaar ?'Verified':'Not Verified'}}
+                      <span [ngClass]="aadhaarVerify2.aadhar_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+                        {{aadhaarVerify2.aadhar_history.IS_VERIFIED?'Verified':'Not Verified'}}
                       </span>
                     </div>
 
