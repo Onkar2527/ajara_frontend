@@ -23,7 +23,7 @@
 
 <ng-template #webCamDrawerTemp let-drawerRef="drawerRef">
 
-  <div class="cam-card" *ngIf="showCamera && !ImageData.IMAGE_DATA">
+  <div class="cam-card_2" *ngIf="showCamera && !ImageData.IMAGE_DATA">
 
     <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
       [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="cam-card" *ngIf="showImage && ImageData.IMAGE_DATA">
+  <div class="cam-card_2" *ngIf="showImage && ImageData.IMAGE_DATA">
     <img [src]="ImageData.IMAGE_DATA" />
 
 

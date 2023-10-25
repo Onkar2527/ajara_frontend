@@ -9,6 +9,12 @@
 
 }
 
+.cam-card_2{
+  width: 640px;
+  margin: auto;
+  border-radius: 2px;
+}
+
 .image-area {
   /* background-color: aqua; */
   display: flex;

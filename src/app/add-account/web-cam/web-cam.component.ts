@@ -173,7 +173,9 @@ export class WebCamComponent implements OnInit {
 
 
   save() {
-    this.ImageData.FILE_TYPE = 'image/jpeg'
+    this.ImageData.FILE_TYPE = 'image/jpeg';
+    this.ImageData.IS_APPROVED_CHECKER = false;
+    this.ImageData.IS_APPROVED_VERIFIER = false;
     this.api.updateDocument(this.ImageData).subscribe({
       next: (res) => {
         if (res['code'] == 200) {
@@ -322,6 +324,8 @@ export class WebCamComponent implements OnInit {
       console.log(reader.result);
 
       data.IMAGE_DATA = reader.result;
+      data.IS_APPROVED_CHECKER = false;
+      data.IS_APPROVED_VERIFIER = false;
 
       this.api.updateDocument(data).subscribe({
         next: (res) => {
