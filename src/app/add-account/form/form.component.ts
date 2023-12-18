@@ -255,7 +255,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "C":"Not Applicable"
   }
 
-  constructor(private api: ApiService, private message: NzNotificationService, private http: HttpClient) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     if (this.APPLICANT_ID) {
