@@ -7,7 +7,7 @@
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
                         <nz-form-label nzRequired [nzNoColon]="true">Account Type</nz-form-label>
-                        <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE">
+                        <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE" (ngModelChange)="changeCatagory()">
                             <nz-option [nzValue]="'A'" nzLabel="Saving"></nz-option>
                             <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option>
                             <nz-option [nzValue]="'C'" nzLabel="Current Account"></nz-option>
@@ -38,13 +38,13 @@
             </div>
         </div>
 
-        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">
+        <div class="box">
             <nz-divider nzText="Initial Payment Details"></nz-divider>
             <div nz-row class="content-box">
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true" nzRequired >Initial Amount </nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Initial Amount </nz-form-label>
                     <nz-form-control>
 
                         <nz-input-group nzAddOnBefore="₹">
@@ -152,7 +152,7 @@
         </div>
 
 
-        <div class="box" *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">
+        <div class="box" *ngIf="catagoryB">
             <nz-divider nzText="Deposit Details"></nz-divider>
             <div nz-row class="content-box">
 
@@ -253,7 +253,8 @@
 
                 <nz-form-item nz-col nzSpan="24">
                     <p>Auto Renewal ? <span><nz-switch [(ngModel)]="depositInfo.AUTO_RENEWAL" nzCheckedChildren="Yes"
-                                nzUnCheckedChildren="No"></nz-switch></span></p>
+                                nzUnCheckedChildren="No"
+                                [disabled]="depositInfo.ACCOUNT_TYPE == 'F'"></nz-switch></span></p>
                 </nz-form-item>
 
             </div>
@@ -267,7 +268,7 @@
     </div>
 
 
-    <div nz-col nzSpan="12" *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">
+    <div nz-col nzSpan="12" *ngIf="catagoryB">
 
         <div class="box">
             <nz-divider nzText="Bank Details"></nz-divider>

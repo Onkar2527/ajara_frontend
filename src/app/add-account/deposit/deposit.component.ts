@@ -19,11 +19,12 @@ export class DepositComponent implements OnInit {
 
   mendetory_all = [
     { field: 'ACCOUNT_TYPE', message: 'Account Type' },
-    { field: 'ACCOUNT_OPERATION', message: 'Account Operation' }
+    { field: 'ACCOUNT_OPERATION', message: 'Account Operation' },
+    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' }
   ]
 
   mendetory_saving = [
-    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
+
   ]
 
   mendetory_saving_cheque = [
@@ -43,6 +44,26 @@ export class DepositComponent implements OnInit {
     { field: 'DEPOSIT_ACCOUNT_NUMBER', message: 'Account Number' }
   ]
 
+  catagoryA = false;
+  catagoryB = false;
+
+  getAccountCatA() {
+    let con = (['A', 'B', 'G','C','H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+    this.catagoryA = con
+  }
+
+  getAccountCatB() {
+    let con = ([ 'D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+    this.catagoryB = con
+  }
+
+  changeCatagory() {
+    this.getAccountCatA();
+    this.getAccountCatB();
+  }
+
   save() {
     let deposit: Subject<any> = new Subject();
 
@@ -55,32 +76,36 @@ export class DepositComponent implements OnInit {
       }
     }
 
-    if (this.depositInfo.ACCOUNT_TYPE == 'A') {
-      for (let field of this.mendetory_saving) {
+
+    // for (let field of this.mendetory_saving) {
+    //   if (!this.depositInfo[field.field as keyof TermDeposite]) {
+    //     this.message.error(`${field.message} is Mandetory`, '');
+    //     isOk = false;
+    //   }
+    // }
+
+    if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
+      for (let field of this.mendetory_saving_cheque) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
           this.message.error(`${field.message} is Mandetory`, '');
           isOk = false;
         }
       }
-
-      if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
-        for (let field of this.mendetory_saving_cheque) {
-          if (!this.depositInfo[field.field as keyof TermDeposite]) {
-            this.message.error(`${field.message} is Mandetory`, '');
-            isOk = false;
-          }
-        }
-      }
-
     }
 
-    if (this.depositInfo.ACCOUNT_TYPE != 'A') {
+
+
+    if (this.catagoryB) {
       for (let field of this.mendetory_non_saving) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
           this.message.error(`${field.message} is Mandetory`, '');
           isOk = false;
         }
       }
+    }
+
+    if (this.depositInfo.ACCOUNT_TYPE == 'F') {
+      this.depositInfo.AUTO_RENEWAL = false;
     }
 
     if (isOk) {
@@ -136,8 +161,6 @@ export class DepositComponent implements OnInit {
       deposit.error("All mendetory fields are not filled");
     }
 
-
-
     return deposit;
 
   }
@@ -147,6 +170,7 @@ export class DepositComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
+          this.changeCatagory()
         }
         else {
         }

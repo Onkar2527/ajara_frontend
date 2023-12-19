@@ -125,7 +125,7 @@ export class ApiService implements HttpInterceptor {
   baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://localhost:8079/api/';
+  // baseUrl = 'http://192.168.1.17:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -670,53 +670,53 @@ export class ApiService implements HttpInterceptor {
 
   // master module
 
-  getAllDropdown(filter:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/get',filter,this.options);
+  getAllDropdown(filter: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/get', filter, this.options);
   }
 
-  createDropdown(data:TableData){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/create',data,this.options);
+  createDropdown(data: TableData) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/create', data, this.options);
   }
 
-  updateDropdown(data:TableData){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/update',data,this.options);
+  updateDropdown(data: TableData) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/update', data, this.options);
   }
 
-  deleteDropdown(data:TableData){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/delete',data,this.options);
+  deleteDropdown(data: TableData) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/delete', data, this.options);
   }
 
 
-  getDropdownFields(filter:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/getFields',filter,this.options);
+  getDropdownFields(filter: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getFields', filter, this.options);
   }
 
-  createFields(data:DropdownTableFields){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/createFields',data,this.options);
+  createFields(data: DropdownTableFields) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createFields', data, this.options);
   }
 
-  updateFields(data:DropdownTableFields){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/updateFields',data,this.options);
+  updateFields(data: DropdownTableFields) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateFields', data, this.options);
   }
 
-  deleteFileds(data:DropdownTableFields){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/deleteFields',data,this.options);
+  deleteFileds(data: DropdownTableFields) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteFields', data, this.options);
   }
 
-  getDropdownItems(filter:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/getValues',filter,this.options);
+  getDropdownItems(filter: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getValues', filter, this.options);
   }
 
-  createDropdownItems(data:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/createValues',data,this.options);
+  createDropdownItems(data: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createValues', data, this.options);
   }
 
-  updateDropdownItems(data:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/updateValues',data,this.options);
+  updateDropdownItems(data: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateValues', data, this.options);
   }
 
-  deleteDropdownItems(data:any){
-    return this.httpClient.post<any>(this.baseUrl+'dropdownMaster/deleteValues',data,this.options);
+  deleteDropdownItems(data: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteValues', data, this.options);
   }
 
 }

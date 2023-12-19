@@ -46,11 +46,11 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   branchData: any;
 
-  makerUserData:any = {
-    NAME:''
+  makerUserData: any = {
+    NAME: ''
   };
-  checkerUserData:any ={
-    NAME:''
+  checkerUserData: any = {
+    NAME: ''
   };
 
 
@@ -250,9 +250,9 @@ export class FormComponent implements OnInit, AfterViewInit {
   };
 
   consent_options = {
-    "A":"Yes",
-    "B":"No",
-    "C":"Not Applicable"
+    "A": "Yes",
+    "B": "No",
+    "C": "Not Applicable"
   }
 
   constructor(private api: ApiService) { }
@@ -647,7 +647,7 @@ export class FormComponent implements OnInit, AfterViewInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantPersonal = res['data'];
           console.log("applicant personal:", this.ApplicantPersonal);
-          if(this.ApplicantPersonal.length < 2){
+          if (this.ApplicantPersonal.length < 2) {
             this.ApplicantPersonal.push(new PersonalInfo())
           }
           this.getOVD();
@@ -826,21 +826,21 @@ export class FormComponent implements OnInit, AfterViewInit {
     })
   }
 
-  getUserMaker(){
-    this.api.getUser({user_id:this.basicInfo.MAKER_USER_ID}).subscribe({
-      next:(res)=>{
-        if(res['code'] ==200 && res['data'].length > 0){
+  getUserMaker() {
+    this.api.getUser({ user_id: this.basicInfo.MAKER_USER_ID }).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.makerUserData = res['data'][0]
         }
       }
     })
   }
 
-  getUserChecker(){
-    if(this.basicInfo.CHACKER_USER_ID){
-      this.api.getUser({user_id:this.basicInfo.CHACKER_USER_ID}).subscribe({
-        next:(res)=>{
-          if(res['code'] ==200 && res['data'].length > 0){
+  getUserChecker() {
+    if (this.basicInfo.CHACKER_USER_ID) {
+      this.api.getUser({ user_id: this.basicInfo.CHACKER_USER_ID }).subscribe({
+        next: (res) => {
+          if (res['code'] == 200 && res['data'].length > 0) {
             this.checkerUserData = res['data'][0]
           }
         }
@@ -883,7 +883,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE);
 
     let totalImageArrayLength = pngArray.length + jpegArray.length,
-      imagePages = new Array(totalImageArrayLength),
+      imagePages = new Array(Math.trunc(totalImageArrayLength / 6) + (totalImageArrayLength % 6 == 0 ? 0 : 1)),
       buffeeImageData = new Array(totalImageArrayLength),
       imageData = new Array(totalImageArrayLength),
       embededImageRef = new Array(totalImageArrayLength),
@@ -905,11 +905,20 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 
 
-    for (let Pn = 0; Pn < totalImageArrayLength; Pn++) {
-      imagePages[Pn] = mergedPdfDoc.addPage();
-      imagePages[Pn].drawImage(embededImageRef[Pn],
-        { x: 0, y: 0, width: imagePages[Pn].getWidth(), height: imagePages[Pn].getHeight() }
-      );
+    let imageNo = 0;
+    for (let i = 0; i < imagePages.length; i++) {
+      imagePages[i] = mergedPdfDoc.addPage();
+
+      for (let j = 0; j < 6; j++) {
+        if (embededImageRef[j + imageNo]) {
+          imagePages[i].drawImage(embededImageRef[j + imageNo],
+            { x: 0, y: 0, width: (imagePages[i].getWidth() / 6) - 30, height: (imagePages[i].getHeight() / 6) - 30 }
+          );
+        }
+
+      }
+
+      imageNo += 6;
 
     };
 
@@ -936,7 +945,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     let options = {
       margin: .3, image: { type: "jpeg", quality: .98 },
-      html2canvas: { scale: 4 }, pagebreak: {after: [".page"]  }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
+      html2canvas: { scale: 4 }, pagebreak: { after: [".page"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
     }
 
     await html2pdf()
@@ -997,7 +1006,7 @@ export class FormComponent implements OnInit, AfterViewInit {
       }
     }
 
-    console.log("applicant personal",this.ApplicantPersonal);
+    console.log("applicant personal", this.ApplicantPersonal);
   }
 
   sortObjectArray(src_array: any, sort_key: string) {
@@ -1005,7 +1014,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     source.sort(function (a: any, b: any) {
       a[sort_key] - b[sort_key];
     })
-    console.log("source array",source);
+    console.log("source array", source);
     return source;
   }
 

@@ -18,6 +18,9 @@
       <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
       <th [nzWidth]="'100px'" [nzAlign]="'center'">ID</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'">No of applicant</th>
+      <th [nzWidth]="'140px'" [nzAlign]="'center'">
+        Branch <!-- for cpc -->
+      </th>
       <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 Aadhaar</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 PAN</th>
@@ -32,6 +35,9 @@
       <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
       <td>{{proposal.ID}}</td>
       <td>{{proposal.NO_OF_APPLICANT}}</td>
+      <td>
+        <!-- branch name for cpc -->
+      </td>
       <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
         {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
