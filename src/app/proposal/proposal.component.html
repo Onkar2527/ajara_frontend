@@ -18,10 +18,11 @@
       <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
       <th [nzWidth]="'100px'" [nzAlign]="'center'">ID</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'">No of applicant</th>
-      <th [nzWidth]="'140px'" [nzAlign]="'center'">
+      <th [nzWidth]="'140px'" [nzAlign]="'center'" *ngIf="ROLE_ID == 3">
         Branch <!-- for cpc -->
       </th>
       <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
+      <th [nzWidth]="'140px'" [nzAlign]="'center'">Account Type</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 Aadhaar</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 PAN</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Status</th>
@@ -35,19 +36,27 @@
       <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
       <td>{{proposal.ID}}</td>
       <td>{{proposal.NO_OF_APPLICANT}}</td>
-      <td>
+      <td *ngIf="ROLE_ID == 3">
         <!-- branch name for cpc -->
+        {{getBranchName(proposal.CREATED_BRANCH_ID)}}
       </td>
       <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
         {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
+      </td>
+      <td>
+        <span *ngFor="let deposit of depositeInfo">
+          <span *ngIf="deposit.APPLICANT_ID == proposal.ID">
+            {{getAccountType(deposit.ACCOUNT_TYPE)}}
+          </span>
+        </span>
       </td>
       <td>{{proposal.AADHAAR_NO_1}}</td>
       <td>{{proposal.PAN_NUMBER}}</td>
       <td>
         <a *ngIf="ROLE_ID == 4" (click)="editStatusFn(proposal)">
 
-              <span nz-icon nzType="edit"></span>
+          <span nz-icon nzType="edit"></span>
         </a>
         {{getStatusName(proposal.TRACK_ID)}}
       </td>

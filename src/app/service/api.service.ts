@@ -125,7 +125,7 @@ export class ApiService implements HttpInterceptor {
   baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://192.168.1.17:8079/api/';
+  // baseUrl = 'http://192.168.1.9:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -717,6 +717,10 @@ export class ApiService implements HttpInterceptor {
 
   deleteDropdownItems(data: any) {
     return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteValues', data, this.options);
+  }
+
+  getAllBranch() {
+    return this.httpClient.post<any>(this.baseUrl + 'branch/get', '', this.options)
   }
 
 }

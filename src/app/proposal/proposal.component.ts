@@ -11,6 +11,7 @@ import { Documents } from '../models/documents';
 import { SessionUserDetails } from '../common_modules/session_storage/SessionUserDetails';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EditStatusComponent } from '../admin-panel/proposal-master/edit-status/edit-status.component';
+import { TermDeposite } from '../models/term-deposite';
 
 @Component({
   selector: 'app-proposal',
@@ -66,6 +67,8 @@ export class ProposalComponent implements OnInit {
 
   popover_visible: boolean = false;
 
+  BRANCH_LIST: any = [];
+
   ngOnInit(): void {
     this.getDrafts();
     this.getUser();
@@ -74,6 +77,43 @@ export class ProposalComponent implements OnInit {
   userDetails: any;
 
   STATUS_LIST: any = []
+
+  depositeInfo: TermDeposite[] = []
+
+  getDepositeInfo() {
+    this.depositeInfo = []
+    for (let proposal of this.DraftsData) {
+      this.api.getDeposite(proposal.ID).subscribe({
+        next: (res) => {
+          if (res['code'] == 200 && res['data'].length > 0) {
+            this.depositeInfo.push(res['data'][0]);
+          }
+        }
+      })
+    }
+  }
+
+  getAccountType(id: 'A'
+    | 'B'
+    | 'C'
+    | 'D'
+    | 'E'
+    | 'F'
+    | 'G'
+    | 'H') {
+    let account_types = {
+      'A': 'Saving',
+      'B': 'Janata Deposite',
+      'C': 'Current Account',
+      'D': 'Fixed Deposit',
+      'E': 'Fixed Deposit (Reinvestment)',
+      'F': 'Recurring Deposit',
+      'G': 'Pigmy Deposit',
+      'H': 'Other'
+    }
+
+    return account_types[id];
+  }
 
   getTabs(applicant_id: number, track_id?: number) {
     this.api.getTabs(applicant_id, sessionStorage.getItem('ROLE_ID'), track_id).subscribe({
@@ -266,11 +306,13 @@ export class ProposalComponent implements OnInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           console.log("res['data']", res['data'])
           this.DraftsData = res['data'];
+          this.getDepositeInfo()
           this.dataCount = res['count'];
           console.log("res['data']", res['data'])
           this.TableLoading = false;
           console.log("this.TableLoading", this.TableLoading)
           this.getStatusList();
+          this.getBranchList();
         }
         else {
           this.TableLoading = false;
@@ -299,13 +341,33 @@ export class ProposalComponent implements OnInit {
     if (!track_id)
       return ''
 
-    let result = ''
-
     let our_status = this.STATUS_LIST.filter((value: any) => {
       return value.ID == track_id
     });
 
     return our_status[0].NAME ? our_status[0].NAME : ''
+  }
+
+  getBranchList() {
+    this.api.getAllBranch().subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+          this.BRANCH_LIST = res['data'];
+        }
+      }
+    })
+  }
+
+  getBranchName(branch_id?: number) {
+    if (!branch_id)
+      return ''
+
+    let our_branch = this.BRANCH_LIST.filter((value: any) => {
+      return value.ID == branch_id
+    });
+
+    return our_branch[0].BRANCH_NAME ? our_branch[0].BRANCH_NAME : ''
+
   }
 
   selectedIndex = 0;

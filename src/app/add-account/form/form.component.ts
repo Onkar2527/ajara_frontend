@@ -577,6 +577,7 @@ export class FormComponent implements OnInit, AfterViewInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
+          this.changeCatagory();
           deposit.next(200);
         }
         else {
@@ -591,6 +592,26 @@ export class FormComponent implements OnInit, AfterViewInit {
       }
     });
     return deposit;
+  }
+
+  catagoryA = false;
+  catagoryB = false;
+
+  getAccountCatA() {
+    let con = (['A', 'B', 'G','C','H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+    this.catagoryA = con
+  }
+
+  getAccountCatB() {
+    let con = ([ 'D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+    this.catagoryB = con
+  }
+
+  changeCatagory() {
+    this.getAccountCatA();
+    this.getAccountCatB();
   }
 
   getService() {
@@ -879,8 +900,8 @@ export class FormComponent implements OnInit, AfterViewInit {
     let pngArray = [], jpegArray = [], pdfArray = [];
 
     pngArray = this.documentData.filter(Pn => "image/png" == Pn.FILE_TYPE);
-    jpegArray = this.documentData.filter(Pn => "image/jpeg" == Pn.FILE_TYPE || "image/jpg" == Pn.FILE_TYPE);
-    pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE);
+    jpegArray = this.documentData.filter(Pn => ("image/jpeg" == Pn.FILE_TYPE || "image/jpg" == Pn.FILE_TYPE) && Pn.DOCUMENT_NAME != 'Applicant Photo');
+    pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE && Pn.DOCUMENT_NAME != 'Applicant Photo');
 
     let totalImageArrayLength = pngArray.length + jpegArray.length,
       imagePages = new Array(Math.trunc(totalImageArrayLength / 6) + (totalImageArrayLength % 6 == 0 ? 0 : 1)),
@@ -909,11 +930,44 @@ export class FormComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < imagePages.length; i++) {
       imagePages[i] = mergedPdfDoc.addPage();
 
+      let commonMargin = 15
+      let imageWidth = Math.trunc(imagePages[i].getWidth() / 2) - commonMargin
+      let imageHeight = Math.trunc(imagePages[i].getHeight() / 3) - 13
+
       for (let j = 0; j < 6; j++) {
         if (embededImageRef[j + imageNo]) {
-          imagePages[i].drawImage(embededImageRef[j + imageNo],
-            { x: 0, y: 0, width: (imagePages[i].getWidth() / 6) - 30, height: (imagePages[i].getHeight() / 6) - 30 }
-          );
+
+          if (j == 0) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: 10, y: (2 * (Math.trunc(imagePages[i].getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
+            );
+          }
+          else if (j == 1) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: (2 * (Math.trunc(imagePages[i].getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
+            );
+          }
+          else if (j == 2) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: 10, y: Math.trunc(imagePages[i].getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
+            );
+          }
+          else if (j == 3) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: Math.trunc(imagePages[i].getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
+            );
+          }
+          else if (j == 4) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: 10, y: 10, width: imageWidth, height: imageHeight }
+            );
+          }
+          else if (j == 5) {
+            imagePages[i].drawImage(embededImageRef[j + imageNo],
+              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: 10, width: imageWidth, height: imageHeight }
+            );
+          }
+
         }
 
       }

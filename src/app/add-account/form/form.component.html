@@ -644,11 +644,11 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">{{depositInfo.INITIAL_AMOUNT}}</span>
+        <span>{{depositInfo.INITIAL_AMOUNT}}</span>
       </div>
 
       <div nz-col nzSpan="3" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">{{depositInfo.MODE_OF_PAYMENT == 'C' ? 'रोख Cash' :
+        <span>{{depositInfo.MODE_OF_PAYMENT == 'C' ? 'रोख Cash' :
           'Cheque'}}</span>
       </div>
 
@@ -658,7 +658,7 @@
 
       <div nz-col nzSpan="7" class="border-all data">
         <span
-          *ngIf="depositInfo.ACCOUNT_TYPE == 'A' && depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.TRANSFER_ACCOUNT_NO}}</span>
+          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.TRANSFER_ACCOUNT_NO}}</span>
       </div>
 
     </div>
@@ -670,7 +670,7 @@
 
       <div nz-col nzSpan="6" class="border-all data">
         <span
-          *ngIf="depositInfo.ACCOUNT_TYPE == 'A' && depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BANK_NAME}}</span>
+          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BANK_NAME}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -679,7 +679,7 @@
 
       <div nz-col nzSpan="6" class="border-all data">
         <span
-          *ngIf="depositInfo.ACCOUNT_TYPE == 'A' && depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BRANCH_NAME}}</span>
+          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BRANCH_NAME}}</span>
       </div>
 
     </div>
@@ -693,7 +693,7 @@
 
       <div nz-col nzSpan="18" class="border-all data">
         <span
-          *ngIf="depositInfo.ACCOUNT_TYPE == 'A' && depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHAQUE_NO}}</span>
+          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHAQUE_NO}}</span>
       </div>
 
 
@@ -734,7 +734,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">₹ {{depositInfo.DEPOSIT_AMOUNT}}</span>
+        <span *ngIf="catagoryB">₹ {{depositInfo.DEPOSIT_AMOUNT}}</span>
       </div>
 
 
@@ -748,7 +748,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'"> {{depositInfo.TANURE_DAYS}} days {{depositInfo.TANURE_MONTHS}}
+        <span *ngIf="catagoryB"> {{depositInfo.TANURE_DAYS}} days {{depositInfo.TANURE_MONTHS}}
           months {{depositInfo.TANURE_YEARS}} years</span>
       </div>
 
@@ -757,7 +757,7 @@
       </div>
 
       <div nz-col nzSpan="5" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.RATE_OF_INTEREST}} %</span>
+        <span *ngIf="catagoryB">{{depositInfo.RATE_OF_INTEREST}} %</span>
       </div>
 
     </div>
@@ -769,7 +769,7 @@
       </div>
 
       <div nz-col nzSpan="2" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.AUTO_RENEWAL ? "YES" : "NO"}}</span>
+        <span *ngIf="catagoryB">{{depositInfo.AUTO_RENEWAL ? "YES" : "NO"}}</span>
       </div>
 
       <div nz-col nzSpan="17" class="border-all data-heading">
@@ -786,7 +786,7 @@
       </div>
 
       <div nz-col nzSpan="12" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{interest_payout[depositInfo.INTEREST_PAYOUT]}}</span>
+        <span *ngIf="catagoryB">{{interest_payout[depositInfo.INTEREST_PAYOUT]}}</span>
       </div>
 
     </div>
@@ -816,7 +816,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.DEPOSIT_BANK_NAME}}</span>
+        <span *ngIf="catagoryB">{{depositInfo.DEPOSIT_BANK_NAME}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -824,7 +824,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.DEPOSIT_BRANCH_NAME}}</span>
+        <span *ngIf="catagoryB">{{depositInfo.DEPOSIT_BRANCH_NAME}}</span>
       </div>
 
     </div>
@@ -836,7 +836,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.DEPOSIT_IFSC_CODE}}</span>
+        <span *ngIf="catagoryB">{{depositInfo.DEPOSIT_IFSC_CODE}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -844,7 +844,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span *ngIf="depositInfo.ACCOUNT_TYPE != 'A'">{{depositInfo.DEPOSIT_ACCOUNT_NUMBER}}</span>
+        <span *ngIf="catagoryB">{{depositInfo.DEPOSIT_ACCOUNT_NUMBER}}</span>
       </div>
 
     </div>

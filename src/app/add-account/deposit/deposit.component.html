@@ -70,7 +70,7 @@
                     <div nz-row>
                         <nz-form-item nz-col nzSpan="24">
 
-                            <nz-form-label [nzNoColon]="true">Account Number</nz-form-label>
+                            <nz-form-label [nzNoColon]="true" nzRequired>Account Number</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
@@ -84,7 +84,7 @@
 
                         <nz-form-item nz-col nzSpan="12">
 
-                            <nz-form-label [nzNoColon]="true">Bank Name</nz-form-label>
+                            <nz-form-label [nzNoColon]="true" nzRequired>Bank Name</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
@@ -100,7 +100,7 @@
 
                         <nz-form-item nz-col nzSpan="11">
 
-                            <nz-form-label [nzNoColon]="true">Branch Name</nz-form-label>
+                            <nz-form-label [nzNoColon]="true" nzRequired>Branch Name</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
@@ -114,7 +114,7 @@
 
                         <nz-form-item nz-col nzSpan="16">
 
-                            <nz-form-label [nzNoColon]="true">Cheque No.</nz-form-label>
+                            <nz-form-label [nzNoColon]="true" nzRequired>Cheque No.</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
@@ -130,7 +130,7 @@
 
                         <nz-form-item nz-col nzSpan="7">
 
-                            <nz-form-label [nzNoColon]="true">Dated</nz-form-label>
+                            <nz-form-label [nzNoColon]="true" nzRequired>Dated</nz-form-label>
                             <nz-form-control>
 
                                 <nz-input-group>
@@ -158,7 +158,7 @@
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true">Deposit Amount </nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Deposit Amount </nz-form-label>
                     <br>
                     <nz-radio-group [(ngModel)]="depositInfo.DEPOSIT_FREQUANCY">
                         <label nz-radio [nzValue]="'O'">One Time</label>
@@ -183,7 +183,7 @@
 
                 <nz-form-item nz-col nzSpan="10">
 
-                    <nz-form-label [nzNoColon]="true">Rate of Interest</nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
                     <nz-input-group nzAddOnAfter="% p.a.">
                         <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST"
                             placeholder="Enter Rate of Interest" />
@@ -277,7 +277,7 @@
 
                 <nz-form-item nz-col nzSpan="24">
 
-                    <nz-form-label [nzNoColon]="true">Bank Name</nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Bank Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="bank_name" [(ngModel)]="depositInfo.DEPOSIT_BANK_NAME"
                             placeholder="Enter Bank Name" />
@@ -286,7 +286,7 @@
 
                 <nz-form-item nz-col nzSpan="13">
 
-                    <nz-form-label [nzNoColon]="true">Branch Name</nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Branch Name</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="branch_name" [(ngModel)]="depositInfo.DEPOSIT_BRANCH_NAME"
                             placeholder="Enter Branch Name" />
@@ -298,7 +298,7 @@
 
                 <nz-form-item nz-col nzSpan="10">
 
-                    <nz-form-label [nzNoColon]="true">IFSC Code</nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>IFSC Code</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="ifsc" [(ngModel)]="depositInfo.DEPOSIT_IFSC_CODE"
                             placeholder="Enter IFSC Code" />
@@ -307,7 +307,7 @@
 
                 <nz-form-item nz-col nzSpan="13">
 
-                    <nz-form-label [nzNoColon]="true">Account Number</nz-form-label>
+                    <nz-form-label [nzNoColon]="true" nzRequired>Account Number</nz-form-label>
                     <nz-form-control>
                         <input nz-input name="account_no" [(ngModel)]="depositInfo.DEPOSIT_ACCOUNT_NUMBER"
                             placeholder="Enter Account Number" />
