@@ -10,3 +10,13 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
+
+window.onpopstate = function (e) {
+  if(e.state.ɵrouterPageId == 3){
+    alert("Pressing back button can lead to unexpected behaviour!");
+    console.log("event",e)
+    history.forward();
+  }
+
+ 
+}

@@ -171,3 +171,17 @@ nz-layout {
 .logout-button:hover {
   background-color: #ff5b50 !important;
 }
+
+
+@media only screen and (max-width: 550px) {
+  .title {
+    font-size: 10px;
+  }
+}
+
+
+@media only screen and (min-width: 600px) {
+  .title {
+    font-size: 16px;
+  }
+}
