@@ -199,27 +199,33 @@ export class ProposalComponent implements OnInit {
 
     this.drawerDraftData = data;
 
-    const drawerRef = this.drawerService.create({
-      nzTitle: this.title,
-      nzFooter: this.footer,
-      nzContent: this.addAccountDrawerTemp,
-      nzExtra: this.header,
-      nzWidth: 1095,
+    // const drawerRef = this.drawerService.create({
+    //   nzTitle: this.title,
+    //   nzFooter: this.footer,
+    //   nzContent: this.addAccountDrawerTemp,
+    //   nzExtra: this.header,
+    //   nzWidth: 1095,
 
-    });
+    // });
+
+    this.openDrawer(this.title, this.footer, this.addAccountDrawerTemp, this.tabClose, this.header)
 
 
-    this.drawerReferance = drawerRef;
+    // this.drawerReferance = drawerRef;
 
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Template) open');
-    });
+    // drawerRef.afterOpen.subscribe(() => {
+    //   console.log('Drawer(Template) open');
+    // });
 
-    drawerRef.afterClose.subscribe(() => {
-      console.log('Drawer(Template) close');
-      this.selectedIndex = 0;
-      this.getDrafts();
-    });
+    // drawerRef.afterClose.subscribe(() => {
+    //   console.log('Drawer(Template) close');
+
+    // });
+  }
+
+  tabClose() {
+    this.selectedIndex = 0;
+    this.getDrafts();
   }
 
 
@@ -253,23 +259,25 @@ export class ProposalComponent implements OnInit {
   }
 
   openBasicDrawer() {
-    const drawerRef = this.drawerService.create({
-      nzTitle: "New Account",
-      nzFooter: this.basicFooterTemplate,
-      nzContent: this.drawerTemplate,
-      nzWidth: 1095
-    });
+    // const drawerRef = this.drawerService.create({
+    //   nzTitle: ,
+    //   nzFooter: ,
+    //   nzContent: ,
+    //   nzWidth: 1095
+    // });
 
-    this.drawerReferance = drawerRef;
+    this.openDrawer("New Account", this.basicFooterTemplate, this.drawerTemplate, this.getDrafts)
 
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Template) open');
-    });
 
-    drawerRef.afterClose.subscribe(() => {
-      console.log('Drawer(Template) close');
-      this.getDrafts();
-    });
+
+    // drawerRef.afterOpen.subscribe(() => {
+    //   console.log('Drawer(Template) open');
+    // });
+
+    // drawerRef.afterClose.subscribe(() => {
+    //   console.log('Drawer(Template) close');
+    //   this.getDrafts();
+    // });
 
   }
 
@@ -455,23 +463,25 @@ export class ProposalComponent implements OnInit {
     this.APPLICANT_ID = data.ID;
     console.log("APPLICANT_ID", this.APPLICANT_ID);
 
-    const drawerRef = this.drawerService.create({
-      nzTitle: "Form",
-      nzFooter: this.FormFooterTemplate,
-      nzContent: this.formDrawerTemp,
-      nzWidth: 1095
-    });
+    // const drawerRef = this.drawerService.create({
+    //   nzTitle: "Form",
+    //   nzFooter: this.FormFooterTemplate,
+    //   nzContent: this.formDrawerTemp,
+    //   nzWidth: 1095
+    // });
 
-    this.drawerReferance = drawerRef;
+    this.openDrawer("Form", this.FormFooterTemplate, this.formDrawerTemp, this.getDrafts)
 
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Template) open');
-    });
+    // this.drawerReferance = drawerRef;
 
-    drawerRef.afterClose.subscribe(() => {
-      console.log('Drawer(Template) close');
-      this.getDrafts();
-    });
+    // drawerRef.afterOpen.subscribe(() => {
+    //   console.log('Drawer(Template) open');
+    // });
+
+    // drawerRef.afterClose.subscribe(() => {
+    //   console.log('Drawer(Template) close');
+    //   this.getDrafts();
+    // });
 
   }
 
@@ -490,25 +500,27 @@ export class ProposalComponent implements OnInit {
   openUploadDrawer(data: BasicInfo) {
     this.APPLICANT_ID = data.ID;
     this.basicInfo = data;
-    const drawerRef = this.drawerService.create({
-      nzTitle: "Document",
-      nzFooter: this.DocFooterTemplate,
-      nzContent: this.docDrawerTemp,
-      nzWidth: 1095
-    });
+    // const drawerRef = this.drawerService.create({
+    //   nzTitle: "Document",
+    //   nzFooter: this.DocFooterTemplate,
+    //   nzContent: this.docDrawerTemp,
+    //   nzWidth: 1095
+    // });
 
-    this.drawerReferance = drawerRef;
+    this.openDrawer("Document", this.DocFooterTemplate, this.docDrawerTemp, this.getDrafts)
 
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Template) open');
+    // this.drawerReferance = drawerRef;
 
-    });
+    // drawerRef.afterOpen.subscribe(() => {
+    //   console.log('Drawer(Template) open');
 
-    drawerRef.afterClose.subscribe(() => {
-      console.log('Drawer(Template) close');
-      this.basicInfo = new BasicInfo();
-      this.getDrafts();
-    });
+    // });
+
+    // drawerRef.afterClose.subscribe(() => {
+    //   console.log('Drawer(Template) close');
+    //   this.basicInfo = new BasicInfo();
+    //   this.getDrafts();
+    // });
   }
 
 
@@ -597,6 +609,25 @@ export class ProposalComponent implements OnInit {
       this.getDrafts();
     })
 
+  }
+
+  openDrawer(title: string, footer: any, content: any, close_back: any, extra?: any) {
+
+
+    let width = window.screen.availWidth;
+
+    const drawerRef = this.drawerService.create({
+      nzTitle: title,
+      nzFooter: footer,
+      nzContent: content,
+      nzWidth: width,
+      nzExtra: extra
+    });
+    this.drawerReferance = drawerRef;
+    drawerRef.afterClose.subscribe(() => {
+      this.selectedIndex = 0;
+      this.getDrafts();
+    })
   }
 
 

@@ -94,7 +94,7 @@ export class WebCamComponent implements OnInit {
     const drawerRef = this.drawerService.create({
       nzTitle: "Webcam",
       nzContent: this.webCamDrawerTemp,
-      nzWidth: 1095
+      nzWidth: window.screen.availWidth
     });
 
     this.drawerReferance = drawerRef;
@@ -210,7 +210,7 @@ export class WebCamComponent implements OnInit {
     const drawerRef = this.drawerService.create({
       nzTitle: "Create Documents",
       nzContent: this.documentAddTpl,
-      nzWidth: 1095,
+      nzWidth: window.screen.availWidth,
       nzFooter: footer
     });
 
@@ -371,7 +371,7 @@ export class WebCamComponent implements OnInit {
     const drawerRef = this.drawerService.create({
       nzTitle: "Document",
       nzContent: this.documentShowTpl,
-      nzWidth: 1095,
+      nzWidth: window.screen.availWidth,
       nzFooter: footer,
       nzExtra: header
     });

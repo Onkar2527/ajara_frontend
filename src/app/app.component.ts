@@ -46,6 +46,10 @@ export class AppComponent implements OnInit {
       this.router.navigate(['login']);
       this.route = 'login';
     }
+
+    if (window.screen.availWidth < 1000) {
+      this.isCollapsed = true
+    }
   }
 
 
@@ -71,8 +75,8 @@ export class AppComponent implements OnInit {
     })
 
     this.api.getUserRole(Number(this.userDetails.ROLE_ID)).subscribe({
-      next:(res)=>{
-        if(res['code'] ==200&& res['data'].length>0){
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
           this.userExtraInformation.ROLE = res['data'][0]['NAME']
         }
       }

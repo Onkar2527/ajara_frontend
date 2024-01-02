@@ -2,37 +2,23 @@
 
   <nz-header>
     <div nz-row style="width:100%;">
-      <div nz-col nzSpan="1" style="display: flex;align-items: center;">
+      <div nz-col nzSpan="5" style="display: flex;align-items: center;">
         <span class="header-trigger" style="display: flex;align-items: center;" (click)="collapseMenu()">
           <i nz-icon nzType="menu"></i>
         </span>
       </div>
 
-      <div nz-col nzSpan="7" style="display: flex;align-items: center;">
+      <div nz-col nzSpan="14" style="display: flex;align-items: center;justify-content: center;">
         <img src="../assets/ajara_bank_logo.svg" height="50px" width="50px">
         <span style="color: white;font-size: 16px;margin-left: 5px;">The Ajara Urban Co-op. Bank Ltd.
           Ajara</span>
       </div>
-      <div nz-col nzSpan="13"></div>
-      <div nz-col nzSpan="3" style="display: flex;align-items: center;
+      <div nz-col nzSpan="5" style="display: flex;align-items: center;
       justify-content: right;">
         <span style="color: white;font-size: 14px;margin-right: 5px;cursor: pointer;font-weight: bold;" nz-popover
           nzPopoverTitle="User Information" nzPopoverPlacement="bottom"
           [nzPopoverContent]="userPopover">{{userDetails.NAME}}</span>
-
-        <!-- <a >
-          <span
-            style="height: 36px;color: white;font-size: 30px;cursor: pointer;display: flex;align-items: center;justify-content: right;">
-            
-          </span>
-        </a> -->
       </div>
-
-      <!-- <div nz-col nzSpan="2">
-        <a nz-popconfirm nzPopconfirmTitle="Do you want to logout?" (nzOnConfirm)="logout()">
-          <span style="color:white;font-size: 14px;font-weight: bold;">Logout</span>
-        </a>
-      </div> -->
     </div>
   </nz-header>
 

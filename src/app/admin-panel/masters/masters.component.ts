@@ -93,7 +93,7 @@ export class MastersComponent implements OnInit {
       nzFooter: this.editFieldFooter,
       nzContent: this.editFields,
       // nzExtra: this.header,
-      nzWidth: 1095,
+      nzWidth: window.screen.availWidth,
 
     });
 
@@ -123,7 +123,7 @@ export class MastersComponent implements OnInit {
       nzFooter: this.editFieldFooter,
       nzContent: this.editFields,
       // nzExtra: this.header,
-      nzWidth: 1095,
+      nzWidth: window.screen.availWidth,
 
     });
 
@@ -177,7 +177,7 @@ export class MastersComponent implements OnInit {
       // nzFooter: this.footer,
       nzContent: this.editItem,
       // nzExtra: this.header,
-      nzWidth: 1095,
+      nzWidth: window.screen.availWidth,
 
     });
 
