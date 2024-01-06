@@ -50,6 +50,14 @@ export class AppComponent implements OnInit {
     if (window.screen.availWidth < 1000) {
       this.isCollapsed = true
     }
+
+    window.onpopstate = function (e) {
+      // this.onBackButtonPressed()
+      console.log("event", e)
+      // alert("Pressing back button can lead to unexpected behaviour!");
+      history.forward();
+    }
+    
   }
 
 

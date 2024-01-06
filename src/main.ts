@@ -3,7 +3,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 if (environment.production) {
   enableProdMode();
