@@ -1,40 +1,89 @@
-<div class="container-login100">
+<div class="login-container" [hidden]="!isMobileView">
+    <div class="container-login100">
 
-    <div class="wrap-login100">
+        <div class="wrap-login100">
 
-        <h2 class="login100-form-title p-b-26">Frictionless Account Opening</h2>
+            <h2 class="login100-form-title p-b-26">Frictionless Account Opening</h2>
 
-        <div nz-row style="margin-bottom:16px;">
-            <div nz-col nzSpan="24" style=" display: flex; justify-content: center; ">
-                <img src="../../assets/ajara_bank_logo.svg" width="169" height="80">
+            <div nz-row style="margin-bottom:16px;">
+                <div nz-col nzSpan="24" style=" display: flex; justify-content: center; ">
+                    <img src="../../assets/ajara_bank_logo.svg" width="169" height="80">
+                </div>
+            </div>
+
+            <h4 class="bank-name-title p-b-26">The Ajara Urban Co-op. Bank Ltd. Ajara</h4>
+
+            <div nz-form class="login-form" nz-row>
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-control nzErrorTip="Please input your username!">
+                        <nz-input-group nzPrefixIcon="user">
+                            <input type="text" nz-input [(ngModel)]="USER_NAME" placeholder="Username" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control nz-col nzSpan="24" nzErrorTip="Please input your Password!">
+                        <nz-input-group nzPrefixIcon="lock">
+                            <input type="password" nz-input [(ngModel)]="PASSWORD" placeholder="Password" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
+                    [nzLoading]="isloginSpinning" (click)="login()">Log in</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- login.component.html -->
+
+<div class="login-container" [hidden]="isMobileView">
+    <nz-card class="login-card">
+        <div class="login-content">
+            <div class="login-image">
+                <!-- Your image goes here -->
+                <img src="../../assets/login-img.png" alt="Login Image">
+            </div>
+
+            <div class="login-form-container">
+                <div class="login-logo">
+                    <!-- Your bank logo goes here -->
+                    <img src="../../assets/ajara_bank_logo.svg" width="169" height="80" alt="Bank Logo">
+                </div>
+                <strong>
+                    <h1>
+                        <h3>Frictionaless Customer Onbording</h3>
+                    </h1>
+                </strong>
+                <form (ngSubmit)="login()" class="login-form">
+                    <nz-form-item>
+                        <nz-form-label [nzRequired]>Username</nz-form-label>
+                        <nz-form-control>
+                            <input type="text" nz-input name="USER_NAME" [(ngModel)]="USER_NAME"
+                                placeholder="Username" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label [nzRequired]>Password</nz-form-label>
+                        <nz-form-control>
+                            <input type="password" name="PASSWORD" nz-input [(ngModel)]="PASSWORD"
+                                placeholder="Password" />
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-control>
+                            <button nz-button nzType="primary" type="submit">Login</button>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                </form>
             </div>
         </div>
-
-        <h4 class="bank-name-title p-b-26">The Ajara Urban Co-op. Bank Ltd. Ajara</h4>
-
-        <div nz-form class="login-form" nz-row>
-            <nz-form-item nz-col nzSpan="24">
-                <nz-form-control nzErrorTip="Please input your username!">
-                    <nz-input-group nzPrefixIcon="user">
-                        <input type="text" nz-input [(ngModel)]="USER_NAME"
-                            placeholder="Username" />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-control nz-col nzSpan="24" nzErrorTip="Please input your Password!">
-                    <nz-input-group nzPrefixIcon="lock">
-                        <input type="password" nz-input  [(ngModel)]="PASSWORD"
-                            placeholder="Password" />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-
-            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
-                [nzLoading]="isloginSpinning" (click)="login()">Log in</button>
-
-        </div>
-
-    </div>
+    </nz-card>
 </div>

@@ -1,97 +1,107 @@
-.login-form {
-    max-width: 300px;
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-.login-form-margin {
+.login-logo {
+    display: flex;
+    justify-content: center;
     margin-bottom: 16px;
+    /* Adjust as needed */
 }
 
-.login-form-forgot {
-    float: right;
-}
-
-.login-form-button {
-    width: 100%;
-}
-
-/* .shape {
-    height: 150px;
-    width: 150px;
-    background-color: #0074d9;
-    border-radius: 80px;
-    margin-bottom: 30px;
-    float: left;
-    margin-right: 20px;
-  }
-  
-  .shape2 {
-    border-radius: 30px;
-  }
-  
-  .shape3 {
-    border-radius: 5px;
-  } */
-
-/* body, html {
-    height: 100%;
-  } */
-
-body {
-    background-color: #001f3f;
-    /* background-color: #141041; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.container-login100 {
-    width: 100%;
-    min-height: 100vh;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 15px 15px;
-    /* background: #f2f2f2; */
-    margin: auto;
-}
-
-.wrap-login100 {
-    width: 390px;
-    background: #d0dfee;
-    border-radius: 10px;
+.login-card {
+    width: 1200px;
+    border-radius: 20px;
+    /* Adjust the border-radius to control the roundness of the edges */
     overflow: hidden;
-    padding: 30px 40px 30px 40px;
-    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-    -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-    -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-form-button{
-    background-color: #001f3f;
-    /* background-color: #1b1464; */
+.login-content {
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
-.login100-form-title {
-    display: block;
-    font-size: 20px;
-    color: #001f3f;
-    line-height: 1.2;
-    text-align: center;
-    margin-bottom: 16px;
+.login-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #c9e4ffba;
+
 }
 
-.bank-name-title {
-    display: block;
-    font-size: 17px;
-    color: #001f3f;
-    line-height: 1.2;
-    text-align: center;
-    margin-bottom: 16px;
+.login-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form-container {
+    padding: 20px;
+    display: flex;
+    background: #fcfcfc;
+
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+nz-form-item {
+    width: 100%;
+}
+
+input {
+    border-radius: 10px;
+    /* Adjust the border-radius to control the roundness of the input fields */
+}
+
+nz-form-control {
+    width: 100%;
+}
+
+button {
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+.login-image::before {
+    content: '';
+    /* Create a pseudo-element for the background */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #003366, #336699);
+    /* Adjust the background gradient or color as needed */
+    opacity: 0.7;
+    /* Adjust the opacity as needed */
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+    .login-content {
+        flex-direction: column;
+        /* Stack items vertically on smaller screens */
+    }
+
+    .login-image,
+    .login-form-container {
+        width: 100%;
+        /* Take full width on smaller screens */
+    }
 }

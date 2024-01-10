@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ApiService } from '../service/api.service';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SessionUserDetails } from '../common_modules/session_storage/SessionUserDetails';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-login',
@@ -15,21 +15,31 @@ export class LoginComponent implements OnInit {
   @Output() logined = new EventEmitter<boolean>();
   USER_NAME = '';
   PASSWORD = '';
+  isMobileView = false;
 
   isloginSpinning: boolean = false;
   isLogedIn: boolean = false;
 
   constructor(private api: ApiService, private router: Router, private message: NzNotificationService) { }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkScreenSize();
+  }
   ngOnInit(): void {
 
     if (this.isLogedIn = true) {
       console.log(this.isLogedIn + "Hey there ")
       this.isLogedIn = false;
     }
+    this.checkScreenSize();
+
 
   }
 
+  checkScreenSize(): void {
+    this.isMobileView = window.innerWidth <= 768;
+  }
 
   login(): void {
     sessionStorage.clear();
