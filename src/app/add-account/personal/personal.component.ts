@@ -66,6 +66,7 @@ export class PersonalComponent implements OnInit {
 
   @Input() APPLICANT_ID!: number;
 
+  clientAreaWidth!: number;
 
   selectedApplicant: number = 1;
 
@@ -88,6 +89,9 @@ export class PersonalComponent implements OnInit {
     if (this.APPLICANT_ID) {
       this.getBasicInfo()
     }
+
+    this.clientAreaWidth = window.screen.availWidth;
+    this.setAllView();
 
   }
 
@@ -1347,6 +1351,25 @@ export class PersonalComponent implements OnInit {
     }
     else {
       this.basicInfo[key] = 0;
+    }
+  }
+
+
+
+  noApplicantSize: number = 6;
+  cardSize: number = 11;
+  spaceInbetween: number = 2;
+
+  setAllView() {
+    if (this.clientAreaWidth < 1000) {
+      this.noApplicantSize = 10;
+      this.cardSize = 24;
+      this.spaceInbetween = 0;
+    }
+    else {
+      this.noApplicantSize = 6;
+      this.cardSize = 11;
+      this.spaceInbetween = 2;
     }
   }
 

@@ -1,6 +1,6 @@
 <div nz-row>
 
-  <div nz-col nzSpan="6">
+  <div nz-col [nzSpan]="noApplicantSize">
 
     <!-- Applicants details -->
     <div class="box">
@@ -43,14 +43,14 @@
         </div>
     </div> -->
 
-  <div nz-col nzSpan="18"></div>
+  <div nz-col [nzSpan]="24-noApplicantSize"></div>
 
 
   <nz-collapse nzAccordion nz-col nzSpan="24">
     <nz-collapse-panel [nzHeader]="'Applicant 1 Information'" [nzActive]="true">
       <div nz-row>
         <!-- Applicant 1 Information -->
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box">
             <nz-divider nzText="Personal Info"></nz-divider>
 
@@ -185,9 +185,9 @@
 
           </div>
         </div>
-        <div nz-col nzSpan="2"></div>
+        <div nz-col [nzSpan]="spaceInbetween"></div>
         <!-- Kyc details Applicant 1 -->
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box">
             <nz-divider nzText="Verification Details"></nz-divider>
             <div nz-row class="content-box">
@@ -342,7 +342,7 @@
         </div>
 
         <!-- show aadhaar applicant 1  -->
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box" *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED">
             <nz-divider nzText="Aadhaar Details"></nz-divider>
             <div class="content-box ">
@@ -382,9 +382,9 @@
 
         </div>
 
-        <div nz-col nzSpan="2"></div>
+        <div nz-col [nzSpan]="spaceInbetween"></div>
 
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
 
           <div class="box">
             <nz-divider nzText="Verification Status"></nz-divider>
@@ -461,7 +461,7 @@
 
       <div nz-row>
         <!-- Applicant 2 Information -->
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box">
             <nz-divider nzText="Personal Info"></nz-divider>
 
@@ -595,9 +595,9 @@
           </div>
         </div>
 
-        <div nz-col nzSpan="2"></div>
+        <div nz-col [nzSpan]="spaceInbetween"></div>
         <!-- Kyc details Applicant 2 -->
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box">
             <nz-divider nzText="Verification Details"></nz-divider>
             <div nz-row class="content-box">
@@ -760,7 +760,7 @@
 
         <!-- show aadhaar applicant 2  -->
 
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
           <div class="box" *ngIf="aadhaarVerify2.aadhar_history.IS_VERIFIED">
             <nz-divider nzText="Aadhaar Details"></nz-divider>
             <div class="content-box ">
@@ -803,9 +803,9 @@
 
         </div>
 
-        <div nz-col nzSpan="2"></div>
+        <div nz-col [nzSpan]="spaceInbetween"></div>
 
-        <div nz-col nzSpan="11">
+        <div nz-col [nzSpan]="cardSize">
 
           <div class="box">
             <nz-divider nzText="Verification Status"></nz-divider>
