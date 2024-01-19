@@ -12,6 +12,7 @@ import { PersonalComponent } from '../personal/personal.component';
 import { ServicesComponent } from '../services/services.component';
 import { RemarkCompComponent } from '../remark-comp/remark-comp.component';
 import { RemarkModel } from 'src/app/models/remark-model';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-add-account',
@@ -74,7 +75,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   }
 
-  completeVerifier() {
+  async completeVerifier() {
 
     let send_to_refill = false
 
@@ -115,27 +116,34 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
 
-    else if(isOk) {
-      this.personalComp.basicInfo.TRACK_ID = 4;
-      let personal = this.personalComp.save();
-      // this.personalComp.basicInfo.STATUS = 'V';
-      personal.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.saveRemark();
-            this.message.success("Account has been created", '')
-            this.CloseDrawer.emit();
-          }
-          else {
-            this.message.error("Something went wrong", '');
-          }
-        }, error: () => {
+    else if (isOk) {
 
-        },
-        complete: () => {
+      let onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(this.personalComp.basicInfo.ID));
 
-        }
-      })
+      if (onBoardingResult['code'] == 200) {
+        this.message.success("customer created.", '');
+      }
+
+      // this.personalComp.basicInfo.TRACK_ID = 4;
+      // let personal = this.personalComp.save();
+      // this.personalComp.basicInfo.STATUS = 'V'; do not remove comment of this line.
+      // personal.subscribe({
+      //   next: (res) => {
+      //     if (res.code == 200) {
+      //       this.saveRemark();
+      //       this.message.success("Account has been created", '')
+      //       this.CloseDrawer.emit();
+      //     }
+      //     else {
+      //       this.message.error("Something went wrong", '');
+      //     }
+      //   }, error: () => {
+
+      //   },
+      //   complete: () => {
+
+      //   }
+      // })
     }
 
   }

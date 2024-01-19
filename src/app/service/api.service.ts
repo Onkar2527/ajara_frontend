@@ -122,10 +122,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  baseUrl = 'https://accountopening.kredpool.in/api/';
+  // baseUrl = 'https://accountopening.kredpool.in/api/';
 
   // baseUrl local
-  // baseUrl = 'http://192.168.1.9:8079/api/';
+  baseUrl = 'http://localhost:8079/api/';
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -721,6 +721,21 @@ export class ApiService implements HttpInterceptor {
 
   getAllBranch() {
     return this.httpClient.post<any>(this.baseUrl + 'branch/get', '', this.options)
+  }
+
+  onBoardCustomer(applicant_id: number) {
+    let data = {
+      APPLICANT_ID: applicant_id
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'list_api/onBoardCustomer', data, this.options)
+  }
+
+  getMasters(code: number) {
+    let data = {
+      code: code
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'list_api/getMasters', data, this.options)
   }
 
 }

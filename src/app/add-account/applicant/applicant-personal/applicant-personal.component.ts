@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject } from 'rxjs';
+import { Subject, lastValueFrom } from 'rxjs';
 import { PersonalInfo } from 'src/app/models/personal-info';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -20,6 +20,7 @@ export class ApplicantPersonalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAddress();
+    this.getMasters()
   }
 
 
@@ -540,6 +541,10 @@ export class ApplicantPersonalComponent implements OnInit {
       this.personalInfo.SELF_EMPLOYED = ' '
       this.personalInfo.NATURE_OF_BUSINESS = ' '
     }
+  }
+
+  async getMasters(){
+    let result = await lastValueFrom(this.api.getMasters(1));
   }
 
 }
