@@ -122,28 +122,36 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
       if (onBoardingResult['code'] == 200) {
         this.message.success("customer created. ", `Customer ID = ${onBoardingResult.success_data['Account number']}`);
+
+
+        this.personalComp.basicInfo.TRACK_ID = 4;
+        let personal = this.personalComp.save();
+        // this.personalComp.basicInfo.STATUS = 'V'; do not remove comment of this line.
+        personal.subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.saveRemark();
+              this.message.success("Account has been created", `Customer ID = ${onBoardingResult.success_data['Customer Code']}`)
+              this.CloseDrawer.emit();
+            }
+            else {
+              this.message.error("Something went wrong", '');
+            }
+          }, error: () => {
+
+          },
+          complete: () => {
+
+          }
+        })
+
       }
 
-      this.personalComp.basicInfo.TRACK_ID = 4;
-      let personal = this.personalComp.save();
-      // this.personalComp.basicInfo.STATUS = 'V'; do not remove comment of this line.
-      personal.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.saveRemark();
-            this.message.success("Account has been created", `Customer ID = ${onBoardingResult.success_data['Customer Code']}`)
-            this.CloseDrawer.emit();
-          }
-          else {
-            this.message.error("Something went wrong", '');
-          }
-        }, error: () => {
+      else{
+        this.message.error("Unable to create account.",'')
+      }
 
-        },
-        complete: () => {
 
-        }
-      })
     }
 
   }
