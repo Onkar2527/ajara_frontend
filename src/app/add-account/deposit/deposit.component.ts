@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject } from 'rxjs';
+import { Subject, lastValueFrom } from 'rxjs';
 import { TermDeposite } from 'src/app/models/term-deposite';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -14,13 +14,14 @@ export class DepositComponent implements OnInit {
   depositInfo: TermDeposite = new TermDeposite();
   constructor(private api: ApiService, private message: NzNotificationService) { }
   ngOnInit(): void {
-
+    this.getMasters();
   }
 
   mendetory_all = [
     { field: 'ACCOUNT_TYPE', message: 'Account Type' },
     { field: 'ACCOUNT_OPERATION', message: 'Account Operation' },
-    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' }
+    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
+    { field: 'PAYMENT_INSTRUCTION', message: 'Payment Instruction' }
   ]
 
   mendetory_saving = [
@@ -48,13 +49,13 @@ export class DepositComponent implements OnInit {
   catagoryB = false;
 
   getAccountCatA() {
-    let con = (['A', 'B', 'G','C','H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+    let con = (['A', 'B', 'G', 'C', 'H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
 
     this.catagoryA = con
   }
 
   getAccountCatB() {
-    let con = ([ 'D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+    let con = (['D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
 
     this.catagoryB = con
   }
@@ -62,6 +63,28 @@ export class DepositComponent implements OnInit {
   changeCatagory() {
     this.getAccountCatA();
     this.getAccountCatB();
+  }
+
+  MASTERS = [
+    { id: 18, data: <any>[], name: "scheme" },
+    { id: 21, data: <any>[], name: "operation" },
+    { id: 22, data: <any>[], name: "payment instruction" },
+  ]
+
+  schemeMaster = <any>[]
+
+  async getMasters() {
+
+    for (let i = 0; i < this.MASTERS.length; i++) {
+      let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
+
+      if (result['code'] == 200 && result["data"].length > 0) {
+        this.MASTERS[i].data = result['data'];
+      }
+    }
+
+    console.log('MASTERS', this.MASTERS);
+
   }
 
   save() {

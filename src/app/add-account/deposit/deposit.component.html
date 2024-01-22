@@ -25,12 +25,19 @@
                     <nz-form-control>
                         <nz-form-label nzRequired [nzNoColon]="true">Mode of Operation</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_OPERATION">
-                            <nz-option [nzValue]="'A'" nzLabel="Individual"></nz-option>
-                            <nz-option [nzValue]="'B'" nzLabel="Joint"></nz-option>
-                            <nz-option [nzValue]="'C'" nzLabel="Either or Survivor"></nz-option>
-                            <nz-option [nzValue]="'D'" nzLabel="Formar of Survivor"></nz-option>
-                            <nz-option [nzValue]="'E'" nzLabel="Any One"></nz-option>
-                            <nz-option [nzValue]="'F'" nzLabel="Any Two"></nz-option>
+                            <nz-option *ngFor="let option of MASTERS[1].data" [nzValue]="option.OPRINSTID"
+                                [nzLabel]="option.OPRINSTDTLS"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-control>
+                        <nz-form-label nzRequired [nzNoColon]="true">Payment Instruction</nz-form-label>
+                        <nz-select [(ngModel)]="depositInfo.PAYMENT_INSTRUCTION">
+                            <nz-option *ngFor="let option of MASTERS[2].data" [nzValue]="option.PAYINSTID"
+                                [nzLabel]="option.PAYINSTDTLS"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>

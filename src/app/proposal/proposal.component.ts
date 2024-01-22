@@ -415,6 +415,12 @@ export class ProposalComponent implements OnInit {
     this.selectedIndex = this.addAccountComp.selectedIndex;
   }
 
+  mendetoryDocs = [
+    "Applicant ID Proof",
+    "Applicant Address Proof",
+    "Applicant Photo"
+  ]
+
   saveANext() {
     if (this.selectedIndex != 5) {
       this.addAccountComp.saveANext();
@@ -423,11 +429,11 @@ export class ProposalComponent implements OnInit {
       this.api.getDocument(this.APPLICANT_ID, null).subscribe({
         next: (res) => {
           if (res['code'] == 200) {
-            if (res['data'].length >= 2) {
-              this.velidateDocument(res['data']) ? this.addAccountComp.saveANext() : this.message.error("Please Upload Atleast Two Documents!", '');
+            if (res['data'].length >= 3) {
+              this.velidateDocument(res['data']) ? this.addAccountComp.saveANext() : this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
             }
             else {
-              this.message.error("Please Upload Atleast Two Documents!", '');
+              this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
             }
           }
           else {
@@ -445,10 +451,12 @@ export class ProposalComponent implements OnInit {
   velidateDocument(docArray: Documents[]) {
     let count = 0
     for (let doc of docArray) {
-      if (doc.IMAGE_DATA) count++;
+      if (this.mendetoryDocs.includes(doc.DOCUMENT_NAME)) {
+        if (doc.IMAGE_DATA) count++;
+      }
     }
 
-    if (count >= 2) {
+    if (count >= this.mendetoryDocs.length) {
       return true;
     }
     else {

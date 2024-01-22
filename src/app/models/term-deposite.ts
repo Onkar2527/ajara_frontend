@@ -3,7 +3,7 @@ export class TermDeposite {
     APPLICANT_ID?: number;
 
     ACCOUNT_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = "A";
-    ACCOUNT_OPERATION: "A" | "B" | "C" | "D" | "E" | "F" = "A";
+    ACCOUNT_OPERATION :string = '';
 
     INITIAL_AMOUNT!: number;
     MODE_OF_PAYMENT: string = 'C';
@@ -34,4 +34,5 @@ export class TermDeposite {
     MATURITY_DATE?: string
     MATURITY_AMOUNT?: string
 
+    PAYMENT_INSTRUCTION:string = ''
 }

@@ -70,7 +70,7 @@
                     <input nz-input [(ngModel)]="basicInfo.CUSTOMER_ID_1" placeholder="Customer ID" />
                   </nz-input-group>
                   <ng-template #suffixIconButton>
-                    <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+                    <button nz-button nzType="primary" nzSearch (click)="searchCustomer()"><span nz-icon nzType="search"></span></button>
                   </ng-template>
                 </nz-form-control>
               </nz-form-item>
@@ -147,7 +147,7 @@
 
                     <label nz-radio [nzValue]="'M'">Male</label>
                     <label nz-radio [nzValue]="'F'">Female</label>
-                    <label nz-radio [nzValue]="'O'">Transgender</label>
+                    <label nz-radio [nzValue]="'T'">Transgender</label>
 
                   </nz-radio-group>
                 </nz-form-control>
@@ -238,7 +238,7 @@
               </nz-form-item>
 
               <nz-form-item nz-col nzSpan="24">
-                <nz-form-label [nzNoColon]="true">PAN number</nz-form-label>
+                <nz-form-label [nzNoColon]="true" nzRequired>PAN number</nz-form-label>
                 <nz-form-control>
                   <div nz-row>
                     <div nz-col [nzSpan]="17">
@@ -557,7 +557,7 @@
 
                     <label nz-radio [nzValue]="'M'">Male</label>
                     <label nz-radio [nzValue]="'F'">Female</label>
-                    <label nz-radio [nzValue]="'O'">Transgender</label>
+                    <label nz-radio [nzValue]="'T'">Transgender</label>
 
                   </nz-radio-group>
                 </nz-form-control>

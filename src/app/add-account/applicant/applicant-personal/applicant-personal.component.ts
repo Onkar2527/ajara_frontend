@@ -19,8 +19,37 @@ export class ApplicantPersonalComponent implements OnInit {
   OTP: string = '';
 
   ngOnInit(): void {
-    this.getAllAddress();
+    // this.getAllAddress();
     this.getMasters()
+  }
+
+  //masters 
+
+  MASTERS = [
+    { id: 3, data: <any>[], name: "occupation" },
+    { id: 4, data: <any>[], name: "address proof" },
+    { id: 5, data: <any>[], name: "id proof" },
+    { id: 6, data: <any>[], name: "risk category" },
+    { id: 13, data: <any>[], name: "state" },
+    { id: 14, data: <any>[], name: "district" },
+    { id: 15, data: <any>[], name: "taluka" },
+    { id: 16, data: <any>[], name: "city" },
+    { id: 17, data: <any>[], name: "area" },
+    { id: 19, data: <any>[], name: "constitution" },
+  ]
+
+
+  async getMasters() {
+    for (let i = 0; i < this.MASTERS.length; i++) {
+      let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
+
+      if (result['code'] == 200 && result["data"].length > 0) {
+        this.MASTERS[i].data = result['data'];
+      }
+    }
+
+    console.log('MASTERS', this.MASTERS);
+
   }
 
 
@@ -68,7 +97,20 @@ export class ApplicantPersonalComponent implements OnInit {
 
     { field: 'RELIGION', message: "Religion" },
 
-    { field: 'CASTE', message: "Caste" }
+    { field: 'CASTE', message: "Caste" },
+
+    { field: 'ID_PROOF', message: "Identity Proof" },
+
+    { field: 'ID_PROOF_NUMBER', message: "Identity Proof Number" },
+
+    { field: 'PERMANENT_ADDRESS_PROOF_NUMBER', message: "Permanent Address Proof Number" },
+
+    { field: 'PERMANENT_AREA', message: "Permanent Area" },
+
+    { field: 'CURRENT_AREA', message: "Current Area" },
+
+    { field: 'CONSTITUTION', message: "Constitution" }
+
   ]
 
   mendetory_religion = [
@@ -338,9 +380,24 @@ export class ApplicantPersonalComponent implements OnInit {
     this.personalInfo.CURRENT_LANDMARK = this.personalInfo.PERMANENT_LANDMARK;
     this.personalInfo.CURRENT_STATE = this.personalInfo.PERMANENT_STATE;
     this.personalInfo.CURRENT_PINCODE = this.personalInfo.PERMANENT_PINCODE;
+    this.personalInfo.CURRENT_AREA = this.personalInfo.PERMANENT_AREA;
 
-    this.getAllAddress();
+    // this.getAllAddress();
   }
+
+  convertToString() {
+    this.personalInfo.CURRENT_AREA = this.personalInfo.CURRENT_AREA.toString()
+    this.personalInfo.PERMANENT_AREA = this.personalInfo.PERMANENT_AREA.toString()
+    this.personalInfo.CURRENT_CITY = this.personalInfo.CURRENT_CITY.toString()
+    this.personalInfo.PERMANENT_CITY = this.personalInfo.PERMANENT_CITY.toString()
+    this.personalInfo.CURRENT_TALUKA = this.personalInfo.CURRENT_TALUKA.toString()
+    this.personalInfo.PERMANENT_TALUKA = this.personalInfo.PERMANENT_TALUKA.toString()
+    this.personalInfo.CURRENT_DISTRICT = this.personalInfo.CURRENT_DISTRICT.toString()
+    this.personalInfo.PERMANENT_DISTRICT = this.personalInfo.PERMANENT_DISTRICT.toString()
+    this.personalInfo.CURRENT_STATE = this.personalInfo.CURRENT_STATE.toString()
+    this.personalInfo.PERMANENT_STATE = this.personalInfo.PERMANENT_STATE.toString()
+  }
+
 
   save() {
     let personal: Subject<any> = new Subject();
@@ -383,6 +440,7 @@ export class ApplicantPersonalComponent implements OnInit {
 
     if (isOk) {
       if (this.personalInfo.ID) {
+        this.convertToString();
         this.api.updateAplicant(this.personalInfo).subscribe({
           next: (res) => {
             if (res.code == 200) {
@@ -512,40 +570,38 @@ export class ApplicantPersonalComponent implements OnInit {
   showSelfEmployed: boolean = false;
 
   changeProfession() {
-    if(this.personalInfo.PROFESSION == 'A'){
+    if (this.personalInfo.PROFESSION == 'A') {
       this.showService = true;
-      this.showBusiness =false;
-      this.showSelfEmployed =false;
+      this.showBusiness = false;
+      this.showSelfEmployed = false;
       this.personalInfo.SELF_EMPLOYED = ' ';
       this.personalInfo.NATURE_OF_BUSINESS = ' '
     }
-    else if(this.personalInfo.PROFESSION == 'B'){
+    else if (this.personalInfo.PROFESSION == 'B') {
       this.showService = false;
-      this.showBusiness =false;
-      this.showSelfEmployed =true;
+      this.showBusiness = false;
+      this.showSelfEmployed = true;
       this.personalInfo.NATURE_OF_SERVICE = ' ';
       this.personalInfo.NATURE_OF_BUSINESS = ' '
     }
-    else if(this.personalInfo.PROFESSION == 'C'){
+    else if (this.personalInfo.PROFESSION == 'C') {
       this.showService = false;
-      this.showBusiness =true;
-      this.showSelfEmployed =false;
+      this.showBusiness = true;
+      this.showSelfEmployed = false;
       this.personalInfo.NATURE_OF_SERVICE = ' ';
       this.personalInfo.SELF_EMPLOYED = ' '
     }
-    else{
+    else {
       this.showService = false;
-      this.showBusiness =false;
-      this.showSelfEmployed =false;
+      this.showBusiness = false;
+      this.showSelfEmployed = false;
       this.personalInfo.NATURE_OF_SERVICE = ' ';
       this.personalInfo.SELF_EMPLOYED = ' '
       this.personalInfo.NATURE_OF_BUSINESS = ' '
     }
   }
 
-  async getMasters(){
-    let result = await lastValueFrom(this.api.getMasters(1));
-  }
+
 
 }
 

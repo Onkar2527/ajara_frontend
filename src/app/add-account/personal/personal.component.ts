@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject } from 'rxjs';
+import { Subject, first, lastValueFrom } from 'rxjs';
 import { Aadhaar, Aadhaar_History, License_History, Pan_History, Voter_History } from 'src/app/models/aadhaar';
 import { BasicInfo } from 'src/app/models/basicInfo';
 import { ApiService } from 'src/app/service/api.service';
@@ -24,7 +24,13 @@ export class PersonalComponent implements OnInit {
     { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Customer Type' },
 
     { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
-    { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' }
+    { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
+    { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' }
+
+  ]
+
+  mendetory_customer = [
+    { field: 'CUSTOMER_ID_1', message: 'Applicant 1 Customer ID' }
   ]
 
   mendetory_applicant_2 = [
@@ -703,7 +709,7 @@ export class PersonalComponent implements OnInit {
 
   save() {
     let personal: Subject<any> = new Subject();
-
+    this.saveOVD();
     // this.basicInfo.STATUS = status;
     let isOk = true;
 
@@ -726,10 +732,21 @@ export class PersonalComponent implements OnInit {
       }
     }
 
+    if (this.basicInfo.IS_OLD_CUSTOMER_1) {
+      for (let field of this.mendetory_customer) {
+        if (!this.basicInfo[field.field as keyof BasicInfo]) {
+          this.message.error(`${field.message} is Mandetory`, '');
+          isOk = false;
+          personal.next({ code: 300 })
+        }
+
+      }
+    }
+
 
 
     if (isOk) {
-      this.saveOVD();
+
       if (this.basicInfo.ID) {
 
         this.api.updateBasic(this.basicInfo).subscribe({
@@ -1373,7 +1390,51 @@ export class PersonalComponent implements OnInit {
     }
   }
 
+  searchData: any
 
+  async searchCustomer() {
+    if (this.basicInfo.CUSTOMER_ID_1) {
+      let res: any = await lastValueFrom(this.api.searchCustomer(this.basicInfo.CUSTOMER_ID_1));
+      if (res['code'] == 200) {
+        this.searchData = res['data'];
 
+        if (this.searchData.ALREADY_EXIST == 'Y') {
+          this.message.error("This Customer Already Have An Individual Account.", "")
+        }
+        else {
+          this.aadhaarVerify.pan_history.PAN_NUMBER = this.searchData.PAN;
+          this.basicInfo.MOBILE_1 = this.searchData.MOBILE;
+          this.basicInfo.GENDER_1 = this.searchData.GENDER;
+          this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME = this.searchData.FIRST_NAME;
+          this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME = this.searchData.MIDDLE_NAME;
+          this.basicInfo.PRIMARY_APPLICANT_LAST_NAME = this.searchData.LAST_NAME;
+
+          this.basicInfo.DOB_1 = this.convertDate(this.searchData.BIRTHDATE);
+          this.calculateAge(1)
+        }
+        console.log("serachData", this.searchData)
+      }
+      else if (res['code'] == 404) {
+        this.message.error("No Customer Found.", '');
+      }
+      else{
+        this.message.error("Something Went Wrong", '');
+      }
+    }
+    else {
+      this.message.error("Please Enter Customer ID.", '');
+    }
+
+  }
+
+  convertDate(date: string) {
+    let arr = date.split(" ");
+
+    let firstPart = arr[0].split("-");
+
+    let dd = firstPart[0], mm = firstPart[1], yy = firstPart[2];
+
+    return `${dd}/${mm}/${yy}`;
+  }
 
 }

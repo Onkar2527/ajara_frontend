@@ -11,19 +11,19 @@ export class PersonalInfo {
     F_OR_H_LAST_NAME: string = '';
 
     CURRENT_ADDRESS: string = '';
-    CURRENT_CITY: string = '';
-    CURRENT_TALUKA: string = '';
-    CURRENT_DISTRICT: string = '';
-    CURRENT_LANDMARK: string = '';
-    CURRENT_STATE: string = '';
+    CURRENT_CITY: any
+    CURRENT_TALUKA:any
+    CURRENT_DISTRICT: any
+    CURRENT_LANDMARK:string = '';
+    CURRENT_STATE: any
     CURRENT_PINCODE: string = '';
 
     PERMANENT_ADDRESS: string = '';
-    PERMANENT_CITY: string = '';
-    PERMANENT_TALUKA: string = '';
-    PERMANENT_DISTRICT: string = '';
+    PERMANENT_CITY: any;
+    PERMANENT_TALUKA: any;
+    PERMANENT_DISTRICT:any;
     PERMANENT_LANDMARK: string = '';
-    PERMANENT_STATE: string = '';
+    PERMANENT_STATE: any;
     PERMANENT_PINCODE: string = '';
 
     // HOUSE_PHONE: string = '';
@@ -120,5 +120,15 @@ export class PersonalInfo {
 
     PERMANENT_ADDRESS_PROOF:string = '';
     CURRUNT_ADDRESS_PROOF:string = '';
+
+    CONSTITUTION:string = '';
+
+    ID_PROOF:string = '';
+    ID_PROOF_NUMBER:string = '';
+    CURRENT_ADDRESS_PROOF_NUMBER:string = '';
+    PERMANENT_ADDRESS_PROOF_NUMBER:string = '';
+    CURRENT_AREA:any;
+    PERMANENT_AREA:any;
+    FATHER_OR_SPOUSE:string = 'F';
 
 }

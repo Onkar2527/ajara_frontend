@@ -40,10 +40,24 @@ export class ApplicantDetailsComponent implements OnInit {
 
   }
 
+  convertToNumber() {
+    this.personalInfo.CURRENT_AREA = Number(this.personalInfo.CURRENT_AREA)
+    this.personalInfo.PERMANENT_AREA = Number(this.personalInfo.PERMANENT_AREA)
+    this.personalInfo.CURRENT_CITY = Number(this.personalInfo.CURRENT_CITY)
+    this.personalInfo.PERMANENT_CITY = Number(this.personalInfo.PERMANENT_CITY)
+    this.personalInfo.CURRENT_TALUKA = Number(this.personalInfo.CURRENT_TALUKA)
+    this.personalInfo.PERMANENT_TALUKA = Number(this.personalInfo.PERMANENT_TALUKA)
+    this.personalInfo.CURRENT_DISTRICT = Number(this.personalInfo.CURRENT_DISTRICT)
+    this.personalInfo.PERMANENT_DISTRICT = Number(this.personalInfo.PERMANENT_DISTRICT)
+    this.personalInfo.CURRENT_STATE = Number(this.personalInfo.CURRENT_STATE)
+    this.personalInfo.PERMANENT_STATE = Number(this.personalInfo.PERMANENT_STATE)
+  }
 
 
   edit(data: PersonalInfo) {
     this.personalInfo = data;
+
+    this.convertToNumber();
 
     let ROLE_ID = Number(sessionStorage.getItem('ROLE_ID'));
 
