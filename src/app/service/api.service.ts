@@ -122,14 +122,14 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  // baseUrl = 'https://accountopening.kredpool.in/api/';
+  // baseUrl = 'https://fco.kredpool.com:9000/api/';
 
   // baseUrl local
-  // baseUrl = 'http://localhost:8079/api/';
+  baseUrl = 'http://localhost:8079/api/';
 
   // baseUrl server
 
-  baseUrl = 'http://10.128.116.5:9000/api/'
+  // baseUrl = 'http://10.128.116.5:9000/api/'
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)

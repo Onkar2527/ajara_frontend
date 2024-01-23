@@ -34,5 +34,6 @@ export class TermDeposite {
     MATURITY_DATE?: string
     MATURITY_AMOUNT?: string
 
-    PAYMENT_INSTRUCTION:string = ''
+    PAYMENT_INSTRUCTION:string = '';
+    SCHEME_CODE:string = '';
 }

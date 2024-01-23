@@ -63,6 +63,7 @@ export class DepositComponent implements OnInit {
   changeCatagory() {
     this.getAccountCatA();
     this.getAccountCatB();
+    this.changeScheme();
   }
 
   MASTERS = [
@@ -82,9 +83,21 @@ export class DepositComponent implements OnInit {
         this.MASTERS[i].data = result['data'];
       }
     }
-
+    this.changeScheme();
     console.log('MASTERS', this.MASTERS);
 
+  }
+
+  schemes: any = []
+
+  changeScheme() {
+    if (this.depositInfo.ACCOUNT_TYPE == "A") {
+      this.schemes = this.MASTERS[0].data.filter((value: any) => value.SMP_MNACTYPE == "SB")
+    }
+
+    else {
+      this.schemes = []
+    }
   }
 
   save() {

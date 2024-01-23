@@ -23,6 +23,15 @@
 
                 <nz-form-item nz-col nzSpan="24">
                     <nz-form-control>
+                        <nz-form-label nzRequired [nzNoColon]="true">Sub Account Type</nz-form-label>
+                        <nz-select [(ngModel)]="depositInfo.SCHEME_CODE" (ngModelChange)="changeCatagory()">
+                            <nz-option *ngFor="let scheme of schemes" [nzValue]="scheme.SMP_CODE" [nzLabel]="scheme.SMP_NAME"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-col nzSpan="24">
+                    <nz-form-control>
                         <nz-form-label nzRequired [nzNoColon]="true">Mode of Operation</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.ACCOUNT_OPERATION">
                             <nz-option *ngFor="let option of MASTERS[1].data" [nzValue]="option.OPRINSTID"
