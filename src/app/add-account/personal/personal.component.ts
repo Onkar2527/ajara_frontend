@@ -98,8 +98,27 @@ export class PersonalComponent implements OnInit {
 
     this.clientAreaWidth = window.screen.availWidth;
     this.setAllView();
+    this.getMasters();
+  }
+
+  MASTERS = [
+    { id: 2, data: <any>[], name: "title" },
+  ]
+
+
+  async getMasters() {
+    for (let i = 0; i < this.MASTERS.length; i++) {
+      let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
+
+      if (result['code'] == 200 && result["data"].length > 0) {
+        this.MASTERS[i].data = result['data'];
+      }
+    }
+
+    console.log('MASTERS', this.MASTERS);
 
   }
+
 
   saveAadhaarData(applicant_no: number) {
     if (applicant_no == 1) {
@@ -1417,7 +1436,7 @@ export class PersonalComponent implements OnInit {
       else if (res['code'] == 404) {
         this.message.error("No Customer Found.", '');
       }
-      else{
+      else {
         this.message.error("Something Went Wrong", '');
       }
     }

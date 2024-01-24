@@ -82,7 +82,7 @@ export class PersonalInfo {
     PAN_NO: string = '';
     NATIONALITY: string = 'A';
     DATE_OF_BIRTH: string = '';
-    GENDER: "M" | "F" | "O" = "M";
+    GENDER: "M" | "F" | "T" = "M";
 
    
     IS_DOB_MISMATCH: boolean = false;

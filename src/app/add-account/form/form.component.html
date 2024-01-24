@@ -64,7 +64,9 @@
         Account Number
       </div>
 
-      <div nz-col nzSpan="5" class="border-all data"></div>
+      <div nz-col nzSpan="5" class="border-all data">
+        {{basicInfo['ACCOUNT_NUMBER']}}
+      </div>
     </div>
 
   </div>
@@ -81,14 +83,19 @@
         ग्राहकाचा प्रकार
       </div>
       <div nz-col nzSpan="8" class="border-all data">
-        <span *ngIf="i == 0">{{customer_type[basicInfo.CUSTOMER_TYPE_1]}}</span>
+        <span *ngIf="i == 0">{{basicInfo.CUSTOMER_TYPE_1}}</span>
         <span *ngIf="i == 1">{{customer_type[basicInfo.CUSTOMER_TYPE_2]}}</span>
         <span *ngIf="i == 2">{{customer_type[basicInfo.CUSTOMER_TYPE_3]}}</span>
         <span *ngIf="i == 3">{{customer_type[basicInfo.CUSTOMER_TYPE_4]}}</span>
       </div>
 
       <div nz-col nzSpan="5" class="border-all data-heading">Risk Category</div>
-      <div nz-col nzSpan="4" class="border-all data">{{risk_type[applicant.RISK_CATEGORY]}}</div>
+      <div nz-col nzSpan="4" class="border-all data">
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.risk_cat}}</span>
+        <span *ngIf="i > 0">{{risk_type[applicant.RISK_CATEGORY]}}</span>
+      </div>
+
+
     </div>
 
     <div nz-row>
@@ -114,7 +121,7 @@
 
     </div>
 
-    <div nz-row >
+    <div nz-row>
       <div nz-col nzSpan="8" class="border-all data-heading">
         वडिलांचे नांव Father's Name
       </div>
@@ -126,7 +133,7 @@
     </div>
 
 
-    <div nz-row >
+    <div nz-row>
 
       <div nz-col nzSpan="3" class="border-all data-heading">राष्ट्रीयत्व <div>Nationality</div>
       </div>
@@ -274,7 +281,8 @@
         <div>Proof</div>
       </div>
       <div nz-col nzSpan="5" class="border-all data">
-        {{applicant.PERMANENT_ADDRESS_PROOF}}
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.address_proof}}</span>
+        <span *ngIf="i > 0"> {{applicant.PERMANENT_ADDRESS_PROOF}}</span>
       </div>
 
     </div>
@@ -306,26 +314,31 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.CURRENT_CITY}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.current_city}}</span>
+        <span *ngIf="i > 0">{{applicant.CURRENT_CITY}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.CURRENT_TALUKA}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.current_taluka}}</span>
+        <span *ngIf="i > 0">{{applicant.CURRENT_TALUKA}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.PERMANENT_CITY}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.permanent_city}}</span>
+        <span *ngIf="i > 0"> {{applicant.PERMANENT_CITY}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.PERMANENT_TALUKA}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.permanent_taluka}}</span>
+        <span *ngIf="i > 0"> {{applicant.PERMANENT_TALUKA}} &nbsp;&nbsp;</span>
       </div>
 
     </div>
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.CURRENT_DISTRICT}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.current_dist}}</span>
+        <span *ngIf="i > 0"> {{applicant.CURRENT_DISTRICT}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -333,7 +346,8 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.PERMANENT_DISTRICT}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.permanent_dist}}</span>
+        <span *ngIf="i > 0"> {{applicant.PERMANENT_DISTRICT}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -346,7 +360,8 @@
 
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.CURRENT_STATE}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.current_state}}</span>
+        <span *ngIf="i > 0"> {{applicant.CURRENT_STATE}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -354,7 +369,8 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        {{applicant.PERMANENT_STATE}} &nbsp;&nbsp;
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.permanent_state}}</span>
+        <span *ngIf="i > 0"> {{applicant.PERMANENT_STATE}} &nbsp;&nbsp;</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
@@ -372,7 +388,8 @@
       </div>
 
       <div nz-col nzSpan="4" class="border-all data">
-        {{profession[applicant.PROFESSION]}}
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.occupation}}</span>
+        <span *ngIf="i > 0"> {{profession[applicant.PROFESSION]}}</span>
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">
@@ -623,6 +640,7 @@
 
       <div nz-col nzSpan="12" class="border-all data">
         <!-- {{account_operation[depositInfo.ACCOUNT_OPERATION]}} -->
+        <span>{{applicantPersonalMasterData.operation}}</span>
       </div>
 
     </div>
@@ -657,20 +675,18 @@
       </div>
 
       <div nz-col nzSpan="7" class="border-all data">
-        <span
-          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.TRANSFER_ACCOUNT_NO}}</span>
+        <span *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.TRANSFER_ACCOUNT_NO}}</span>
       </div>
 
     </div>
 
-    <div nz-row >
+    <div nz-row>
       <div nz-col nzSpan="6" class="border-all data-heading">
         बँकेचे नांव Bank Name
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span
-          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BANK_NAME}}</span>
+        <span *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BANK_NAME}}</span>
       </div>
 
       <div nz-col nzSpan="6" class="border-all data-heading">
@@ -678,8 +694,7 @@
       </div>
 
       <div nz-col nzSpan="6" class="border-all data">
-        <span
-          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BRANCH_NAME}}</span>
+        <span *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHEQUE_BRANCH_NAME}}</span>
       </div>
 
     </div>
@@ -692,8 +707,7 @@
       </div>
 
       <div nz-col nzSpan="18" class="border-all data">
-        <span
-          *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHAQUE_NO}}</span>
+        <span *ngIf="depositInfo.MODE_OF_PAYMENT == 'T'">{{depositInfo.CHAQUE_NO}}</span>
       </div>
 
 
@@ -1112,7 +1126,8 @@
 
   </div>
 
-  <div class="page-margin-top" [ngClass]=" {'page':ApplicantPersonal[0].IS_VERNACULAR || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_VERNACULAR)}">
+  <div class="page-margin-top"
+    [ngClass]=" {'page':ApplicantPersonal[0].IS_VERNACULAR || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_VERNACULAR)}">
     <div nz-row style="text-align:justify;">
       <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8.5px !important;">
         घोषणा-<br>
@@ -1345,7 +1360,8 @@
       <div nz-col nzSpan="6" class="border-all data-heading">
         <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan
           verification done</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹': '□'}}</b></span> OVD verification done
+        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹': '□'}}</b></span>
+          OVD verification done
         </div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies verified
         </div>
@@ -1363,7 +1379,8 @@
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Nomination verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Mobile number
           verification</div>
-        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].IS_EMAIL_VERIFIED ? '🗹': '□'}}</b></span> Email verified</div>
+        <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].IS_EMAIL_VERIFIED ? '🗹':
+              '□'}}</b></span> Email verified</div>
         <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Required documents
           attached</div>
 
@@ -1378,15 +1395,18 @@
     <div nz-row>
       <div nz-col nzSpan="6" class="border-all data-heading">Data entered by- <span
           *ngIf="makerUserData.NAME">{{makerUserData.NAME}}</span></div>
-      <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.FILLED_DATE_TIME|date:'dd/MM/yyyy'}} {{basicInfo.FILLED_DATE_TIME|date:'HH:mm'}}</div>
+      <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.FILLED_DATE_TIME|date:'dd/MM/yyyy'}}
+        {{basicInfo.FILLED_DATE_TIME|date:'HH:mm'}}</div>
       <div nz-col nzSpan="6" class="border-all data-heading">Data verified by - <span
           *ngIf="checkerUserData.NAME">{{checkerUserData.NAME}}</span></div>
-      <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.VERIFIED_DATE_TIME|date:'dd/MM/yyyy'}} {{basicInfo.VERIFIED_DATE_TIME|date:'HH:mm'}}</div>
+      <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.VERIFIED_DATE_TIME|date:'dd/MM/yyyy'}}
+        {{basicInfo.VERIFIED_DATE_TIME|date:'HH:mm'}}</div>
     </div>
 
   </div>
 
-  <div class="page" [ngClass]=" {'page':ApplicantPersonal[0].IS_DOB_MISMATCH || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_DOB_MISMATCH)}">
+  <div class="page"
+    [ngClass]=" {'page':ApplicantPersonal[0].IS_DOB_MISMATCH || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_DOB_MISMATCH)}">
 
     <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_VERNACULAR">
       <div nz-row>

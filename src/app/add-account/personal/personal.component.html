@@ -95,16 +95,10 @@
                 <!-- <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label> -->
                 <nz-form-control>
 
-                  <nz-form-label nzRequired nzNoColon>Applicant Type</nz-form-label>
+                  <nz-form-label nzRequired nzNoColon>Title</nz-form-label>
 
                   <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_1">
-                    <nz-option [nzValue]="'A'" nzLabel="Mr."></nz-option>
-                    <nz-option [nzValue]="'B'" nzLabel="Mrs."></nz-option>
-                    <nz-option [nzValue]="'C'" nzLabel="Miss."></nz-option>
-                    <nz-option [nzValue]="'D'" nzLabel="Mast."></nz-option>
-                    <nz-option [nzValue]="'E'" nzLabel="Smt."></nz-option>
-                    <nz-option [nzValue]="'F'" nzLabel="M/s."></nz-option>
-                    <nz-option [nzValue]="'G'" nzLabel="Mx."></nz-option>
+                    <nz-option *ngFor="let title of MASTERS[0].data" [nzValue]="title.TITLEDESC" [nzLabel]="title.TITLEDESC"></nz-option>
                   </nz-select>
 
                 </nz-form-control>

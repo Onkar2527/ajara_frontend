@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject } from 'rxjs';
+import { Subject, lastValueFrom } from 'rxjs';
 import { Facilities } from 'src/app/models/facilities';
 import { NomineeDetails } from 'src/app/models/nominee-details';
 import { BasicInfo } from 'src/app/models/basicInfo';
@@ -194,7 +194,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   gender = {
     'M': "Male",
     'F': "Female",
-    'O': "Transgender"
+    'T': "Transgender"
   }
 
 
@@ -267,6 +267,106 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  MASTERS = [
+    { id: 2, data: <any>[], name: "title", valueField: "", lableField: "" },
+    { id: 3, data: <any>[], name: "occupation", valueField: "OCCUPATIONID", lableField: "OCCUPATIONDESC" },
+    { id: 4, data: <any>[], name: "address proof", valueField: "ADDPROOFID", lableField: "ADDPROOFDESC" },
+    { id: 5, data: <any>[], name: "id proof", valueField: "IDTPROOFID", lableField: "IDTPROOFDESC" },
+    { id: 6, data: <any>[], name: "risk category", valueField: "CAT_CODE", lableField: "CAT_DESC" },
+    { id: 13, data: <any>[], name: "state", valueField: "ID", lableField: "STATEDESC" },
+    { id: 14, data: <any>[], name: "district", valueField: "ID", lableField: "DISTRICTDESC" },
+    { id: 15, data: <any>[], name: "taluka", valueField: "ID", lableField: "TALUKADESC" },
+    { id: 16, data: <any>[], name: "city", valueField: "ID", lableField: "CITYDESC" },
+    { id: 17, data: <any>[], name: "area", valueField: "ID", lableField: "AREADESC" },
+    { id: 18, data: <any>[], name: "scheme", valueField: "", lableField: "" },
+    { id: 19, data: <any>[], name: "constitution", valueField: "OWP_CODE", lableField: "OWP_DESC" },
+    { id: 21, data: <any>[], name: "operation", valueField: "OPRINSTID", lableField: "OPRINSTDTLS" },
+    { id: 22, data: <any>[], name: "payment instruction", valueField: "PAYINSTID", lableField: "PAYINSTDTLS" },
+  ]
+
+
+  async getMasters() {
+    for (let i = 0; i < this.MASTERS.length; i++) {
+      let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
+
+      if (result['code'] == 200 && result["data"].length > 0) {
+        this.MASTERS[i].data = result['data'];
+      }
+    }
+
+    this.mapMasters()
+
+    console.log('MASTERS', this.MASTERS);
+
+  }
+
+  applicantPersonalMasterData = {
+    occupation: "",
+    address_proof: "",
+
+    risk_cat: "",
+    permanent_state: "",
+    permanent_area: "",
+    permanent_dist: "",
+    permanent_taluka: "",
+    permanent_city: "",
+
+    current_state: "",
+    current_area: "",
+    current_dist: "",
+    current_taluka: "",
+    current_city: "",
+    operation: ""
+
+  }
+
+  mapMasters() {
+    this.assignValueFromMaster(this.filterValues(1, this.ApplicantPersonal[0].PROFESSION), "occupation");
+    this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].PERMANENT_STATE)), "permanent_state");
+    this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].PERMANENT_AREA)), "permanent_area");
+    this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].PERMANENT_DISTRICT)), "permanent_dist");
+    this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].PERMANENT_TALUKA)), "permanent_taluka");
+    this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].PERMANENT_CITY)), "permanent_city");
+
+    this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].CURRENT_STATE)), "current_state");
+    this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].CURRENT_AREA)), "current_area");
+    this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].CURRENT_DISTRICT)), "current_dist");
+    this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].CURRENT_TALUKA)), "current_taluka");
+    this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].CURRENT_CITY)), "current_city");
+
+    this.assignValueFromMaster(this.filterValues(2, this.ApplicantPersonal[0].PERMANENT_ADDRESS_PROOF), "address_proof");
+
+    this.assignValueFromMaster(this.filterValues(4, this.ApplicantPersonal[0].RISK_CATEGORY), "risk_cat");
+
+    this.assignValueFromMaster(this.filterValues(12, this.depositInfo.ACCOUNT_OPERATION), "operation");
+
+    console.log(this.applicantPersonalMasterData)
+  }
+
+  allowedTypes!: "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city"
+
+  assignValueFromMaster(res: any, label: typeof this.allowedTypes) {
+
+    this.applicantPersonalMasterData[label] = res;
+    console.log(res);
+
+  }
+
+  filterValues(index: any, pro_value: any) {
+    let res = this.MASTERS[index].data.filter((value: any) => { return value[this.MASTERS[index].valueField] == pro_value });
+    console.log(res, pro_value, this.MASTERS[index].data, this.MASTERS[index].valueField);
+    if (res.length > 0) {
+      return res[0][this.MASTERS[index].lableField];
+    }
+    else {
+      return "";
+    }
+  }
+
+
+
+
   save() {
     const img = new Image();
     img.src = this.base64Image;
@@ -277,7 +377,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   }
 
 
-  getAllData() {
+  async getAllData() {
     let personal = this.getPersonal();
     let deposit = this.getDeposit();
     let service = this.getService();
@@ -298,10 +398,10 @@ export class FormComponent implements OnInit, AfterViewInit {
 
           count++;
           console.log("count in p", count);
-          if (count >= 10) {
-            //this.fillField()
-            //this.fillPdf();
+          if (count >= 9) {
+
           }
+
         }
         else {
           // this.message.warning('Something went wrong! while getting Basic Information.', '');
@@ -314,28 +414,37 @@ export class FormComponent implements OnInit, AfterViewInit {
 
       }
     })
-    deposit.subscribe({
-      next: (res1) => {
-        if (res1 == 200) {
 
-          count++;
-          console.log("count in d", count);
-          if (count >= 10) {
-            //this.fillField()
-            //this.fillPdf();
-          }
-        }
-        else {
-          // this.message.warning('Deposit Information is not Filled.', '');
-        }
-      },
-      error: () => {
-        // this.message.warning('Something went wrong! While getting deposite Information.', '');
-      },
-      complete: () => {
+    let deposit_success = await lastValueFrom(deposit)
+    if (deposit_success == 200) {
 
+      count++;
+      console.log("count in d", count);
+      if (count >= 10) {
+        //this.fillField()
+        //this.fillPdf();
       }
-    })
+    }
+
+    let applicanP_success = await lastValueFrom(applicantPersonal)
+
+    if (applicanP_success == 200) {
+
+      count++;
+      console.log("count in p", count);
+      if (count >= 10) {
+        //this.fillField()
+        //this.fillPdf();
+      }
+
+
+    }
+
+
+    this.getMasters();
+
+
+
     nominee.subscribe({
       next: (res3) => {
 
@@ -383,28 +492,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     })
 
 
-    applicantPersonal.subscribe({
-      next: (res2) => {
-        if (res2 == 200) {
 
-          count++;
-          console.log("count in p", count);
-          if (count >= 10) {
-            //this.fillField()
-            //this.fillPdf();
-          }
-        }
-        else {
-          // this.message.warning('Applicant Personal Information is not filled.', '');
-        }
-      },
-      error: () => {
-        // this.message.warning('Something went wrong! While getting Applicant Personal Information.', '');
-      },
-      complete: () => {
-
-      }
-    })
 
     applicantFinancial.subscribe({
       next: (res2) => {
@@ -598,13 +686,13 @@ export class FormComponent implements OnInit, AfterViewInit {
   catagoryB = false;
 
   getAccountCatA() {
-    let con = (['A', 'B', 'G','C','H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+    let con = (['A', 'B', 'G', 'C', 'H'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
 
     this.catagoryA = con
   }
 
   getAccountCatB() {
-    let con = ([ 'D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
+    let con = (['D', 'E', 'F'].indexOf(this.depositInfo.ACCOUNT_TYPE) + 1) ? true : false;
 
     this.catagoryB = con
   }

@@ -125,11 +125,11 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'https://fco.kredpool.com:9000/api/';
 
   // baseUrl local
-  baseUrl = 'http://localhost:8079/api/';
+  // baseUrl = 'http://localhost:8079/api/';
 
   // baseUrl server
 
-  // baseUrl = 'http://10.128.116.5:9000/api/'
+  baseUrl = 'http://10.128.116.5:9000/api/'
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
