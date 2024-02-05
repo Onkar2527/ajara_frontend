@@ -25,7 +25,8 @@ export class PersonalComponent implements OnInit {
 
     { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
     { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
-    { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' }
+    { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' },
+    { field: 'AADHAAR_NO_1', message: 'Applicant 1 Aadhaar Number' }
 
   ]
 
