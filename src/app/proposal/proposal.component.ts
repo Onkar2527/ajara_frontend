@@ -374,7 +374,13 @@ export class ProposalComponent implements OnInit {
       return value.ID == branch_id
     });
 
-    return our_branch[0].BRANCH_NAME ? our_branch[0].BRANCH_NAME : ''
+    if(our_branch.length > 0 ){
+      return our_branch[0].BRANCH_NAME ? our_branch[0].BRANCH_NAME : ''
+    }
+    else{
+      return '';
+    }
+
 
   }
 
