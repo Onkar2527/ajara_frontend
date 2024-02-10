@@ -675,63 +675,63 @@ export class ApiService implements HttpInterceptor {
   // master module
 
   getAllDropdown(filter: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/get', filter, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/get', filter, this.optionMain);
   }
 
   createDropdown(data: TableData) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/create', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/create', data, this.optionMain);
   }
 
   updateDropdown(data: TableData) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/update', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/update', data, this.optionMain);
   }
 
   deleteDropdown(data: TableData) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/delete', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/delete', data, this.optionMain);
   }
 
 
   getDropdownFields(filter: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getFields', filter, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getFields', filter, this.optionMain);
   }
 
   createFields(data: DropdownTableFields) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createFields', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createFields', data, this.optionMain);
   }
 
   updateFields(data: DropdownTableFields) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateFields', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateFields', data, this.optionMain);
   }
 
   deleteFileds(data: DropdownTableFields) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteFields', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteFields', data, this.optionMain);
   }
 
   getDropdownItems(filter: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getValues', filter, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/getValues', filter, this.optionMain);
   }
 
   createDropdownItems(data: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createValues', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/createValues', data, this.optionMain);
   }
 
   updateDropdownItems(data: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateValues', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/updateValues', data, this.optionMain);
   }
 
   deleteDropdownItems(data: any) {
-    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteValues', data, this.options);
+    return this.httpClient.post<any>(this.baseUrl + 'dropdownMaster/deleteValues', data, this.optionMain);
   }
 
   getAllBranch() {
-    return this.httpClient.post<any>(this.baseUrl + 'branch/get', '', this.options)
+    return this.httpClient.post<any>(this.baseUrl + 'branch/get', '', this.optionMain)
   }
 
   onBoardCustomer(applicant_id: number) {
     let data = {
       APPLICANT_ID: applicant_id
     }
-    return this.httpClient.post<any>(this.baseUrl + 'list_api/onBoardCustomer', data, this.options)
+    return this.httpClient.post<any>(this.baseUrl + 'list_api/onBoardCustomer', data, this.optionMain)
   }
 
   getMasters(code: number) {
@@ -739,7 +739,7 @@ export class ApiService implements HttpInterceptor {
       code: code
     }
 
-    return this.httpClient.post<any>(this.baseUrl + 'list_api/getMasters', data, this.options)
+    return this.httpClient.post<any>(this.baseUrl + 'list_api/getMasters', data, this.optionMain)
   }
 
   searchCustomer(customer_id: string) {
@@ -747,7 +747,7 @@ export class ApiService implements HttpInterceptor {
       CUSTOMER_ID: customer_id
     }
 
-    return this.httpClient.post(this.baseUrl + 'list_api/getCustomer', data, this.options)
+    return this.httpClient.post(this.baseUrl + 'list_api/getCustomer', data, this.optionMain)
   }
 
 }
