@@ -122,10 +122,10 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  baseUrl = 'https://fco.kredpool.com:9000/api/';
+  // baseUrl = 'https://fco.kredpool.com:9000/api/';
 
   // baseUrl local
-  // baseUrl = 'http://localhost:8079/api/';
+  baseUrl = 'http://192.168.137.158:8079/api/';
 
   // baseUrl server
 
@@ -748,6 +748,62 @@ export class ApiService implements HttpInterceptor {
     }
 
     return this.httpClient.post(this.baseUrl + 'list_api/getCustomer', data, this.optionMain)
+  }
+
+
+
+
+  //doc verify API 
+
+  checkSufBal(doc_type: number) {
+    let data = {
+      DOC_TYPE: doc_type
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/checkSufBal', data, this.optionMain)
+  }
+
+  setBalance(new_balance: number) {
+    let data = {
+      NEW_BALANCE: new_balance
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/setBalance', data, this.optionMain)
+  }
+
+  getBalance() {
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/getBalance', "", this.optionMain)
+  }
+
+  docVerifyHit(branch_id: number, user_id: number, doc_id: number) {
+    let data = {
+      BRANCH_ID: branch_id,
+      USER_ID: user_id,
+      DOC_TYPE: doc_id
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/hit', data, this.optionMain)
+  }
+
+  getHitHistory(branch: any) {
+    let data = {
+      BRANCH: branch
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/getHits', data, this.optionMain)
+  }
+
+  getDocVerifyRates() {
+    let data = {
+
+    }
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/getRates', data, this.optionMain)
+  }
+
+  setDocVerifyRate(data: any) {
+
+    return this.httpClient.post<any>(this.baseUrl + 'doc_verify/setRate', data, this.optionMain)
   }
 
 }

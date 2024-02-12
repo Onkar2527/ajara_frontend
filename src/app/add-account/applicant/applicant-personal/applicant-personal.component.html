@@ -730,7 +730,7 @@
                     <nz-form-label nzRequired [nzNoColon]="true">Religion</nz-form-label>
                     <nz-form-control>
 
-                        <nz-select [(ngModel)]="personalInfo.RELIGION">
+                        <!-- <nz-select [(ngModel)]="personalInfo.RELIGION">
                             <nz-option [nzValue]="'A'" nzLabel="Hindu"></nz-option>
                             <nz-option [nzValue]="'B'" nzLabel="Muslim"></nz-option>
                             <nz-option [nzValue]="'C'" nzLabel="Sikh"></nz-option>
@@ -738,7 +738,13 @@
                             <nz-option [nzValue]="'E'" nzLabel="Buddist"></nz-option>
                             <nz-option [nzValue]="'F'" nzLabel="Zoroastrian"></nz-option>
                             <nz-option [nzValue]="'G'" nzLabel="Other (Please Specify)"></nz-option>
+                        </nz-select> -->
+
+                        <nz-select [(ngModel)]="personalInfo.RELIGION">
+                            <nz-option *ngFor="let option of MASTERS[10].data" [nzValue]="option.REL_CD"
+                                [nzLabel]="option.REL_DESC"></nz-option>
                         </nz-select>
+
                     </nz-form-control>
                 </nz-form-item>
 
@@ -757,7 +763,7 @@
                 <nz-form-item nz-col nzSpan="5">
                     <nz-form-label nzRequired [nzNoColon]="true">Caste</nz-form-label>
                     <nz-form-control>
-                        <nz-select [(ngModel)]="personalInfo.CASTE">
+                        <!-- <nz-select [(ngModel)]="personalInfo.CASTE">
                             <nz-option [nzValue]="'A'" nzLabel="General"></nz-option>
                             <nz-option [nzValue]="'B'" nzLabel="OBC"></nz-option>
                             <nz-option [nzValue]="'C'" nzLabel="SC"></nz-option>
@@ -765,7 +771,13 @@
                             <nz-option [nzValue]="'E'" nzLabel="NT"></nz-option>
                             <nz-option [nzValue]="'F'" nzLabel="VJNT"></nz-option>
                             <nz-option [nzValue]="'G'" nzLabel="Other (Please Specify)"></nz-option>
+                        </nz-select> -->
+
+                        <nz-select [(ngModel)]="personalInfo.CASTE">
+                            <nz-option *ngFor="let option of MASTERS[11].data" [nzValue]="option.CST_CD"
+                                [nzLabel]="option.CST_NM"></nz-option>
                         </nz-select>
+
                     </nz-form-control>
                 </nz-form-item>
 

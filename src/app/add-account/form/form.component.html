@@ -466,12 +466,15 @@
 
       <div nz-col nzSpan="4" class="border-all data">
 
-        <span *ngIf="applicant.RELIGION == 'G'">
+        <!-- <span *ngIf="applicant.RELIGION == 'G'">
           {{applicant.OTHER_RELIGION}}
         </span>
         <span *ngIf="applicant.RELIGION != 'G'">
           {{religion[applicant.RELIGION]}}
-        </span>
+        </span> -->
+
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.religion}}</span>
+        <span *ngIf="i > 0">{{religion[applicant.RELIGION]}}</span>
 
       </div>
 
@@ -483,12 +486,16 @@
 
       <div nz-col nzSpan="4" class="border-all data">
 
-        <span *ngIf="applicant.CASTE == 'G'">
+        <!-- <span *ngIf="applicant.CASTE == 'G'">
           {{applicant.OTHER_CASTE}}
         </span>
         <span *ngIf="applicant.CASTE != 'G'">
           {{caste[applicant.CASTE]}}
-        </span>
+        </span> -->
+
+        <span *ngIf="i == 0">{{applicantPersonalMasterData.caste}}</span>
+        <span *ngIf="i > 0">{{caste[applicant.CASTE]}}</span>
+
       </div>
 
       <div nz-col nzSpan="4" class="border-all data-heading">

@@ -1,0 +1,131 @@
+<nz-spin [nzSpinning]="loading">
+    <div nz-row *ngIf="ROLE_ID == 3 || ROLE_ID == 4">
+
+        <nz-form-item nz-col nzSpan="24">
+            <!-- <nz-form-label [nzNoColon]="true">Applicant 1</nz-form-label> -->
+            <nz-form-control>
+
+                <nz-form-label nzNoColon>Select Branch</nz-form-label>
+
+                <nz-select [(ngModel)]="SELECTED_BRANCH" (ngModelChange)="getHitHistory($event)">
+                    <nz-option [nzValue]="'AL'" [nzLabel]="'All'"></nz-option>
+
+                    <nz-option *ngFor="let branch of BRANCH_LIST" [nzValue]="branch.ID"
+                        [nzLabel]="branch.BRANCH_NAME"></nz-option>
+                </nz-select>
+
+            </nz-form-control>
+        </nz-form-item>
+        <!-- <div nz-col nzSpan="14"></div> -->
+
+
+
+    </div>
+
+    <div nz-row [nzGutter]="[16, 24]">
+
+        <div nz-col nzSpan="10">
+
+            <div nz-row [nzGutter]="[0, 32]">
+                <div nz-col nzSpan="24">
+                    <div class="my-box" style="background: linear-gradient(30deg, #6a11cb , #2575fc)!important;">
+                        <h5>Aadhaar Hits</h5>
+                        <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                            {{Aadhaar.hitCount}}</h3>
+                        <h5>Amount Spent</h5>
+                        <h4>₹ {{Aadhaar.amount}}</h4>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <div class="my-box" style="background: linear-gradient(30deg, #04707b, #1bffdf)!important;">
+                        <h5>PAN Hits</h5>
+                        <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                            {{PAN.hitCount}}
+                        </h3>
+                        <h5>Amount Spent</h5>
+                        <h4>₹ {{PAN.amount}}</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div nz-col nzSpan="14">
+            <div nz-row style="height: 100%;">
+                <!-- <div nz-col nzSpan="8"></div> -->
+                <div nz-col nzSpan="24" style="height: 100%;">
+                    <div class="my-box" style="background: linear-gradient(30deg, #b21111 , #f66bb5)!important;height: 100%;display: flex;
+                    flex-flow: column;">
+                        <h3 style="margin-top: 10px;margin-left: 10px;">Remaining Amount</h3>
+                        <!-- <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart" nzTheme="outline"></i> 80</h3>
+                    <h5>Amount</h5> -->
+                        <div style="flex: 1 1 auto;  display: flex;
+                    justify-content: center;
+                    align-items: center;">
+                            <h1>₹ {{REMAINING_AMOUNT}}</h1>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div nz-col nzSpan="12"></div> -->
+            </div>
+        </div>
+
+        <div nz-col nzSpan="10">
+
+            <div nz-row [nzGutter]="[0, 32]">
+
+                <div nz-col nzSpan="24">
+                    <div class="my-box" style="background: linear-gradient(30deg, #0467cd, #1bd5ff)!important;">
+                        <h5>Voter ID Hits</h5>
+                        <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart"
+                                nzTheme="outline"></i> {{VID.hitCount}}
+                        </h3>
+                        <h5>Amount Spent</h5>
+                        <h4>₹ {{VID.amount}}</h4>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <div class="my-box" style="background: linear-gradient(30deg, #cf097f, #845cff)!important;">
+                        <h5>License Hits</h5>
+                        <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                            {{License.hitCount}}</h3>
+                        <h5>Amount Spent</h5>
+                        <h4>₹ {{License.amount}}</h4>
+                    </div>
+                </div>
+
+                <div nz-col nzSpan="24">
+                    <div class="my-box" style="background: linear-gradient(30deg, #b20465, #ffbd5a)!important;">
+                        <h5>Passport Hits</h5>
+                        <h3 style="font-size: 18px;"><i nz-icon nzType="bar-chart" nzTheme="outline"></i>
+                            {{Passport.hitCount}}</h3>
+                        <h5>Amount Spent</h5>
+                        <h4>₹ {{Passport.amount}}</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div nz-col nzSpan="14">
+            <div nz-row style="height: 100%;">
+                <!-- <div nz-col nzSpan="8"></div> -->
+                <div nz-col nzSpan="24" style="height: 100%;">
+                    <div class="my-box"
+                        style="background: linear-gradient(30deg, #9f8c31 , #c6f05a)!important;height: 100%;">
+                        <h3 style="margin-top: 10px;margin-left: 10px;">Total Hits</h3>
+                        <h1 style="text-align: center;margin-top: 30px;"><i nz-icon nzType="bar-chart"
+                                nzTheme="outline"></i> {{TOTAL_HITS}}</h1>
+                        <h3 style="margin-top: 10px;margin-left: 10px;margin-top: 60px;">Total Amount Spent</h3>
+                        <h1 style="text-align: center;margin-top: 30px;">₹ {{TOTAL_SPENDING}}</h1>
+                    </div>
+                </div>
+                <!-- <div nz-col nzSpan="12"></div> -->
+            </div>
+        </div>
+
+    </div>
+</nz-spin>

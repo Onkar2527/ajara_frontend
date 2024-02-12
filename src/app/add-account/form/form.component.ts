@@ -283,6 +283,8 @@ export class FormComponent implements OnInit, AfterViewInit {
     { id: 19, data: <any>[], name: "constitution", valueField: "OWP_CODE", lableField: "OWP_DESC" },
     { id: 21, data: <any>[], name: "operation", valueField: "OPRINSTID", lableField: "OPRINSTDTLS" },
     { id: 22, data: <any>[], name: "payment instruction", valueField: "PAYINSTID", lableField: "PAYINSTDTLS" },
+    { id: 8, data: <any>[], name: "religion", valueField: "REL_CD", lableField: "REL_DESC" },
+    { id: 9, data: <any>[], name: "caste", valueField: "CST_CD", lableField: "CST_NM" },
   ]
 
 
@@ -317,7 +319,10 @@ export class FormComponent implements OnInit, AfterViewInit {
     current_dist: "",
     current_taluka: "",
     current_city: "",
-    operation: ""
+    operation: "",
+
+    religion: "",
+    caste: ""
 
   }
 
@@ -341,10 +346,14 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     this.assignValueFromMaster(this.filterValues(12, this.depositInfo.ACCOUNT_OPERATION), "operation");
 
+    this.assignValueFromMaster(this.filterValues(14, this.ApplicantPersonal[0].RELIGION), "religion");
+
+    this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
+
     console.log(this.applicantPersonalMasterData)
   }
 
-  allowedTypes!: "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city"
+  allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city"
 
   assignValueFromMaster(res: any, label: typeof this.allowedTypes) {
 

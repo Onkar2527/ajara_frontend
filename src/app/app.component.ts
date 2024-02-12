@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     console.log("userDetails", this.userDetails);
     this.getUser();
     this.getSideMenu();
-    this.router.navigate(['/proposal']);
+    this.router.navigate(['/dashboard']);
     this.route = 'tabs';
   }
   user: string = '';

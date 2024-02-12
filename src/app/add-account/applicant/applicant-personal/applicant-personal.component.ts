@@ -36,6 +36,8 @@ export class ApplicantPersonalComponent implements OnInit {
     { id: 16, data: <any>[], name: "city" },
     { id: 17, data: <any>[], name: "area" },
     { id: 19, data: <any>[], name: "constitution" },
+    { id: 8, data: <any>[], name: "religion" },
+    { id: 9, data: <any>[], name: "caste" },
   ]
 
 

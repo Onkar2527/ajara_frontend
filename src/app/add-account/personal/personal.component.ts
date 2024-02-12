@@ -418,7 +418,34 @@ export class PersonalComponent implements OnInit {
     })
   }
 
-  getOtp(AplicantNo: number) {
+  async checkBalance(doc_id: number) {
+    let suffR = await lastValueFrom(this.api.checkSufBal(doc_id));
+
+    if (suffR['code'] == 200) {
+      if (!suffR['isSufficient']) {
+        this.message.error("Insufficient Balance.", "Please Recharge.")
+        return 0;
+      }
+      return 1;
+    }
+    else {
+      this.message.error("Something went wrong.", "Failed to fetch balance.")
+      return 0;
+    }
+  }
+
+  async Hit(doc_type: number) {
+    let BRANCH_ID = Number(sessionStorage.getItem("BRANCH_ID"));
+    let USER_ID = Number(sessionStorage.getItem("USER_ID"));
+    let res = lastValueFrom(this.api.docVerifyHit(BRANCH_ID, USER_ID, doc_type));
+  }
+
+  async getOtp(AplicantNo: number) {
+
+    if ((await this.checkBalance(1)) == 0) {
+      return;
+    }
+
 
     switch (AplicantNo) {
       case 1: {
@@ -528,6 +555,7 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               this.saveAadhaarData(1);
+              this.Hit(1);
               this.loadAadhaarButton = false
             }
             else {
@@ -549,6 +577,7 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               this.saveAadhaarData(2);
+              this.Hit(1);
               this.loadAadhaarButton2 = false
             }
             else {
@@ -571,6 +600,7 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               this.saveAadhaarData(3);
+              this.Hit(1);
               this.loadAadhaarButton3 = false
             }
             else {
@@ -593,6 +623,7 @@ export class PersonalComponent implements OnInit {
           next: (res) => {
             if (res == true) {
               this.saveAadhaarData(4);
+              this.Hit(1);
               this.loadAadhaarButton4 = false
             }
             else {
@@ -615,7 +646,11 @@ export class PersonalComponent implements OnInit {
     }
   }
 
-  verifyPan(AplicantNo: number) {
+  async verifyPan(AplicantNo: number) {
+
+    if ((await this.checkBalance(2)) == 0) {
+      return;
+    }
 
     switch (AplicantNo) {
       case 1: {
@@ -626,6 +661,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.PAN_NUMBER = this.aadhaarVerify.pan_history.PAN_NUMBER;
               this.savePanData(1);
+              this.Hit(2);
               this.loadPanButton = false
             }
             else {
@@ -647,6 +683,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.PAN_NUMBER2 = this.aadhaarVerify2.pan_history.PAN_NUMBER;
               this.savePanData(2);
+              this.Hit(2);
               this.loadPanButton2 = false;
             }
             else {
@@ -667,6 +704,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.PAN_NUMBER3 = this.aadhaarVerify3.pan_history.PAN_NUMBER;
               this.savePanData(3);
+              this.Hit(2);
               this.loadPanButton3 = false;
             }
             else {
@@ -688,6 +726,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.PAN_NUMBER4 = this.aadhaarVerify4.pan_history.PAN_NUMBER;
               this.savePanData(4);
+              this.Hit(2);
               this.loadPanButton4 = false;
             }
             else {
@@ -909,7 +948,11 @@ export class PersonalComponent implements OnInit {
   loadVoterButton3: boolean = false;
   loadVoterButton4: boolean = false;
 
-  verifyVoterID(AplicantNo: number) {
+  async verifyVoterID(AplicantNo: number) {
+
+    if ((await this.checkBalance(3)) == 0) {
+      return;
+    }
 
     switch (AplicantNo) {
       case 1: {
@@ -922,6 +965,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.VOTER_ID_1 = this.aadhaarVerify.voter_history.EPIC_NO;
               this.saveVoterData(1);
+              this.Hit(3);
               this.loadVoterButton = false
             }
             else {
@@ -943,6 +987,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.VOTER_ID_2 = this.aadhaarVerify2.voter_history.EPIC_NO;
               this.saveVoterData(2);
+              this.Hit(3);
               this.loadVoterButton2 = false;
             }
             else {
@@ -964,6 +1009,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.VOTER_ID_3 = this.aadhaarVerify3.voter_history.EPIC_NO;
               this.saveVoterData(3);
+              this.Hit(3);
               this.loadVoterButton3 = false;
             }
             else {
@@ -985,6 +1031,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.VOTER_ID_4 = this.aadhaarVerify4.voter_history.EPIC_NO;
               this.saveVoterData(4);
+              this.Hit(3);
               this.loadVoterButton4 = false;
             }
             else {
@@ -1130,7 +1177,11 @@ export class PersonalComponent implements OnInit {
   loadLicenseButton3: boolean = false;
   loadLicenseButton4: boolean = false;
 
-  verifyLicense(AplicantNo: number) {
+  async verifyLicense(AplicantNo: number) {
+
+    if ((await this.checkBalance(4)) == 0) {
+      return;
+    }
 
     switch (AplicantNo) {
       case 1: {
@@ -1143,6 +1194,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.LICENSE_NO_1 = this.aadhaarVerify.license_history.LICENSE_NUMBER;
               this.saveLicenseData(1);
+              this.Hit(4);
               this.loadLicenseButton = false
             }
             else {
@@ -1164,6 +1216,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.LICENSE_NO_2 = this.aadhaarVerify2.license_history.LICENSE_NUMBER;
               this.saveLicenseData(2);
+              this.Hit(4);
               this.loadLicenseButton2 = false;
             }
             else {
@@ -1185,6 +1238,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.LICENSE_NO_3 = this.aadhaarVerify3.license_history.LICENSE_NUMBER;
               this.saveLicenseData(3);
+              this.Hit(4);
               this.loadLicenseButton3 = false;
             }
             else {
@@ -1206,6 +1260,7 @@ export class PersonalComponent implements OnInit {
             if (res == true) {
               this.basicInfo.LICENSE_NO_4 = this.aadhaarVerify4.license_history.LICENSE_NUMBER;
               this.saveLicenseData(4);
+              this.Hit(4);
               this.loadLicenseButton4 = false;
             }
             else {

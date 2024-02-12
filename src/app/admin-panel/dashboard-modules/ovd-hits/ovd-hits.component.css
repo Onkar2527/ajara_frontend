@@ -1,0 +1,35 @@
+.my-box {
+    border-radius: 5px;
+    /* box-shadow: 8px 8px 10px rgb(195 195 195); */
+    /* border: none; */
+    padding: 5px 6px;
+    /* border-bottom: 1px solid black; */
+    /* background: linear-gradient(30deg, #6486b1 , #b9d8e9) !important; */
+    /* border-left: 1px solid black; */
+    /* border-right: 1px solid black; */
+}
+
+/* .left-sided{
+    border-left: 1px solid black;
+}
+.right-sided{
+    border-right: 1px solid black;
+}
+
+.top-sided{
+    border-top: 1px solid black;
+}
+
+.bottom-sided{
+    border-bottom: 1px solid black;
+} */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 0px !important;
+    color: #fff !important;
+}

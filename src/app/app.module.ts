@@ -64,6 +64,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
@@ -74,6 +75,8 @@ import { MastersComponent } from './admin-panel/masters/masters.component';
 import { DropdownEditComponent } from './admin-panel/masters/dropdown-edit/dropdown-edit.component';
 import { DropdownItemsEditComponent } from './admin-panel/masters/dropdown-items-edit/dropdown-items-edit.component';
 import { EditStatusComponent } from './admin-panel/proposal-master/edit-status/edit-status.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { OvdHitsComponent } from './admin-panel/dashboard-modules/ovd-hits/ovd-hits.component';
 
 export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
 
@@ -106,7 +109,9 @@ registerLocaleData(en);
     MastersComponent,
     DropdownEditComponent,
     DropdownItemsEditComponent,
-    EditStatusComponent
+    EditStatusComponent,
+    DashboardComponent,
+    OvdHitsComponent
   ],
   imports: [
     //System Imports
@@ -149,7 +154,8 @@ registerLocaleData(en);
     NzToolTipModule,
     NzModalModule,
     NzCollapseModule,
-    NzCardModule
+    NzCardModule,
+    NzSpinModule
   ],
   providers: [
 

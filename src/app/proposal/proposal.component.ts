@@ -353,7 +353,14 @@ export class ProposalComponent implements OnInit {
       return value.ID == track_id
     });
 
-    return our_status[0].NAME ? our_status[0].NAME : ''
+    if(our_status.length > 0){
+      return our_status[0].NAME ? our_status[0].NAME : ''
+    }
+    else{
+      return '';
+    }
+
+    
   }
 
   getBranchList() {
