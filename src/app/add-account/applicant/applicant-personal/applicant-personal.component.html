@@ -70,7 +70,8 @@
                         <!-- <input nz-input name="PERMANENT_ADDRESS_PROOF"
                             [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"> -->
                         <nz-select nzShowSearch nzPlaceHolder="Select Identity Proof"
-                            [(ngModel)]="personalInfo.ID_PROOF" style="width: 100%;">
+                            [(ngModel)]="personalInfo.ID_PROOF" (ngModelChange)="copyDocumentNoInIDProof()"
+                            style="width: 100%;">
                             <nz-option *ngFor="let address of MASTERS[2].data" [nzValue]="address.IDTPROOFID"
                                 [nzLabel]="address.IDTPROOFDESC">
                             </nz-option>
@@ -85,7 +86,7 @@
                     <nz-form-label nzRequired nzNoColon>ID Proof Number</nz-form-label>
                     <nz-form-control>
 
-                        <input nz-input name="ID_PROOF_NUMBER" [(ngModel)]="personalInfo.ID_PROOF_NUMBER">
+                        <input nz-input name="ID_PROOF_NUMBER" [(ngModel)]="personalInfo.ID_PROOF_NUMBER" [hiddenInput]="true" [mask]="id_mask">
 
                     </nz-form-control>
                 </nz-form-item>
@@ -438,7 +439,8 @@
                             <!-- <input nz-input name="PERMANENT_ADDRESS_PROOF"
                                 [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"> -->
                             <nz-select nzShowSearch nzPlaceHolder="Select Proof of Address"
-                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF" style="width: 100%;">
+                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"
+                                (ngModelChange)="copyDocumentNoInAddressProof()" style="width: 100%;">
                                 <nz-option *ngFor="let address of MASTERS[1].data" [nzValue]="address.ADDPROOFID"
                                     [nzLabel]="address.ADDPROOFDESC">
                                 </nz-option>
@@ -454,7 +456,7 @@
                         <nz-form-control>
 
                             <input nz-input name="ADDRESS_PROOF_NUMBER"
-                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER">
+                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true" [mask]="address_mask">
 
                         </nz-form-control>
                     </nz-form-item>
