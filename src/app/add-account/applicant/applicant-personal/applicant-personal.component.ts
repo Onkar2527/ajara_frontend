@@ -20,7 +20,7 @@ export class ApplicantPersonalComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getAllAddress();
-    
+
     this.getMasters()
   }
 
@@ -50,10 +50,19 @@ export class ApplicantPersonalComponent implements OnInit {
         this.MASTERS[i].data = result['data'];
         this.checkForAadhaarID();
         this.checkForAadharAddress();
+        this.filterCaste();
       }
     }
 
     console.log('MASTERS', this.MASTERS);
+
+  }
+
+  CasteList: any[] = []
+
+  filterCaste() {
+    let rel_id = this.personalInfo.RELIGION;
+    this.CasteList = this.MASTERS[11].data.filter((value: any) => value.CST_RELGCD == rel_id);
 
   }
 

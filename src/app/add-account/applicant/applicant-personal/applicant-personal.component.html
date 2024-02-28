@@ -86,7 +86,8 @@
                     <nz-form-label nzRequired nzNoColon>ID Proof Number</nz-form-label>
                     <nz-form-control>
 
-                        <input nz-input name="ID_PROOF_NUMBER" [(ngModel)]="personalInfo.ID_PROOF_NUMBER" [hiddenInput]="true" [mask]="id_mask">
+                        <input nz-input name="ID_PROOF_NUMBER" [(ngModel)]="personalInfo.ID_PROOF_NUMBER"
+                            [hiddenInput]="true" [mask]="id_mask">
 
                     </nz-form-control>
                 </nz-form-item>
@@ -456,7 +457,8 @@
                         <nz-form-control>
 
                             <input nz-input name="ADDRESS_PROOF_NUMBER"
-                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true" [mask]="address_mask">
+                                [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true"
+                                [mask]="address_mask">
 
                         </nz-form-control>
                     </nz-form-item>
@@ -742,7 +744,7 @@
                             <nz-option [nzValue]="'G'" nzLabel="Other (Please Specify)"></nz-option>
                         </nz-select> -->
 
-                        <nz-select [(ngModel)]="personalInfo.RELIGION">
+                        <nz-select [(ngModel)]="personalInfo.RELIGION" (ngModelChange)="filterCaste()">
                             <nz-option *ngFor="let option of MASTERS[10].data" [nzValue]="option.REL_CD"
                                 [nzLabel]="option.REL_DESC"></nz-option>
                         </nz-select>
@@ -776,7 +778,7 @@
                         </nz-select> -->
 
                         <nz-select [(ngModel)]="personalInfo.CASTE">
-                            <nz-option *ngFor="let option of MASTERS[11].data" [nzValue]="option.CST_CD"
+                            <nz-option *ngFor="let option of CasteList" [nzValue]="option.CST_CD"
                                 [nzLabel]="option.CST_NM"></nz-option>
                         </nz-select>
 
