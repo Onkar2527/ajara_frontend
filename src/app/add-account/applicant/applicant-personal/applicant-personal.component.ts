@@ -412,6 +412,19 @@ export class ApplicantPersonalComponent implements OnInit {
     this.personalInfo.PERMANENT_STATE = this.personalInfo.PERMANENT_STATE.toString()
   }
 
+  convertToNumber() {
+    this.personalInfo.CURRENT_AREA = Number(this.personalInfo.CURRENT_AREA)
+    this.personalInfo.PERMANENT_AREA = Number(this.personalInfo.PERMANENT_AREA)
+    this.personalInfo.CURRENT_CITY = Number(this.personalInfo.CURRENT_CITY)
+    this.personalInfo.PERMANENT_CITY = Number(this.personalInfo.PERMANENT_CITY)
+    this.personalInfo.CURRENT_TALUKA = Number(this.personalInfo.CURRENT_TALUKA)
+    this.personalInfo.PERMANENT_TALUKA = Number(this.personalInfo.PERMANENT_TALUKA)
+    this.personalInfo.CURRENT_DISTRICT = Number(this.personalInfo.CURRENT_DISTRICT)
+    this.personalInfo.PERMANENT_DISTRICT = Number(this.personalInfo.PERMANENT_DISTRICT)
+    this.personalInfo.CURRENT_STATE = Number(this.personalInfo.CURRENT_STATE)
+    this.personalInfo.PERMANENT_STATE = Number(this.personalInfo.PERMANENT_STATE)
+  }
+
 
   save() {
     let personal: Subject<any> = new Subject();
@@ -454,11 +467,12 @@ export class ApplicantPersonalComponent implements OnInit {
 
     if (isOk) {
       if (this.personalInfo.ID) {
-        this.convertToString();
+        // this.convertToString();
         this.api.updateAplicant(this.personalInfo).subscribe({
           next: (res) => {
             if (res.code == 200) {
               this.message.success("Personal Information updated successfully!", '');
+              // this.convertToNumber();
               this.getApplicantPersonal();
               personal.next(res);
             }
