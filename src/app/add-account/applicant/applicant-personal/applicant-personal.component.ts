@@ -20,6 +20,7 @@ export class ApplicantPersonalComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getAllAddress();
+
     this.getMasters()
   }
 
@@ -47,10 +48,21 @@ export class ApplicantPersonalComponent implements OnInit {
 
       if (result['code'] == 200 && result["data"].length > 0) {
         this.MASTERS[i].data = result['data'];
+        this.checkForAadhaarID();
+        this.checkForAadharAddress();
+        this.filterCaste();
       }
     }
 
     console.log('MASTERS', this.MASTERS);
+
+  }
+
+  CasteList: any[] = []
+
+  filterCaste() {
+    let rel_id = this.personalInfo.RELIGION;
+    this.CasteList = this.MASTERS[11].data.filter((value: any) => value.CST_RELGCD == rel_id);
 
   }
 
@@ -400,6 +412,19 @@ export class ApplicantPersonalComponent implements OnInit {
     this.personalInfo.PERMANENT_STATE = this.personalInfo.PERMANENT_STATE.toString()
   }
 
+  convertToNumber() {
+    this.personalInfo.CURRENT_AREA = Number(this.personalInfo.CURRENT_AREA)
+    this.personalInfo.PERMANENT_AREA = Number(this.personalInfo.PERMANENT_AREA)
+    this.personalInfo.CURRENT_CITY = Number(this.personalInfo.CURRENT_CITY)
+    this.personalInfo.PERMANENT_CITY = Number(this.personalInfo.PERMANENT_CITY)
+    this.personalInfo.CURRENT_TALUKA = Number(this.personalInfo.CURRENT_TALUKA)
+    this.personalInfo.PERMANENT_TALUKA = Number(this.personalInfo.PERMANENT_TALUKA)
+    this.personalInfo.CURRENT_DISTRICT = Number(this.personalInfo.CURRENT_DISTRICT)
+    this.personalInfo.PERMANENT_DISTRICT = Number(this.personalInfo.PERMANENT_DISTRICT)
+    this.personalInfo.CURRENT_STATE = Number(this.personalInfo.CURRENT_STATE)
+    this.personalInfo.PERMANENT_STATE = Number(this.personalInfo.PERMANENT_STATE)
+  }
+
 
   save() {
     let personal: Subject<any> = new Subject();
@@ -442,11 +467,12 @@ export class ApplicantPersonalComponent implements OnInit {
 
     if (isOk) {
       if (this.personalInfo.ID) {
-        this.convertToString();
+        // this.convertToString();
         this.api.updateAplicant(this.personalInfo).subscribe({
           next: (res) => {
             if (res.code == 200) {
               this.message.success("Personal Information updated successfully!", '');
+              // this.convertToNumber();
               this.getApplicantPersonal();
               personal.next(res);
             }
@@ -601,6 +627,75 @@ export class ApplicantPersonalComponent implements OnInit {
       this.personalInfo.SELF_EMPLOYED = ' '
       this.personalInfo.NATURE_OF_BUSINESS = ' '
     }
+  }
+
+  id_mask: string = ''
+  copyDocumentNoInIDProof() {
+    this.personalInfo.ID_PROOF_NUMBER = ''
+
+    if (this.checkForAadhaarID()) {
+      this.personalInfo.ID_PROOF_NUMBER = this.personalInfo.AADHAAR_NUMBER;
+
+    }
+
+  }
+
+  address_mask: string = ''
+  copyDocumentNoInAddressProof() {
+
+    this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER = ''
+
+
+    if (this.checkForAadharAddress()) {
+      this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER = this.personalInfo.AADHAAR_NUMBER;
+    }
+
+  }
+
+  checkForAadhaarID() {
+    this.id_mask = ''
+    let id = this.personalInfo.ID_PROOF;
+
+    let id_proof_arr = this.MASTERS[2].data.filter((value: any) => id == value.IDTPROOFID);
+
+    if (id_proof_arr.length == 0) {
+      return false;
+    }
+
+    let value = id_proof_arr[0].IDTPROOFDESC;
+
+    let lower_value = value.toLowerCase();
+
+    if ((lower_value.search("aadhaar") != -1 || lower_value.search("adhar") != -1 || lower_value.search("uid") != -1) && this.personalInfo.AADHAAR_NUMBER) {
+      this.id_mask = 'XXXX XXXX 0000'
+      return true
+
+    }
+
+    return false;
+
+  }
+
+  checkForAadharAddress() {
+    let id = this.personalInfo.PERMANENT_ADDRESS_PROOF;
+    this.address_mask = ''
+
+    let address_proof_arr = this.MASTERS[1].data.filter((value: any) => id == value.ADDPROOFID);
+
+    if (address_proof_arr.length == 0) {
+      return false;
+    }
+
+    let value = address_proof_arr[0].ADDPROOFDESC;
+
+    let lower_value = value.toLowerCase();
+
+    if ((lower_value.search("aadhaar") != -1 || lower_value.search("aadhar") != -1 || lower_value.search("uid") != -1) && this.personalInfo.AADHAAR_NUMBER) {
+      this.address_mask = 'XXXX XXXX 0000'
+      return true;
+    }
+
+    return false;
   }
 
 

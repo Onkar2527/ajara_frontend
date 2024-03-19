@@ -122,7 +122,7 @@ export class ApiService implements HttpInterceptor {
   verifyPanUrl = "https://kyc-api.aadhaarkyc.io/api/v1/pan/pan";
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  baseUrl = 'https://fco.kredpool.com:9000/api/';
+  baseUrl = 'https://fcobackend.kredpool.in/api/';
 
   // baseUrl local
   // baseUrl = 'http://192.168.137.158:8079/api/';
@@ -235,8 +235,19 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post(this.baseUrl + 'personalInformation/get', data, this.optionMain)
   }
 
-  updateAplicant(data: PersonalInfo): Observable<any> {
+  updateAplicant(data2: PersonalInfo): Observable<any> {
 
+    let data = Object.assign({}, data2);
+    data.CURRENT_AREA = data.CURRENT_AREA.toString()
+    data.PERMANENT_AREA = data.PERMANENT_AREA.toString()
+    data.CURRENT_CITY = data.CURRENT_CITY.toString()
+    data.PERMANENT_CITY = data.PERMANENT_CITY.toString()
+    data.CURRENT_TALUKA = data.CURRENT_TALUKA.toString()
+    data.PERMANENT_TALUKA = data.PERMANENT_TALUKA.toString()
+    data.CURRENT_DISTRICT = data.CURRENT_DISTRICT.toString()
+    data.PERMANENT_DISTRICT = data.PERMANENT_DISTRICT.toString()
+    data.CURRENT_STATE = data.CURRENT_STATE.toString()
+    data.PERMANENT_STATE = data.PERMANENT_STATE.toString()
     return this.httpClient.post(this.baseUrl + 'personalInformation/update', data, this.optionMain)
   }
 

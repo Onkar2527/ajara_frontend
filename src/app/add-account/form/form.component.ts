@@ -294,14 +294,18 @@ export class FormComponent implements OnInit, AfterViewInit {
 
       if (result['code'] == 200 && result["data"].length > 0) {
         this.MASTERS[i].data = result['data'];
+
       }
     }
 
-    this.mapMasters()
+    this.mapMasters();
+    this.casteReflection();
 
     console.log('MASTERS', this.MASTERS);
 
   }
+
+
 
   applicantPersonalMasterData = {
     occupation: "",
@@ -326,6 +330,16 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   }
 
+  casteReflection() {
+    let res = this.MASTERS[15].data.filter((value: any) => { return value["CST_CD"] == this.ApplicantPersonal[0].CASTE && value["CST_RELGCD"] == this.ApplicantPersonal[0].RELIGION });
+    if (res.length > 0) {
+      this.applicantPersonalMasterData["caste"] = res[0]["CST_NM"];
+    }
+    else {
+      this.applicantPersonalMasterData["caste"] = "";
+    }
+  }
+
   mapMasters() {
     this.assignValueFromMaster(this.filterValues(1, this.ApplicantPersonal[0].PROFESSION), "occupation");
     this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].PERMANENT_STATE)), "permanent_state");
@@ -348,7 +362,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     this.assignValueFromMaster(this.filterValues(14, this.ApplicantPersonal[0].RELIGION), "religion");
 
-    this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
+    // this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
 
     console.log(this.applicantPersonalMasterData)
   }
