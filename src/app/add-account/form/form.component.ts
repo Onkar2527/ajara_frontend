@@ -287,17 +287,19 @@ export class FormComponent implements OnInit, AfterViewInit {
     { id: 9, data: <any>[], name: "caste", valueField: "CST_CD", lableField: "CST_NM" },
   ]
 
+  formSpinning: boolean = false;
 
   async getMasters() {
+    this.formSpinning = true;
     for (let i = 0; i < this.MASTERS.length; i++) {
       let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
 
       if (result['code'] == 200 && result["data"].length > 0) {
         this.MASTERS[i].data = result['data'];
-
       }
-    }
 
+    }
+    this.formSpinning = false;
     this.mapMasters();
     this.casteReflection();
 

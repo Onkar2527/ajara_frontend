@@ -18,6 +18,8 @@ export class ApplicantPersonalComponent implements OnInit {
 
   OTP: string = '';
 
+  spinningAll: boolean = false;
+
   ngOnInit(): void {
     // this.getAllAddress();
 
@@ -43,6 +45,9 @@ export class ApplicantPersonalComponent implements OnInit {
 
 
   async getMasters() {
+
+    this.spinningAll = true;
+
     for (let i = 0; i < this.MASTERS.length; i++) {
       let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
 
@@ -53,6 +58,8 @@ export class ApplicantPersonalComponent implements OnInit {
         this.filterCaste();
       }
     }
+
+    this.spinningAll = false;
 
     console.log('MASTERS', this.MASTERS);
 
