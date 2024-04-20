@@ -26,8 +26,8 @@ export class PersonalComponent implements OnInit {
     { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
     { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
     { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' },
-    // { field: 'AADHAAR_NO_1', message: 'Applicant 1 Aadhaar Number' }
-
+    { field: 'DOCUMENTS_AUTHORITY', message: 'Issued Document Authority' },
+    { field: 'DOCUMENTS_ISSUE_PLACE', message: 'Place of issue' }
   ]
 
   mendetory_customer = [

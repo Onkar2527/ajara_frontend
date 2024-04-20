@@ -131,4 +131,8 @@ export class PersonalInfo {
     PERMANENT_AREA:any;
     FATHER_OR_SPOUSE:string = 'F';
 
+
+    //new fields
+    MOTHER_TITLE:string = '';
+    FATHER_TITLE:string = '';
 }

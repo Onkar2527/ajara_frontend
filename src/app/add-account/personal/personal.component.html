@@ -70,7 +70,8 @@
                     <input nz-input [(ngModel)]="basicInfo.CUSTOMER_ID_1" placeholder="Customer ID" />
                   </nz-input-group>
                   <ng-template #suffixIconButton>
-                    <button nz-button nzType="primary" nzSearch (click)="searchCustomer()"><span nz-icon nzType="search"></span></button>
+                    <button nz-button nzType="primary" nzSearch (click)="searchCustomer()"><span nz-icon
+                        nzType="search"></span></button>
                   </ng-template>
                 </nz-form-control>
               </nz-form-item>
@@ -98,7 +99,8 @@
                   <nz-form-label nzRequired nzNoColon>Title</nz-form-label>
 
                   <nz-select [(ngModel)]="basicInfo.CUSTOMER_TYPE_1">
-                    <nz-option *ngFor="let title of MASTERS[0].data" [nzValue]="title.TITLEDESC" [nzLabel]="title.TITLEDESC"></nz-option>
+                    <nz-option *ngFor="let title of MASTERS[0].data" [nzValue]="title.TITLEDESC"
+                      [nzLabel]="title.TITLEDESC"></nz-option>
                   </nz-select>
 
                 </nz-form-control>
@@ -186,7 +188,7 @@
             <nz-divider nzText="Verification Details"></nz-divider>
             <div nz-row class="content-box">
               <nz-form-item nz-col nzSpan="24">
-                <nz-form-label  [nzNoColon]="true">Aadhaar Number</nz-form-label>
+                <nz-form-label [nzNoColon]="true">Aadhaar Number</nz-form-label>
                 <nz-form-control nzErrorTip="The input is not Aadhaar number!">
                   <div nz-row>
                     <div nz-col [nzSpan]="17">
@@ -211,6 +213,28 @@
                   </div>
                 </nz-form-control>
               </nz-form-item>
+
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-label nzRequired [nzNoColon]="true">Issued Document Authority</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input name="DOCUMENTS_AUTHORITY" [(ngModel)]="basicInfo.DOCUMENTS_AUTHORITY" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+              <div nz-col nzSpan="2">
+
+              </div>
+
+              <div nz-col nzSpan="11">
+                <nz-form-item>
+                  <nz-form-label nzRequired [nzNoColon]="true">Place of issue</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input name="DOCUMENTS_ISSUE_PLACE" [(ngModel)]="basicInfo.DOCUMENTS_ISSUE_PLACE" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
 
               <nz-form-item nz-col nzSpan="24" *ngIf="aadhaarVerify.showOtp">
                 <nz-form-label [nzNoColon]="true">OTP (For Aadhaar Card Verification)</nz-form-label>

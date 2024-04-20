@@ -109,6 +109,10 @@ export class BasicInfo {
 
     ACCOUNT_NUMBER: string = '';
 
+    // new fields
+    DOCUMENTS_AUTHORITY:string = 'Government of India'
+    DOCUMENTS_ISSUE_PLACE:string = ''
+
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 
     // ACCOUNT_OPERATION: "S" | "E" | "A" | "F" | "J" | "O" = 'S';

@@ -133,15 +133,25 @@
                         <nz-form-label nzRequired [nzNoColon]="true">Father / Husband Name</nz-form-label>
                         <nz-form-control>
                             <div nz-row>
-                                <div nz-col nzSpan="8"><input nz-input name="fhfirst"
+
+                                <div nz-col nzSpan="5">
+                                    <!-- <input nz-input name="MOTHER_TITLE" [(ngModel)]="personalInfo.MOTHER_TITLE" /> -->
+
+                                    <nz-select [(ngModel)]="personalInfo.FATHER_TITLE" placeholder="Enter Title">
+                                        <nz-option *ngFor="let title of MASTERS[12].data"  [nzValue]="title.TITLEDESC"
+                                            [nzLabel]="title.TITLEDESC"></nz-option>
+                                    </nz-select>
+                                </div>
+                                <div nz-col nzSpan="1"></div>
+                                <div nz-col nzSpan="6"><input nz-input name="fhfirst"
                                         [(ngModel)]="personalInfo.F_OR_H_FIRST_NAME" placeholder="Enter First Name" />
                                 </div>
                                 <div nz-col nzSpan="1"></div>
-                                <div nz-col nzSpan="7"><input nz-input name="fhmiddle"
+                                <div nz-col nzSpan="5"><input nz-input name="fhmiddle"
                                         [(ngModel)]="personalInfo.F_OR_H_MIDDLE_NAME" placeholder="Enter Middle Name" />
                                 </div>
                                 <div nz-col nzSpan="1"></div>
-                                <div nz-col nzSpan="7"> <input nz-input name="fhlast"
+                                <div nz-col nzSpan="5"> <input nz-input name="fhlast"
                                         [(ngModel)]="personalInfo.F_OR_H_LAST_NAME" placeholder="Enter Last Name" />
                                 </div>
                             </div>
@@ -153,21 +163,32 @@
                         <nz-form-control>
                             <div nz-row>
 
-                                <div nz-col nzSpan="8">
+                                <div nz-col nzSpan="5">
+                                    <!-- <input nz-input name="MOTHER_TITLE" [(ngModel)]="personalInfo.MOTHER_TITLE" /> -->
+
+                                    <nz-select [(ngModel)]="personalInfo.MOTHER_TITLE" placeholder="Enter Title">
+                                        <nz-option *ngFor="let title of MASTERS[12].data"  [nzValue]="title.TITLEDESC"
+                                            [nzLabel]="title.TITLEDESC"></nz-option>
+                                    </nz-select>
+                                </div>
+
+                                <div nz-col nzSpan="1"></div>
+
+                                <div nz-col nzSpan="6">
                                     <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name"
                                         [(ngModel)]="personalInfo.MOTHERS_NAME" />
                                 </div>
 
                                 <div nz-col nzSpan="1"></div>
 
-                                <div nz-col nzSpan="7">
+                                <div nz-col nzSpan="5">
                                     <input nz-input name="MOTHERS_MIDDLE_NAME" placeholder="Enter Middle Name"
                                         [(ngModel)]="personalInfo.MOTHERS_MIDDLE_NAME" />
                                 </div>
 
                                 <div nz-col nzSpan="1"></div>
 
-                                <div nz-col nzSpan="7">
+                                <div nz-col nzSpan="5">
                                     <input nz-input name="MOTHERS_LAST_NAME" placeholder="Enter Last Name"
                                         [(ngModel)]="personalInfo.MOTHERS_LAST_NAME" />
                                 </div>
