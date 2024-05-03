@@ -745,9 +745,10 @@ export class ApiService implements HttpInterceptor {
     return this.httpClient.post<any>(this.baseUrl + 'list_api/onBoardCustomer', data, this.optionMain)
   }
 
-  getMasters(code: number) {
+  getMasters(code: number, filter = '') {
     let data = {
-      code: code
+      code: code,
+      filter: filter
     }
 
     return this.httpClient.post<any>(this.baseUrl + 'list_api/getMasters', data, this.optionMain)

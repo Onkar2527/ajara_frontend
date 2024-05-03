@@ -138,7 +138,7 @@
                                     <!-- <input nz-input name="MOTHER_TITLE" [(ngModel)]="personalInfo.MOTHER_TITLE" /> -->
 
                                     <nz-select [(ngModel)]="personalInfo.FATHER_TITLE" placeholder="Enter Title">
-                                        <nz-option *ngFor="let title of MASTERS[12].data"  [nzValue]="title.TITLEDESC"
+                                        <nz-option *ngFor="let title of MASTERS[12].data" [nzValue]="title.TITLEDESC"
                                             [nzLabel]="title.TITLEDESC"></nz-option>
                                     </nz-select>
                                 </div>
@@ -167,7 +167,7 @@
                                     <!-- <input nz-input name="MOTHER_TITLE" [(ngModel)]="personalInfo.MOTHER_TITLE" /> -->
 
                                     <nz-select [(ngModel)]="personalInfo.MOTHER_TITLE" placeholder="Enter Title">
-                                        <nz-option *ngFor="let title of MASTERS[12].data"  [nzValue]="title.TITLEDESC"
+                                        <nz-option *ngFor="let title of MASTERS[12].data" [nzValue]="title.TITLEDESC"
                                             [nzLabel]="title.TITLEDESC"></nz-option>
                                     </nz-select>
                                 </div>
@@ -343,9 +343,11 @@
                                         [nzLabel]="state.STATE"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_STATE">
-                                    <nz-option *ngFor="let state of MASTERS[4].data" [nzValue]="state.ID"
-                                        [nzLabel]="state.STATEDESC"></nz-option>
+                                <nz-select name="PERMANENT_STATE" nzShowSearch
+                                    [(ngModel)]="personalInfo.PERMANENT_STATE" (ngModelChange)="filterDistrictP()"
+                                    [nzLoading]="addressMaster.permanent_state.loading">
+                                    <nz-option *ngFor="let state of addressMaster.permanent_state.data"
+                                        [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -364,9 +366,11 @@
                                         [nzValue]="district.DISTRICT" [nzLabel]="district.DISTRICT"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_DISTRICT">
-                                    <nz-option *ngFor="let district of MASTERS[5].data" [nzValue]="district.ID"
-                                        [nzLabel]="district.DISTRICTDESC"></nz-option>
+                                <nz-select name="PERMANENT_DISTRICT" nzShowSearch
+                                    [(ngModel)]="personalInfo.PERMANENT_DISTRICT" (ngModelChange)="filterTalukaP()"
+                                    [nzLoading]="addressMaster.permanent_dist.loading">
+                                    <nz-option *ngFor="let district of addressMaster.permanent_dist.data"
+                                        [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -383,9 +387,11 @@
                                         [nzLabel]="taluka.TALUKA"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_TALUKA">
-                                    <nz-option *ngFor="let taluka of MASTERS[6].data" [nzValue]="taluka.ID"
-                                        [nzLabel]="taluka.TALUKADESC"></nz-option>
+                                <nz-select name="PERMANENT_TALUKA" nzShowSearch
+                                    [(ngModel)]="personalInfo.PERMANENT_TALUKA" (ngModelChange)="filterCityP()"
+                                    [nzLoading]="addressMaster.permanent_taluka.loading">
+                                    <nz-option *ngFor="let taluka of addressMaster.permanent_taluka.data"
+                                        [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -404,9 +410,10 @@
                                         [nzLabel]="city.VILLAGE"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.PERMANENT_CITY">
-                                    <nz-option *ngFor="let city of MASTERS[7].data" [nzValue]="city.ID"
-                                        [nzLabel]="city.CITYDESC"></nz-option>
+                                <nz-select name="PERMANENT_CITY" nzShowSearch [(ngModel)]="personalInfo.PERMANENT_CITY"
+                                    (ngModelChange)="filterAreaP()" [nzLoading]="addressMaster.permanent_city.loading">
+                                    <nz-option *ngFor="let city of addressMaster.permanent_city.data"
+                                        [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -428,10 +435,11 @@
 
                                 <!-- <input nz-input name="PERMANENT_ADDRESS_PROOF"
                                     [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"> -->
-                                <nz-select nzShowSearch nzPlaceHolder="Select Area"
-                                    [(ngModel)]="personalInfo.PERMANENT_AREA" style="width: 100%;">
-                                    <nz-option *ngFor="let address of MASTERS[8].data" [nzValue]="address.ID"
-                                        [nzLabel]="address.AREADESC">
+                                <nz-select name="PERMANENT_AREA" nzShowSearch nzPlaceHolder="Select Area"
+                                    [(ngModel)]="personalInfo.PERMANENT_AREA" style="width: 100%;"
+                                    [nzLoading]="addressMaster.permanent_area.loading">
+                                    <nz-option *ngFor="let address of addressMaster.permanent_area.data"
+                                        [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                     </nz-option>
                                 </nz-select>
 
@@ -516,9 +524,11 @@
                                         [nzLabel]="state.STATE"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_STATE">
-                                    <nz-option *ngFor="let state of MASTERS[4].data" [nzValue]="state.ID"
-                                        [nzLabel]="state.STATEDESC"></nz-option>
+                                <nz-select name="CURRENT_STATE" nzShowSearch [(ngModel)]="personalInfo.CURRENT_STATE"
+                                    (ngModelChange)="filterDistrictC()"
+                                    [nzLoading]="addressMaster.current_state.loading">
+                                    <nz-option *ngFor="let state of addressMaster.current_state.data"
+                                        [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -538,9 +548,11 @@
                                         [nzLabel]="district.DISTRICT"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_DISTRICT">
-                                    <nz-option *ngFor="let district of MASTERS[5].data" [nzValue]="district.ID"
-                                        [nzLabel]="district.DISTRICTDESC"></nz-option>
+                                <nz-select name="CURRENT_DISTRICT" nzShowSearch
+                                    [(ngModel)]="personalInfo.CURRENT_DISTRICT" (ngModelChange)="filterTalukaC()"
+                                    [nzLoading]="addressMaster.current_dist.loading">
+                                    <nz-option *ngFor="let district of addressMaster.current_dist.data"
+                                        [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -559,9 +571,10 @@
                                         [nzLabel]="taluka.TALUKA"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_TALUKA">
-                                    <nz-option *ngFor="let taluka of MASTERS[6].data" [nzValue]="taluka.ID"
-                                        [nzLabel]="taluka.TALUKADESC"></nz-option>
+                                <nz-select name="CURRENT_TALUKA" nzShowSearch [(ngModel)]="personalInfo.CURRENT_TALUKA"
+                                    (ngModelChange)="filterCityC()" [nzLoading]="addressMaster.current_taluka.loading">
+                                    <nz-option *ngFor="let taluka of addressMaster.current_taluka.data"
+                                        [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                 </nz-select>
 
                             </nz-form-control>
@@ -581,8 +594,9 @@
                                         [nzLabel]="city.VILLAGE"></nz-option>
                                 </nz-select> -->
 
-                                <nz-select nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY">
-                                    <nz-option *ngFor="let city of MASTERS[7].data" [nzValue]="city.ID"
+                                <nz-select name="CURRENT_CITY" nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY"
+                                    (ngModelChange)="filterAreaC()" [nzLoading]="addressMaster.current_city.loading">
+                                    <nz-option *ngFor="let city of addressMaster.current_city.data" [nzValue]="city.ID"
                                         [nzLabel]="city.CITYDESC"></nz-option>
                                 </nz-select>
 
@@ -605,10 +619,11 @@
 
                                 <!-- <input nz-input name="PERMANENT_ADDRESS_PROOF"
                                     [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"> -->
-                                <nz-select nzShowSearch nzPlaceHolder="Select Area"
-                                    [(ngModel)]="personalInfo.CURRENT_AREA" style="width: 100%;">
-                                    <nz-option *ngFor="let address of MASTERS[8].data" [nzValue]="address.ID"
-                                        [nzLabel]="address.AREADESC">
+                                <nz-select name="CURRENT_AREA" nzShowSearch nzPlaceHolder="Select Area"
+                                    [(ngModel)]="personalInfo.CURRENT_AREA" style="width: 100%;"
+                                    [nzLoading]="addressMaster.current_area.loading">
+                                    <nz-option *ngFor="let address of addressMaster.current_area.data"
+                                        [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                     </nz-option>
                                 </nz-select>
 
