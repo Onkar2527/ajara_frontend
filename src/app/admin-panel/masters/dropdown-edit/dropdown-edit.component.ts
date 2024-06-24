@@ -44,7 +44,7 @@ export class DropdownEditComponent implements OnInit {
 
     for (let field of this.mendetory_all) {
       if (!this.DROPDOWN_OPTIONS[field.field as keyof TableData]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
     }

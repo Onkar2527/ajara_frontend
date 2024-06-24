@@ -6,7 +6,7 @@ export class BasicInfo {
 
     NO_OF_APPLICANT: number = 1;
 
-    CUSTOMER_TYPE_1: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A'
+    CUSTOMER_TYPE_1:string = ''
     PRIMARY_APPLICANT_FIRST_NAME: string = '';
     PRIMARY_APPLICANT_MIDDLE_NAME: string = '';
     PRIMARY_APPLICANT_LAST_NAME: string = '';

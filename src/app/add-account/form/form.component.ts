@@ -125,6 +125,8 @@ export class FormComponent implements OnInit, AfterViewInit {
     'F': 'Daughter',
     'G': 'Husband',
     'H': 'Wife',
+    'I': 'Grand Father',
+    'J': 'Grand Mother'
   }
   account_operation = {
     "A": "Individual",

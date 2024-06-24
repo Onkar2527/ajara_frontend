@@ -21,7 +21,8 @@ export class DepositComponent implements OnInit {
     { field: 'ACCOUNT_TYPE', message: 'Account Type' },
     { field: 'ACCOUNT_OPERATION', message: 'Account Operation' },
     { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
-    { field: 'PAYMENT_INSTRUCTION', message: 'Payment Instruction' }
+    { field: 'PAYMENT_INSTRUCTION', message: 'Payment Instruction' },
+    { field: 'SCHEME_CODE', message: 'Sub Account Type' }
   ]
 
   mendetory_saving = [
@@ -107,7 +108,7 @@ export class DepositComponent implements OnInit {
 
     for (let field of this.mendetory_all) {
       if (!this.depositInfo[field.field as keyof TermDeposite]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
     }
@@ -115,7 +116,7 @@ export class DepositComponent implements OnInit {
 
     // for (let field of this.mendetory_saving) {
     //   if (!this.depositInfo[field.field as keyof TermDeposite]) {
-    //     this.message.error(`${field.message} is Mandetory`, '');
+    //     this.message.error(`${field.message} is Mandatory`, '');
     //     isOk = false;
     //   }
     // }
@@ -123,7 +124,7 @@ export class DepositComponent implements OnInit {
     if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
       for (let field of this.mendetory_saving_cheque) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }
@@ -134,7 +135,7 @@ export class DepositComponent implements OnInit {
     if (this.catagoryB) {
       for (let field of this.mendetory_non_saving) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }

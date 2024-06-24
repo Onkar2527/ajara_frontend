@@ -147,8 +147,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
       }
 
-      else{
-        this.message.error("Unable to create account.",'')
+      else {
+        this.message.error("Unable to create account.", '')
       }
 
 
@@ -438,7 +438,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   }
 
 
-  saveANext() {
+  async saveANext() {
     this.loadSaveButton = true;
 
     if (this.selectedIndex == 0) {
@@ -533,14 +533,20 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if (this.selectedIndex == 4) {
-      this.Tabs[4].disabled = true;
-      this.Tabs[5].disabled = false;
-      this.updateTabsProvided(this.selectedIndex);
-      this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
-      this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
-      this.remarkComp.show_remark = true;
-      this.remarkComp.getRemarkData();
-      this.loadSaveButton = false;
+      let res = await lastValueFrom(this.api.getProperty(this.APPLICANT_ID, 1));
+      if (res['data'].length > 0) {
+        this.Tabs[4].disabled = true;
+        this.Tabs[5].disabled = false;
+        this.updateTabsProvided(this.selectedIndex);
+        this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+        this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+        this.remarkComp.show_remark = true;
+        this.remarkComp.getRemarkData();
+        this.loadSaveButton = false;
+      }
+      else {
+        this.message.error("Fill all the information", "Personal, Financial and Property")
+      }
     }
     else if (this.selectedIndex == 5) {
       this.saveAsComplete();

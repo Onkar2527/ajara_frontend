@@ -21,8 +21,7 @@ export class PersonalComponent implements OnInit {
     { field: 'PRIMARY_APPLICANT_FIRST_NAME', message: 'Applicant 1 First Name' },
     { field: 'PRIMARY_APPLICANT_MIDDLE_NAME', message: 'Applicant 1 Middle Name' },
     { field: 'PRIMARY_APPLICANT_LAST_NAME', message: 'Applicant 1 Last Name' },
-    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Customer Type' },
-
+    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Title' },
     { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
     { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
     { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' },
@@ -774,7 +773,7 @@ export class PersonalComponent implements OnInit {
 
     for (let field of this.mendetory_all) {
       if (!this.basicInfo[field.field as keyof BasicInfo]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
         personal.next({ code: 300 })
       }
@@ -784,7 +783,7 @@ export class PersonalComponent implements OnInit {
     if (this.basicInfo.NO_OF_APPLICANT == 2) {
       for (let field of this.mendetory_applicant_2) {
         if (!this.basicInfo[field.field as keyof BasicInfo]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
           personal.next({ code: 300 })
         }
@@ -794,7 +793,7 @@ export class PersonalComponent implements OnInit {
     if (this.basicInfo.IS_OLD_CUSTOMER_1) {
       for (let field of this.mendetory_customer) {
         if (!this.basicInfo[field.field as keyof BasicInfo]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
           personal.next({ code: 300 })
         }

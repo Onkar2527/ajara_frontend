@@ -44,7 +44,16 @@ export class NominationComponent implements OnInit {
     {
       label: 'Wife',
       value: 'H',
+    },
+    {
+      label: 'Grand Father',
+      value: 'I'
+    },
+    {
+      label: 'Grand Mother',
+      value: 'J'
     }
+
   ]
 
   constructor(private api: ApiService, private message: NzNotificationService) { }
@@ -72,7 +81,7 @@ export class NominationComponent implements OnInit {
 
     for (let field of this.mendetory_all) {
       if (!this.nomineeInfo[field.field as keyof NomineeDetails]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
     }
@@ -80,7 +89,7 @@ export class NominationComponent implements OnInit {
     if (this.nomineeInfo.IS_MINOR) {
       for (let field of this.mendetory_minor) {
         if (!this.nomineeInfo[field.field as keyof NomineeDetails]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }

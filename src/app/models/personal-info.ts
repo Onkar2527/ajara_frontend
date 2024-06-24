@@ -33,18 +33,18 @@ export class PersonalInfo {
     IS_EMAIL_VERIFIED: boolean = false;
 
 
-    RISK_CATEGORY: "A" | "B" | "C" = "A";
+    RISK_CATEGORY!: "A" | "B" | "C";
 
     MOBILE_NUMBER: string = '';
     MOBILE_NUMBER_2: string = '';
 
-    WORK: "E" | "S" | "B" | "R" | "T" | "H" | "O" = 'E';
+    WORK!: "E" | "S" | "B" | "R" | "T" | "H" | "O";
     ESTABLISHMENT: string = ' ';
 
-    RELIGION: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A';
+    RELIGION!: "A" | "B" | "C" | "D" | "E" | "F" | "G";
     OTHER_RELIGION: string = '';
 
-    CASTE: "A" | "B" | "C" | "D" | "E" | "F" | "G" = 'A';
+    CASTE!: "A" | "B" | "C" | "D" | "E" | "F" | "G";
     OTHER_CASTE: string = '';
 
     MARITAL_STATUS: "M" | "U" = 'M'
@@ -65,7 +65,7 @@ export class PersonalInfo {
     BLOOD_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = 'A';
     // BLOOD_TYPE_SIGN?: string;
 
-    EMPLOYMENT_DETAIL: "P" | "E" | "C" | "M" | "J" | "O" | " " = ' ';
+    EMPLOYMENT_DETAIL!: "P" | "E" | "C" | "M" | "J" | "O" | " ";
 
     EMPLOYMENT_COMPANY: string = '';
     EMPLOYMENT_DESIGNATION: string = '';
@@ -93,17 +93,17 @@ export class PersonalInfo {
     IS_MINOR: boolean = false;
     GUARDIAN_NAME: string = '';
     GUARDIAN_PAN: string = '';
-    GUARDIAN_RELATION: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' = 'A';
+    GUARDIAN_RELATION!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
     GUARDIAN_OTHER_DOCUMENT: string = ''; //dropdown
     GUARDIAN_OTHER_DOCUMENT_NUMBER: string = '';
     MINOR_DATE_OF_BIRTH_PROOF: string = ''; //dropdown
 
 
-    PROFESSION: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ' = ' '
-    NATURE_OF_SERVICE: 'A' | 'B' | ' ' = ' ';
-    SELF_EMPLOYED: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'H' | 'G' | ' ' = ' ';
-    NATURE_OF_BUSINESS: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | ' ' = ' ';
-    SOURCE_OF_FUNDS: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ' = ' ';
+    PROFESSION!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ';
+    NATURE_OF_SERVICE!: 'A' | 'B' | ' ';
+    SELF_EMPLOYED!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'H' | 'G' | ' ';
+    NATURE_OF_BUSINESS!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | ' ';
+    SOURCE_OF_FUNDS!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ';
 
 
     DRIVING_LICENSE_NO: string = '';

@@ -833,7 +833,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     for (let field of this.mendetory_all) {
       if (!this.personalInfo[field.field as keyof PersonalInfo]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
     }
@@ -841,7 +841,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     if (this.personalInfo.RELIGION == 'G') {
       for (let field of this.mendetory_religion) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }
@@ -850,7 +850,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     if (this.personalInfo.CASTE == 'G') {
       for (let field of this.mendentory_cast) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }
@@ -859,7 +859,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     if (this.personalInfo.IS_MINOR) {
       for (let field of this.mendentory_minor) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {
-          this.message.error(`${field.message} is Mandetory`, '');
+          this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }

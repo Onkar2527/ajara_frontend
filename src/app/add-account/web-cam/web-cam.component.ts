@@ -284,7 +284,7 @@ export class WebCamComponent implements OnInit {
 
     for (let field of this.createDocMendetory) {
       if (!this.SingleDocument[field.field as keyof Documents]) {
-        this.message.error(`${field.message} is Mandetory`, '');
+        this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
 
