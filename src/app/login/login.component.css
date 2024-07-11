@@ -63,7 +63,7 @@ nz-form-item {
     width: 100%;
 }
 
-input {
+nz-input-group {
     border-radius: 10px;
     /* Adjust the border-radius to control the roundness of the input fields */
 }

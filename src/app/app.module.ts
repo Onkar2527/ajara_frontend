@@ -65,6 +65,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
@@ -77,8 +78,11 @@ import { DropdownItemsEditComponent } from './admin-panel/masters/dropdown-items
 import { EditStatusComponent } from './admin-panel/proposal-master/edit-status/edit-status.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OvdHitsComponent } from './admin-panel/dashboard-modules/ovd-hits/ovd-hits.component';
+import { PasswordManagerComponent } from './admin-panel/password-manager/password-manager.component';
+import { PasswordChangeComponent } from './login/password-change/password-change.component';
+import { PasswordPolicyManagerComponent } from './admin-panel/password-manager/password-policy-manager/password-policy-manager.component';
 
-export const options: Partial<null|IConfig> | (() => Partial<IConfig>) = null;
+export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
 registerLocaleData(en);
 
@@ -111,7 +115,10 @@ registerLocaleData(en);
     DropdownItemsEditComponent,
     EditStatusComponent,
     DashboardComponent,
-    OvdHitsComponent
+    OvdHitsComponent,
+    PasswordManagerComponent,
+    PasswordChangeComponent,
+    PasswordPolicyManagerComponent
   ],
   imports: [
     //System Imports
@@ -155,7 +162,8 @@ registerLocaleData(en);
     NzModalModule,
     NzCollapseModule,
     NzCardModule,
-    NzSpinModule
+    NzSpinModule,
+    NzInputNumberModule
   ],
   providers: [
 

@@ -6,7 +6,8 @@
     "start": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --port 9000",
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "createComp":"ng g c /admin-panel/password-manager/password-policy-manager --module=app.module"
   },
   "private": true,
   "dependencies": {

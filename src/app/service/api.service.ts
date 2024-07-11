@@ -126,10 +126,10 @@ export class ApiService implements HttpInterceptor {
 
   // baseUrl local
   // baseUrl = 'http://192.168.137.158:8079/api/';
-  // baseUrl = 'http://localhost:8079/api/';
+  baseUrl = 'http://localhost:8079/api/';
   // baseUrl server
 
-  baseUrl = 'http://10.128.116.5:9000/api/'
+  // baseUrl = 'http://10.128.116.5:9000/api/'
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)
@@ -816,6 +816,23 @@ export class ApiService implements HttpInterceptor {
   setDocVerifyRate(data: any) {
 
     return this.httpClient.post<any>(this.baseUrl + 'doc_verify/setRate', data, this.optionMain)
+  }
+
+  getPasswordPolicyData() {
+    return this.httpClient.get<any>(this.baseUrl + 'passwordPolicy/get', this.optionMain);
+  }
+
+  savePasswordPolicyData(data: any) {
+    return this.httpClient.post<any>(this.baseUrl + 'passwordPolicy/save', data, this.optionMain)
+  }
+
+  resetPassword(username: string, oldpass: string, newpass: string) {
+    let data = {
+      username: username,
+      oldpass: oldpass,
+      newpass: newpass
+    }
+    return this.httpClient.post<any>(this.baseUrl + 'user/resetPassword', data, this.optionMain);
   }
 
 }

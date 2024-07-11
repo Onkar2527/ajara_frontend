@@ -13,12 +13,18 @@ import { ApiService } from '../service/api.service';
 export class LoginComponent implements OnInit {
 
   @Output() logined = new EventEmitter<boolean>();
+  @Output() passwordReset = new EventEmitter<boolean>();
+
   USER_NAME = '';
   PASSWORD = '';
   isMobileView = false;
 
   isloginSpinning: boolean = false;
   isLogedIn: boolean = false;
+
+  passwordPolicy: any;
+
+  passwordVisible = false
 
   constructor(private api: ApiService, private router: Router, private message: NzNotificationService) { }
 
@@ -34,7 +40,19 @@ export class LoginComponent implements OnInit {
     }
     this.checkScreenSize();
 
+    this.getPasswordPolicy();
 
+
+  }
+
+  getPasswordPolicy() {
+    this.api.getPasswordPolicyData().subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.passwordPolicy = res['data'];
+        }
+      }
+    })
   }
 
   checkScreenSize(): void {
@@ -48,9 +66,30 @@ export class LoginComponent implements OnInit {
       next: (data) => {
         if (data['code'] == 200 && data['data']) {
 
-          SessionUserDetails.setSessionStorage(data['data']);
-          this.logined.emit(true);
-          this.isloginSpinning = false
+          let passwordPatternStr = `^(?=(.*[A-Z]){${this.passwordPolicy.FR_CAPITAL_LETTERS},})(?=(.*[a-z]){${this.passwordPolicy.FR_SMALL_LETTERS},})(?=(.*\\d){${this.passwordPolicy.FR_NUMBERS},})(?=(.*[\\W_]){${this.passwordPolicy.FR_SYMBOLS},}).{${this.passwordPolicy.PASSWORD_LENGTH},}$`
+          let passwordPatternRegex = new RegExp(String.raw`${passwordPatternStr}`);
+
+          if (!data['data']['PASSWORD_RESET_DATE']) {
+            this.message.warning("Please reset the password to something secure", "");
+            this.passwordReset.emit(true);
+            return;
+          }
+          else if (!passwordPatternRegex.test(this.PASSWORD)) {
+            this.message.warning("Password policy has been updated", "Please reset the password");
+            this.passwordReset.emit(true);
+            return;
+          }
+          else if (data['data']['DAYS_OF_RESET_PASS'] >= this.passwordPolicy.FR_PASSWORD_RESET) {
+            this.message.warning("Your password has been expired", "Please reset the password");
+            this.passwordReset.emit(true);
+            return;
+          }
+
+          else {
+            SessionUserDetails.setSessionStorage(data['data']);
+            this.logined.emit(true);
+            this.isloginSpinning = false
+          }
 
         }
         else if (data['code'] == 404) {
@@ -71,6 +110,10 @@ export class LoginComponent implements OnInit {
 
     })
 
+  }
+
+  passwordResetFn() {
+    this.passwordReset.emit(true);
   }
 
 }

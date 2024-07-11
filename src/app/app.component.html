@@ -38,7 +38,7 @@
 
             <li nz-menu-item nzMatchRouter>
               <a [routerLink]="[menu.ROUTE]">
-                <i nz-icon [nzType]="menu.ICON" *ngIf="menu.ICON"></i>{{menu.NAME}}</a>
+                <i nz-icon [nzType]="menu.ICON" *ngIf="menu.ICON"></i> {{menu.NAME}}</a>
             </li>
 
           </ng-container>
@@ -60,12 +60,19 @@
 
 <ng-template #userPopover>
   <div>
-    <p nz-row><span nz-col nzSpan="12"> Branch </span> <span nz-col nzSpan="12"><b>{{userExtraInformation.BRANCH}}</b></span></p>
-    <p nz-row><span nz-col nzSpan="12"> Role </span> <span nz-col nzSpan="12"><b>{{userExtraInformation.ROLE}}</b></span></p>
-    
+    <p nz-row><span nz-col nzSpan="12"> Branch </span> <span nz-col
+        nzSpan="12"><b>{{userExtraInformation.BRANCH}}</b></span></p>
+    <p nz-row><span nz-col nzSpan="12"> Role </span> <span nz-col
+        nzSpan="12"><b>{{userExtraInformation.ROLE}}</b></span></p>
+
     <nz-divider></nz-divider>
     <button (click)="logout()" class="logout-button">logout</button>
   </div>
 </ng-template>
 
-<app-login *ngIf="route == 'login'" (logined)="login()"></app-login>
+<app-login *ngIf="route == 'login'" (logined)="login()" (passwordReset)="passwordReset()"></app-login>
+
+
+<div *ngIf="route == 'passReset'" style="width:100%">
+  <app-password-change (passwordResetEvent)="gotoLogin()"></app-password-change>
+</div>
