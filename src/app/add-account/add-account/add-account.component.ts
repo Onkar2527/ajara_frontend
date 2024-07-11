@@ -14,6 +14,7 @@ import { RemarkCompComponent } from '../remark-comp/remark-comp.component';
 import { RemarkModel } from 'src/app/models/remark-model';
 import { lastValueFrom } from 'rxjs';
 
+
 @Component({
   selector: 'app-add-account',
   templateUrl: './add-account.component.html',
@@ -38,7 +39,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   constructor(private api: ApiService, private message: NzNotificationService) { }
   @Output() ChangeIndex = new EventEmitter<number>();
   @Output() CloseDrawer = new EventEmitter<void>();
-
+  @Output() AccountCreationStatus = new EventEmitter<boolean>();
 
 
 
@@ -117,12 +118,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     }
 
     else if (isOk) {
-
+      this.AccountCreationStatus.emit(true);
       let onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(this.personalComp.basicInfo.ID));
 
       if (onBoardingResult['code'] == 200) {
         this.message.success("customer created. ", `Customer ID = ${onBoardingResult.success_data['Customer Code']}`);
-
+        this.AccountCreationStatus.emit(false);
 
         this.personalComp.basicInfo.TRACK_ID = 4;
         let personal = this.personalComp.save();
@@ -135,10 +136,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
               this.CloseDrawer.emit();
             }
             else {
-              this.message.error("Something went wrong", '');
+              this.message.error("Failed to Create Account", '');
             }
           }, error: () => {
-
+            this.message.error("Failed to Create Account", '');
           },
           complete: () => {
 
@@ -148,7 +149,8 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       }
 
       else {
-        this.message.error("Unable to create account.", '')
+        this.message.error("Unable to create account.", '');
+        this.AccountCreationStatus.emit(false);
       }
 
 

@@ -84,8 +84,8 @@
 
 
 <ng-template #addAccountDrawerTemp let-drawerRef="drawerRef">
-  <app-add-account (ChangeIndex)="changeIndex($event)" (CloseDrawer)="closeDrawer()"
-    [BasicInfo]="drawerDraftData"></app-add-account>
+  <app-add-account (AccountCreationStatus)="accountCreationEvent($event)" (ChangeIndex)="changeIndex($event)"
+    (CloseDrawer)="closeDrawer()" [BasicInfo]="drawerDraftData"></app-add-account>
 </ng-template>
 
 <ng-template #footerTpl2>
@@ -241,7 +241,7 @@
     </span>
 
     <span *ngIf="selectedIndex == 5">
-      <button nz-button nzType="primary" (click)="completeVerifier()">
+      <button nz-button [nzLoading]="accountCreateButtonLoading" nzType="primary" (click)="completeVerifier()">
         {{verifyButtonTitle}}
       </button>
     </span>

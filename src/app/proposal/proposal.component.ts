@@ -80,6 +80,12 @@ export class ProposalComponent implements OnInit {
 
   depositeInfo: TermDeposite[] = []
 
+  accountCreateButtonLoading = false;
+
+  accountCreationEvent(status: boolean) {
+    this.accountCreateButtonLoading = status;
+  }
+
   getDepositeInfo() {
     this.depositeInfo = []
     for (let proposal of this.DraftsData) {
@@ -353,14 +359,14 @@ export class ProposalComponent implements OnInit {
       return value.ID == track_id
     });
 
-    if(our_status.length > 0){
+    if (our_status.length > 0) {
       return our_status[0].NAME ? our_status[0].NAME : ''
     }
-    else{
+    else {
       return '';
     }
 
-    
+
   }
 
   getBranchList() {
@@ -381,10 +387,10 @@ export class ProposalComponent implements OnInit {
       return value.ID == branch_id
     });
 
-    if(our_branch.length > 0 ){
+    if (our_branch.length > 0) {
       return our_branch[0].BRANCH_NAME ? our_branch[0].BRANCH_NAME : ''
     }
-    else{
+    else {
       return '';
     }
 
