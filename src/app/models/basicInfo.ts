@@ -6,7 +6,7 @@ export class BasicInfo {
 
     NO_OF_APPLICANT: number = 1;
 
-    CUSTOMER_TYPE_1:string = ''
+    CUSTOMER_TYPE_1: string = ''
     PRIMARY_APPLICANT_FIRST_NAME: string = '';
     PRIMARY_APPLICANT_MIDDLE_NAME: string = '';
     PRIMARY_APPLICANT_LAST_NAME: string = '';
@@ -69,7 +69,7 @@ export class BasicInfo {
 
     MAKER_USER_ID?: number;
     CHACKER_USER_ID?: number;
-    VERIFIER_USER_ID?: number;
+    VERIFIER_USER_ID?: number|null;
 
     TRACK_ID?: number;
 
@@ -110,8 +110,8 @@ export class BasicInfo {
     ACCOUNT_NUMBER: string = '';
 
     // new fields
-    DOCUMENTS_AUTHORITY:string = 'Government of India'
-    DOCUMENTS_ISSUE_PLACE:string = ''
+    DOCUMENTS_AUTHORITY: string = 'Government of India'
+    DOCUMENTS_ISSUE_PLACE: string = ''
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 

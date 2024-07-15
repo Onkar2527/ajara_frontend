@@ -69,6 +69,8 @@ export class ProposalComponent implements OnInit {
 
   BRANCH_LIST: any = [];
 
+  cpcFilter: CpcFilter = new CpcFilter()
+
   ngOnInit(): void {
     this.getDrafts();
     this.getUser();
@@ -315,9 +317,9 @@ export class ProposalComponent implements OnInit {
 
     let user_data = SessionUserDetails.getSessionStorage();
 
-    this.api.getDraft(this.pageSize, this.pageIndex, user_data).subscribe({
+    this.api.getDraft(this.pageSize, this.pageIndex, user_data,this.cpcFilter).subscribe({
       next: (res) => {
-        if (res['code'] == 200 && res['data'].length > 0) {
+        if (res['code'] == 200) {
           console.log("res['data']", res['data'])
           this.DraftsData = res['data'];
           this.getDepositeInfo()
@@ -657,6 +659,61 @@ export class ProposalComponent implements OnInit {
     })
   }
 
+  pick(proposal: BasicInfo) {
+    proposal.VERIFIER_USER_ID = this.userDetails.USER_ID;
+
+    this.api.updateBasic(proposal).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.message.success("Proposal Picked", "");
+          this.getDrafts();
+        }
+        else {
+          this.message.error("Failed to pick proposal", "");
+        }
+      },
+      error: () => {
+        this.message.error("Failed to pick proposal", "");
+      }
+    })
+  }
+
+  unpick(proposal: BasicInfo) {
+    proposal.VERIFIER_USER_ID = null;
+
+    this.api.updateBasic(proposal).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.message.success("Proposal re assigned", "");
+          this.getDrafts();
+        }
+        else {
+          this.message.error("Failed to re assigned proposal", "");
+        }
+      },
+      error: () => {
+        this.message.error("Failed to re assigned proposal", "");
+      }
+    })
+  }
 
 
+  applyFilter(){
+    this.getDrafts();
+  }
+
+  clearFilter(){
+    this.cpcFilter = new CpcFilter();
+    this.getDrafts();
+  }
+
+
+}
+
+
+class CpcFilter {
+  BRANCH_ID: number = 0;
+  TRACK_ID: number = 0;
+  START_DATE: string = '';
+  END_DATE: string = '';
 }

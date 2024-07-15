@@ -373,11 +373,12 @@ export class ApiService implements HttpInterceptor {
 
   //draft
 
-  getDraft(pageSize: number, pageIndex: number, user_data: any): Observable<any> {
+  getDraft(pageSize: number, pageIndex: number, user_data: any, filter: any): Observable<any> {
     let data = {
       pageSize: pageSize,
       pageIndex: pageIndex,
-      user_details: user_data
+      user_details: user_data,
+      filter: filter
     }
     return this.httpClient.post(this.baseUrl + 'basicDetails/getAll', data, this.optionMain);
   }

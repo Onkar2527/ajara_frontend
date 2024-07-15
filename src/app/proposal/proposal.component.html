@@ -8,11 +8,94 @@
   </div>
 </div>
 
+<div *ngIf="ROLE_ID == 3">
+  <div class="box">
+
+    <div nz-row class="content-box">
+
+      <nz-form-item nz-col nzSpan="7">
+        <nz-form-label [nzNoColon]="true">Select Branch</nz-form-label>
+        <nz-form-control>
+          <nz-select [(ngModel)]="cpcFilter.BRANCH_ID">
+            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+
+            <nz-option *ngFor="let option of BRANCH_LIST" [nzValue]="option.ID"
+              [nzLabel]="option.BRANCH_NAME"></nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-col nzSpan="1"></div>
+
+      <nz-form-item nz-col nzSpan="7">
+        <nz-form-label [nzNoColon]="true">Select Status</nz-form-label>
+        <nz-form-control>
+          <nz-select [(ngModel)]="cpcFilter.TRACK_ID">
+            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+
+            <nz-option *ngFor="let option of STATUS_LIST" [nzValue]="option.ID" [nzLabel]="option.NAME"></nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-col nzSpan="1"></div>
+
+
+      <!-- <div nz-col nzSpan="8">
+        <div nz-row>
+
+
+          <nz-form-item nz-col nzSpan="11">
+
+            <nz-form-label nzNoColon>Select Created Date</nz-form-label>
+
+            <nz-form-control>
+              <nz-date-picker nzPlaceHolder="From Date" [(ngModel)]="cpcFilter.START_DATE"
+                nzFormat="dd-MM-yyyy"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+
+          <div nz-col nzSpan="2"></div>
+
+          <nz-form-item nz-col nzSpan="11">
+
+            <nz-form-label nzNoColon> </nz-form-label>
+
+            <nz-form-control>
+              <nz-date-picker nzPlaceHolder="To Date" [(ngModel)]="cpcFilter.END_DATE"
+                nzFormat="dd-MM-yyyy"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+
+        </div>
+      </div> -->
+
+      <nz-form-item nz-col nzSpan="8">
+        <nz-form-label [nzNoColon]="true"></nz-form-label>
+        <nz-form-control>
+          <nz-button-group>
+            <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i nz-icon
+                nzType="filter"></i></button>
+            <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i nz-icon
+                nzType="clear"></i></button>
+          </nz-button-group>
+        </nz-form-control>
+      </nz-form-item>
+
+    </div>
+  </div>
+</div>
+
 <nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
-  (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }"
-  style="margin-top: 20px;" nzBordered #table nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading">
+  (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }" nzBordered #table
+  nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading">
   <thead nzSingleSort>
     <tr>
+      <th [nzWidth]="'100px'">Action</th>
       <th [nzWidth]="'120px'" [nzAlign]="'center'">Information</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Documents</th>
       <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
@@ -31,9 +114,22 @@
   </thead>
   <tbody>
     <tr *ngFor="let proposal of table.data">
-      <td><a (click)="openTabsDrawer(proposal)"> <i nz-icon nzType="edit"></i></a></td>
-      <td><a (click)="openUploadDrawer(proposal)"> <i nz-icon nzType="file-add"></i></a></td>
-      <td><a (click)="openFormDrawer(proposal)"> <i nz-icon nzType="file-text"></i></a></td>
+      <td>
+        <a *ngIf="userDetails.ROLE_ID == 3 && !proposal.VERIFIER_USER_ID && proposal.TRACK_ID == 3"
+          (click)="pick(proposal)">Pick</a>
+        <a *ngIf="userDetails.ROLE_ID == 3 && proposal.VERIFIER_USER_ID && proposal.TRACK_ID == 3"
+          (click)="unpick(proposal)">Re-assign</a>
+      </td>
+      <td><a (click)="openTabsDrawer(proposal)"
+          *ngIf="userDetails.ROLE_ID != 3 || (userDetails.ROLE_ID == 3 && proposal.VERIFIER_USER_ID)"> <i nz-icon
+            nzType="edit"></i></a>
+      </td>
+      <td><a (click)="openUploadDrawer(proposal)"
+          *ngIf="userDetails.ROLE_ID != 3 || (userDetails.ROLE_ID == 3 && proposal.VERIFIER_USER_ID)"> <i nz-icon
+            nzType="file-add"></i></a></td>
+      <td><a (click)="openFormDrawer(proposal)"
+          *ngIf="userDetails.ROLE_ID != 3 || (userDetails.ROLE_ID == 3 && proposal.VERIFIER_USER_ID)"> <i nz-icon
+            nzType="file-text"></i></a></td>
       <td>{{proposal.ID}}</td>
       <td>{{proposal.NO_OF_APPLICANT}}</td>
       <td *ngIf="ROLE_ID == 3">

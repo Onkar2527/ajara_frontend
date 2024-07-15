@@ -204,7 +204,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       this.api.getUser({ role_id: 3 }).subscribe({
         next: (res) => {
           if (res['code'] == 200 && res['data'].length > 0) {
-            this.personalComp.basicInfo.VERIFIER_USER_ID = res.data[0].ID;
+            // this.personalComp.basicInfo.VERIFIER_USER_ID = res.data[0].ID;
             let personal = this.personalComp.save();
             personal.subscribe({
               next: (res) => {
