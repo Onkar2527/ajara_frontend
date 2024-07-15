@@ -265,6 +265,8 @@
                 </div>
             </div>
 
+
+
             <div nz-row>
 
                 <!-- Proof of Address -->
@@ -314,6 +316,45 @@
                 </div>
             </div>
 
+            <div nz-row>
+                <div class="box" *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED">
+                    <nz-divider nzText="Aadhaar Details"></nz-divider>
+                    <div class="content-box ">
+                        <div nz-row>
+                            <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 10px;">
+                                <input [hiddenInput]="true" mask="XXXX XXXX 0000"
+                                    style="border :none !important;font-weight: bold;" disabled
+                                    [ngModel]="aadhaarVerify.common.aadhaar_no">
+                            </div>
+                            <div nz-col nzSpan="18" style="font-size: 14px;">
+                                <div nz-row>
+                                    <div nz-col nzSpan="24" style="margin-bottom:10px;">Name :
+                                        <b>{{aadhaarVerify.common.full_name}}</b>
+                                    </div>
+                                    <div nz-col nzSpan="18" style="margin-bottom:10px;">DOB :
+                                        <b>{{aadhaarVerify.common.dob}}</b>
+                                    </div>
+                                    <div nz-col nzSpan="6" style="margin-bottom:10px;">Age :
+                                        <b>{{aadhaarVerify.common.age}}</b>
+                                    </div>
+                                    <div nz-col nzSpan="24" style="margin-bottom:10px;">Gender :
+                                        <b>{{aadhaarVerify.common.gender}}</b>
+                                    </div>
+                                    <div nz-col nzSpan="24" style="margin-bottom:10px;">Address :
+                                        <b>{{aadhaarVerify.common.address}}</b>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div nz-col nzSpan="6" style="text-align:center">
+                                <img width="100px" height="100px" [src]="aadhaarVerify.common.profile_image">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
             <div nz-row>
 

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, lastValueFrom } from 'rxjs';
+import { Aadhaar } from 'src/app/models/aadhaar';
 import { PersonalInfo } from 'src/app/models/personal-info';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -29,6 +30,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['personalInfo']) {
       this.getAddressDropDowns();
+      this.getAadhaarData();
     }
   }
 
@@ -1098,7 +1100,27 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     return false;
   }
 
+  aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
 
+  getAadhaarData() {
+    if (this.personalInfo.AADHAAR_NUMBER) {
+
+    }
+    this.api.getAadhaarData(this.personalInfo.APPLICANT_NO, this.personalInfo.AADHAAR_NUMBER).subscribe({
+      next: (res) => {
+        if (res['code'] == 200 && res['data'].length > 0) {
+
+          this.aadhaarVerify.aadhar_history = res['data'][0];
+          if (this.aadhaarVerify.aadhar_history.ADDRESS_ID.length > 0) {
+            this.aadhaarVerify.aadhar_address = this.aadhaarVerify.aadhar_history.ADDRESS_ID[0];
+          }
+          // this.hideAadhar = true;
+          this.aadhaarVerify.MakeHistory();
+
+        }
+      }
+    })
+  }
 
 }
 

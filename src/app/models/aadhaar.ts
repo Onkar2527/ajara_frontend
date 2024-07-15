@@ -217,7 +217,7 @@ export class Aadhaar {
         },
         error: (err) => {
           // this.message.error('Network Error❗', 'Please try again after sometimes');
-          this.OVD_ERROR(err.error.status_code);
+          this.OVD_ERROR(err.error.message);
           this.showOtp = false;
           this.otpSubject.error(err);
         }
@@ -268,7 +268,7 @@ export class Aadhaar {
             this.showAadhaar = false;
             this.subject.error(err);
             // this.message.error('Something went wrong', "Please try again after sometimes");
-            this.OVD_ERROR(err.error.status_code);
+            this.OVD_ERROR(err.error.message);
           }
         });
     }
@@ -316,8 +316,9 @@ export class Aadhaar {
         },
         error: (err) => {
           this.showPan = false;
+          console.log("PAN Error",err)
           // this.message.error('PAN Verification Failed', 'Please try again after sometimes');
-          this.OVD_ERROR(err.error.status_code);
+          this.OVD_ERROR(err.error.message);
           panverify.error(err);
         }
       });
@@ -355,7 +356,7 @@ export class Aadhaar {
       error: (err) => {
         this.voter_history.IS_VERIFIED = false;
         // this.message.error('Voter ID Verification Failed', 'Please try again after sometimes');
-        this.OVD_ERROR(err.error.status_code);
+        this.OVD_ERROR(err.error.message);
         voter.error(err);
       }
     });
@@ -406,7 +407,7 @@ export class Aadhaar {
         this.license_history.IS_VERIFIED = false;
         console.log("license error",err)
         // this.message.error('License Verification Failed', 'Please try again after sometimes');
-        this.OVD_ERROR(err.error.status_code);
+        this.OVD_ERROR(err.error.message);
         license.error(err);
       }
     });
@@ -451,33 +452,8 @@ export class Aadhaar {
 
   }
 
-  private OVD_ERROR(code: number) {
-    let error;
-    if (code == 400) {
-      error = "Bad Request"
-    }
-    else if (code == 401) {
-      error = 'Unauthorized User'
-    }
-    else if (code == 403) {
-      error = 'Action Prohibited'
-    }
-    else if (code == 404) {
-      error = 'Data Not Found'
-    }
-    else if (code == 422) {
-      error = 'Unprocessable Entity'
-    }
-    else if (code == 429) {
-      error = 'Too Many Requests'
-    }
-    else if (code == 500) {
-      error = 'Internal Server Error'
-    }
-    if(error){
-      this.message.error(error,'')
-    }
-
+  private OVD_ERROR(message:string) {
+      this.message.error(message,'');
   }
 
 }

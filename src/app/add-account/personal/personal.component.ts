@@ -445,6 +445,10 @@ export class PersonalComponent implements OnInit {
       return;
     }
 
+    if (!await this.searchAadhaar()) {
+      return;
+    }
+
 
     switch (AplicantNo) {
       case 1: {
@@ -648,6 +652,10 @@ export class PersonalComponent implements OnInit {
   async verifyPan(AplicantNo: number) {
 
     if ((await this.checkBalance(2)) == 0) {
+      return;
+    }
+
+    if (!await this.searchPAN()) {
       return;
     }
 
@@ -1477,6 +1485,7 @@ export class PersonalComponent implements OnInit {
         }
         else {
           this.aadhaarVerify.pan_history.PAN_NUMBER = this.searchData.PAN;
+          this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER = this.searchData.CUSTUIN;
           this.basicInfo.MOBILE_1 = this.searchData.MOBILE;
           this.basicInfo.GENDER_1 = this.searchData.GENDER;
           this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME = this.searchData.FIRST_NAME;
@@ -1500,6 +1509,69 @@ export class PersonalComponent implements OnInit {
     }
 
   }
+
+  async searchAadhaar() {
+    let res: any = await lastValueFrom(this.api.searchCustomer('', this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER, '', 'AADHAAR_NO'));
+
+    if (res['code'] == 200) {
+      this.searchData = res['data'];
+
+      if (this.searchData.ALREADY_EXIST == 'Y') {
+        this.message.error("This Customer Already Have An Individual Account.", "");
+        return false;
+      }
+
+      else {
+        this.basicInfo.CUSTOMER_ID_1 = this.searchData.CUSTOMERID;
+        this.basicInfo.IS_OLD_CUSTOMER_1 = true;
+
+        this.aadhaarVerify.pan_history.PAN_NUMBER = this.searchData.PAN;
+        this.basicInfo.MOBILE_1 = this.searchData.MOBILE;
+        this.basicInfo.GENDER_1 = this.searchData.GENDER;
+        this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME = this.searchData.FIRST_NAME;
+        this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME = this.searchData.MIDDLE_NAME;
+        this.basicInfo.PRIMARY_APPLICANT_LAST_NAME = this.searchData.LAST_NAME;
+
+        this.basicInfo.DOB_1 = this.convertDate(this.searchData.BIRTHDATE);
+        this.calculateAge(1)
+      }
+      console.log("serachData", this.searchData)
+    }
+
+    return true;
+
+  }
+
+  async searchPAN() {
+    let res: any = await lastValueFrom(this.api.searchCustomer('', '', this.aadhaarVerify.pan_history.PAN_NUMBER, 'PAN'));
+
+    if (res['code'] == 200) {
+      this.searchData = res['data'];
+
+      if (this.searchData.ALREADY_EXIST == 'Y') {
+        this.message.error("This Customer Already Have An Individual Account.", "");
+        return false;
+      }
+
+      else {
+        this.basicInfo.CUSTOMER_ID_1 = this.searchData.CUSTOMERID;
+        this.basicInfo.IS_OLD_CUSTOMER_1 = true;
+        this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER = this.searchData.CUSTUIN;
+        // this.aadhaarVerify.pan_history.PAN_NUMBER = this.searchData.PAN;
+        this.basicInfo.MOBILE_1 = this.searchData.MOBILE;
+        this.basicInfo.GENDER_1 = this.searchData.GENDER;
+        this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME = this.searchData.FIRST_NAME;
+        this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME = this.searchData.MIDDLE_NAME;
+        this.basicInfo.PRIMARY_APPLICANT_LAST_NAME = this.searchData.LAST_NAME;
+
+        this.basicInfo.DOB_1 = this.convertDate(this.searchData.BIRTHDATE);
+        this.calculateAge(1)
+      }
+      console.log("serachData", this.searchData)
+    }
+    return true;
+  }
+
 
   convertDate(date: string) {
     let arr = date.split(" ");
