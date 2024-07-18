@@ -461,6 +461,21 @@
 
 
 
+                    <nz-form-item nz-col nzSpan="24" style="margin-bottom:10px;">
+
+                      <nz-form-label [nzNoColon]="true">Aadhaar No for DBT (Direct Benefit Transfer) Required (Y/N) ?</nz-form-label>
+
+                      <nz-form-control>
+
+                        <nz-radio-group [(ngModel)]="basicInfo.IS_AADHAAR_DBT">
+                          <label nz-radio [nzValue]="true">Yes</label>
+                          <label nz-radio [nzValue]="false">No</label>
+                        </nz-radio-group>
+
+                      </nz-form-control>
+
+                    </nz-form-item>
+
                   </div>
 
                 </div>

@@ -12,6 +12,7 @@ import { SessionUserDetails } from '../common_modules/session_storage/SessionUse
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EditStatusComponent } from '../admin-panel/proposal-master/edit-status/edit-status.component';
 import { TermDeposite } from '../models/term-deposite';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-proposal',
@@ -317,7 +318,7 @@ export class ProposalComponent implements OnInit {
 
     let user_data = SessionUserDetails.getSessionStorage();
 
-    this.api.getDraft(this.pageSize, this.pageIndex, user_data,this.cpcFilter).subscribe({
+    this.api.getDraft(this.pageSize, this.pageIndex, user_data, this.cpcFilter).subscribe({
       next: (res) => {
         if (res['code'] == 200) {
           console.log("res['data']", res['data'])
@@ -698,13 +699,73 @@ export class ProposalComponent implements OnInit {
   }
 
 
-  applyFilter(){
+  applyFilter() {
     this.getDrafts();
   }
 
-  clearFilter(){
+  clearFilter() {
     this.cpcFilter = new CpcFilter();
     this.getDrafts();
+  }
+
+
+  downloadExcel() {
+
+    let xlsx_template = [
+      { key: ["", "", ""], header: "Applicant Name" },
+      { key: ["ACCOUNT_NUMBER"], header: "" },
+      { key: ["CUSTOMER_ID_1"], header: "" },
+      { key: ["AADHAAR_NO_1"], header: "" },
+      { key: ["IS_AADHAAR_DBT"], header: "" }
+    ]
+
+    let xlsx_data = []
+    let data = <any>{}
+
+    for (let proposal of this.DraftsData) {
+      data = {};
+      let fullName = `${proposal.PRIMARY_APPLICANT_FIRST_NAME} ${proposal.PRIMARY_APPLICANT_MIDDLE_NAME} ${proposal.PRIMARY_APPLICANT_LAST_NAME}`
+      data["Applicant Name"] = fullName;
+      data["Account Number"] = proposal.ACCOUNT_NUMBER;
+      data["Customer ID"] = proposal.CUSTOMER_ID_1;
+      data["Aadhaar Number"] = proposal.AADHAAR_NO_1;
+      data["DBT (Direct Benefit Transfer) Required"] = proposal.IS_AADHAAR_DBT ? "Yes" : "No";
+      // for (let temp of xlsx_template) {
+      //   let header = temp.header;
+
+      //   for (let key of temp.key) {
+      //     console.log("Key", key, proposal[key])
+      //     if (key == 'IS_AADHAAR_DBT') {
+      //       data[header] = proposal[key] == 'Y' ? 'Yes' : 'No';
+      //     }
+      //     if (data[header] == 'Applicant Name') {
+      //       data[header] += ` ${proposal[key]}`
+      //     }
+
+      //   }
+
+      //   // if (header == 'Branch' || header == 'Department') {
+      //   //   proposal[header] = proposal[temp.key].name;
+      //   // }
+      //   // else {
+      //   //   proposal[header] = proposal[temp.key];
+      //   // }
+
+      // }
+
+      xlsx_data.push(data);
+    }
+
+    console.log("Data", xlsx_data);
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(xlsx_data);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, "Applicant List.xlsx");
   }
 
 
@@ -716,4 +777,5 @@ class CpcFilter {
   TRACK_ID: number = 0;
   START_DATE: string = '';
   END_DATE: string = '';
+  IS_AADHAAR_DBT: any = 0;
 }

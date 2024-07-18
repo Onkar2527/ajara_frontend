@@ -69,7 +69,7 @@ export class BasicInfo {
 
     MAKER_USER_ID?: number;
     CHACKER_USER_ID?: number;
-    VERIFIER_USER_ID?: number|null;
+    VERIFIER_USER_ID?: number | null;
 
     TRACK_ID?: number;
 
@@ -112,6 +112,8 @@ export class BasicInfo {
     // new fields
     DOCUMENTS_AUTHORITY: string = 'Government of India'
     DOCUMENTS_ISSUE_PLACE: string = ''
+
+    IS_AADHAAR_DBT: boolean = false;
 
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
 

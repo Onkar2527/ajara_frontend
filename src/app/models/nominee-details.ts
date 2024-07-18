@@ -5,8 +5,8 @@ export class NomineeDetails {
     DOB: string = '';
 
     NOMINEE_NAME: string = ''
-    RELATION:'A'|'B'|'C'|'D'|'E'|'F'|'G' | 'H' | 'I' | 'J' = 'A'
-  
+    RELATION: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' = 'A'
+
     NOMINEE_ADDRESS: string = ''
     NOMINEE_AGE: number = 0
 

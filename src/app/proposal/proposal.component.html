@@ -43,13 +43,13 @@
       <div nz-col nzSpan="1"></div>
 
 
-      <!-- <div nz-col nzSpan="8">
+      <div nz-col nzSpan="8">
         <div nz-row>
 
 
           <nz-form-item nz-col nzSpan="11">
 
-            <nz-form-label nzNoColon>Select Created Date</nz-form-label>
+            <nz-form-label nzNoColon>Select Application Date</nz-form-label>
 
             <nz-form-control>
               <nz-date-picker nzPlaceHolder="From Date" [(ngModel)]="cpcFilter.START_DATE"
@@ -72,16 +72,29 @@
 
 
         </div>
-      </div> -->
+      </div>
 
-      <nz-form-item nz-col nzSpan="8">
+      <div nz-col nzSpan="8">
+        <nz-form-label [nzNoColon]="true">Aadhaar No for DBT (Direct Benefit Transfer) Required</nz-form-label>
+        <nz-form-control>
+          <nz-select [(ngModel)]="cpcFilter.IS_AADHAAR_DBT">
+            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+
+            <nz-option [nzValue]="'Y'" [nzLabel]="'Yes'"></nz-option>
+            <nz-option [nzValue]="'N'" [nzLabel]="'No'"></nz-option>
+
+          </nz-select>
+        </nz-form-control>
+      </div>
+
+      <nz-form-item nz-col nzSpan="24" style="text-align: right;">
         <nz-form-label [nzNoColon]="true"></nz-form-label>
         <nz-form-control>
           <nz-button-group>
-            <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i nz-icon
-                nzType="filter"></i></button>
-            <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i nz-icon
-                nzType="clear"></i></button>
+            <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i
+                nz-icon nzType="filter"></i></button>
+            <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i
+                nz-icon nzType="clear"></i></button>
           </nz-button-group>
         </nz-form-control>
       </nz-form-item>
@@ -90,23 +103,36 @@
   </div>
 </div>
 
+
+<div nz-row *ngIf="ROLE_ID == 3">
+  <div nz-col nzSpan="16"></div>
+  <div nz-col nzSpan="8" style="text-align:right;">
+
+    <button nz-button nzType="primary" nzJustify="end" (click)="downloadExcel()">
+      <i nz-icon nzType="file-excel"></i> Export Excel
+    </button>
+  </div>
+</div>
+
+
 <nz-table [nzData]="DraftsData" [nzTotal]="dataCount" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
   (nzPageIndexChange)="getDrafts()" (nzPageSizeChange)="getDrafts()" [nzScroll]="{ y: '59vh' }" nzBordered #table
-  nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading">
+  nzShowSizeChanger [nzFrontPagination]="false" [nzLoading]="TableLoading" style="margin-top: 20px;">
   <thead nzSingleSort>
     <tr>
-      <th [nzWidth]="'100px'">Action</th>
+      <th [nzWidth]="'100px'" [nzAlign]="'center'">Action</th>
       <th [nzWidth]="'120px'" [nzAlign]="'center'">Information</th>
-      <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Documents</th>
-      <th [nzWidth]="'100px'" [nzAlign]="'center'">Forms</th>
-      <th [nzWidth]="'100px'" [nzAlign]="'center'">ID</th>
-      <th [nzWidth]="'140px'" [nzAlign]="'center'">No of applicant</th>
+      <th [nzWidth]="'130px'" [nzAlign]="'center'">Upload Documents</th>
+      <th [nzWidth]="'80px'" [nzAlign]="'center'">Forms</th>
+      <th [nzWidth]="'100px'" [nzAlign]="'center'">Customer ID</th>
+      <th [nzWidth]="'140px'" [nzAlign]="'center'">Account No</th>
+      <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'" *ngIf="ROLE_ID == 3">
         Branch <!-- for cpc -->
       </th>
-      <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'">Account Type</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 Aadhaar</th>
+      <th [nzWidth]="'140px'" [nzAlign]="'center'">DBT Required</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Applicant 1 PAN</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Status</th>
       <th [nzWidth]="'200px'" [nzAlign]="'center'">Date of Application</th>
@@ -130,16 +156,19 @@
       <td><a (click)="openFormDrawer(proposal)"
           *ngIf="userDetails.ROLE_ID != 3 || (userDetails.ROLE_ID == 3 && proposal.VERIFIER_USER_ID)"> <i nz-icon
             nzType="file-text"></i></a></td>
-      <td>{{proposal.ID}}</td>
-      <td>{{proposal.NO_OF_APPLICANT}}</td>
-      <td *ngIf="ROLE_ID == 3">
-        <!-- branch name for cpc -->
-        {{getBranchName(proposal.CREATED_BRANCH_ID)}}
-      </td>
+      <td>{{proposal.CUSTOMER_ID_1}}</td>
+      <td>{{proposal.ACCOUNT_NUMBER}}</td>
+     
       <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
         {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
       </td>
+
+      <td *ngIf="ROLE_ID == 3">
+        <!-- branch name for cpc -->
+        {{getBranchName(proposal.CREATED_BRANCH_ID)}}
+      </td>
+
       <td>
         <span *ngFor="let deposit of depositeInfo">
           <span *ngIf="deposit.APPLICANT_ID == proposal.ID">
@@ -148,6 +177,7 @@
         </span>
       </td>
       <td>{{proposal.AADHAAR_NO_1}}</td>
+      <td>{{proposal.IS_AADHAAR_DBT ? "Yes":"No"}}</td>
       <td>{{proposal.PAN_NUMBER}}</td>
       <td>
         <a *ngIf="ROLE_ID == 4" (click)="editStatusFn(proposal)">

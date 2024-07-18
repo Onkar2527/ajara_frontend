@@ -52,8 +52,51 @@ export class NominationComponent implements OnInit {
     {
       label: 'Grand Mother',
       value: 'J'
+    },
+    {
+      label: 'Aunty',
+      value: 'K'
+    },
+    {
+      label: 'Cousin',
+      value: 'L'
+    },
+    {
+      label: 'Daughter in law',
+      value: 'M'
+    },
+    {
+      label: 'Father in law',
+      value: 'N'
+    },
+    {
+      label: 'Friend',
+      value: 'O'
+    },
+    {
+      label: 'Grand Daughter',
+      value: 'P'
+    },
+    {
+      label: 'Grand Son',
+      value: 'Q'
+    },
+    {
+      label: 'Mother in law',
+      value: 'R'
+    },
+    {
+      label: 'Nephew',
+      value: 'S'
+    },
+    {
+      label: 'Uncle',
+      value: 'T'
+    },
+    {
+      label: 'Other',
+      value: 'U'
     }
-
   ]
 
   constructor(private api: ApiService, private message: NzNotificationService) { }

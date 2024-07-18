@@ -126,7 +126,18 @@ export class FormComponent implements OnInit, AfterViewInit {
     'G': 'Husband',
     'H': 'Wife',
     'I': 'Grand Father',
-    'J': 'Grand Mother'
+    'J': 'Grand Mother',
+    'K': 'Aunty',
+    'L': 'Cousin',
+    'M': 'Daughter in law',
+    'N': 'Father in law',
+    'O': 'Friend',
+    'P': 'Grand Daughter',
+    'Q': 'Grand Son',
+    'R': 'Mother in law',
+    'S': 'Nephew',
+    'T': 'Uncle',
+    'U': 'Other'
   }
   account_operation = {
     "A": "Individual",

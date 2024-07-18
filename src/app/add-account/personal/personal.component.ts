@@ -915,6 +915,7 @@ export class PersonalComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
+          this.basicInfo.IS_AADHAAR_DBT = this.basicInfo.IS_AADHAAR_DBT ? true : false;
           this.changeApplicant(this.basicInfo.NO_OF_APPLICANT);
           this.getAdhaarHistory(1);
           this.getPanHistory(1);
