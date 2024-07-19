@@ -236,8 +236,6 @@
           authentication to
           the Bank.
 
-          Aadhaar No for DBT (Direct Benefit Transfer) Required (Y/N)? <b>{{basicInfo.IS_AADHAAR_DBT ? "Yes":"No"}}</b>
-
         </div>
 
         <div nz-col nzSpan="3" class="border-all data">
@@ -245,6 +243,14 @@
           <span *ngIf="i == 1">{{consent_options[basicInfo.OTP_AUTH_2]}}</span>
         </div>
 
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="21" class="border-all data-heading">
+          Aadhaar No for DBT (Direct Benefit Transfer) Required (Y/N)?
+        </div>
+        <div nz-col nzSpan="3" class="border-all data">
+          {{basicInfo.IS_AADHAAR_DBT ? "Yes":"No"}}
+        </div>
       </div>
 
       <div nz-row>
