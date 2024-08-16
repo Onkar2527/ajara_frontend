@@ -1150,7 +1150,7 @@
     <div class="page-margin-top"
       [ngClass]=" {'page':ApplicantPersonal[0].IS_VERNACULAR || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_VERNACULAR)}">
       <div nz-row style="text-align:justify;">
-        <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8.5px !important;">
+        <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8px !important;">
           घोषणा-<br>
           मी / आम्ही दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि आजरा यांनी लागू केलेल्या माझ्या/आमच्या खात्याला लागू असलेल्या
           अटी आणि शर्ती वाचल्या आहेत.त्या समजल्या असून त्या मला मान्य आहेत. यातील कोणतेही बदल/ अद्यावत सूचना बँकेतील
@@ -1272,7 +1272,7 @@
 
         </div>
 
-        <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8.5px !important;">
+        <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8px !important;">
           DECLARATIONS<br>
           I / We have read, understood and hereby agree to the “Terms and conditions as applicable to my/ our account”
           set
@@ -1453,6 +1453,12 @@
             *ngIf="checkerUserData.NAME">{{checkerUserData.NAME}}</span></div>
         <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.VERIFIED_DATE_TIME|date:'dd/MM/yyyy'}}
           {{basicInfo.VERIFIED_DATE_TIME|date:'HH:mm'}}</div>
+      </div>
+
+      <div nz-row>
+        <div nz-col nzSpan="12" class="border-all">Applicant 1 Sign - </div>
+
+        <div nz-col nzSpan="12" class="border-all">Applicant 2 Sign - </div>
       </div>
 
     </div>
