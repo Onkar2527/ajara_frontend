@@ -21,7 +21,7 @@
                     </nz-form-control>
                 </nz-form-item>
 
-                <nz-form-item nz-col nzSpan="24">
+                <nz-form-item nz-col nzSpan="24" *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">
                     <nz-form-control>
                         <nz-form-label nzRequired [nzNoColon]="true">Sub Account Type</nz-form-label>
                         <nz-select [(ngModel)]="depositInfo.SCHEME_CODE" (ngModelChange)="changeCatagory()">

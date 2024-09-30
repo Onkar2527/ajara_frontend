@@ -22,11 +22,11 @@ export class DepositComponent implements OnInit {
     { field: 'ACCOUNT_OPERATION', message: 'Account Operation' },
     { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
     { field: 'PAYMENT_INSTRUCTION', message: 'Payment Instruction' },
-    { field: 'SCHEME_CODE', message: 'Sub Account Type' }
+
   ]
 
   mendetory_saving = [
-
+    { field: 'SCHEME_CODE', message: 'Sub Account Type' }
   ]
 
   mendetory_saving_cheque = [
@@ -113,13 +113,14 @@ export class DepositComponent implements OnInit {
       }
     }
 
-
-    // for (let field of this.mendetory_saving) {
-    //   if (!this.depositInfo[field.field as keyof TermDeposite]) {
-    //     this.message.error(`${field.message} is Mandatory`, '');
-    //     isOk = false;
-    //   }
-    // }
+    if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+      for (let field of this.mendetory_saving) {
+        if (!this.depositInfo[field.field as keyof TermDeposite]) {
+          this.message.error(`${field.message} is Mandatory`, '');
+          isOk = false;
+        }
+      }
+    }
 
     if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
       for (let field of this.mendetory_saving_cheque) {
