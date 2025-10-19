@@ -135,4 +135,10 @@ export class PersonalInfo {
     //new fields
     MOTHER_TITLE:string = '';
     FATHER_TITLE:string = '';
+
+
+    NAME:string = '';
+    ADDHAR:number=0;
+    MOBILE_NO :number=0;
+    
 }

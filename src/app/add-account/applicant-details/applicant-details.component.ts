@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PersonalInfo } from 'src/app/models/personal-info';
 import { ApiService } from 'src/app/service/api.service';
@@ -23,6 +23,9 @@ export class ApplicantDetailsComponent implements OnInit {
   @ViewChild('footertpl', { static: false }) applicantFooterTemplate?: TemplateRef<{}>;
 
   @ViewChild('noActionTamplate', { static: false }) noActionFooter?: TemplateRef<{}>;
+
+  @Input() dataList: any[] = [];
+
 
   APPLICANT_ID?: number;
   ApplicantData: PersonalInfo[] = new Array<PersonalInfo>;

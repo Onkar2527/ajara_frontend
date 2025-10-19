@@ -115,7 +115,12 @@ export class BasicInfo {
 
     IS_AADHAAR_DBT: boolean = false;
 
+    NO_OF_APPLICANT_JOINT: number = 1;   // by default ek applicant
+    IS_JOINT: boolean = false;
+    NO_OF_JOINT: number = 0;
+
     // ACCOUNT_TYPE: 'S' | 'F' | 'R' | 'P' = 'S';
+    ACCOUNT_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = "A";
 
     // ACCOUNT_OPERATION: "S" | "E" | "A" | "F" | "J" | "O" = 'S';
 
@@ -154,5 +159,10 @@ export class BasicInfo {
     //     this.NO_OF_APPLICANT = 1;
     // }
 
+
+
+    NAME:string = '';
+    ADDHAR:number=0;
+    MOBILE_NO :number=0;
 
 }

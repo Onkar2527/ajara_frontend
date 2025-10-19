@@ -18,29 +18,29 @@ export class PersonalComponent implements OnInit {
 
 
   mendetory_all = [
-    { field: 'PRIMARY_APPLICANT_FIRST_NAME', message: 'Applicant 1 First Name' },
-    { field: 'PRIMARY_APPLICANT_MIDDLE_NAME', message: 'Applicant 1 Middle Name' },
-    { field: 'PRIMARY_APPLICANT_LAST_NAME', message: 'Applicant 1 Last Name' },
-    { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Title' },
-    { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
-    { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
-    { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' },
-    { field: 'DOCUMENTS_AUTHORITY', message: 'Issued Document Authority' },
-    { field: 'DOCUMENTS_ISSUE_PLACE', message: 'Place of issue' }
+    // { field: 'PRIMARY_APPLICANT_FIRST_NAME', message: 'Applicant 1 First Name' },
+    // { field: 'PRIMARY_APPLICANT_MIDDLE_NAME', message: 'Applicant 1 Middle Name' },
+    // { field: 'PRIMARY_APPLICANT_LAST_NAME', message: 'Applicant 1 Last Name' },
+    // { field: 'CUSTOMER_TYPE_1', message: 'Applicant 1 Title' },
+    // { field: 'DOB_1', message: 'Applicant 1 Date Of Birth' },
+    // { field: 'MOBILE_1', message: 'Applicant 1 Mobile Number' },
+    // { field: 'PAN_NUMBER', message: 'Applicant 1 PAN Number' },
+    // { field: 'DOCUMENTS_AUTHORITY', message: 'Issued Document Authority' },
+    // { field: 'DOCUMENTS_ISSUE_PLACE', message: 'Place of issue' }
   ]
 
   mendetory_customer = [
     { field: 'CUSTOMER_ID_1', message: 'Applicant 1 Customer ID' }
   ]
 
-  mendetory_applicant_2 = [
-    { field: 'APPLICANT2_FIRST_NAME', message: 'Applicant 2 First Name' },
-    { field: 'APPLICANT2_MIDDLE_NAME', message: 'Applicant 2 Middle Name' },
-    { field: 'APPLICANT2_LAST_NAME', message: 'Applicant 2 Last Name' },
-    { field: 'CUSTOMER_TYPE_2', message: 'Applicant 2 Customer Type' },
-    { field: 'DOB_2', message: 'Applicant 2 Date Of Birth' },
-    { field: 'MOBILE_2', message: 'Applicant 2 Mobile Number' }
-  ]
+  // mendetory_applicant_2 = [
+  //   { field: 'APPLICANT2_FIRST_NAME', message: 'Applicant 2 First Name' },
+  //   { field: 'APPLICANT2_MIDDLE_NAME', message: 'Applicant 2 Middle Name' },
+  //   { field: 'APPLICANT2_LAST_NAME', message: 'Applicant 2 Last Name' },
+  //   { field: 'CUSTOMER_TYPE_2', message: 'Applicant 2 Customer Type' },
+  //   { field: 'DOB_2', message: 'Applicant 2 Date Of Birth' },
+  //   { field: 'MOBILE_2', message: 'Applicant 2 Mobile Number' }
+  // ]
 
 
 
@@ -90,6 +90,16 @@ export class PersonalComponent implements OnInit {
     }
 
   }
+
+  updateApplicants() {
+  this.applicantOptions = [];
+  for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+    this.applicantOptions.push({ lable: `Applicant ${i + 1}`, value: i + 1 });
+  }
+
+  // default selected नेहमी पहिला applicant राहील
+  this.selectedApplicant = 1;
+}
 
   ngOnInit(): void {
     if (this.APPLICANT_ID) {
@@ -779,24 +789,24 @@ export class PersonalComponent implements OnInit {
     // this.basicInfo.STATUS = status;
     let isOk = true;
 
-    for (let field of this.mendetory_all) {
-      if (!this.basicInfo[field.field as keyof BasicInfo]) {
-        this.message.error(`${field.message} is Mandatory`, '');
-        isOk = false;
-        personal.next({ code: 300 })
-      }
+    // for (let field of this.mendetory_all) {
+    //   if (!this.basicInfo[field.field as keyof BasicInfo]) {
+    //     this.message.error(`${field.message} is Mandatory`, '');
+    //     isOk = false;
+    //     personal.next({ code: 300 })
+    //   }
 
-    }
+    // }
 
-    if (this.basicInfo.NO_OF_APPLICANT == 2) {
-      for (let field of this.mendetory_applicant_2) {
-        if (!this.basicInfo[field.field as keyof BasicInfo]) {
-          this.message.error(`${field.message} is Mandatory`, '');
-          isOk = false;
-          personal.next({ code: 300 })
-        }
-      }
-    }
+    // if (this.basicInfo.NO_OF_APPLICANT == 2) {
+    //   for (let field of this.mendetory_applicant_2) {
+    //     if (!this.basicInfo[field.field as keyof BasicInfo]) {
+    //       this.message.error(`${field.message} is Mandatory`, '');
+    //       isOk = false;
+    //       personal.next({ code: 300 })
+    //     }
+    //   }
+    // }
 
     if (this.basicInfo.IS_OLD_CUSTOMER_1) {
       for (let field of this.mendetory_customer) {
@@ -880,6 +890,56 @@ export class PersonalComponent implements OnInit {
     return personal;
   }
 
+
+
+
+  // save() {
+  //   let personal: Subject<any> = new Subject();
+  //   this.saveOVD();
+  //   let isOk = true;
+
+  //   if (isOk) {
+  //     // एकेक applicant save करायला
+  //     this.applicants.forEach((appl, index) => {
+  //       appl.MAKER_USER_ID = Number(sessionStorage.getItem('USER_ID'));
+  //       appl.CREATED_BRANCH_ID = Number(sessionStorage.getItem('BRANCH_ID'));
+  //       appl.TRACK_ID = 1;
+
+  //       if (appl.ID) {
+  //         this.api.updateBasic(appl).subscribe({
+  //           next: (res) => {
+  //             if (res.code == 200) {
+  //               this.message.success(`Applicant ${index + 1} updated successfully!`, '');
+  //             } else {
+  //               this.message.error(`Failed to update Applicant ${index + 1}`, '');
+  //             }
+  //           },
+  //           error: (err) => {
+  //             this.message.error("Internal Server Error!", err);
+  //           }
+  //         });
+  //       } else {
+  //         this.api.addBasic(appl).subscribe({
+  //           next: (res) => {
+  //             if (res.code == 200) {
+  //               this.message.success(`Applicant ${index + 1} added successfully!`, '');
+  //               appl.APPLICANT_ID = res['APPLICANT_ID']; // परत आलेला id assign कर
+  //             } else {
+  //               this.message.error(`Failed to add Applicant ${index + 1}`, '');
+  //             }
+  //           },
+  //           error: (err) => {
+  //             this.message.error("Internal Server Error!", err);
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+
+  //   return personal;
+  // }
+
+
   saveOVD() {
     if (this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER) {
       this.saveAadhaarData(1)
@@ -917,6 +977,7 @@ export class PersonalComponent implements OnInit {
           this.basicInfo = res['data'][0];
           this.basicInfo.IS_AADHAAR_DBT = this.basicInfo.IS_AADHAAR_DBT ? true : false;
           this.changeApplicant(this.basicInfo.NO_OF_APPLICANT);
+          this.updateApplicants();
           this.getAdhaarHistory(1);
           this.getPanHistory(1);
           this.getVoterData(1);
@@ -1583,5 +1644,190 @@ export class PersonalComponent implements OnInit {
 
     return `${dd}/${mm}/${yy}`;
   }
+
+
+  jointApplicants: any[] = [];   // joint applicants ची array
+
+  addJointApplicants() {
+    this.jointApplicants = [];
+    for (let i = 1; i <= this.basicInfo.NO_OF_JOINT; i++) {
+      this.jointApplicants.push({
+        id: i,
+        FIRST_NAME: '',
+        MIDDLE_NAME: '',
+        LAST_NAME: '',
+        GENDER: '',
+        DOB: '',
+        AGE: '',
+        MOBILE: ''
+      });
+    }
+  }
+
+  // applicants: any[] = [];
+
+  // addApplicants() {
+  //   this.applicants = [];
+  //   for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+  //     this.applicants.push({
+  //       personal: {
+  //         PRIMARY_APPLICANT_FIRST_NAME: '',
+  //         PRIMARY_APPLICANT_MIDDLE_NAME: '',
+  //         PRIMARY_APPLICANT_LAST_NAME: '',
+  //         GENDER: '',
+  //         DOB: '',
+  //         AGE: '',
+  //         MOBILE: ''
+  //       },
+  //       aadhaarVerify: {
+  //         aadhar_history: {},
+  //         pan_history: {},
+  //         license_history: {},
+  //         voter_history: {}
+  //       }
+  //     });
+  //   }
+  // }
+
+
+
+  // addApplicants() {
+  //   this.applicants = [];
+  //   for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+  //     this.applicants.push({
+  //       personal: {
+  //         PRIMARY_APPLICANT_FIRST_NAME: '',
+  //         PRIMARY_APPLICANT_MIDDLE_NAME: '',
+  //         PRIMARY_APPLICANT_LAST_NAME: '',
+  //         GENDER: '',
+  //         DOB: '',
+  //         AGE: '',
+  //         MOBILE: ''
+  //       },
+  //       aadhaarVerify: {
+  //         aadhar_history: {},
+  //         pan_history: {},
+  //         license_history: {},
+  //         voter_history: {}
+  //       }
+  //     });
+  //   }
+  // }
+
+
+  // applicants: BasicInfo[] = [];
+
+  // addApplicants() {
+  //   this.applicants = [];
+  //   for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+  //     this.applicants.push(new BasicInfo());
+  //   }
+  // }
+
+  // addApplicants() {
+  //   this.applicants = [];
+  //   for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+  //     let appl = new BasicInfo();
+  //     appl.APPLICANT_ID = i + 1;   // unique ID
+  //     this.applicants.push(appl);
+  //   }
+  // }
+// applicants: any[] = [];
+
+//   addApplicants() {
+//     let obj: any = {};
+//     for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+//       obj[`A${i + 1}`] = new BasicInfo();
+//     }
+//     this.applicants = [obj];  // एकच object array मध्ये ठेवला
+//   }
+
+
+// applicants: BasicInfo[] = [];
+
+//   addApplicants() {
+//     this.applicants = []; 
+//     for (let i = 0; i < this.basicInfo.NO_OF_APPLICANT; i++) {
+//       this.applicants.push(new BasicInfo());
+//     }
+//     console.log("Applicants array:", this.applicants);
+//   }
+
+
+
+//   createApplicantsFromBasicInfo() {
+//   this.applicants = [];
+
+//   for (let i = 1; i <= this.basicInfo.NO_OF_APPLICANT; i++) {
+//     // Applicant-wise data काढणे
+//     let firstName = i === 1 ? this.basicInfo.PRIMARY_APPLICANT_FIRST_NAME : this.basicInfo[`APPLICANT${i}_FIRST_NAME`];
+//     let middleName = i === 1 ? this.basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME : this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`];
+//     let lastName = i === 1 ? this.basicInfo.PRIMARY_APPLICANT_LAST_NAME : this.basicInfo[`APPLICANT${i}_LAST_NAME`];
+
+//     // जर काही तरी data असेल तर applicant तयार कर
+//     if (firstName || middleName || lastName || this.basicInfo[`DOB_${i}`]) {
+//       this.applicants.push({
+//         FIRST_NAME: firstName || '',
+//         MIDDLE_NAME: middleName || '',
+//         LAST_NAME: lastName || '',
+//         DOB: this.basicInfo[`DOB_${i}`] || '',
+//         AGE: this.basicInfo[`AGE_${i}`] || '',
+//         GENDER: this.basicInfo[`GENDER_${i}`] || '',
+//         MOBILE: this.basicInfo[`MOBILE_${i}`] || '',
+//         AADHAAR_NO: this.basicInfo[`AADHAAR_NO_${i}`] || '',
+//         PAN: i === 1 ? this.basicInfo.PAN_NUMBER : this.basicInfo[`PAN_NUMBER${i}`] || '',
+//         LICENSE: this.basicInfo[`LICENSE_NO_${i}`] || '',
+//         VOTER_ID: this.basicInfo[`VOTER_ID_${i}`] || '',
+//         CUSTOMER_TYPE: this.basicInfo[`CUSTOMER_TYPE_${i}`] || '',
+//         DOCUMENTS_AUTHORITY: this.basicInfo.DOCUMENTS_AUTHORITY || '',
+//         DOCUMENTS_ISSUE_PLACE: this.basicInfo.DOCUMENTS_ISSUE_PLACE || ''
+//       });
+//     }
+//   }
+
+//   console.log("Final Applicants Array:", this.applicants);
+// }
+
+//   catagoryA = false;
+//   catagoryB = false;
+
+//   getAccountCatA() {
+//     let con = (['A', 'B', 'G', 'C', 'H'].indexOf(this.basicInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+//     this.catagoryA = con
+//   }
+
+//   getAccountCatB() {
+//     let con = (['D', 'E', 'F'].indexOf(this.basicInfo.ACCOUNT_TYPE) + 1) ? true : false;
+
+//     this.catagoryB = con
+//   }
+//    schemes: any = []
+
+//   changeScheme() {
+//     if (this.basicInfo.ACCOUNT_TYPE == "A") {
+//       this.schemes = this.MASTERS[0].data.filter((value: any) => value.SMP_MNACTYPE == "SB")
+//     }
+
+//     else {
+//       this.schemes = []
+//     }
+//   }
+
+// changeCatagory() {
+//     this.getAccountCatA();
+//     this.getAccountCatB();
+//     this.changeScheme();
+//   }
+
+
+//   dataList: any[] = [];
+
+//   addData() {
+//     if (this.basicInfo.NAME && this.basicInfo.ADDHAR && this.basicInfo.MOBILE_NO) {
+//       this.dataList.push({ ...this.basicInfo }); // copy object
+//       // this.basicInfo = { NAME: '', ADDHAR: '', MOBILE_NO: '' }; // reset form
+//     }
+//   }
 
 }
