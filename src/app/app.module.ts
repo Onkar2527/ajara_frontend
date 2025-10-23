@@ -27,6 +27,7 @@ import { DepositComponent } from './add-account/deposit/deposit.component';
 import { FormComponent } from './add-account/form/form.component';
 import { NominationComponent } from './add-account/nomination/nomination.component';
 import { PersonalComponent } from './add-account/personal/personal.component';
+import { ApplicantComponent } from './add-account/personal/applicant/applicant.component';
 import { ServicesComponent } from './add-account/services/services.component';
 import { WebCamComponent } from './add-account/web-cam/web-cam.component';
 
@@ -93,6 +94,7 @@ registerLocaleData(en);
     ProposalComponent,
     AddAccountComponent,
     PersonalComponent,
+    ApplicantComponent,
     DepositComponent,
     NominationComponent,
     ServicesComponent,

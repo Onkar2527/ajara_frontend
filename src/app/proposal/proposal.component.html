@@ -9,98 +9,58 @@
 </div>
 
 <div *ngIf="ROLE_ID == 3">
-  <div class="box">
-
-    <div nz-row class="content-box">
-
-      <nz-form-item nz-col nzSpan="7">
-        <nz-form-label [nzNoColon]="true">Select Branch</nz-form-label>
-        <nz-form-control>
-          <nz-select [(ngModel)]="cpcFilter.BRANCH_ID">
-            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
-
-            <nz-option *ngFor="let option of BRANCH_LIST" [nzValue]="option.ID"
-              [nzLabel]="option.BRANCH_NAME"></nz-option>
-
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-
-      <div nz-col nzSpan="1"></div>
-
-      <nz-form-item nz-col nzSpan="7">
-        <nz-form-label [nzNoColon]="true">Select Status</nz-form-label>
-        <nz-form-control>
-          <nz-select [(ngModel)]="cpcFilter.TRACK_ID">
-            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
-
-            <nz-option *ngFor="let option of STATUS_LIST" [nzValue]="option.ID" [nzLabel]="option.NAME"></nz-option>
-
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-
-      <div nz-col nzSpan="1"></div>
-
-
-      <div nz-col nzSpan="8">
-        <div nz-row>
-
-
-          <nz-form-item nz-col nzSpan="11">
-
-            <nz-form-label nzNoColon>Select Application Date</nz-form-label>
-
-            <nz-form-control>
-              <nz-date-picker nzPlaceHolder="From Date" [(ngModel)]="cpcFilter.START_DATE"
-                nzFormat="dd-MM-yyyy"></nz-date-picker>
-            </nz-form-control>
-          </nz-form-item>
-
-
-          <div nz-col nzSpan="2"></div>
-
-          <nz-form-item nz-col nzSpan="11">
-
-            <nz-form-label nzNoColon> </nz-form-label>
-
-            <nz-form-control>
-              <nz-date-picker nzPlaceHolder="To Date" [(ngModel)]="cpcFilter.END_DATE"
-                nzFormat="dd-MM-yyyy"></nz-date-picker>
-            </nz-form-control>
-          </nz-form-item>
-
-
-        </div>
+  <nz-card nzTitle="Filters" [nzExtra]="extraTemplate" class="box">
+    <div nz-row [nzGutter]="[16, 16]">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzNoColon]="true">Select Branch</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="cpcFilter.BRANCH_ID">
+              <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+              <nz-option *ngFor="let option of BRANCH_LIST" [nzValue]="option.ID" [nzLabel]="option.BRANCH_NAME"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
       </div>
-
-      <div nz-col nzSpan="8">
-        <nz-form-label [nzNoColon]="true">Aadhaar No for DBT (Direct Benefit Transfer) Required</nz-form-label>
-        <nz-form-control>
-          <nz-select [(ngModel)]="cpcFilter.IS_AADHAAR_DBT">
-            <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
-
-            <nz-option [nzValue]="'Y'" [nzLabel]="'Yes'"></nz-option>
-            <nz-option [nzValue]="'N'" [nzLabel]="'No'"></nz-option>
-
-          </nz-select>
-        </nz-form-control>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzNoColon]="true">Select Status</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="cpcFilter.TRACK_ID">
+              <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+              <nz-option *ngFor="let option of STATUS_LIST" [nzValue]="option.ID" [nzLabel]="option.NAME"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
       </div>
-
-      <nz-form-item nz-col nzSpan="24" style="text-align: right;">
-        <nz-form-label [nzNoColon]="true"></nz-form-label>
-        <nz-form-control>
-          <nz-button-group>
-            <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i
-                nz-icon nzType="filter"></i></button>
-            <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i
-                nz-icon nzType="clear"></i></button>
-          </nz-button-group>
-        </nz-form-control>
-      </nz-form-item>
-
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzNoColon]="true">Application Date</nz-form-label>
+          <nz-form-control>
+            <nz-range-picker [(ngModel)]="dateRange" nzFormat="dd-MM-yyyy"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzNoColon]="true">DBT Required</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="cpcFilter.IS_AADHAAR_DBT">
+              <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
+              <nz-option [nzValue]="'Y'" [nzLabel]="'Yes'"></nz-option>
+              <nz-option [nzValue]="'N'" [nzLabel]="'No'"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
     </div>
-  </div>
+  </nz-card>
+  <ng-template #extraTemplate>
+    <nz-button-group>
+      <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i nz-icon nzType="filter"></i></button>
+      <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i nz-icon nzType="clear"></i></button>
+    </nz-button-group>
+  </ng-template>
 </div>
 
 
@@ -127,6 +87,8 @@
       <th [nzWidth]="'100px'" [nzAlign]="'center'">Customer ID</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'">Account No</th>
       <th [nzWidth]="'400px'" [nzAlign]="'center'">Applicant 1 Name</th>
+      <th [nzWidth]="'150px'" [nzAlign]="'center'">Mobile Number</th>
+      <th [nzWidth]="'200px'" [nzAlign]="'center'">Email ID</th>
       <th [nzWidth]="'140px'" [nzAlign]="'center'" *ngIf="ROLE_ID == 3">
         Branch <!-- for cpc -->
       </th>
@@ -163,7 +125,8 @@
         {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
       </td>
-
+      <td>{{proposal.MOBILE_NO}}</td>
+      <td>{{proposal.EMAIL_ID}}</td>
       <td *ngIf="ROLE_ID == 3">
         <!-- branch name for cpc -->
         {{getBranchName(proposal.CREATED_BRANCH_ID)}}

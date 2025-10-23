@@ -71,6 +71,7 @@ export class ProposalComponent implements OnInit {
   BRANCH_LIST: any = [];
 
   cpcFilter: CpcFilter = new CpcFilter()
+  dateRange: Date[] = [];
 
   ngOnInit(): void {
     this.getDrafts();
@@ -317,6 +318,14 @@ export class ProposalComponent implements OnInit {
     console.log("In Draft Function");
 
     let user_data = SessionUserDetails.getSessionStorage();
+
+    if (this.dateRange.length > 0) {
+      this.cpcFilter.START_DATE = this.dateRange[0].toISOString().split('T')[0];
+      this.cpcFilter.END_DATE = this.dateRange[1].toISOString().split('T')[0];
+    } else {
+      this.cpcFilter.START_DATE = '';
+      this.cpcFilter.END_DATE = '';
+    }
 
     this.api.getDraft(this.pageSize, this.pageIndex, user_data, this.cpcFilter).subscribe({
       next: (res) => {
@@ -644,7 +653,7 @@ export class ProposalComponent implements OnInit {
   openDrawer(title: string, footer: any, content: any, close_back: any, extra?: any) {
 
 
-    let width = window.screen.availWidth;
+    let width = window.innerWidth;
 
     const drawerRef = this.drawerService.create({
       nzTitle: title,
@@ -705,6 +714,7 @@ export class ProposalComponent implements OnInit {
 
   clearFilter() {
     this.cpcFilter = new CpcFilter();
+    this.dateRange = [];
     this.getDrafts();
   }
 

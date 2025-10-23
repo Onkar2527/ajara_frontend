@@ -1,5 +1,6 @@
 
 export class BasicInfo {
+    [key: string]: any;
 
     ID!: number;
     APPLICANT_ID?: number;

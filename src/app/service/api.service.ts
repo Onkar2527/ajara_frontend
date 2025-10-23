@@ -129,7 +129,7 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'http://localhost:8079/api/';
   // baseUrl server
 
-  baseUrl = 'http://10.128.116.5:9000/api/'
+  baseUrl = 'http://localhost:8672/api/'
 
   decryptData(data: any) {
     console.log("data in decryption", data.data)

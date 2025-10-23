@@ -1,0 +1,290 @@
+<div nz-row [nzGutter]="[16, 16]">
+  <!-- Personal Info -->
+  <div nz-col [nzXs]="24" [nzMd]="10">
+    <div class="box">
+      <nz-divider nzText="Personal Info" nzOrientation="left"></nz-divider>
+      <nz-form-item>
+        <nz-form-label>Is this applicant a bank customer?</nz-form-label>
+        <nz-switch [(ngModel)]="basicInfo['IS_OLD_CUSTOMER_' + applicantNo]" nzCheckedChildren="Yes"
+          nzUnCheckedChildren="No"></nz-switch>
+      </nz-form-item>
+      <nz-form-item *ngIf="basicInfo['IS_OLD_CUSTOMER_' + applicantNo]">
+        <nz-form-label>Customer ID</nz-form-label>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input nz-input [(ngModel)]="basicInfo['CUSTOMER_ID_' + applicantNo]" placeholder="Enter Customer ID" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" nzSearch (click)="searchCustomer()"><span nz-icon
+              nzType="search"></span></button>
+        </ng-template>
+      </nz-form-item>
+      <div nz-row [nzGutter]="[16, 16]">
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label nzRequired>Title</nz-form-label>
+            <nz-select [(ngModel)]="basicInfo['CUSTOMER_TYPE_' + applicantNo]" style="width: 100%;">
+              <nz-option *ngFor="let title of MASTERS[0].data" [nzValue]="title.TITLEDESC"
+                [nzLabel]="title.TITLEDESC"></nz-option>
+            </nz-select>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <nz-form-item>
+            <nz-form-label nzRequired>First Name</nz-form-label>
+            <input nz-input
+              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : 'APPLICANT' + applicantNo + '_FIRST_NAME']"
+              placeholder="First Name" />
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="[16, 16]">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>Middle Name</nz-form-label>
+            <input nz-input
+              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_MIDDLE_NAME' : 'APPLICANT' + applicantNo + '_MIDDLE_NAME']"
+              placeholder="Middle Name" />
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>Last Name</nz-form-label>
+            <input nz-input
+              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : 'APPLICANT' + applicantNo + '_LAST_NAME']"
+              placeholder="Last Name" />
+          </nz-form-item>
+        </div>
+      </div>
+      <nz-form-item>
+        <nz-form-label>Gender</nz-form-label>
+        <nz-radio-group [(ngModel)]="basicInfo['GENDER_' + applicantNo]">
+          <label nz-radio-button nzValue="M">Male</label>
+          <label nz-radio-button nzValue="F">Female</label>
+          <label nz-radio-button nzValue="T">Transgender</label>
+        </nz-radio-group>
+      </nz-form-item>
+
+
+      <div nz-row [nzGutter]="[16, 16]">
+        <div nz-col [nzSpan]="16">
+          <nz-form-item>
+            <nz-form-label nzRequired>Date of Birth</nz-form-label>
+            <input nz-input [name]="'DATE_OF_BIRTH_' + applicantNo" mask="d0/M0/0000" [leadZeroDateTime]="true"
+              [dropSpecialCharacters]="false" [(ngModel)]="basicInfo['DOB_' + applicantNo]" placeholder="dd/mm/yyyy"
+              (ngModelChange)="calculateAge()">
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label>Age</nz-form-label>
+            <input nz-input [(ngModel)]="basicInfo['AGE_' + applicantNo]" disabled placeholder="Age" />
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Mobile Number</nz-form-label>
+        <input nz-input [(ngModel)]="basicInfo['MOBILE_' + applicantNo]" placeholder="Enter Mobile Number"
+          maxlength="10" />
+      </nz-form-item>
+    </div>
+  </div>
+
+  <!-- Verification Details -->
+  <div nz-col [nzXs]="24" [nzMd]="7">
+    <div class="box">
+      <nz-divider nzText="Verification Details" nzOrientation="left"></nz-divider>
+      <nz-form-item>
+        <nz-form-label>Aadhaar Number</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input [(ngModel)]="aadhaarVerify.aadhar_history.AADHAAR_NUMBER" mask="XXXX XXXX 0000"
+            [hiddenInput]="true" placeholder="Enter Aadhaar number" style="width: calc(100% - 90px);" maxlength="14"
+                        (ngModelChange)="showAadharNo($event)" />
+          <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton"
+            [disabled]="!aadhaarVerify.aadhar_history.AADHAAR_NUMBER">Get OTP</button>
+
+          <p>{{previewAdhaar}}</p>
+          <div nz-row *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED" class="success-tip">
+            <div nz-col nzSpan="24">
+              Aadhaar verified successfully
+            </div>
+          </div>
+        </nz-input-group>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="aadhaarVerify.showOtp">
+        <nz-form-label>Enter OTP</nz-form-label>
+        <nz-input-group nzCompact>
+          <input type="password" nz-input [(ngModel)]="aadhaarVerify.meta.otp" placeholder="Enter OTP"
+            style="width: calc(100% - 90px);" />
+          <button nz-button nzType="primary" (click)="getAadhaarData()" [nzLoading]="loadAadhaarButton">Verify
+            OTP</button>
+        </nz-input-group>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>Issued Document Authority & Place of issue</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input [(ngModel)]="basicInfo['DOCUMENTS_AUTHORITY_' + applicantNo]" style="width: 49%;"
+            placeholder="Authority" />
+          <div style="width: 2%;"></div>
+          <input nz-input [(ngModel)]="basicInfo['DOCUMENTS_ISSUE_PLACE_' + applicantNo]" style="width: 49%;"
+            placeholder="Place" />
+        </nz-input-group>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>PAN Number</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input [(ngModel)]="aadhaarVerify.pan_history.PAN_NUMBER" placeholder="Enter PAN Number"
+            style="width: calc(100% - 70px);" />
+          <button nz-button (click)="verifyPan()" [nzLoading]="loadPanButton">Verify</button>
+          <div nz-row *ngIf="aadhaarVerify.pan_history.IS_VERIFIED" class="success-tip">
+            <div nz-col nzSpan="24">
+              Pan verified successfully {{aadhaarVerify.pan_history.APPLICANT_FULL_NAME}}
+            </div>
+          </div>
+        </nz-input-group>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Driving License</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input [(ngModel)]="aadhaarVerify.license_history.LICENSE_NUMBER"
+            placeholder="Enter Driving License Number" style="width: calc(100% - 70px);" />
+          <button nz-button (click)="verifyLicense()" [nzLoading]="loadLicenseButton">Verify</button>
+          <div nz-row *ngIf="aadhaarVerify.license_history.IS_VERIFIED" class="success-tip">
+            <div nz-col nzSpan="24">
+              Driving License verified successfully
+              <!-- {{aadhaarVerify.meta1.full_name}} -->
+            </div>
+          </div>
+        </nz-input-group>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Voter ID</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input [(ngModel)]="aadhaarVerify.voter_history.EPIC_NO" placeholder="Enter Voter ID"
+            style="width: calc(100% - 70px);" />
+          <button nz-button (click)="verifyVoterID()" [nzLoading]="loadVoterButton">Verify</button>
+          <div nz-row *ngIf="aadhaarVerify.voter_history.IS_VERIFIED" class="success-tip">
+            <div nz-col nzSpan="24">
+              Voter ID verified successfully
+              <!-- {{aadhaarVerify.meta1.full_name}} -->
+            </div>
+          </div>
+        </nz-input-group>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Passport</nz-form-label>
+        <nz-input-group nzCompact>
+          <input nz-input placeholder="Enter Passport ID" style="width: calc(100% - 70px);" />
+          <button nz-button>Verify</button>
+          <div nz-row *ngIf="false" class="success-tip">
+            <div nz-col nzSpan="24">
+              Passport verified successfully
+              <!-- {{aadhaarVerify.meta1.full_name}} -->
+            </div>
+          </div>
+        </nz-input-group>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <!-- Verification Status -->
+  <div nz-col [nzXs]="24" [nzMd]="7">
+
+    <div>
+      <div class="box aadhaar-card" *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED">
+        <nz-divider nzText="Aadhaar Details" nzOrientation="left"></nz-divider>
+        <div nz-row [nzGutter]="[16, 16]">
+          <div nz-col [nzSpan]="5" class="aadhaar-profile">
+            <img class="aadhaar-image" [src]="aadhaarVerify.common.profile_image" alt="Profile Image">
+          </div>
+          <div nz-col [nzSpan]="19" class="aadhaar-info">
+            <div class="aadhaar-number">
+              <input [hiddenInput]="true" mask="XXXX XXXX 0000" disabled
+                [ngModel]="aadhaarVerify.common.aadhaar_no">
+            </div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Name:</span>
+                <span class="info-value">{{aadhaarVerify.common.full_name}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">DOB:</span>
+                <span class="info-value">{{aadhaarVerify.common.dob}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Age:</span>
+                <span class="info-value">{{aadhaarVerify.common.age}}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Gender:</span>
+                <span class="info-value">{{aadhaarVerify.common.gender}}</span>
+              </div>
+              <div class="info-item address">
+                <span class="info-label">Address:</span>
+                <span class="info-value">{{aadhaarVerify.common.address}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="box">
+        <nz-divider nzText="Verification Status" nzOrientation="left"></nz-divider>
+        <div class="verification-grid">
+          <div class="verification-item">
+            <span>Aadhaar:</span>
+            <span [ngClass]="aadhaarVerify.aadhar_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+              {{aadhaarVerify.aadhar_history.IS_VERIFIED ?'Verified':'Not Verified'}}
+            </span>
+          </div>
+          <div class="verification-item">
+            <span>PAN:</span>
+            <span [ngClass]="aadhaarVerify.pan_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+              {{aadhaarVerify.pan_history.IS_VERIFIED ?'Verified':'Not Verified'}}
+            </span>
+          </div>
+          <div class="verification-item">
+            <span>Driving License:</span>
+            <span [ngClass]="aadhaarVerify.license_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+              {{aadhaarVerify.license_history.IS_VERIFIED ?'Verified':'Not Verified'}}
+            </span>
+          </div>
+          <div class="verification-item">
+            <span>Voter ID:</span>
+            <span [ngClass]="aadhaarVerify.voter_history.IS_VERIFIED ? 'verified' : 'not-verified'">
+              {{aadhaarVerify.voter_history.IS_VERIFIED ?'Verified':'Not Verified'}}
+            </span>
+          </div>
+          <div class="verification-item">
+            <span>Passport:</span>
+            <span [ngClass]="false ? 'verified' : 'not-verified'">
+              {{false ?'Verified':'Not Verified'}}
+            </span>
+          </div>
+        </div>
+        <nz-form-item>
+          <nz-form-label>Aadhaar Voluntary?</nz-form-label>
+          <nz-radio-group [(ngModel)]="basicInfo['OTP_AUTH_' + applicantNo]">
+            <label nz-radio-button nzValue="C">N/A</label>
+            <label nz-radio-button nzValue="A">Yes</label>
+            <label nz-radio-button nzValue="B">No</label>
+          </nz-radio-group>
+        </nz-form-item>
+        <nz-form-item *ngIf="applicantNo === 1">
+          <nz-form-label>Aadhaar for DBT?</nz-form-label>
+          <nz-radio-group [(ngModel)]="basicInfo.IS_AADHAAR_DBT">
+            <label nz-radio-button [nzValue]="true">Yes</label>
+            <label nz-radio-button [nzValue]="false">No</label>
+          </nz-radio-group>
+        </nz-form-item>
+      </div>
+    </div>
+
+    
+  </div>
+</div>

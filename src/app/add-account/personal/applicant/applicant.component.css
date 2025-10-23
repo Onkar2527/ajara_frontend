@@ -1,0 +1,163 @@
+.box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  height: 100%;
+}
+
+nz-divider {
+  margin-top: 0 !important;
+  margin-bottom: 24px !important;
+}
+
+nz-form-item {
+  margin-bottom: 16px;
+}
+
+:host ::ng-deep .ant-form-item-row {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+:host ::ng-deep .ant-form-item-label {
+  padding: 0 0 8px;
+  line-height: 1.5715;
+  width: 100%;
+  text-align: left;
+}
+
+nz-form-label {
+  font-weight: 500;
+}
+
+.verification-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.verification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.verified {
+  color: #52c41a;
+  font-weight: bold;
+}
+
+.not-verified {
+  color: #f5222d;
+  font-weight: bold;
+}
+
+/* Aadhaar Card Styles */
+.aadhaar-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.aadhaar-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aadhaar-image {
+  width: 100px;
+  height: 100px;
+  /* border-radius: 5px; */
+  /* border: 3px solid #f0f0f0; */
+  /* object-fit: cover; */
+}
+
+.aadhaar-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.aadhaar-number {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16px;
+  border: none;
+  background: transparent;
+}
+
+.aadhaar-number input {
+  border: none !important;
+  font-weight: bold;
+  font-size: 18px;
+  background: transparent;
+  padding: 0;
+  cursor: default;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.info-item.address {
+  grid-column: 1 / -1;
+}
+
+/* Responsive adjustments for the form layout */
+@media (max-width: 768px) {
+  [nz-row] {
+    flex-direction: column;
+  }
+
+  [nz-col] {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .aadhaar-number {
+    font-size: 16px;
+  }
+
+  .aadhaar-number input {
+    font-size: 16px;
+  }
+
+  .info-label {
+    font-size: 11px;
+  }
+
+  .info-value {
+    font-size: 13px;
+  }
+}
