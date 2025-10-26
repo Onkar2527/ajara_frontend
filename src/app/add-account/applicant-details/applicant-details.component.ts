@@ -82,7 +82,7 @@ export class ApplicantDetailsComponent implements OnInit {
       nzTitle: title,
       nzFooter: footer,
       nzContent: this.applicantTamplate,
-      nzWidth: window.screen.availWidth
+      nzWidth: window.innerWidth
     });
 
     this.drawerReferance = drawerRef;

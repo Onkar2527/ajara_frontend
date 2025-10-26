@@ -1,63 +1,86 @@
 <div nz-row *ngIf="AccountType == 'S'">
     <div nz-col nzSpan="11">
 
-        <div class="box">
-            <nz-divider nzText="Services & Linkages"></nz-divider>
-            <div nz-row class="content-box">
-                <nz-form-item nz-col nzSpan="24">
-                    <nz-form-label [nzNoColon]="true">Services & Linkages</nz-form-label>
-                    <nz-form-control>
-                        <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()"
-                            [nzIndeterminate]="indeterminate">Select All</label>
-                        <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="changeInOption()" ></nz-checkbox-group>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
-        </div>
-        
+        <nz-collapse nzAccordion class="ant-collapse-custom">
+            <nz-collapse-panel [nzHeader]="headerTpl" [nzActive]="true">
+                <ng-template #headerTpl>
+                    <div class="applicant-header">
+                        <span nz-icon nzType="user" nzTheme="outline"></span>
+                        Services & Linkages
+                    </div>
+                </ng-template>
+                <div class="box">
+                    <div nz-row>
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label [nzNoColon]="true">Services & Linkages</nz-form-label>
+                            <nz-form-control>
+                                <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()"
+                                    [nzIndeterminate]="indeterminate">Select All</label>
+                                <nz-checkbox-group [(ngModel)]="checkOptionsOne"
+                                    (ngModelChange)="changeInOption()"></nz-checkbox-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+
+
+
     </div>
     <div nz-col nzSpan="1">
     </div>
     <div nz-col nzSpan="12" *ngIf="serviceInfo.ATM_CARD">
-        <div class="box">
-            <nz-divider nzText="Name On Debit Card"></nz-divider>
-            <div class="content-box" nz-row>
 
-                <nz-form-item nz-col nzSpan="24" *ngIf="serviceInfo.ATM_CARD">
-                    <nz-form-label [nzNoColon]="true">Primary Card (Aplicant 1)</nz-form-label>
-                    <nz-form-control>
-                        <input nz-input [(ngModel)]="serviceInfo.APPLICANT1_NAME" name="card_applicant1"
-                            placeholder="Enter Name of Applicant 1 (For Name on Debit Card)" />
-                    </nz-form-control>
-                </nz-form-item>
+        <nz-collapse nzAccordion class="ant-collapse-custom">
+            <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
+                <ng-template #headerTpl1>
+                    <div class="applicant-header">
+                        <span nz-icon nzType="user" nzTheme="outline"></span>
+                        Name On Debit Card
+                    </div>
+                </ng-template>
+                <div class="box">
+                    <div nz-row>
 
-                <div nz-col nzSpan="24" *ngIf="serviceInfo.ADDON_CARD">
-                    <nz-form-item nz-row>
-                        <nz-form-label [nzNoColon]="true">Add On Card (Applicant 2)</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input [(ngModel)]="serviceInfo.APPLICANT2_NAME" name="card_applicant2"
-                                placeholder="Enter Name of Applicant 2 (For Name on Debit Card)" />
-                        </nz-form-control>
-                    </nz-form-item>
+                        <nz-form-item nz-col nzSpan="24" *ngIf="serviceInfo.ATM_CARD">
+                            <nz-form-label [nzNoColon]="true">Primary Card (Aplicant 1)</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input [(ngModel)]="serviceInfo.APPLICANT1_NAME" name="card_applicant1"
+                                    placeholder="Enter Name of Applicant 1 (For Name on Debit Card)" />
+                            </nz-form-control>
+                        </nz-form-item>
 
-                    <nz-form-item nz-row>
-                        <nz-form-label [nzNoColon]="true">Add On Card (Applicant 3)</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input [(ngModel)]="serviceInfo.APPLICANT3_NAME" name="card_applicant3"
-                                placeholder="Enter Name of Applicant 3 (For Name on Debit Card)" />
-                        </nz-form-control>
-                    </nz-form-item>
+                        <div nz-col nzSpan="24" *ngIf="serviceInfo.ADDON_CARD">
+                            <nz-form-item nz-row>
+                                <nz-form-label [nzNoColon]="true">Add On Card (Applicant 2)</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="serviceInfo.APPLICANT2_NAME" name="card_applicant2"
+                                        placeholder="Enter Name of Applicant 2 (For Name on Debit Card)" />
+                                </nz-form-control>
+                            </nz-form-item>
 
-                    <nz-form-item nz-row>
-                        <nz-form-label [nzNoColon]="true">Add On Card (Applicant 4)</nz-form-label>
-                        <nz-form-control>
-                            <input nz-input [(ngModel)]="serviceInfo.APPLICANT4_NAME" name="card_applicant4"
-                                placeholder="Enter Name of Applicant 4 (For Name on Debit Card)" />
-                        </nz-form-control>
-                    </nz-form-item>
+                            <nz-form-item nz-row>
+                                <nz-form-label [nzNoColon]="true">Add On Card (Applicant 3)</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="serviceInfo.APPLICANT3_NAME" name="card_applicant3"
+                                        placeholder="Enter Name of Applicant 3 (For Name on Debit Card)" />
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item nz-row>
+                                <nz-form-label [nzNoColon]="true">Add On Card (Applicant 4)</nz-form-label>
+                                <nz-form-control>
+                                    <input nz-input [(ngModel)]="serviceInfo.APPLICANT4_NAME" name="card_applicant4"
+                                        placeholder="Enter Name of Applicant 4 (For Name on Debit Card)" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+
+                    </div>
                 </div>
+            </nz-collapse-panel>
+        </nz-collapse>
 
-            </div>
-        </div>
     </div>
 </div>
