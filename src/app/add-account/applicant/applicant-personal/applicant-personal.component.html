@@ -6,8 +6,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl" [nzActive]="true">
                     <ng-template #headerTpl>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Basic Information
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Basic Information
                         </div>
                     </ng-template>
 
@@ -19,12 +18,10 @@
                             <div nz-col nzSpan="24">
                                 <nz-form-item>
                                     <nz-form-label [nzNoColon]="true">
-                                        Declaration Regarding Signing In Vernacular Language / By Illiterate / Blind
-                                        Person?
+                                        Declaration Regarding Signing In Vernacular Language / By Illiterate / Blind Person?
                                     </nz-form-label>
                                     <nz-form-control>
-                                        <nz-switch name="IS_VERNACULAR" [(ngModel)]="personalInfo.IS_VERNACULAR"
-                                            nzCheckedChildren="Yes" nzUnCheckedChildren="No">
+                                        <nz-switch name="IS_VERNACULAR" [(ngModel)]="personalInfo.IS_VERNACULAR" nzCheckedChildren="Yes" nzUnCheckedChildren="No">
                                         </nz-switch>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -35,8 +32,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Risk Category</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.RISK_CATEGORY">
-                                            <nz-option *ngFor="let option of MASTERS[3].data"
-                                                [nzValue]="option.CAT_CODE" [nzLabel]="option.CAT_DESC">
+                                            <nz-option *ngFor="let option of MASTERS[3].data" [nzValue]="option.CAT_CODE" [nzLabel]="option.CAT_DESC">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>
@@ -65,11 +61,8 @@
                                 <nz-form-item>
                                     <nz-form-label nzRequired nzNoColon>Identity Proof</nz-form-label>
                                     <nz-form-control>
-                                        <nz-select nzShowSearch nzPlaceHolder="Select Identity Proof"
-                                            [(ngModel)]="personalInfo.ID_PROOF"
-                                            (ngModelChange)="copyDocumentNoInIDProof()" style="width: 100%;">
-                                            <nz-option *ngFor="let address of MASTERS[2].data"
-                                                [nzValue]="address.IDTPROOFID" [nzLabel]="address.IDTPROOFDESC">
+                                        <nz-select nzShowSearch nzPlaceHolder="Select Identity Proof" [(ngModel)]="personalInfo.ID_PROOF" (ngModelChange)="copyDocumentNoInIDProof()" style="width: 100%;">
+                                            <nz-option *ngFor="let address of MASTERS[2].data" [nzValue]="address.IDTPROOFID" [nzLabel]="address.IDTPROOFDESC">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>
@@ -80,9 +73,7 @@
                                 <nz-form-item>
                                     <nz-form-label nzRequired nzNoColon>ID Proof Number</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input name="ID_PROOF_NUMBER"
-                                            [(ngModel)]="personalInfo.ID_PROOF_NUMBER" [hiddenInput]="true"
-                                            [mask]="id_mask" />
+                                        <input nz-input name="ID_PROOF_NUMBER" [(ngModel)]="personalInfo.ID_PROOF_NUMBER" [hiddenInput]="true" [mask]="id_mask" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -100,8 +91,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
                     <ng-template #headerTpl1>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Names & Family
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Names & Family
                         </div>
                     </ng-template>
 
@@ -112,16 +102,10 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Applicant Name</nz-form-label>
                                     <nz-form-control>
                                         <div nz-row [nzGutter]="16">
-                                            <div nz-col nzSpan="8"><input nz-input name="applicant1first" disabled
-                                                    [(ngModel)]="personalInfo.FIRST_NAME"
-                                                    placeholder="Enter First Name" />
+                                            <div nz-col nzSpan="8"><input nz-input name="applicant1first" disabled [(ngModel)]="personalInfo.FIRST_NAME" placeholder="Enter First Name" />
                                             </div>
-                                            <div nz-col nzSpan="8"><input nz-input name="applicant1middle" disabled
-                                                    [(ngModel)]="personalInfo.MIDDLE_NAME"
-                                                    placeholder="Enter Middle Name" /></div>
-                                            <div nz-col nzSpan="8"> <input nz-input name="applicant1last" disabled
-                                                    [(ngModel)]="personalInfo.LAST_NAME"
-                                                    placeholder="Enter Last Name" />
+                                            <div nz-col nzSpan="8"><input nz-input name="applicant1middle" disabled [(ngModel)]="personalInfo.MIDDLE_NAME" placeholder="Enter Middle Name" /></div>
+                                            <div nz-col nzSpan="8"> <input nz-input name="applicant1last" disabled [(ngModel)]="personalInfo.LAST_NAME" placeholder="Enter Last Name" />
                                             </div>
                                         </div>
                                     </nz-form-control>
@@ -148,24 +132,15 @@
                                     <nz-form-control>
                                         <div nz-row [nzGutter]="16">
                                             <div nz-col nzSpan="6">
-                                                <nz-select [(ngModel)]="personalInfo.FATHER_TITLE"
-                                                    placeholder="Enter Title">
-                                                    <nz-option *ngFor="let title of MASTERS[12].data"
-                                                        [nzValue]="title.TITLEDESC"
-                                                        [nzLabel]="title.TITLEDESC"></nz-option>
+                                                <nz-select [(ngModel)]="personalInfo.FATHER_TITLE" placeholder="Enter Title">
+                                                    <nz-option *ngFor="let title of MASTERS[12].data" [nzValue]="title.TITLEDESC" [nzLabel]="title.TITLEDESC"></nz-option>
                                                 </nz-select>
                                             </div>
-                                            <div nz-col nzSpan="6"><input nz-input name="fhfirst"
-                                                    [(ngModel)]="personalInfo.F_OR_H_FIRST_NAME"
-                                                    placeholder="Enter First Name" />
+                                            <div nz-col nzSpan="6"><input nz-input name="fhfirst" [(ngModel)]="personalInfo.F_OR_H_FIRST_NAME" placeholder="Enter First Name" />
                                             </div>
-                                            <div nz-col nzSpan="6"><input nz-input name="fhmiddle"
-                                                    [(ngModel)]="personalInfo.F_OR_H_MIDDLE_NAME"
-                                                    placeholder="Enter Middle Name" />
+                                            <div nz-col nzSpan="6"><input nz-input name="fhmiddle" [(ngModel)]="personalInfo.F_OR_H_MIDDLE_NAME" placeholder="Enter Middle Name" />
                                             </div>
-                                            <div nz-col nzSpan="6"> <input nz-input name="fhlast"
-                                                    [(ngModel)]="personalInfo.F_OR_H_LAST_NAME"
-                                                    placeholder="Enter Last Name" />
+                                            <div nz-col nzSpan="6"> <input nz-input name="fhlast" [(ngModel)]="personalInfo.F_OR_H_LAST_NAME" placeholder="Enter Last Name" />
                                             </div>
                                         </div>
                                     </nz-form-control>
@@ -178,25 +153,18 @@
                                     <nz-form-control>
                                         <div nz-row [nzGutter]="16">
                                             <div nz-col nzSpan="6">
-                                                <nz-select [(ngModel)]="personalInfo.MOTHER_TITLE"
-                                                    placeholder="Enter Title">
-                                                    <nz-option *ngFor="let title of MASTERS[12].data"
-                                                        [nzValue]="title.TITLEDESC"
-                                                        [nzLabel]="title.TITLEDESC"></nz-option>
+                                                <nz-select [(ngModel)]="personalInfo.MOTHER_TITLE" placeholder="Enter Title">
+                                                    <nz-option *ngFor="let title of MASTERS[12].data" [nzValue]="title.TITLEDESC" [nzLabel]="title.TITLEDESC"></nz-option>
                                                 </nz-select>
                                             </div>
                                             <div nz-col nzSpan="6">
-                                                <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name"
-                                                    [(ngModel)]="personalInfo.MOTHERS_NAME" />
+                                                <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name" [(ngModel)]="personalInfo.MOTHERS_NAME" />
                                             </div>
                                             <div nz-col nzSpan="6">
-                                                <input nz-input name="MOTHERS_MIDDLE_NAME"
-                                                    placeholder="Enter Middle Name"
-                                                    [(ngModel)]="personalInfo.MOTHERS_MIDDLE_NAME" />
+                                                <input nz-input name="MOTHERS_MIDDLE_NAME" placeholder="Enter Middle Name" [(ngModel)]="personalInfo.MOTHERS_MIDDLE_NAME" />
                                             </div>
                                             <div nz-col nzSpan="6">
-                                                <input nz-input name="MOTHERS_LAST_NAME" placeholder="Enter Last Name"
-                                                    [(ngModel)]="personalInfo.MOTHERS_LAST_NAME" />
+                                                <input nz-input name="MOTHERS_LAST_NAME" placeholder="Enter Last Name" [(ngModel)]="personalInfo.MOTHERS_LAST_NAME" />
                                             </div>
                                         </div>
                                     </nz-form-control>
@@ -214,8 +182,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl2" [nzActive]="true">
                     <ng-template #headerTpl2>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Personal Details
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Personal Details
                         </div>
                     </ng-template>
 
@@ -225,9 +192,7 @@
                                 <nz-form-item>
                                     <nz-form-label nzRequired [nzNoColon]="true">Date of Birth</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true"
-                                            [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH"
-                                            placeholder="dd/mm/yyyy" disabled>
+                                        <input nz-input name="DATE_OF_BIRTH" mask="d0/M0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" [(ngModel)]="personalInfo.DATE_OF_BIRTH" placeholder="dd/mm/yyyy" disabled>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -236,8 +201,7 @@
                                 <nz-form-item>
                                     <nz-form-label [nzNoColon]="true">Is DOB Mismatched?</nz-form-label>
                                     <nz-form-control>
-                                        <nz-switch name="IS_DOB_MISMATCH" [(ngModel)]="personalInfo.IS_DOB_MISMATCH"
-                                            nzCheckedChildren="Yes" nzUnCheckedChildren="No">
+                                        <nz-switch name="IS_DOB_MISMATCH" [(ngModel)]="personalInfo.IS_DOB_MISMATCH" nzCheckedChildren="Yes" nzUnCheckedChildren="No">
                                         </nz-switch>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -247,10 +211,8 @@
                                 <nz-form-item>
                                     <nz-form-label nzRequired [nzNoColon]="true">Nationality</nz-form-label>
                                     <nz-form-control>
-                                        <nz-select nzShowSearch [(ngModel)]="personalInfo.NATIONALITY"
-                                            style="width: 100%;">
-                                            <nz-option *ngFor="let option of optionList" [nzValue]="option.value"
-                                                [nzLabel]="option.label">
+                                        <nz-select nzShowSearch [(ngModel)]="personalInfo.NATIONALITY" style="width: 100%;">
+                                            <nz-option *ngFor="let option of optionList" [nzValue]="option.value" [nzLabel]="option.label">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>
@@ -275,8 +237,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Religion</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.RELIGION" (ngModelChange)="filterCaste()">
-                                            <nz-option *ngFor="let option of MASTERS[10].data" [nzValue]="option.REL_CD"
-                                                [nzLabel]="option.REL_DESC"></nz-option>
+                                            <nz-option *ngFor="let option of MASTERS[10].data" [nzValue]="option.REL_CD" [nzLabel]="option.REL_DESC"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -286,8 +247,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Caste</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.CASTE">
-                                            <nz-option *ngFor="let option of CasteList" [nzValue]="option.CST_CD"
-                                                [nzLabel]="option.CST_NM"></nz-option>
+                                            <nz-option *ngFor="let option of CasteList" [nzValue]="option.CST_CD" [nzLabel]="option.CST_NM"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -331,8 +291,7 @@
                         <nz-collapse-panel [nzHeader]="headerTpl3" [nzActive]="true">
                             <ng-template #headerTpl3>
                                 <div class="applicant-header">
-                                    <span nz-icon nzType="user" nzTheme="outline"></span>
-                                    Contact Information
+                                    <span nz-icon nzType="user" nzTheme="outline"></span> Contact Information
                                 </div>
                             </ng-template>
 
@@ -342,9 +301,7 @@
                                         <nz-form-item>
                                             <nz-form-label nzRequired [nzNoColon]="true">Mobile Number 1</nz-form-label>
                                             <nz-form-control>
-                                                <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER"
-                                                    placeholder="Enter Mobile Number 1" maxlength="10"
-                                                    pattern="^[0-9]{10}$" disabled />
+                                                <input nz-input name="mobile" [(ngModel)]="personalInfo.MOBILE_NUMBER" placeholder="Enter Mobile Number 1" maxlength="10" pattern="^[0-9]{10}$" disabled />
                                             </nz-form-control>
                                         </nz-form-item>
                                     </div>
@@ -352,10 +309,7 @@
                                         <nz-form-item>
                                             <nz-form-label [nzNoColon]="true">Mobile Number 2</nz-form-label>
                                             <nz-form-control>
-                                                <input nz-input name="MOBILE_NUMBER_2"
-                                                    [(ngModel)]="personalInfo.MOBILE_NUMBER_2"
-                                                    placeholder="Enter Mobile Number 2" maxlength="10"
-                                                    pattern="^[0-9]{10}$" />
+                                                <input nz-input name="MOBILE_NUMBER_2" [(ngModel)]="personalInfo.MOBILE_NUMBER_2" placeholder="Enter Mobile Number 2" maxlength="10" pattern="^[0-9]{10}$" />
                                             </nz-form-control>
                                         </nz-form-item>
                                     </div>
@@ -363,8 +317,7 @@
                                         <nz-form-item>
                                             <nz-form-label nzRequired [nzNoColon]="true">Email ID</nz-form-label>
                                             <nz-form-control>
-                                                <input nz-input name="email" [(ngModel)]="personalInfo.EMAIL_ID"
-                                                    placeholder="Enter Email ID" />
+                                                <input nz-input name="email" [(ngModel)]="personalInfo.EMAIL_ID" placeholder="Enter Email ID" />
                                             </nz-form-control>
                                             <div nz-row *ngIf="personalInfo.IS_EMAIL_VERIFIED" class="success-tip">
                                                 <div nz-col nzSpan="24">
@@ -377,25 +330,22 @@
                                         <nz-form-item>
                                             <nz-form-label [nzNoColon]="true"></nz-form-label>
                                             <nz-form-control>
-                                                <button nz-button nzType="primary" (click)="getOtp()"
-                                                    [nzLoading]="loadOtpButton">Get
+                                                <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton">Get
                                                     OTP</button>
                                             </nz-form-control>
                                         </nz-form-item>
                                     </div>
                                     <div nz-col nzSpan="24">
                                         <nz-form-item *ngIf="showOtpField">
-                                            <nz-form-label [nzNoColon]="true">OTP (For Email
-                                                Verification)</nz-form-label>
+                                            <nz-form-label [nzNoColon]="true">OTP (For Email Verification)
+                                            </nz-form-label>
                                             <nz-form-control>
                                                 <div nz-row>
                                                     <div nz-col [nzSpan]="12">
-                                                        <input type="password" nz-input name="otp" [(ngModel)]="OTP"
-                                                            placeholder="Enter OTP" />
+                                                        <input type="password" nz-input name="otp" [(ngModel)]="OTP" placeholder="Enter OTP" />
                                                     </div>
                                                     <div nz-col [nzSpan]="12">
-                                                        <button nz-button nzType="primary" (click)="verifyEmail()"
-                                                            [nzLoading]="loadVerificationButton">Verify OTP</button>
+                                                        <button nz-button nzType="primary" (click)="verifyEmail()" [nzLoading]="loadVerificationButton">Verify OTP</button>
                                                     </div>
                                                 </div>
                                             </nz-form-control>
@@ -416,8 +366,7 @@
                         <nz-collapse-panel [nzHeader]="headerTpl7" [nzActive]="true">
                             <ng-template #headerTpl7>
                                 <div class="applicant-header">
-                                    <span nz-icon nzType="user" nzTheme="outline"></span>
-                                    Guardian Information
+                                    <span nz-icon nzType="user" nzTheme="outline"></span> Guardian Information
                                 </div>
                             </ng-template>
 
@@ -436,35 +385,29 @@
                                         <div nz-row [nzGutter]="[16,16]">
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Minor's DOB
-                                                        Proof</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Minor's DOB Proof
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <input nz-input name="MINOR_DATE_OF_BIRTH_PROOF"
-                                                            [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF" />
+                                                        <input nz-input name="MINOR_DATE_OF_BIRTH_PROOF" [(ngModel)]="personalInfo.MINOR_DATE_OF_BIRTH_PROOF" />
                                                     </nz-form-control>
                                                 </nz-form-item>
                                             </div>
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Name of the
-                                                        Guardian</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Name of the Guardian
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <input nz-input name="GUARDIAN_NAME"
-                                                            [(ngModel)]="personalInfo.GUARDIAN_NAME"
-                                                            placeholder="Enter Name of the Guardian" />
+                                                        <input nz-input name="GUARDIAN_NAME" [(ngModel)]="personalInfo.GUARDIAN_NAME" placeholder="Enter Name of the Guardian" />
                                                     </nz-form-control>
                                                 </nz-form-item>
                                             </div>
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Relationship with
-                                                        minor</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Relationship with minor
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <nz-select nzShowSearch
-                                                            [(ngModel)]="personalInfo.GUARDIAN_RELATION"
-                                                            style="width: 100%;">
-                                                            <nz-option *ngFor="let option of relationList"
-                                                                [nzValue]="option.value" [nzLabel]="option.label">
+                                                        <nz-select nzShowSearch [(ngModel)]="personalInfo.GUARDIAN_RELATION" style="width: 100%;">
+                                                            <nz-option *ngFor="let option of relationList" [nzValue]="option.value" [nzLabel]="option.label">
                                                             </nz-option>
                                                         </nz-select>
                                                     </nz-form-control>
@@ -472,34 +415,28 @@
                                             </div>
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Guardian's PAN
-                                                        number</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Guardian's PAN number
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <input nz-input name="GUARDIAN_PAN"
-                                                            [(ngModel)]="personalInfo.GUARDIAN_PAN"
-                                                            placeholder="Enter Guardian's PAN number" />
+                                                        <input nz-input name="GUARDIAN_PAN" [(ngModel)]="personalInfo.GUARDIAN_PAN" placeholder="Enter Guardian's PAN number" />
                                                     </nz-form-control>
                                                 </nz-form-item>
                                             </div>
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Gaurdian's other
-                                                        Document</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Gaurdian's other Document
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <input nz-input name="GUARDIAN_OTHER_DOCUMENT"
-                                                            [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT" />
+                                                        <input nz-input name="GUARDIAN_OTHER_DOCUMENT" [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT" />
                                                     </nz-form-control>
                                                 </nz-form-item>
                                             </div>
                                             <div nz-col nzSpan="12">
                                                 <nz-form-item>
-                                                    <nz-form-label nzRequired [nzNoColon]="true">Guardian's other
-                                                        Document
-                                                        number</nz-form-label>
+                                                    <nz-form-label nzRequired [nzNoColon]="true">Guardian's other Document number
+                                                    </nz-form-label>
                                                     <nz-form-control>
-                                                        <input nz-input name="GUARDIAN_OTHER_DOCUMENT_NUMBER"
-                                                            [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT_NUMBER"
-                                                            placeholder="Enter other Document number" />
+                                                        <input nz-input name="GUARDIAN_OTHER_DOCUMENT_NUMBER" [(ngModel)]="personalInfo.GUARDIAN_OTHER_DOCUMENT_NUMBER" placeholder="Enter other Document number" />
                                                     </nz-form-control>
                                                 </nz-form-item>
                                             </div>
@@ -521,8 +458,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl4" [nzActive]="true">
                     <ng-template #headerTpl4>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Permanent Address
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Permanent Address
                         </div>
                     </ng-template>
 
@@ -533,9 +469,7 @@
                             <div class="content-box ">
                                 <div nz-row>
                                     <div nz-col nzSpan="24" style="font-size:18px;margin-bottom: 10px;">
-                                        <input [hiddenInput]="true" mask="XXXX XXXX 0000"
-                                            style="border :none !important;font-weight: bold;" disabled
-                                            [ngModel]="aadhaarVerify.common.aadhaar_no">
+                                        <input [hiddenInput]="true" mask="XXXX XXXX 0000" style="border :none !important;font-weight: bold;" disabled [ngModel]="aadhaarVerify.common.aadhaar_no">
                                     </div>
                                     <div nz-col nzSpan="18" style="font-size: 14px;">
                                         <div nz-row>
@@ -566,89 +500,68 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="PERMANENT_STATE" nzShowSearch
-                                        [(ngModel)]="personalInfo.PERMANENT_STATE" (ngModelChange)="filterDistrictP()"
-                                        [nzLoading]="addressMaster.permanent_state.loading">
-                                        <nz-option *ngFor="let state of addressMaster.permanent_state.data"
-                                            [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
+                                    <nz-select name="PERMANENT_STATE" nzShowSearch [(ngModel)]="personalInfo.PERMANENT_STATE" (ngModelChange)="filterDistrictP()" [nzLoading]="addressMaster.permanent_state.loading">
+                                        <nz-option *ngFor="let state of addressMaster.permanent_state.data" [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="PERMANENT_DISTRICT" nzShowSearch
-                                        [(ngModel)]="personalInfo.PERMANENT_DISTRICT" (ngModelChange)="filterTalukaP()"
-                                        [nzLoading]="addressMaster.permanent_dist.loading">
-                                        <nz-option *ngFor="let district of addressMaster.permanent_dist.data"
-                                            [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
+                                    <nz-select name="PERMANENT_DISTRICT" nzShowSearch [(ngModel)]="personalInfo.PERMANENT_DISTRICT" (ngModelChange)="filterTalukaP()" [nzLoading]="addressMaster.permanent_dist.loading">
+                                        <nz-option *ngFor="let district of addressMaster.permanent_dist.data" [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="PERMANENT_TALUKA" nzShowSearch
-                                        [(ngModel)]="personalInfo.PERMANENT_TALUKA" (ngModelChange)="filterCityP()"
-                                        [nzLoading]="addressMaster.permanent_taluka.loading">
-                                        <nz-option *ngFor="let taluka of addressMaster.permanent_taluka.data"
-                                            [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
+                                    <nz-select name="PERMANENT_TALUKA" nzShowSearch [(ngModel)]="personalInfo.PERMANENT_TALUKA" (ngModelChange)="filterCityP()" [nzLoading]="addressMaster.permanent_taluka.loading">
+                                        <nz-option *ngFor="let taluka of addressMaster.permanent_taluka.data" [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="PERMANENT_CITY" nzShowSearch
-                                        [(ngModel)]="personalInfo.PERMANENT_CITY" (ngModelChange)="filterAreaP()"
-                                        [nzLoading]="addressMaster.permanent_city.loading">
-                                        <nz-option *ngFor="let city of addressMaster.permanent_city.data"
-                                            [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
+                                    <nz-select name="PERMANENT_CITY" nzShowSearch [(ngModel)]="personalInfo.PERMANENT_CITY" (ngModelChange)="filterAreaP()" [nzLoading]="addressMaster.permanent_city.loading">
+                                        <nz-option *ngFor="let city of addressMaster.permanent_city.data" [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE"
-                                        placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
+                                    <input nz-input name="pinp" [(ngModel)]="personalInfo.PERMANENT_PINCODE" placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Area</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="PERMANENT_AREA" nzShowSearch nzPlaceHolder="Select Area"
-                                        [(ngModel)]="personalInfo.PERMANENT_AREA" style="width: 100%;"
-                                        [nzLoading]="addressMaster.permanent_area.loading">
-                                        <nz-option *ngFor="let address of addressMaster.permanent_area.data"
-                                            [nzValue]="address.ID" [nzLabel]="address.AREADESC">
+                                    <nz-select name="PERMANENT_AREA" nzShowSearch nzPlaceHolder="Select Area" [(ngModel)]="personalInfo.PERMANENT_AREA" style="width: 100%;" [nzLoading]="addressMaster.permanent_area.loading">
+                                        <nz-option *ngFor="let address of addressMaster.permanent_area.data" [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                         </nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
-                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of
-                                    Building</nz-form-label>
+                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building
+                                </nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="adressp" [(ngModel)]="personalInfo.PERMANENT_ADDRESS"
-                                        placeholder="Enter Flat No, Name of Building" />
+                                    <input nz-input name="adressp" [(ngModel)]="personalInfo.PERMANENT_ADDRESS" placeholder="Enter Flat No, Name of Building" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="landmarkp" [(ngModel)]="personalInfo.PERMANENT_LANDMARK"
-                                        placeholder="Enter Road , Area Name" />
+                                    <input nz-input name="landmarkp" [(ngModel)]="personalInfo.PERMANENT_LANDMARK" placeholder="Enter Road , Area Name" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Proof of Permanent Address</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select nzShowSearch nzPlaceHolder="Select Proof of Address"
-                                        [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF"
-                                        (ngModelChange)="copyDocumentNoInAddressProof()" style="width: 100%;">
-                                        <nz-option *ngFor="let address of MASTERS[1].data"
-                                            [nzValue]="address.ADDPROOFID" [nzLabel]="address.ADDPROOFDESC">
+                                    <nz-select nzShowSearch nzPlaceHolder="Select Proof of Address" [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF" (ngModelChange)="copyDocumentNoInAddressProof()" style="width: 100%;">
+                                        <nz-option *ngFor="let address of MASTERS[1].data" [nzValue]="address.ADDPROOFID" [nzLabel]="address.ADDPROOFDESC">
                                         </nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -656,9 +569,7 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Address Proof Number</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="ADDRESS_PROOF_NUMBER"
-                                        [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true"
-                                        [mask]="address_mask">
+                                    <input nz-input name="ADDRESS_PROOF_NUMBER" [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true" [mask]="address_mask">
                                 </nz-form-control>
                             </nz-form-item>
 
@@ -674,8 +585,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl5" [nzActive]="true">
                     <ng-template #headerTpl5>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Current Address
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Current Address
                         </div>
                     </ng-template>
 
@@ -684,17 +594,14 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzNoColon>Is current address differ from OVD ?</nz-form-label>
                                 <nz-form-control>
-                                    <nz-switch name="IS_CURRENT_ADDRESS_ON_OVD"
-                                        [(ngModel)]="personalInfo.IS_CURRENT_ADDRESS_ON_OVD" nzCheckedChildren="Yes"
-                                        nzUnCheckedChildren="No">
+                                    <nz-switch name="IS_CURRENT_ADDRESS_ON_OVD" [(ngModel)]="personalInfo.IS_CURRENT_ADDRESS_ON_OVD" nzCheckedChildren="Yes" nzUnCheckedChildren="No">
                                     </nz-switch>
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
 
                         <div nz-row>
-                            <div nz-col [nzSpan]="24" *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD"
-                                style="text-align:right">
+                            <div nz-col [nzSpan]="24" *ngIf="!personalInfo.IS_CURRENT_ADDRESS_ON_OVD" style="text-align:right">
                                 <span> <a (click)="copyClick()"><i nz-icon nzType="copy" nzTheme="outline"></i>Copy
                                         Permanent
                                         Address</a> </span>
@@ -702,86 +609,67 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_STATE" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_STATE" (ngModelChange)="filterDistrictC()"
-                                        [nzLoading]="addressMaster.current_state.loading">
-                                        <nz-option *ngFor="let state of addressMaster.current_state.data"
-                                            [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
+                                    <nz-select name="CURRENT_STATE" nzShowSearch [(ngModel)]="personalInfo.CURRENT_STATE" (ngModelChange)="filterDistrictC()" [nzLoading]="addressMaster.current_state.loading">
+                                        <nz-option *ngFor="let state of addressMaster.current_state.data" [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_DISTRICT" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_DISTRICT" (ngModelChange)="filterTalukaC()"
-                                        [nzLoading]="addressMaster.current_dist.loading">
-                                        <nz-option *ngFor="let district of addressMaster.current_dist.data"
-                                            [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
+                                    <nz-select name="CURRENT_DISTRICT" nzShowSearch [(ngModel)]="personalInfo.CURRENT_DISTRICT" (ngModelChange)="filterTalukaC()" [nzLoading]="addressMaster.current_dist.loading">
+                                        <nz-option *ngFor="let district of addressMaster.current_dist.data" [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_TALUKA" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_TALUKA" (ngModelChange)="filterCityC()"
-                                        [nzLoading]="addressMaster.current_taluka.loading">
-                                        <nz-option *ngFor="let taluka of addressMaster.current_taluka.data"
-                                            [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
+                                    <nz-select name="CURRENT_TALUKA" nzShowSearch [(ngModel)]="personalInfo.CURRENT_TALUKA" (ngModelChange)="filterCityC()" [nzLoading]="addressMaster.current_taluka.loading">
+                                        <nz-option *ngFor="let taluka of addressMaster.current_taluka.data" [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_CITY" nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY"
-                                        (ngModelChange)="filterAreaC()"
-                                        [nzLoading]="addressMaster.current_city.loading">
-                                        <nz-option *ngFor="let city of addressMaster.current_city.data"
-                                            [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
+                                    <nz-select name="CURRENT_CITY" nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY" (ngModelChange)="filterAreaC()" [nzLoading]="addressMaster.current_city.loading">
+                                        <nz-option *ngFor="let city of addressMaster.current_city.data" [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE"
-                                        placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
+                                    <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE" placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Area</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_AREA" nzShowSearch nzPlaceHolder="Select Area"
-                                        [(ngModel)]="personalInfo.CURRENT_AREA" style="width: 100%;"
-                                        [nzLoading]="addressMaster.current_area.loading">
-                                        <nz-option *ngFor="let address of addressMaster.current_area.data"
-                                            [nzValue]="address.ID" [nzLabel]="address.AREADESC">
+                                    <nz-select name="CURRENT_AREA" nzShowSearch nzPlaceHolder="Select Area" [(ngModel)]="personalInfo.CURRENT_AREA" style="width: 100%;" [nzLoading]="addressMaster.current_area.loading">
+                                        <nz-option *ngFor="let address of addressMaster.current_area.data" [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                         </nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
-                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of
-                                    Building</nz-form-label>
+                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building
+                                </nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="adressc" [(ngModel)]="personalInfo.CURRENT_ADDRESS"
-                                        placeholder="Enter Flat No, Name of Building" />
+                                    <input nz-input name="adressc" [(ngModel)]="personalInfo.CURRENT_ADDRESS" placeholder="Enter Flat No, Name of Building" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="landmarkc" [(ngModel)]="personalInfo.CURRENT_LANDMARK"
-                                        placeholder="Enter Road , Area Name" />
+                                    <input nz-input name="landmarkc" [(ngModel)]="personalInfo.CURRENT_LANDMARK" placeholder="Enter Road , Area Name" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24" *ngIf="personalInfo.IS_CURRENT_ADDRESS_ON_OVD">
                                 <nz-form-label nzRequired nzNoColon>Proof of Current Address</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="CURRUNT_ADDRESS_PROOF"
-                                        [(ngModel)]="personalInfo.CURRUNT_ADDRESS_PROOF">
+                                    <input nz-input name="CURRUNT_ADDRESS_PROOF" [(ngModel)]="personalInfo.CURRUNT_ADDRESS_PROOF">
                                 </nz-form-control>
                             </nz-form-item>
 
@@ -797,8 +685,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl6" [nzActive]="true">
                     <ng-template #headerTpl6>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Office Address
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Office Address
                         </div>
                     </ng-template>
 
@@ -808,79 +695,61 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_STATE" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_STATE" (ngModelChange)="filterDistrictC()"
-                                        [nzLoading]="addressMaster.current_state.loading">
-                                        <nz-option *ngFor="let state of addressMaster.current_state.data"
-                                            [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
+                                    <nz-select name="OFFICE_STATE" nzShowSearch [(ngModel)]="personalInfo.OFFICE_STATE" (ngModelChange)="filterDistrictC()" [nzLoading]="addressMaster.current_state.loading">
+                                        <nz-option *ngFor="let state of addressMaster.current_state.data" [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_DISTRICT" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_DISTRICT" (ngModelChange)="filterTalukaC()"
-                                        [nzLoading]="addressMaster.current_dist.loading">
-                                        <nz-option *ngFor="let district of addressMaster.current_dist.data"
-                                            [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
+                                    <nz-select name="OFFICE_DISTRICT" nzShowSearch [(ngModel)]="personalInfo.OFFICE_DISTRICT" (ngModelChange)="filterTalukaC()" [nzLoading]="addressMaster.current_dist.loading">
+                                        <nz-option *ngFor="let district of addressMaster.current_dist.data" [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_TALUKA" nzShowSearch
-                                        [(ngModel)]="personalInfo.CURRENT_TALUKA" (ngModelChange)="filterCityC()"
-                                        [nzLoading]="addressMaster.current_taluka.loading">
-                                        <nz-option *ngFor="let taluka of addressMaster.current_taluka.data"
-                                            [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
+                                    <nz-select name="OFFICE_TALUKA" nzShowSearch [(ngModel)]="personalInfo.OFFICE_TALUKA" (ngModelChange)="filterCityC()" [nzLoading]="addressMaster.current_taluka.loading">
+                                        <nz-option *ngFor="let taluka of addressMaster.current_taluka.data" [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_CITY" nzShowSearch [(ngModel)]="personalInfo.CURRENT_CITY"
-                                        (ngModelChange)="filterAreaC()"
-                                        [nzLoading]="addressMaster.current_city.loading">
-                                        <nz-option *ngFor="let city of addressMaster.current_city.data"
-                                            [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
+                                    <nz-select name="OFFICE_CITY" nzShowSearch [(ngModel)]="personalInfo.OFFICE_CITY" (ngModelChange)="filterAreaC()" [nzLoading]="addressMaster.current_city.loading">
+                                        <nz-option *ngFor="let city of addressMaster.current_city.data" [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Pincode</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="pinc" [(ngModel)]="personalInfo.CURRENT_PINCODE"
-                                        placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
+                                    <input nz-input name="pinc" [(ngModel)]="personalInfo.OFFICE_PINCODE" placeholder="Enter Pincode" maxlength="6" pattern="^[0-9]{6}$" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Area</nz-form-label>
                                 <nz-form-control>
-                                    <nz-select name="CURRENT_AREA" nzShowSearch nzPlaceHolder="Select Area"
-                                        [(ngModel)]="personalInfo.CURRENT_AREA" style="width: 100%;"
-                                        [nzLoading]="addressMaster.current_area.loading">
-                                        <nz-option *ngFor="let address of addressMaster.current_area.data"
-                                            [nzValue]="address.ID" [nzLabel]="address.AREADESC">
+                                    <nz-select name="OFFICE_AREA" nzShowSearch nzPlaceHolder="Select Area" [(ngModel)]="personalInfo.OFFICE_AREA" style="width: 100%;" [nzLoading]="addressMaster.current_area.loading">
+                                        <nz-option *ngFor="let address of addressMaster.current_area.data" [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                         </nz-option>
                                     </nz-select>
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
-                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of
-                                    Building</nz-form-label>
+                                <nz-form-label nzRequired [nzNoColon]="true">Flat No, Name of Building
+                                </nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="adressc" [(ngModel)]="personalInfo.CURRENT_ADDRESS"
-                                        placeholder="Enter Flat No, Name of Building" />
+                                    <input nz-input name="adressc" [(ngModel)]="personalInfo.OFFICE_ADDRESS" placeholder="Enter Flat No, Name of Building" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Road, Area Name</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="landmarkc" [(ngModel)]="personalInfo.CURRENT_LANDMARK"
-                                        placeholder="Enter Road , Area Name" />
+                                    <input nz-input name="landmarkc" [(ngModel)]="personalInfo.OFFICE_LANDMARK" placeholder="Enter Road , Area Name" />
                                 </nz-form-control>
                             </nz-form-item>
                         </div>
@@ -897,8 +766,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl8" [nzActive]="true">
                     <ng-template #headerTpl8>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Income
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Income
                         </div>
                     </ng-template>
 
@@ -909,9 +777,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Profession</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.PROFESSION">
-                                            <nz-option *ngFor="let option of MASTERS[0].data"
-                                                [nzValue]="option.OCCUPATIONID"
-                                                [nzLabel]="option.OCCUPATIONDESC"></nz-option>
+                                            <nz-option *ngFor="let option of MASTERS[0].data" [nzValue]="option.OCCUPATIONID" [nzLabel]="option.OCCUPATIONDESC"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -921,8 +787,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Source of Fund</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.SOURCE_OF_FUNDS">
-                                            <nz-option *ngFor="let option of SOURCE_OF_FUNDS_LIST"
-                                                [nzValue]="option.value" [nzLabel]="option.lable"></nz-option>
+                                            <nz-option *ngFor="let option of SOURCE_OF_FUNDS_LIST" [nzValue]="option.value" [nzLabel]="option.lable"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -933,8 +798,7 @@
                                     <nz-form-label nzRequired [nzNoColon]="true">Constitution</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.CONSTITUTION">
-                                            <nz-option *ngFor="let option of MASTERS[9].data"
-                                                [nzValue]="option.OWP_CODE" [nzLabel]="option.OWP_DESC"></nz-option>
+                                            <nz-option *ngFor="let option of MASTERS[9].data" [nzValue]="option.OWP_CODE" [nzLabel]="option.OWP_DESC"></nz-option>
                                         </nz-select>
                                     </nz-form-control>
                                 </nz-form-item>
@@ -951,8 +815,7 @@
                 <nz-collapse-panel [nzHeader]="headerTpl9" [nzActive]="true">
                     <ng-template #headerTpl9>
                         <div class="applicant-header">
-                            <span nz-icon nzType="user" nzTheme="outline"></span>
-                            Business
+                            <span nz-icon nzType="user" nzTheme="outline"></span> Business
                         </div>
                     </ng-template>
 
@@ -1008,16 +871,14 @@
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired [nzNoColon]="true">Company / Owner Name</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="con" [(ngModel)]="personalInfo.EMPLOYMENT_COMPANY"
-                                        placeholder="Enter Company / Owner Name" />
+                                    <input nz-input name="con" [(ngModel)]="personalInfo.EMPLOYMENT_COMPANY" placeholder="Enter Company / Owner Name" />
                                 </nz-form-control>
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
-                                <nz-form-label nzRequired [nzNoColon]="true">Job Profile /
-                                    Designation</nz-form-label>
+                                <nz-form-label nzRequired [nzNoColon]="true">Job Profile / Designation
+                                </nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input name="jpd" [(ngModel)]="personalInfo.EMPLOYMENT_DESIGNATION"
-                                        placeholder="Enter Designation" />
+                                    <input nz-input name="jpd" [(ngModel)]="personalInfo.EMPLOYMENT_DESIGNATION" placeholder="Enter Designation" />
                                 </nz-form-control>
                             </nz-form-item>
                         </div>

@@ -26,6 +26,15 @@ export class PersonalInfo {
     PERMANENT_STATE: any;
     PERMANENT_PINCODE: string = '';
 
+    OFFICE_ADDRESS: string = '';
+    OFFICE_CITY: any
+    OFFICE_TALUKA:any
+    OFFICE_DISTRICT: any
+    OFFICE_LANDMARK:string = '';
+    OFFICE_STATE: any
+    OFFICE_PINCODE: string = '';
+    OFFICE_AREA:any;
+
     // HOUSE_PHONE: string = '';
     // OFFICE_PHONE: string = '';
 
