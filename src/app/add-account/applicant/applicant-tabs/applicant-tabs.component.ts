@@ -4,7 +4,6 @@ import { ApplicantFinancialComponent } from '../applicant-financial/applicant-fi
 import { ApplicantLoanInfoComponent } from '../applicant-loan-info/applicant-loan-info.component';
 import { ApplicantOtherBankAccountComponent } from '../applicant-other-bank-account/applicant-other-bank-account.component';
 import { ApplicantPersonalComponent } from '../applicant-personal/applicant-personal.component';
-import { ApplicantGuarantorComponent } from '../applicant-guarantor/applicant-guarantor.component';
 import { ApplicantPropertyComponent } from '../applicant-property/applicant-property.component';
 
 @Component({
@@ -17,7 +16,6 @@ export class ApplicantTabsComponent implements OnInit {
 
 
   @ViewChild(ApplicantPersonalComponent) personalComp!: ApplicantPersonalComponent;
-  @ViewChild(ApplicantGuarantorComponent) guarantorComp!: ApplicantGuarantorComponent;
   @ViewChild(ApplicantFinancialComponent) financialComp!: ApplicantFinancialComponent;
   @ViewChild(ApplicantPropertyComponent) propertyComp!: ApplicantPropertyComponent;
   @ViewChild(ApplicantLoanInfoComponent) loanInfoComp!: ApplicantLoanInfoComponent;

@@ -21,7 +21,6 @@ import { ApplicantFinancialComponent } from './add-account/applicant/applicant-f
 import { ApplicantLoanInfoComponent } from './add-account/applicant/applicant-loan-info/applicant-loan-info.component';
 import { ApplicantOtherBankAccountComponent } from './add-account/applicant/applicant-other-bank-account/applicant-other-bank-account.component';
 import { ApplicantPersonalComponent } from './add-account/applicant/applicant-personal/applicant-personal.component';
-import { ApplicantGuarantorComponent } from './add-account/applicant/applicant-guarantor/applicant-guarantor.component';
 import { GuarantorDetailsComponent } from './add-account/guarantor-details/guarantor-details.component';
 import { ApplicantPropertyComponent } from './add-account/applicant/applicant-property/applicant-property.component';
 import { ApplicantTabsComponent } from './add-account/applicant/applicant-tabs/applicant-tabs.component';
@@ -105,7 +104,6 @@ registerLocaleData(en);
     ApplicantDetailsComponent,
     ApplicantTabsComponent,
     ApplicantPersonalComponent,
-    ApplicantGuarantorComponent,
     GuarantorDetailsComponent,
     ApplicantFinancialComponent,
     ApplicantOtherBankAccountComponent,
