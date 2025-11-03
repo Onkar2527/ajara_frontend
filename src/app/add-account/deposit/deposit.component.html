@@ -17,7 +17,7 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">Account Type</nz-form-label>
                                 <nz-select [(ngModel)]="depositInfo.ACCOUNT_TYPE" (ngModelChange)="changeCatagory()">
                                     <nz-option [nzValue]="'A'" nzLabel="Saving"></nz-option>
-                                    <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option>
+                                    <!-- <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option> -->
                                     <nz-option [nzValue]="'C'" nzLabel="Current Account"></nz-option>
                                     <nz-option [nzValue]="'D'" nzLabel="Fixed Deposit"></nz-option>
                                     <nz-option [nzValue]="'E'" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
@@ -29,7 +29,7 @@
                             </nz-form-control>
                         </nz-form-item>
 
-                        <nz-form-item nz-col nzSpan="24" *ngIf="depositInfo.ACCOUNT_TYPE == 'A'">
+                        <nz-form-item nz-col nzSpan="24">
                             <nz-form-control>
                                 <nz-form-label nzRequired [nzNoColon]="true">Sub Account Type</nz-form-label>
                                 <nz-select [(ngModel)]="depositInfo.SCHEME_CODE" (ngModelChange)="changeCatagory()">

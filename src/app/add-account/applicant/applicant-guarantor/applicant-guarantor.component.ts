@@ -2,16 +2,16 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, lastValueFrom } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
-import { PersonalInfo } from 'src/app/models/personal-info';
+import { GuarantorInfo } from 'src/app/models/guarantor-info';
 import { ApiService } from 'src/app/service/api.service';
 
 @Component({
-  selector: 'app-applicant-personal',
-  templateUrl: './applicant-personal.component.html',
-  styleUrls: ['./applicant-personal.component.css']
+  selector: 'app-applicant-guarantor',
+  templateUrl: './applicant-guarantor.component.html',
+  styleUrls: ['./applicant-guarantor.component.css']
 })
-export class ApplicantPersonalComponent implements OnInit, OnChanges {
-  @Input() personalInfo!: PersonalInfo;
+export class ApplicantGuarantorComponent implements OnInit, OnChanges {
+  @Input() personalInfo!: GuarantorInfo;
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
   loadOtpButton: boolean = false;
@@ -537,9 +537,9 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
   ]
 
   mendentory_minor = [
-    // { field: 'GUARDIAN_NAME', message: "Name of the Guardian" },
-    // { field: 'GUARDIAN_RELATION', message: "Relationship with minor" },
-    // { field: 'GUARDIAN_PAN', message: "Guardian's PAN number" }
+    { field: 'GUARDIAN_NAME', message: "Name of the Guardian" },
+    { field: 'GUARDIAN_RELATION', message: "Relationship with minor" },
+    { field: 'GUARDIAN_PAN', message: "Guardian's PAN number" }
   ]
 
   optionList = [
@@ -783,8 +783,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
   //Address Module
 
-  getApplicantPersonal() {
-
+  getApplicantGuarantor() {
+    this.api.getAllGuarantor(this.personalInfo.APPLICANT_ID).subscribe(res => {
+      if (res.code == 200 && res.data.length > 0) {
+        this.personalInfo = res.data[0];
+      }
+    })
   }
 
   copyClick() {
@@ -834,7 +838,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     let isOk = true;
 
     for (let field of this.mendetory_all) {
-      if (!this.personalInfo[field.field as keyof PersonalInfo]) {
+      if (!this.personalInfo[field.field as keyof GuarantorInfo]) {
         this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
@@ -842,7 +846,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     if (this.personalInfo.RELIGION == 'G') {
       for (let field of this.mendetory_religion) {
-        if (!this.personalInfo[field.field as keyof PersonalInfo]) {
+        if (!this.personalInfo[field.field as keyof GuarantorInfo]) {
           this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
@@ -851,35 +855,35 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     if (this.personalInfo.CASTE == 'G') {
       for (let field of this.mendentory_cast) {
-        if (!this.personalInfo[field.field as keyof PersonalInfo]) {
+        if (!this.personalInfo[field.field as keyof GuarantorInfo]) {
           this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
       }
     }
 
-    // if (this.personalInfo.IS_MINOR) {
-    //   for (let field of this.mendentory_minor) {
-    //     if (!this.personalInfo[field.field as keyof PersonalInfo]) {
-    //       this.message.error(`${field.message} is Mandatory`, '');
-    //       isOk = false;
-    //     }
-    //   }
-    // }
+    if (this.personalInfo.IS_MINOR) {
+      for (let field of this.mendentory_minor) {
+        if (!this.personalInfo[field.field as keyof GuarantorInfo]) {
+          this.message.error(`${field.message} is Mandatory`, '');
+          isOk = false;
+        }
+      }
+    }
 
     if (isOk) {
       if (this.personalInfo.ID) {
         // this.convertToString();
-        this.api.updateAplicant(this.personalInfo).subscribe({
+        this.api.updateGuarantor(this.personalInfo).subscribe({
           next: (res) => {
             if (res.code == 200) {
-              this.message.success("Personal Information updated successfully!", '');
+              this.message.success("Guarantor Information updated successfully!", '');
               // this.convertToNumber();
-              this.getApplicantPersonal();
+              this.getApplicantGuarantor();
               personal.next(res);
             }
             else {
-              this.message.error('Failed to update personal info', '');
+              this.message.error('Failed to update guarantor info', '');
               personal.next(res);
             }
           },
@@ -888,7 +892,7 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
             personal.error('err')
           },
           complete: () => {
-            console.info("Add Personal Info Request Completed!");
+            console.info("Add Guarantor Info Request Completed!");
             personal.complete();
           }
         })

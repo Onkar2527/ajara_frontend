@@ -9,6 +9,7 @@ import { BasicInfo } from '../models/basicInfo';
 import { TermDeposite } from '../models/term-deposite';
 import { ImageData } from '../models/image-data';
 import { PersonalInfo } from '../models/personal-info';
+import { GuarantorInfo } from '../models/guarantor-info';
 import { Financial } from '../models/financial';
 // import { keyframes } from '@angular/animations';
 import { Property } from '../models/property';
@@ -252,6 +253,31 @@ export class ApiService implements HttpInterceptor {
     data.CURRENT_STATE = data.CURRENT_STATE.toString()
     data.PERMANENT_STATE = data.PERMANENT_STATE.toString()
     return this.httpClient.post(this.baseUrl + 'personalInformation/update', data, this.optionMain)
+  }
+
+  // Applicant guarantor
+
+  getAllGuarantor(key: any): Observable<any> {
+    let data = {
+      APPLICANT_ID: key
+    }
+    return this.httpClient.post(this.baseUrl + 'guardianInformation/get', data, this.optionMain)
+  }
+
+  updateGuarantor(data2: GuarantorInfo): Observable<any> {
+
+    let data = Object.assign({}, data2);
+    data.CURRENT_AREA = data.CURRENT_AREA.toString()
+    data.PERMANENT_AREA = data.PERMANENT_AREA.toString()
+    data.CURRENT_CITY = data.CURRENT_CITY.toString()
+    data.PERMANENT_CITY = data.PERMANENT_CITY.toString()
+    data.CURRENT_TALUKA = data.CURRENT_TALUKA.toString()
+    data.PERMANENT_TALUKA = data.PERMANENT_TALUKA.toString()
+    data.CURRENT_DISTRICT = data.CURRENT_DISTRICT.toString()
+    data.PERMANENT_DISTRICT = data.PERMANENT_DISTRICT.toString()
+    data.CURRENT_STATE = data.CURRENT_STATE.toString()
+    data.PERMANENT_STATE = data.PERMANENT_STATE.toString()
+    return this.httpClient.post(this.baseUrl + 'guardianInformation/update', data, this.optionMain)
   }
 
   // applicant Financial

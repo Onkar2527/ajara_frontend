@@ -62,10 +62,21 @@ export class PersonalComponent implements OnInit {
             this.basicInfo['applicants'] = applicants;
             applicants.forEach((applicant: any, index: number) => {
               const i = index + 1;
-              this.basicInfo[`APPLICANT${i}_FIRST_NAME`] = applicant.FIRST_NAME;
-              this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`] =
-                applicant.MIDDLE_NAME;
-              this.basicInfo[`APPLICANT${i}_LAST_NAME`] = applicant.LAST_NAME;
+              i == 1
+                ? (this.basicInfo[`PRIMARY_APPLICANT_FIRST_NAME`] =
+                    applicant.FIRST_NAME)
+                : (this.basicInfo[`APPLICANT${i}_FIRST_NAME`] =
+                    applicant.FIRST_NAME);
+              i == 1
+                ? (this.basicInfo[`PRIMARY_APPLICANT_MIDDLE_NAME`] =
+                    applicant.MIDDLE_NAME)
+                : (this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`] =
+                    applicant.MIDDLE_NAME);
+              i == 1
+                ? (this.basicInfo[`PRIMARY_APPLICANT_LAST_NAME`] =
+                    applicant.LAST_NAME)
+                : (this.basicInfo[`APPLICANT${i}_LAST_NAME`] =
+                    applicant.LAST_NAME);
               this.basicInfo[`AADHAAR_NO_${i}`] = applicant.AADHAAR_NO;
               this.basicInfo[`PAN_NUMBER${i > 1 ? i : ''}`] =
                 applicant.PAN_NUMBER;
@@ -100,9 +111,20 @@ export class PersonalComponent implements OnInit {
     for (let i = 1; i <= this.basicInfo.NO_OF_APPLICANT; i++) {
       const applicant = {
         APPLICANT_NO: i,
-        FIRST_NAME: this.basicInfo[`APPLICANT${i}_FIRST_NAME`],
-        MIDDLE_NAME: this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`],
-        LAST_NAME: this.basicInfo[`APPLICANT${i}_LAST_NAME`],
+        FIRST_NAME:
+          this.basicInfo[
+            i == 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : `APPLICANT${i}_FIRST_NAME`
+          ],
+        MIDDLE_NAME:
+          this.basicInfo[
+            i == 1
+              ? 'PRIMARY_APPLICANT_MIDDLE_NAME'
+              : `APPLICANT${i}_MIDDLE_NAME`
+          ],
+        LAST_NAME:
+          this.basicInfo[
+            i == 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : `APPLICANT${i}_LAST_NAME`
+          ],
         AADHAAR_NO: this.basicInfo[`AADHAAR_NO_${i}`],
         PAN_NUMBER: this.basicInfo[`PAN_NUMBER${i > 1 ? i : ''}`],
         CUSTOMER_ID: this.basicInfo[`CUSTOMER_ID_${i}`],

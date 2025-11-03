@@ -1,0 +1,120 @@
+<!-- <nz-divider>Extra Applicant</nz-divider> -->
+<nz-divider nzPlain nzText="Primary Applicant" nzVariant="solid"></nz-divider>
+
+
+
+<nz-table #applicantTable [nzBordered]="true" [nzData]="ApplicantData">
+    <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Name</th>
+            <th>Aadhaar</th>
+            <th>Mobile</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of applicantTable.data">
+            <td>
+                <a (click)="edit(data)"><span nz-icon nzType="edit" nzTheme="outline"></span></a>
+            </td>
+            <td>{{ data.FIRST_NAME }} {{data.MIDDLE_NAME}} {{ data.LAST_NAME }}</td>
+            <td>
+                <input [hiddenInput]="true" mask="XXXX XXXX 0000" style="border :none !important;font-weight: bold;text-align: center;" disabled [ngModel]="data.AADHAAR_NUMBER">
+            </td>
+            <td>{{ data.MOBILE_NUMBER }}</td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<!-- <nz-divider nzPlain nzText="Extra Applicant" nzVariant="solid"></nz-divider> -->
+
+
+
+
+<!-- <div nz-row>
+    <div nz-col nzSpan="6">
+        <input nz-input name="NAME" placeholder="Enter First Name" [(ngModel)]="personalInfo.NAME" />
+    </div>
+
+    <div nz-col nzSpan="6">
+        <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name" [(ngModel)]="personalInfo.ADDHAR" />
+    </div>
+
+    <div nz-col nzSpan="6">
+        <input nz-input name="MOTHERS_NAME" placeholder="Enter First Name" [(ngModel)]="personalInfo.MOBILE_NO" />
+    </div>
+
+    <div nz-col nzSpan="2"></div>
+
+    <div nz-col nzSpan="4">
+        <button nz-button nzType="primary">+Add</button>
+    </div>
+</div> -->
+
+
+
+<!-- 
+<nz-table #applicantTable [nzBordered]="true" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Name</th>
+            <th>Aadhaar</th>
+            <th>Mobile</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of dataList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.NAME }}</td>
+            <td>{{ data.AADHAR }}</td>
+            <td>{{ data.MOBILE_NO }}</td>
+        </tr>
+    </tbody>
+</nz-table> -->
+
+
+
+<ng-template #applicantTamplate>
+    <app-applicant-tabs [personalInfo]="personalInfo"></app-applicant-tabs>
+</ng-template>
+
+<nz-divider nzPlain nzText="Documents" nzVariant="solid"></nz-divider>
+
+<nz-table #documentTable [nzBordered]="true" [nzData]="documentList">
+    <thead>
+        <tr>
+            <th>Document Name</th>
+            <th>Document</th>
+            <th>Upload</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of documentTable.data">
+            <td>{{ data.DOCUMENT_NAME }}</td>
+            <td>
+                <a *ngIf="data.IMAGE_DATA" [href]="data.IMAGE_DATA" target="_blank">View</a>
+            </td>
+            <td>
+                <input type="file" (change)="onFileSelected($event, data)">
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<ng-template #footertpl>
+    <div style="float: right">
+        <button nz-button style="margin-right: 8px;" *ngIf="showPreviousButton" (click)="previous()">Previous</button>
+        <button nz-button nzType="primary" (click)="save()" [nzLoading]="saveButtonLoading">{{saveButtonTitle}}</button>
+    </div>
+</ng-template>
+
+<ng-template #noActionTamplate>
+    <div style="float:right">
+        <button nz-button style="margin-right: 8px;" *ngIf="showPreviousButton" (click)="previous()">Previous</button>
+        <button nz-button nzType="primary" (click)="next()" [nzLoading]="saveButtonLoading">
+      <span *ngIf="tabComp.selectedTab != 2">Next</span>
+      <span *ngIf="tabComp.selectedTab == 2">Close</span>
+    </button>
+    </div>
+</ng-template>

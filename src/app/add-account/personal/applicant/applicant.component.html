@@ -99,7 +99,7 @@
         <nz-input-group nzCompact>
           <input nz-input [(ngModel)]="aadhaarVerify.aadhar_history.AADHAAR_NUMBER" mask="XXXX XXXX 0000"
             [hiddenInput]="true" placeholder="Enter Aadhaar number" style="width: calc(100% - 90px);" maxlength="14"
-                        (ngModelChange)="showAadharNo($event)" />
+            (ngModelChange)="showAadharNo($event)" />
           <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton"
             [disabled]="!aadhaarVerify.aadhar_history.AADHAAR_NUMBER">Get OTP</button>
 
@@ -125,11 +125,13 @@
       <nz-form-item>
         <nz-form-label nzRequired>Issued Document Authority & Place of issue</nz-form-label>
         <nz-input-group nzCompact>
-          <input nz-input [(ngModel)]="basicInfo['DOCUMENTS_AUTHORITY_' + applicantNo]" style="width: 49%;"
-            placeholder="Authority" />
+          <input nz-input
+            [(ngModel)]="basicInfo[applicantNo == 1 ?'DOCUMENTS_AUTHORITY' :'DOCUMENTS_AUTHORITY_' + applicantNo]"
+            style="width: 49%;" placeholder="Authority" />
           <div style="width: 2%;"></div>
-          <input nz-input [(ngModel)]="basicInfo['DOCUMENTS_ISSUE_PLACE_' + applicantNo]" style="width: 49%;"
-            placeholder="Place" />
+          <input nz-input
+            [(ngModel)]="basicInfo[applicantNo == 1 ?'DOCUMENTS_ISSUE_PLACE' :'DOCUMENTS_ISSUE_PLACE_' + applicantNo]"
+            style="width: 49%;" placeholder="Place" />
         </nz-input-group>
       </nz-form-item>
 
@@ -202,8 +204,7 @@
           </div>
           <div nz-col [nzSpan]="19" class="aadhaar-info">
             <div class="aadhaar-number">
-              <input [hiddenInput]="true" mask="XXXX XXXX 0000" disabled
-                [ngModel]="aadhaarVerify.common.aadhaar_no">
+              <input [hiddenInput]="true" mask="XXXX XXXX 0000" disabled [ngModel]="aadhaarVerify.common.aadhaar_no">
             </div>
             <div class="info-grid">
               <div class="info-item">
@@ -285,6 +286,6 @@
       </div>
     </div>
 
-    
+
   </div>
 </div>
