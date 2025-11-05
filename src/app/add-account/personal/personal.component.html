@@ -1,7 +1,7 @@
 <div nz-row [nzGutter]="[16, 16]" class="main-row">
   <div nz-col>
     <div class="box manage-applicants-box">
-      <button nz-button nzType="primary" (click)="addApplicant()" class="add-applicant-btn">
+      <button nz-button nzType="primary" (click)="addApplicant()" class="add-applicant-btn" [disabled]="isGuardian && applicants.length >= 2">
         <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
         Add Applicant ({{applicants.length}})
       </button>
@@ -14,7 +14,7 @@
         <ng-template #headerTpl>
           <div class="applicant-header">
             <span nz-icon nzType="user" nzTheme="outline"></span>
-            Applicant {{ applicantNo }} Information
+            {{ isGuardian && i === 1 ? 'Guardian' : 'Applicant ' + applicantNo }} Information
           </div>
         </ng-template>
         <ng-template #removeTpl>
@@ -22,7 +22,7 @@
             <span nz-icon nzType="delete"></span>Remove
           </button>
         </ng-template>
-        <app-applicant [applicantNo]="applicantNo" [basicInfo]="basicInfo" [APPLICANT_ID]="APPLICANT_ID">
+        <app-applicant [applicantNo]="applicantNo" [basicInfo]="basicInfo" [APPLICANT_ID]="APPLICANT_ID" (isMinor)="handleIsMinor($event)">
         </app-applicant>
       </nz-collapse-panel>
     </nz-collapse>

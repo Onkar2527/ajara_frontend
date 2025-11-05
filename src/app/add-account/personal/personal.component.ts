@@ -12,9 +12,11 @@ import { ApiService } from 'src/app/service/api.service';
 export class PersonalComponent implements OnInit {
   @Input() basicInfo: BasicInfo = new BasicInfo();
   @Input() APPLICANT_ID!: number;
+  isMinor: boolean = false;
 
   applicants: number[] = [];
   noApplicantSize: number = 6;
+  isGuardian: boolean = false;
 
   constructor(
     private api: ApiService,
@@ -37,11 +39,37 @@ export class PersonalComponent implements OnInit {
   }
 
   addApplicant() {
+    if (this.isGuardian && this.applicants.length >= 2) {
+      this.message.error('Cannot add more than one guardian.', '');
+      return;
+    }
     this.basicInfo.NO_OF_APPLICANT++;
     this.updateApplicants();
   }
 
+  addGuardian() {
+    if (this.applicants.length < this.noApplicantSize) {
+      this.isGuardian = true;
+      this.addApplicant();
+    }
+  }
+
+  removeGuardian() {
+    this.isGuardian = false;
+  }
+
+  handleIsMinor(isMinor: boolean) {
+    if (isMinor) {
+      this.addGuardian();
+    } else {
+      this.removeGuardian();
+    }
+  }
+
   removeApplicant(applicantNo: number) {
+    if (this.isGuardian && applicantNo === 2) {
+      this.isGuardian = false;
+    }
     this.applicants.splice(this.applicants.indexOf(applicantNo), 1);
     this.basicInfo.NO_OF_APPLICANT--;
     // Clean up data for the removed applicant

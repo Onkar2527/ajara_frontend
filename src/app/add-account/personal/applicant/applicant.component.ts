@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, lastValueFrom } from 'rxjs';
 import {
@@ -20,6 +20,7 @@ export class ApplicantComponent implements OnInit {
   @Input() applicantNo!: number;
   @Input() basicInfo: BasicInfo = new BasicInfo();
   @Input() APPLICANT_ID!: number;
+  @Output() isMinor = new EventEmitter<boolean>();
 
   aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
   loadAadhaarButton = false;
@@ -333,6 +334,11 @@ export class ApplicantComponent implements OnInit {
       let currentDate = new Date();
       let currentYear = currentDate.getFullYear();
       this.basicInfo[age_key] = currentYear - year;
+      if (this.basicInfo[age_key] < 18 && this.applicantNo === 1) {
+        this.isMinor.emit(true);
+      } else if (this.basicInfo[age_key] >= 18 && this.applicantNo === 1) {
+        this.isMinor.emit(false);
+      }
     } else {
       this.basicInfo[age_key] = 0;
     }

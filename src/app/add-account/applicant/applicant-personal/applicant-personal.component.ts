@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, lastValueFrom } from 'rxjs';
 import { Aadhaar } from 'src/app/models/aadhaar';
@@ -12,6 +12,7 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class ApplicantPersonalComponent implements OnInit, OnChanges {
   @Input() personalInfo!: PersonalInfo;
+  @Output() isMinor = new EventEmitter<boolean>();
   constructor(private api: ApiService, private message: NzNotificationService) { }
 
   loadOtpButton: boolean = false;
@@ -32,6 +33,10 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       this.getAddressDropDowns();
       this.getAadhaarData();
     }
+  }
+
+  onMinorChange(isMinor: boolean) {
+    this.isMinor.emit(isMinor);
   }
 
   //masters 

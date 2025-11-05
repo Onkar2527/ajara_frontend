@@ -111,7 +111,7 @@
                             <p>Is applicant minor?
                                 <span>
                                     <nz-switch [(ngModel)]="personalInfo.IS_MINOR" nzCheckedChildren="Yes"
-                                        nzUnCheckedChildren="No">
+                                        nzUnCheckedChildren="No" (ngModelChange)="onMinorChange($event)">
                                     </nz-switch>
                                 </span>
                             </p>
