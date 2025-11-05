@@ -125,6 +125,10 @@ export class PersonalComponent implements OnInit {
           this.basicInfo.IS_AADHAAR_DBT = this.basicInfo.IS_AADHAAR_DBT
             ? true
             : false;
+          if (this.basicInfo['AGE_1'] < 18) {
+            this.isMinor = true;
+            this.isGuardian = true;
+          }
           this.updateApplicants();
         }
       },
