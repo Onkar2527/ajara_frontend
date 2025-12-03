@@ -66,6 +66,7 @@ export class ApplicantComponent implements OnInit {
   }
 
   async getOtp() {
+    this.loadOtpButton = true;
     if ((await this.checkBalance(1)) == 0) {
       return;
     }
@@ -74,7 +75,6 @@ export class ApplicantComponent implements OnInit {
       return;
     }
 
-    this.loadOtpButton = true;
     let otpData = this.aadhaarVerify.getOTP();
     otpData.subscribe({
       next: (res) => {
