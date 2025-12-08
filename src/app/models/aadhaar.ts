@@ -415,10 +415,10 @@ export class Aadhaar {
   }
 
   private getGender(genderCode: string): string {
-    if (genderCode == 'M') {
+    if (genderCode == 'MALE') {
       return 'Male';
     }
-    else if (genderCode == 'F') {
+    else if (genderCode == 'FEMALE') {
       return 'Female'
     }
     else {
