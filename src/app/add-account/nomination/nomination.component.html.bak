@@ -1,0 +1,110 @@
+<div nz-row>
+    <div nz-col nzSpan="11">
+        <nz-collapse nzAccordion class="ant-collapse-custom">
+            <nz-collapse-panel [nzHeader]="headerTpl" [nzActive]="true">
+                <ng-template #headerTpl>
+                    <div class="applicant-header">
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Nomination Details
+                    </div>
+                </ng-template>
+                <div class="box">
+                    <div nz-row>
+                        <div nz-col nzSpan="24">
+                            <p>Is Nominee minor?<span><nz-switch [(ngModel)]="nomineeInfo.IS_MINOR"
+                                        nzCheckedChildren="Yes" nzUnCheckedChildren="No"></nz-switch></span></p>
+                        </div>
+
+                        <nz-form-item nz-col nzSpan="12">
+                            <nz-form-label nzRequired [nzNoColon]="true">Nominee's DOB</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB" mask="d0/M0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false" (ngModelChange)="calculateAge()" />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <div nz-col nzSpan="1"></div>
+
+                        <nz-form-item nz-col nzSpan="11">
+                            <nz-form-label nzNoColon>Nominee's Age</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input name="NOMINEE_AGE" type="text" style="width: 100%;" [(ngModel)]="nomineeInfo.NOMINEE_AGE" disabled />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label nzRequired [nzNoColon]="true">Name of Nominee</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input name="nominee" [(ngModel)]="nomineeInfo.NOMINEE_NAME" placeholder="Enter Name of Nominee" />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label nzRequired [nzNoColon]="true">Relationship with Applicant</nz-form-label>
+                            <nz-form-control>
+                                <nz-select nzShowSearch [(ngModel)]="nomineeInfo.RELATION" style="width: 100%;">
+                                    <nz-option *ngFor="let option of optionList" [nzValue]="option.value" [nzLabel]="option.label">
+                                    </nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="24" *ngIf="nomineeInfo.RELATION == 'V'">
+
+                            <nz-form-label [nzNoColon]="true">
+                                Specify Relationship
+                            </nz-form-label>
+
+                            <nz-form-control>
+                                <input nz-input placeholder="Enter relationship" [(ngModel)]="nomineeInfo.OTHER_RELATION">
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label nzRequired [nzNoColon]="true">Address of Nominee</nz-form-label>
+                            <nz-form-control>
+                                <div nz-row>
+                                    <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.NOMINEE_ADDRESS"></textarea>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+    <div nz-col nzSpan="1">
+    </div>
+    <div nz-col nzSpan="12" *ngIf="nomineeInfo.IS_MINOR">
+
+        <nz-collapse nzAccordion class="ant-collapse-custom">
+            <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
+                <ng-template #headerTpl1>
+                    <div class="applicant-header">
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Appointed Person for Minor
+                    </div>
+                </ng-template>
+                <div class="box">
+                    <div nz-row>
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label nzRequired [nzNoColon]="true">Name of Appointed Person</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input name="appointed" [(ngModel)]="nomineeInfo.APONITED_NAME" placeholder="Enter Name of Appointed Person" />
+                            </nz-form-control>
+                        </nz-form-item>
+
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-label nzRequired [nzNoColon]="true">Address of Appointed Person</nz-form-label>
+                            <nz-form-control>
+                                <div nz-row>
+                                    <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.APONITED_ADDRESS"></textarea>
+                                </div>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+
+    </div>
+
+
+</div>

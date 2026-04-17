@@ -5,8 +5,7 @@
             <nz-collapse-panel [nzHeader]="headerTpl" [nzActive]="true">
                 <ng-template #headerTpl>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Account Details
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Account Details
                     </div>
                 </ng-template>
                 <div class="box">
@@ -23,7 +22,7 @@
                                     <nz-option [nzValue]="'E'" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
                                     <nz-option [nzValue]="'F'" nzLabel="Recurring Deposit"></nz-option>
                                     <nz-option [nzValue]="'G'" nzLabel="Pigmy Deposit"></nz-option>
-                                    <nz-option [nzValue]="'H'" nzLabel="Other"></nz-option>
+                                    <!-- <nz-option [nzValue]="'H'" nzLabel="Other"></nz-option> -->
                                 </nz-select>
 
                             </nz-form-control>
@@ -38,6 +37,50 @@
                                 </nz-select>
                             </nz-form-control>
                         </nz-form-item>
+
+                        <!-- <nz-form-item nz-col nzSpan="24">
+                            <nz-form-control>
+                                <nz-form-label nzRequired [nzNoColon]="true">Scheme Code</nz-form-label>
+                                <nz-select [(ngModel)]="depositInfo.SCHEME_CODE_NEW" (ngModelChange)="changeCatagory()">
+                                    <nz-option *ngFor="let scheme of schemes" [nzValue]="scheme.SMP_CODE" [nzLabel]="scheme.SMP_CODE"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item> -->
+
+                        <nz-form-item nz-col nzSpan="24">
+                            <nz-form-control>
+                                <nz-form-label nzRequired [nzNoColon]="true">
+                                    Scheme Code
+                                </nz-form-label>
+
+                                <input nz-input [value]="depositInfo.SCHEME_CODE" disabled />
+
+                            </nz-form-control>
+                        </nz-form-item>
+
+
+                        <nz-form-item nz-col nzSpan="24"
+                            *ngIf="depositInfo.ACCOUNT_TYPE =='A' || depositInfo.ACCOUNT_TYPE =='C'">
+
+                            <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
+                            <nz-input-group nzAddOnAfter="% p.a.">
+                                <input nz-input name="RATE_OF_INTEREST_SAVING" [value]="getSavingInterestDisplay()"
+                                    readonly />
+                            </nz-input-group>
+                        </nz-form-item>
+
+                        <!-- <nz-form-item nz-col nzSpan="24">
+                            <nz-form-control>
+                                <nz-form-label [nzNoColon]="true">
+                                    Selected Scheme Code
+                                </nz-form-label>
+
+                                <input nz-input [value]="selectedSchemeCode" readonly />
+                            </nz-form-control>
+                        </nz-form-item> -->
+
+                        <!-- <input nz-input [(ngModel)]="depositInfo.SCHEME_CODE_NEW" readonly /> -->
+
 
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-control>
@@ -69,8 +112,7 @@
             <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
                 <ng-template #headerTpl1>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Initial Payment Details
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Initial Payment Details
                     </div>
                 </ng-template>
                 <div class="box">
@@ -87,6 +129,16 @@
 
                         </nz-form-control>
 
+                    </nz-form-item>
+
+                    <nz-form-item nz-col nzSpan="24">
+                        <nz-form-control>
+                            <nz-form-label nzRequired [nzNoColon]="true">Minimum Balance Category</nz-form-label>
+                            <nz-select [(ngModel)]="depositInfo.MINIMUM_BALANCE_CATEGORY">
+                                <nz-option *ngFor="let option of MASTERS[3].data" [nzValue]="option.MINBALCTG"
+                                    [nzLabel]="option.MINBALCTG_DESCR"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
                     </nz-form-item>
 
 
@@ -203,8 +255,7 @@
             <nz-collapse-panel [nzHeader]="headerTpl2" [nzActive]="true">
                 <ng-template #headerTpl2>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Deposit Details
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Deposit Details
                     </div>
                 </ng-template>
                 <div class="box">
@@ -237,8 +288,7 @@
 
                         <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
                         <nz-input-group nzAddOnAfter="% p.a.">
-                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST"
-                                placeholder="Enter Rate of Interest" />
+                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST" />
                         </nz-input-group>
                     </nz-form-item>
 
@@ -320,8 +370,7 @@
             <nz-collapse-panel [nzHeader]="headerTpl3" [nzActive]="true">
                 <ng-template #headerTpl3>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Bank Details
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Bank Details
                     </div>
                 </ng-template>
                 <div class="box">

@@ -82,6 +82,8 @@ import { OvdHitsComponent } from './admin-panel/dashboard-modules/ovd-hits/ovd-h
 import { PasswordManagerComponent } from './admin-panel/password-manager/password-manager.component';
 import { PasswordChangeComponent } from './login/password-change/password-change.component';
 import { PasswordPolicyManagerComponent } from './admin-panel/password-manager/password-policy-manager/password-policy-manager.component';
+import { ReportComponent } from './admin-panel/report/report.component';
+import { MainReportComponent } from './admin-panel/report/main-report/main-report.component';
 
 export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
@@ -120,7 +122,9 @@ registerLocaleData(en);
     OvdHitsComponent,
     PasswordManagerComponent,
     PasswordChangeComponent,
-    PasswordPolicyManagerComponent
+    PasswordPolicyManagerComponent,
+    ReportComponent,
+    MainReportComponent
   ],
   imports: [
     //System Imports

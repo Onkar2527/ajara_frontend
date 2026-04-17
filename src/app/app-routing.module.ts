@@ -6,6 +6,7 @@ import { MastersComponent } from './admin-panel/masters/masters.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PasswordManagerComponent } from './admin-panel/password-manager/password-manager.component';
 import { PasswordChangeComponent } from './login/password-change/password-change.component';
+import { ReportComponent } from './admin-panel/report/report.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'password-manager', component: PasswordManagerComponent },
   { path: "reset-password", component: PasswordChangeComponent },
+  { path: "report", component: ReportComponent },
 ];
 
 @NgModule({

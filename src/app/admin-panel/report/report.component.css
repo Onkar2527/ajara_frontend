@@ -1,0 +1,77 @@
+/* Card look */
+
+.card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Table base */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+
+/* Table header */
+
+.table thead tr {
+    background-color: #f2f4f7;
+}
+
+.table thead th {
+    padding: 10px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #d9d9d9;
+}
+
+
+/* Table body */
+
+.table tbody td {
+    padding: 8px 10px;
+    border: 1px solid #d9d9d9;
+    vertical-align: middle;
+}
+
+
+/* Sr No center */
+
+.table tbody td:first-child {
+    text-align: center;
+    width: 80px;
+}
+
+
+/* Hover effect */
+
+.table tbody tr:hover {
+    background-color: #f9fbfd;
+}
+
+
+/* Report link */
+
+.table a {
+    color: #1677ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+
+/* No data row */
+
+.text-center {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+}

@@ -1,0 +1,66 @@
+<div class="card">
+    <h3>Manage Report</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let rpt of reportList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ rpt.REPORT_NAME }}</td>
+                <td>
+                    <!-- <a class="text-primary"
+             style="cursor: pointer"
+             (click)="openReport(rpt)">
+            Report
+          </a> -->
+                    <a style="cursor:pointer" (click)="openReport(rpt)">
+                        Report
+                    </a>
+                </td>
+            </tr>
+
+            <tr *ngIf="reportList.length === 0 && !loading">
+                <td colspan="3" class="text-center">
+                    No Reports Found
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<nz-drawer [nzTitle]="selectedReport?.REPORT_NAME || 'Report View'" [nzVisible]="isDrawerVisible" nzPlacement="right" [nzWidth]="1200" (nzOnClose)="closeDrawer()">
+
+    <ng-container *nzDrawerContent>
+        <!-- DEBUG INFO (Delete later if needed) -->
+        <!-- <div style="color:red; margin-bottom: 20px;">
+           Active Report Name: {{ selectedReport?.REPORT_NAME }}
+        </div> -->
+
+        <!-- Stage Wise Report -->
+        <app-main-report [reportId]="selectedReportId" *ngIf="selectedReportId && (selectedReport?.REPORT_NAME === 'Stage Wise Report' || selectedReport?.REPORT_NAME === 'Main Repoart')">
+        </app-main-report>
+
+        <!-- Aadhaar PAN Report / KYC Status -->
+        <!-- <app-kyc-status [reportId]="selectedReportId"
+            *ngIf="selectedReportId && (selectedReport?.REPORT_NAME === 'KYC Status Report' || selectedReport?.REPORT_NAME === 'KYC Status Repoart' || selectedReport?.REPORT_NAME === 'Aadhaar PAN Report')">
+        </app-kyc-status> -->
+
+        <!-- Stage Wise Branch Performance -->
+        <!-- <app-stagewise-branch-performance [reportId]="selectedReportId"
+            *ngIf="selectedReportId && (selectedReport?.REPORT_NAME === 'Stage Wise Branch Performance Report' || selectedReport?.REPORT_NAME === 'Stage Wise Branch Performance Repoart')">
+        </app-stagewise-branch-performance> -->
+
+        <!-- Document Verification Charges -->
+        <!-- <app-document-verification-charges [reportId]="selectedReportId"
+            *ngIf="selectedReportId && (selectedReport?.REPORT_NAME === 'document verification per hit charges' || selectedReport?.REPORT_NAME === 'document verification per hit charges')">
+        </app-document-verification-charges> -->
+    </ng-container>
+
+</nz-drawer>

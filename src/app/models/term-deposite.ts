@@ -3,20 +3,21 @@ export class TermDeposite {
     APPLICANT_ID?: number;
 
     ACCOUNT_TYPE: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" = "A";
-    ACCOUNT_OPERATION :string = '';
+    ACCOUNT_OPERATION: string = '';
 
     INITIAL_AMOUNT!: number;
     MODE_OF_PAYMENT: string = 'C';
     TRANSFER_ACCOUNT_NO: string = '';
     CHAQUE_NO: string = '';
     // DRAWN_BANK: string = '';
-    CHEQUE_BANK_NAME:string = ''
-    CHEQUE_BRANCH_NAME:string = ''
+    CHEQUE_BANK_NAME: string = ''
+    CHEQUE_BRANCH_NAME: string = ''
     TRANSFER_DATE: string = '';
 
     DEPOSIT_AMOUNT?: number;
     DEPOSIT_FREQUANCY: string = 'O';
     RATE_OF_INTEREST?: number;
+    RATE_OF_INTEREST_SAVING: number = 2.50;
     TANURE_YEARS?: number;
     TANURE_MONTHS?: number;
     TANURE_DAYS?: number;
@@ -34,6 +35,9 @@ export class TermDeposite {
     MATURITY_DATE?: string
     MATURITY_AMOUNT?: string
 
-    PAYMENT_INSTRUCTION:string = '';
-    SCHEME_CODE:string = '';
+    PAYMENT_INSTRUCTION: string = '';
+    SCHEME_CODE: string = '';
+
+    MINIMUM_BALANCE_CATEGORY: string = "A";
+    SCHEME_CODE_NEW: string = '';
 }

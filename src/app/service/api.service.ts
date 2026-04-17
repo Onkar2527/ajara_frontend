@@ -79,7 +79,7 @@ export class ApiService implements HttpInterceptor {
     );
   }
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   httpHeaders = new HttpHeaders();
   options = {
@@ -142,9 +142,9 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'http://localhost:8079/api/';
   // baseUrl server
 
-  // baseUrl = 'http://fcoprodevbackend.kredpool.in/api/'; //.in
+  baseUrl = 'http://fcoprodevbackend.kredpool.in/api/'; //.in
 
-  baseUrl = 'http://localhost:8672/api/' // local
+  // baseUrl = 'http://localhost:8672/api/' // local
 
   // baseUrl = 'http://172.16.99.23:8672/api/' // UAT server
 
@@ -229,6 +229,26 @@ export class ApiService implements HttpInterceptor {
     );
   }
 
+  getInterestRateForSaving(
+    bankCode: string,
+    branchCode: string,
+    schemeCode: string,
+    date: string,
+    staff: string
+  ): Observable<any> {
+    let params = {
+      bankCode: bankCode,
+      branchCode: branchCode,
+      schemeCode: schemeCode,
+      date: date,
+      staff: staff,
+    };
+    return this.httpClient.get(
+      this.baseUrl + 'list_api/getInterestRateForSaving',
+      Object.assign({}, this.optionMain, { params: params })
+    );
+  }
+
   //services
   addService(data: Facilities): Observable<any> {
     return this.httpClient.post(
@@ -284,6 +304,15 @@ export class ApiService implements HttpInterceptor {
       this.optionMain
     );
   }
+
+  deleteNominee(data: any): Observable<any> {
+    return this.httpClient.post(
+      this.baseUrl + 'nomineeDetails/delete',
+      data,
+      this.optionMain
+    );
+  }
+
 
   // Applicant personal
 
@@ -1266,6 +1295,29 @@ export class ApiService implements HttpInterceptor {
       this.baseUrl + 'user/resetPassword',
       data,
       this.optionMain
+    );
+  }
+
+
+  getAllReports() {
+    let data = {}; // body empty आहे कारण list फक्त fetch करायची आहे
+
+    return this.httpClient.post<any>(
+      this.baseUrl + "report/getAllReports",
+      data,
+      this.optionMain,
+    );
+  }
+
+
+  getStageWiseReport(reportId?: number | null) {
+    let data = {
+      REPORT_ID: reportId
+    };
+    return this.httpClient.post<any>(
+      this.baseUrl + "report/getStageWiseReport",
+      data,
+      this.optionMain,
     );
   }
 }

@@ -33,7 +33,7 @@ export class ApplicantComponent implements OnInit {
   constructor(
     private api: ApiService,
     private message: NzNotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getMasters();
@@ -147,7 +147,7 @@ export class ApplicantComponent implements OnInit {
 
   async verifyPan() {
     if ((await this.checkBalance(2)) == 0) return;
-    if (!(await this.searchPAN())) return;
+    // if (!(await this.searchPAN())) return;
 
     this.loadPanButton = true;
     let panverify = this.aadhaarVerify.verifyPan();
@@ -189,7 +189,7 @@ export class ApplicantComponent implements OnInit {
   getPanHistory() {
     let pan_no =
       this.basicInfo[
-        'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
+      'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
       ];
     if (!pan_no) return;
 
@@ -376,25 +376,55 @@ export class ApplicantComponent implements OnInit {
     return true;
   }
 
+  // private handleSearchResponse(res: any): boolean {
+  //   if (res['code'] == 200) {
+  //     const searchData = res['data'];
+  //     if (searchData.ALREADY_EXIST == 'Y') {
+  //       this.message.error(
+  //         'This Customer Already Has An Individual Account.',
+  //         ''
+  //       );
+  //       return false;
+  //     } else {
+  //       this.populateFieldsFromSearch(searchData);
+  //     }
+  //   } else if (res['code'] == 404) {
+  //     this.message.error('No Customer Found.', '');
+  //   } else {
+  //     this.message.error('Something Went Wrong', '');
+  //   }
+  //   return true;
+  // }
+
   private handleSearchResponse(res: any): boolean {
-    if (res['code'] == 200) {
-      const searchData = res['data'];
-      if (searchData.ALREADY_EXIST == 'Y') {
-        this.message.error(
-          'This Customer Already Has An Individual Account.',
+    if (res?.code === 200) {
+      const searchData = res.data;
+
+      if (searchData.ALREADY_EXIST === 'Y') {
+        this.message.warning(
+          'Customer already exists. You can proceed for verification.',
           ''
         );
-        return false;
-      } else {
+
+        // ✅ Still allow verification
         this.populateFieldsFromSearch(searchData);
+        return true;
       }
-    } else if (res['code'] == 404) {
-      this.message.error('No Customer Found.', '');
-    } else {
-      this.message.error('Something Went Wrong', '');
+
+      // ✅ New customer
+      this.populateFieldsFromSearch(searchData);
+      return true;
     }
-    return true;
+
+    if (res?.code === 404) {
+      this.message.error('No Customer Found.', '');
+      return false;
+    }
+
+    this.message.error('Something Went Wrong', '');
+    return false;
   }
+
 
   private populateFieldsFromSearch(data: any) {
     this.basicInfo['CUSTOMER_ID_' + this.applicantNo] = data.CUSTOMERID;

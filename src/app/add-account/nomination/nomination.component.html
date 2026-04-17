@@ -1,26 +1,60 @@
-<div nz-row>
+<div nz-row style="margin-bottom: 20px;">
+    <div nz-col nzSpan="24">
+        <div class="box"
+            style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #fafafa; border: 1px solid #e8e8e8; border-radius: 4px;">
+            <div>
+                <span style="margin-right: 15px; font-weight: bold;">Nomination Type:</span>
+                <nz-radio-group [(ngModel)]="nominationType">
+                    <label nz-radio nzValue="Simultaneous">Simultaneous</label>
+                    <label nz-radio nzValue="Successive">Successive</label>
+                </nz-radio-group>
+            </div>
+            <button nz-button nzType="primary" (click)="addNominee()" [disabled]="nominees.length >= 4">
+                <span nz-icon nzType="plus"></span> Add Nominee
+            </button>
+        </div>
+    </div>
+</div>
+
+<div *ngFor="let nm of nominees; let i = index" nz-row
+    style="margin-bottom: 30px; border: 1px dashed #d9d9d9; padding: 20px; border-radius: 8px; background: #fff;">
+    <div nz-col nzSpan="24"
+        style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
+        <h3 style="margin: 0; color: #1890ff;">Nominee {{i + 1}}</h3>
+        <button nz-button nzType="link" nzDanger (click)="removeNominee(i)" *ngIf="nominees.length > 1">
+            <span nz-icon nzType="delete"></span> Remove
+        </button>
+    </div>
+
     <div nz-col nzSpan="11">
         <nz-collapse nzAccordion class="ant-collapse-custom">
             <nz-collapse-panel [nzHeader]="headerTpl" [nzActive]="true">
                 <ng-template #headerTpl>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Nomination Details
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Nominee {{i + 1}} Details
                     </div>
                 </ng-template>
                 <div class="box">
                     <div nz-row>
-                        <div nz-col nzSpan="24">
-                            <p>Is Nominee minor?<span><nz-switch [(ngModel)]="nomineeInfo.IS_MINOR"
+                        <div nz-col nzSpan="24" style="margin-bottom: 15px;">
+                            <p style="margin: 0;">Is Nominee minor? <span><nz-switch [(ngModel)]="nm.IS_MINOR"
                                         nzCheckedChildren="Yes" nzUnCheckedChildren="No"></nz-switch></span></p>
                         </div>
+
+                        <nz-form-item nz-col nzSpan="24" *ngIf="nominationType == 'Simultaneous'">
+                            <nz-form-label nzRequired [nzNoColon]="true">Share Percentage (%)</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input type="number" name="share_{{i}}" [(ngModel)]="nm.SHARE_PERCENTAGE"
+                                    placeholder="Enter share percentage" />
+                            </nz-form-control>
+                        </nz-form-item>
 
                         <nz-form-item nz-col nzSpan="12">
                             <nz-form-label nzRequired [nzNoColon]="true">Nominee's DOB</nz-form-label>
                             <nz-form-control>
-                                <input nz-input name="DOB" placeholder="dd/mm/yyyy" [(ngModel)]="nomineeInfo.DOB"
+                                <input nz-input name="DOB_{{i}}" placeholder="dd/mm/yyyy" [(ngModel)]="nm.DOB"
                                     mask="d0/M0/0000" [leadZeroDateTime]="true" [dropSpecialCharacters]="false"
-                                    (ngModelChange)="calculateAge()" />
+                                    (ngModelChange)="calculateAge(i)" />
                             </nz-form-control>
                         </nz-form-item>
 
@@ -29,15 +63,15 @@
                         <nz-form-item nz-col nzSpan="11">
                             <nz-form-label nzNoColon>Nominee's Age</nz-form-label>
                             <nz-form-control>
-                                <input nz-input name="NOMINEE_AGE" type="text" style="width: 100%;"
-                                    [(ngModel)]="nomineeInfo.NOMINEE_AGE" disabled />
+                                <input nz-input name="NOMINEE_AGE_{{i}}" type="text" style="width: 100%;"
+                                    [(ngModel)]="nm.NOMINEE_AGE" disabled />
                             </nz-form-control>
                         </nz-form-item>
 
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-label nzRequired [nzNoColon]="true">Name of Nominee</nz-form-label>
                             <nz-form-control>
-                                <input nz-input name="nominee" [(ngModel)]="nomineeInfo.NOMINEE_NAME"
+                                <input nz-input name="nominee_name_{{i}}" [(ngModel)]="nm.NOMINEE_NAME"
                                     placeholder="Enter Name of Nominee" />
                             </nz-form-control>
                         </nz-form-item>
@@ -45,7 +79,7 @@
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-label nzRequired [nzNoColon]="true">Relationship with Applicant</nz-form-label>
                             <nz-form-control>
-                                <nz-select nzShowSearch [(ngModel)]="nomineeInfo.RELATION" style="width: 100%;">
+                                <nz-select nzShowSearch [(ngModel)]="nm.RELATION" style="width: 100%;">
                                     <nz-option *ngFor="let option of optionList" [nzValue]="option.value"
                                         [nzLabel]="option.label">
                                     </nz-option>
@@ -53,12 +87,19 @@
                             </nz-form-control>
                         </nz-form-item>
 
+                        <nz-form-item nz-col nzSpan="24" *ngIf="nm.RELATION == 'V'">
+                            <nz-form-label [nzNoColon]="true">Specify Relationship</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input name="other_rel_{{i}}" placeholder="Enter relationship"
+                                    [(ngModel)]="nm.OTHER_RELATION">
+                            </nz-form-control>
+                        </nz-form-item>
+
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-label nzRequired [nzNoColon]="true">Address of Nominee</nz-form-label>
                             <nz-form-control>
-                                <div nz-row>
-                                    <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.NOMINEE_ADDRESS"></textarea>
-                                </div>
+                                <textarea rows="2" nz-input name="address_{{i}}"
+                                    [(ngModel)]="nm.NOMINEE_ADDRESS"></textarea>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
@@ -66,16 +107,16 @@
             </nz-collapse-panel>
         </nz-collapse>
     </div>
-    <div nz-col nzSpan="1">
-    </div>
-    <div nz-col nzSpan="12" *ngIf="nomineeInfo.IS_MINOR">
 
+    <div nz-col nzSpan="1"></div>
+
+    <div nz-col nzSpan="12" *ngIf="nm.IS_MINOR">
         <nz-collapse nzAccordion class="ant-collapse-custom">
             <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
                 <ng-template #headerTpl1>
                     <div class="applicant-header">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                        Appointed Person for Minor
+                        <span nz-icon nzType="user" nzTheme="outline"></span> Appointed Person for Minor (Nominee
+                        {{i+1}})
                     </div>
                 </ng-template>
                 <div class="box">
@@ -83,7 +124,7 @@
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-label nzRequired [nzNoColon]="true">Name of Appointed Person</nz-form-label>
                             <nz-form-control>
-                                <input nz-input name="appointed" [(ngModel)]="nomineeInfo.APONITED_NAME"
+                                <input nz-input name="appointed_{{i}}" [(ngModel)]="nm.APONITED_NAME"
                                     placeholder="Enter Name of Appointed Person" />
                             </nz-form-control>
                         </nz-form-item>
@@ -91,17 +132,13 @@
                         <nz-form-item nz-col nzSpan="24">
                             <nz-form-label nzRequired [nzNoColon]="true">Address of Appointed Person</nz-form-label>
                             <nz-form-control>
-                                <div nz-row>
-                                    <textarea rows="2" nz-input [(ngModel)]="nomineeInfo.APONITED_ADDRESS"></textarea>
-                                </div>
+                                <textarea rows="2" nz-input name="appointed_address_{{i}}"
+                                    [(ngModel)]="nm.APONITED_ADDRESS"></textarea>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                 </div>
             </nz-collapse-panel>
         </nz-collapse>
-
     </div>
-
-
 </div>

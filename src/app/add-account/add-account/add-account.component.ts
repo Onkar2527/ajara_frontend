@@ -490,7 +490,6 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if (this.selectedIndex == 2) {
-      this.nomineeComp.nomineeInfo.APPLICANT_ID = this.APPLICANT_ID;
       let nominee = this.nomineeComp.save();
       nominee.subscribe({
         next: (res) => {
@@ -632,7 +631,6 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       })
     }
     else if (this.selectedIndex == 2) {
-      this.nomineeComp.nomineeInfo.APPLICANT_ID = this.APPLICANT_ID;
       let nominee = this.nomineeComp.save();
       nominee.subscribe({
         next: (res) => {
@@ -784,7 +782,6 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     }
     else if (this.selectedIndex == 2) {
-      this.nomineeComp.nomineeInfo.APPLICANT_ID = this.APPLICANT_ID;
       this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
       this.serviceComp.getServiceInfo();
       this.Tabs[2].disabled = true;

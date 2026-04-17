@@ -15,7 +15,7 @@ export class DepositComponent implements OnInit {
   constructor(
     private api: ApiService,
     private message: NzNotificationService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getMasters();
   }
@@ -69,13 +69,26 @@ export class DepositComponent implements OnInit {
     this.getAccountCatA();
     this.getAccountCatB();
     this.changeScheme();
+    this.depositInfo.SCHEME_CODE_NEW = this.depositInfo.SCHEME_CODE;
+
   }
 
   MASTERS = [
     { id: 18, data: <any>[], name: 'scheme' },
     { id: 21, data: <any>[], name: 'operation' },
     { id: 22, data: <any>[], name: 'payment instruction' },
+    { id: 23, data: <any>[], name: 'minimum balance category' },
   ];
+
+  selectedSchemeCode: string = '';
+
+  // changeCategory() {
+  //   this.selectedSchemeCode = this.depositInfo.SCHEME_CODE;
+  // }
+
+  changeCategory() {
+    this.depositInfo.SCHEME_CODE_NEW = this.depositInfo.SCHEME_CODE;
+  }
 
   schemeMaster = <any>[];
 
@@ -98,6 +111,44 @@ export class DepositComponent implements OnInit {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'SB'
       );
+      // Fetch Interest Rate from CBS based on selected Scheme Code
+      if (this.depositInfo.SCHEME_CODE) {
+        let bankCode = sessionStorage.getItem('BANK_CODE') || '1';
+        let branchCode = sessionStorage.getItem('BRANCH_ID') || '1';
+        let staff = sessionStorage.getItem('USER_ID') || '';
+
+        // Date format converted to dd-mm-yyyy for CBS compatibility
+        const today = new Date();
+        const date = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
+
+        console.log(`Fetching interest interest rate for Scheme: ${this.depositInfo.SCHEME_CODE}, Date: ${date}`);
+
+        this.api
+          .getInterestRateForSaving(
+            bankCode,
+            branchCode,
+            this.depositInfo.SCHEME_CODE,
+            date,
+            staff
+          )
+          .subscribe((res) => {
+            if (res['code'] == 200 && res['data']) {
+              // Handle both array and object response structure from CBS
+              const responseData = Array.isArray(res['data']) ? res['data'][0] : res['data'];
+              if (responseData && responseData.RATE) {
+                this.depositInfo.RATE_OF_INTEREST_SAVING = responseData.RATE;
+                console.log("Updated Interest Rate from CBS:", responseData.RATE);
+              } else {
+                console.warn("Interest rate field not found in API response", res['data']);
+              }
+            } else {
+              console.error("Failed to fetch interest rate from API", res);
+            }
+          });
+      } else {
+        // Reset to default if no scheme selected
+        this.depositInfo.RATE_OF_INTEREST_SAVING = 2.50;
+      }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'C') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'CA'
@@ -231,8 +282,15 @@ export class DepositComponent implements OnInit {
         } else {
         }
       },
-      error: (err) => {},
-      complete: () => {},
+      error: (err) => { },
+      complete: () => { },
     });
   }
+
+  getSavingInterestDisplay(): string {
+    return this.depositInfo.RATE_OF_INTEREST_SAVING
+      ? Number(this.depositInfo.RATE_OF_INTEREST_SAVING).toFixed(2)
+      : '2.50';
+  }
 }
+

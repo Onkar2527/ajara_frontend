@@ -21,7 +21,7 @@ export class PersonalComponent implements OnInit {
   constructor(
     private api: ApiService,
     private message: NzNotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.APPLICANT_ID) {
@@ -92,19 +92,19 @@ export class PersonalComponent implements OnInit {
               const i = index + 1;
               i == 1
                 ? (this.basicInfo[`PRIMARY_APPLICANT_FIRST_NAME`] =
-                    applicant.FIRST_NAME)
+                  applicant.FIRST_NAME)
                 : (this.basicInfo[`APPLICANT${i}_FIRST_NAME`] =
-                    applicant.FIRST_NAME);
+                  applicant.FIRST_NAME);
               i == 1
                 ? (this.basicInfo[`PRIMARY_APPLICANT_MIDDLE_NAME`] =
-                    applicant.MIDDLE_NAME)
+                  applicant.MIDDLE_NAME)
                 : (this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`] =
-                    applicant.MIDDLE_NAME);
+                  applicant.MIDDLE_NAME);
               i == 1
                 ? (this.basicInfo[`PRIMARY_APPLICANT_LAST_NAME`] =
-                    applicant.LAST_NAME)
+                  applicant.LAST_NAME)
                 : (this.basicInfo[`APPLICANT${i}_LAST_NAME`] =
-                    applicant.LAST_NAME);
+                  applicant.LAST_NAME);
               this.basicInfo[`AADHAAR_NO_${i}`] = applicant.AADHAAR_NO;
               this.basicInfo[`PAN_NUMBER${i > 1 ? i : ''}`] =
                 applicant.PAN_NUMBER;
@@ -145,17 +145,17 @@ export class PersonalComponent implements OnInit {
         APPLICANT_NO: i,
         FIRST_NAME:
           this.basicInfo[
-            i == 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : `APPLICANT${i}_FIRST_NAME`
+          i == 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : `APPLICANT${i}_FIRST_NAME`
           ],
         MIDDLE_NAME:
           this.basicInfo[
-            i == 1
-              ? 'PRIMARY_APPLICANT_MIDDLE_NAME'
-              : `APPLICANT${i}_MIDDLE_NAME`
+          i == 1
+            ? 'PRIMARY_APPLICANT_MIDDLE_NAME'
+            : `APPLICANT${i}_MIDDLE_NAME`
           ],
         LAST_NAME:
           this.basicInfo[
-            i == 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : `APPLICANT${i}_LAST_NAME`
+          i == 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : `APPLICANT${i}_LAST_NAME`
           ],
         AADHAAR_NO: this.basicInfo[`AADHAAR_NO_${i}`],
         PAN_NUMBER: this.basicInfo[`PAN_NUMBER${i > 1 ? i : ''}`],
@@ -170,6 +170,7 @@ export class PersonalComponent implements OnInit {
         OTP_AUTH: this.basicInfo[`OTP_AUTH_${i}`],
         IS_OLD_CUSTOMER: this.basicInfo[`IS_OLD_CUSTOMER_${i}`],
         CUSTOMER_TYPE: this.basicInfo[`CUSTOMER_TYPE_${i}`],
+        IS_MINOR: (i == 1) ? this.basicInfo['IS_MINOR'] : false
       };
       applicantsData.push(applicant);
     }
@@ -199,8 +200,7 @@ export class PersonalComponent implements OnInit {
         next: (res) => {
           if (res.code == 200) {
             this.message.success(
-              `Personal Information ${
-                dataToSend.ID ? 'updated' : 'added'
+              `Personal Information ${dataToSend.ID ? 'updated' : 'added'
               } successfully!`,
               ''
             );

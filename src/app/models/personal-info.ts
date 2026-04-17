@@ -149,5 +149,7 @@ export class PersonalInfo {
     NAME:string = '';
     ADDHAR:number=0;
     MOBILE_NO :number=0;
+
+    SPECIAL_CATEGORY!: "A" | "B" | "C" | "D";
     
 }

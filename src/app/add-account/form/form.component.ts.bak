@@ -30,7 +30,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   basicInfo: BasicInfo = new BasicInfo();
   depositInfo: TermDeposite = new TermDeposite();
   serviceInfo: Facilities = new Facilities();
-  nominationInfo: NomineeDetails[] = [];
+  nominationInfo: NomineeDetails = new NomineeDetails();
 
   ApplicantPersonal: PersonalInfo[] = []
   ApplicantFinancial: Financial[] = []
@@ -303,9 +303,10 @@ export class FormComponent implements OnInit, AfterViewInit {
     { id: 7, data: <any>[], name: "special_category", valueField: "SCP_CTGCD", lableField: "SCP_DESCR" },
   ]
 
-  formSpinning: boolean = true;
+  formSpinning: boolean = false;
 
   async getMasters() {
+    this.formSpinning = true;
     for (let i = 0; i < this.MASTERS.length; i++) {
       let result = await lastValueFrom(this.api.getMasters(this.MASTERS[i].id));
 
@@ -314,6 +315,7 @@ export class FormComponent implements OnInit, AfterViewInit {
       }
 
     }
+    this.formSpinning = false;
     this.mapMasters();
     this.casteReflection();
 
@@ -348,10 +350,9 @@ export class FormComponent implements OnInit, AfterViewInit {
     caste: "",
     scheme: "",
     minimum_balance_category: "",
-    special_category: "",
-    customer_type: "",
-    nature_of_business: "",
-    source_of_fund: ""
+    special_category: ""
+
+
   }
 
   casteReflection() {
@@ -390,12 +391,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     this.assignValueFromMaster(this.filterValues(14, this.ApplicantPersonal[0].RELIGION), "religion");
 
-    this.assignValueFromMaster(this.filterValues(0, this.basicInfo.CUSTOMER_TYPE_1), "customer_type");
-
-    this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
-
-    this.applicantPersonalMasterData.nature_of_business = this.nature_of_business[this.ApplicantPersonal[0].NATURE_OF_BUSINESS as keyof typeof this.nature_of_business] || '';
-    this.applicantPersonalMasterData.source_of_fund = this.source_of_fund[this.ApplicantPersonal[0].SOURCE_OF_FUNDS as keyof typeof this.source_of_fund] || '';
+    // this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
 
     let schemeObj = this.MASTERS[10].data.find((v: any) => v.SMP_CODE == this.depositInfo.SCHEME_CODE);
     this.applicantPersonalMasterData.scheme = schemeObj ? schemeObj.SMP_NAME : '';
@@ -403,7 +399,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     console.log(this.applicantPersonalMasterData)
   }
 
-  allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city" | "minimum_balance_category" | "special_category" | "scheme" | "customer_type" | "nature_of_business" | "source_of_fund";
+  allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city" |"minimum_balance_category" | "special_category" | "scheme";
 
   // assignValueFromMaster(res: any, label: typeof this.allowedTypes) {
 
@@ -445,14 +441,6 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 
 
-  getBusinessLabel(code: string): string {
-    return this.nature_of_business[code as keyof typeof this.nature_of_business] || '';
-  }
-
-  getFundLabel(code: string): string {
-    return this.source_of_fund[code as keyof typeof this.source_of_fund] || '';
-  }
-
 
   save() {
 
@@ -466,29 +454,260 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 
   async getAllData() {
-    this.formSpinning = true;
-    try {
-      await lastValueFrom(this.getPersonal());
-      await lastValueFrom(this.getDeposit());
-      await lastValueFrom(this.getApplicantPersonal());
-      await this.getMasters();
+    let personal = this.getPersonal();
+    let deposit = this.getDeposit();
+    let service = this.getService();
+    let nominee = this.getNominee();
 
-      // Parallelize remaining calls
-      await Promise.all([
-        lastValueFrom(this.getNominee()),
-        lastValueFrom(this.getService()),
-        lastValueFrom(this.getApplicantFinancial()),
-        lastValueFrom(this.getApplicantProperty()),
-        lastValueFrom(this.getApplicantPhoto()),
-        lastValueFrom(this.getDocuments())
-      ]);
+    let applicantPersonal = this.getApplicantPersonal();
+    let applicantFinancial = this.getApplicantFinancial();
+    let applicantProperty = this.getApplicantProperty();
+    // let applicantLoanInfo = this.getApplicantLoanInfo();
+    // let applicantOtherAccount = this.getApplicantOtherAccount();
+    let applicantPhoto = this.getApplicantPhoto();
+    let applicantDocument = this.getDocuments();
+    let count = 0;
 
-      console.log("All data loaded successfully");
-    } catch (error) {
-      console.error("Error loading form data:", error);
-    } finally {
-      this.formSpinning = false;
+    personal.subscribe({
+      next: (res) => {
+        if (res == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 9) {
+
+          }
+
+        }
+        else {
+          // this.message.warning('Something went wrong! while getting Basic Information.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! while getting Basic Information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    let deposit_success = await lastValueFrom(deposit)
+    if (deposit_success == 200) {
+
+      count++;
+      console.log("count in d", count);
+      if (count >= 10) {
+        //this.fillField()
+        //this.fillPdf();
+      }
     }
+
+    let applicanP_success = await lastValueFrom(applicantPersonal)
+
+    if (applicanP_success == 200) {
+
+      count++;
+      console.log("count in p", count);
+      if (count >= 10) {
+        //this.fillField()
+        //this.fillPdf();
+      }
+
+
+    }
+
+
+    this.getMasters();
+
+
+
+    nominee.subscribe({
+      next: (res3) => {
+
+        if (res3 == 200) {
+
+          count++;
+          console.log("count in n", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Nominee Information is not filled.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! While getting nominee Information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+    service.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Information about required service is not filled.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! while getting service information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+
+
+
+    applicantFinancial.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Applicant Financial Information is not Filled.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! While getting Applicant Financial Information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantProperty.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Applicant Property Information is not Filled.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! While getting Applicant Property Information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    // applicantLoanInfo.subscribe({
+    //   next: (res2) => {
+    //     if (res2 == 200) {
+
+    //       count++;
+    //       console.log("count in p", count);
+    //       if (count >= 10) {
+    //         //this.fillField()
+    //         //this.fillPdf();
+    //       }
+    //     }
+    //     else {
+    //       // this.message.warning('Applicant Earlier Loan Information is not Filled.', '');
+    //     }
+    //   },
+    //   error: () => {
+    //     // this.message.warning('Something went wrong! While getting Applicant Earlier Loan Information.', '');
+    //   },
+    //   complete: () => {
+
+    //   }
+    // })
+
+    // applicantOtherAccount.subscribe({
+    //   next: (res2) => {
+    //     if (res2 == 200) {
+
+    //       count++;
+    //       console.log("count in p", count);
+    //       if (count >= 10) {
+    //         //this.fillField()
+    //         //this.fillPdf();
+    //       }
+    //     }
+    //     else {
+    //       // this.message.warning('Applicant Other Account Details is not Filled.', '');
+    //     }
+    //   },
+    //   error: () => {
+    //     // this.message.warning('Something went wrong! While getting Applicant Other Account Details.', '');
+    //   },
+    //   complete: () => {
+
+    //   }
+    // })
+
+    applicantPhoto.subscribe({
+      next: (res2) => {
+        if (res2 == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Applicant Photo is not Uploaded.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! While getting Applicant Photo.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
+    applicantDocument.subscribe({
+      next: (res) => {
+        if (res == 200) {
+
+          count++;
+          console.log("count in p", count);
+          if (count >= 10) {
+            //this.fillField()
+            //this.fillPdf();
+          }
+        }
+        else {
+          // this.message.warning('Something went wrong! while getting Document Information.', '');
+        }
+      },
+      error: () => {
+        // this.message.warning('Something went wrong! while getting Document Information.', '');
+      },
+      complete: () => {
+
+      }
+    })
+
   }
 
   getPersonal() {
@@ -497,35 +716,6 @@ export class FormComponent implements OnInit, AfterViewInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
-          if (this.basicInfo['APPLICANTS_DATA']) {
-            const applicants = this.basicInfo['APPLICANTS_DATA'];
-            this.basicInfo['applicants'] = applicants;
-            applicants.forEach((applicant: any, index: number) => {
-              const i = index + 1;
-              if (i == 1) {
-                this.basicInfo[`PRIMARY_APPLICANT_FIRST_NAME`] = applicant.FIRST_NAME;
-                this.basicInfo[`PRIMARY_APPLICANT_MIDDLE_NAME`] = applicant.MIDDLE_NAME;
-                this.basicInfo[`PRIMARY_APPLICANT_LAST_NAME`] = applicant.LAST_NAME;
-              } else {
-                this.basicInfo[`APPLICANT${i}_FIRST_NAME`] = applicant.FIRST_NAME;
-                this.basicInfo[`APPLICANT${i}_MIDDLE_NAME`] = applicant.MIDDLE_NAME;
-                this.basicInfo[`APPLICANT${i}_LAST_NAME`] = applicant.LAST_NAME;
-              }
-              this.basicInfo[`AADHAAR_NO_${i}`] = applicant.AADHAAR_NO;
-              this.basicInfo[`PAN_NUMBER${i > 1 ? i : ''}`] = applicant.PAN_NUMBER;
-              this.basicInfo[`CUSTOMER_ID_${i}`] = applicant.CUSTOMERID || applicant.CUSTOMER_ID;
-              this.basicInfo[`CKYC_NUMBER_${i}`] = applicant.CKYC_NUMBER;
-              this.basicInfo[`VOTER_ID_${i}`] = applicant.VOTER_ID;
-              this.basicInfo[`LICENSE_NO_${i}`] = applicant.LICENSE_NO;
-              this.basicInfo[`DOB_${i}`] = applicant.DOB;
-              this.basicInfo[`GENDER_${i}`] = applicant.GENDER;
-              this.basicInfo[`MOBILE_${i}`] = applicant.MOBILE;
-              this.basicInfo[`AGE_${i}`] = applicant.AGE;
-              this.basicInfo[`OTP_AUTH_${i}`] = applicant.OTP_AUTH;
-              this.basicInfo[`IS_OLD_CUSTOMER_${i}`] = applicant.IS_OLD_CUSTOMER;
-              this.basicInfo[`CUSTOMER_TYPE_${i}`] = applicant.CUSTOMER_TYPE;
-            });
-          }
           this.getBranchData();
           this.getUserMaker();
           this.getUserChecker();
@@ -617,7 +807,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     this.api.getNominee(this.APPLICANT_ID).subscribe({
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
-          this.nominationInfo = res['data'];
+          this.nominationInfo = res['data'][0];
           console.log("nominee info:", this.nominationInfo);
           nominee.next(200);
         }
