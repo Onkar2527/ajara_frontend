@@ -167,7 +167,7 @@
 <ng-template #footerTpl>
   <div style="float: right">
     <button nz-button style="margin-right: 8px;" (click)="drawerReferance.close()">Cancel</button>
-    <button nz-button nzType="primary" (click)="createProposal()">Submit</button>
+    <button nz-button nzType="primary" (click)="createProposal()" [nzLoading]="loadSaveButton">Submit</button>
   </div>
 </ng-template>
 
@@ -186,7 +186,7 @@
     </button>
 
 
-    <button nz-button nzType="primary" (click)="saveANext()">
+    <button nz-button nzType="primary" (click)="saveANext()" [nzLoading]="loadSaveButton">
 
       <span *ngIf="selectedIndex != 5">
         Save and Next

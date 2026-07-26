@@ -442,118 +442,152 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   async saveANext() {
     this.loadSaveButton = true;
+    try {
+      if (this.selectedIndex == 0) {
+        await new Promise<void>((resolve, reject) => {
+          let personal = this.personalComp.save();
+          personal.subscribe({
+            next: (res) => {
+              if (res.code == 200) {
+                this.APPLICANT_ID = this.BasicInfo.ID;
+                this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
 
-    if (this.selectedIndex == 0) {
-      let personal = this.personalComp.save();
-      // this.depositeComp.account_type = this.personalComp.basicInfo.ACCOUNT_TYPE;
-      // this.serviceComp.AccountType = this.personalComp.basicInfo.ACCOUNT_TYPE;
-      personal.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.APPLICANT_ID = this.BasicInfo.ID;
-            this.depositeComp.APPLICANT_ID = this.APPLICANT_ID;
+                this.depositeComp.getDepositInfo();
+                this.Tabs[0].disabled = true;
+                this.Tabs[1].disabled = false;
+                this.updateTabsProvided(this.selectedIndex);
+                this.loadSaveButton = false;
+                resolve();
+              } else {
+                this.loadSaveButton = false;
+                resolve();
+              }
+            }, error: (err) => {
+              this.loadSaveButton = false;
+              reject(err);
+            },
+            complete: () => {
+              this.loadSaveButton = false;
+              resolve();
+            }
+          })
+        });
+      }
+      else if (this.selectedIndex == 1) {
+        this.depositeComp.depositInfo.APPLICANT_ID = this.APPLICANT_ID;
+        await new Promise<void>((resolve, reject) => {
+          let deposite = this.depositeComp.save();
+          deposite.subscribe({
+            next: (res) => {
+              if (res.code == 200) {
+                this.nomineeComp.APPLICANT_ID = this.APPLICANT_ID;
+                this.nomineeComp.getNominationInfo();
+                this.Tabs[1].disabled = true;
+                this.Tabs[2].disabled = false;
+                this.updateTabsProvided(this.selectedIndex);
+                this.loadSaveButton = false;
+                resolve();
+              } else {
+                this.loadSaveButton = false;
+                resolve();
+              }
+            },
+            error: (err) => {
+              this.loadSaveButton = false;
+              reject(err);
+            },
+            complete: () => {
+              this.loadSaveButton = false;
+              resolve();
+            }
+          })
+        });
+      }
+      else if (this.selectedIndex == 2) {
+        await new Promise<void>((resolve, reject) => {
+          let nominee = this.nomineeComp.save();
+          nominee.subscribe({
+            next: (res) => {
+              if (res.code == 200) {
+                this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
+                this.serviceComp.getServiceInfo();
+                this.Tabs[2].disabled = true;
+                this.Tabs[3].disabled = false;
+                this.updateTabsProvided(this.selectedIndex);
+                this.loadSaveButton = false;
+                resolve();
+              } else {
+                this.loadSaveButton = false;
+                resolve();
+              }
+            }, error: (err) => {
+              this.loadSaveButton = false;
+              reject(err);
+            },
+            complete: () => {
+              this.loadSaveButton = false;
+              resolve();
+            }
+          })
+        });
+      }
 
-            this.depositeComp.getDepositInfo();
-            this.Tabs[0].disabled = true;
-            this.Tabs[1].disabled = false;
-            this.updateTabsProvided(this.selectedIndex);
-            this.loadSaveButton = false;
-          }
-        }, error: () => {
-          this.loadSaveButton = false;
-        },
-        complete: () => {
+      else if (this.selectedIndex == 3) {
+        this.serviceComp.serviceInfo.APPLICANT_ID = this.APPLICANT_ID;
+        await new Promise<void>((resolve, reject) => {
+          let service = this.serviceComp.save();
+          service.subscribe({
+            next: (res) => {
+              if (res.code == 200) {
+                this.Tabs[3].disabled = true;
+                this.Tabs[4].disabled = false;
+                this.updateTabsProvided(this.selectedIndex);
+                this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
+                this.applicantDetail.getAllApplicant();
+                this.applicantDetail.basicInfo = this.BasicInfo;
+                this.loadSaveButton = false;
+                resolve();
+              } else {
+                this.loadSaveButton = false;
+                resolve();
+              }
+            }, error: (err) => {
+              this.loadSaveButton = false;
+              reject(err);
+            },
+            complete: () => {
+              this.loadSaveButton = false;
+              resolve();
+            }
+          })
+        });
+      }
+      else if (this.selectedIndex == 4) {
+        let res = await lastValueFrom(this.api.getProperty(this.APPLICANT_ID, 1));
+        if (res['data'].length > 0) {
+          this.Tabs[4].disabled = true;
+          this.Tabs[5].disabled = false;
+          this.updateTabsProvided(this.selectedIndex);
+          this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
+          this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
+          this.remarkComp.show_remark = true;
+          this.remarkComp.getRemarkData();
           this.loadSaveButton = false;
         }
-      })
-    }
-    else if (this.selectedIndex == 1) {
-      this.depositeComp.depositInfo.APPLICANT_ID = this.APPLICANT_ID;
-      let deposite = this.depositeComp.save();
-      deposite.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.nomineeComp.APPLICANT_ID = this.APPLICANT_ID;
-            this.nomineeComp.getNominationInfo();
-            this.Tabs[1].disabled = true;
-            this.Tabs[2].disabled = false;
-            this.updateTabsProvided(this.selectedIndex);
-            this.loadSaveButton = false;
-          }
-        },
-        error: () => {
-          this.loadSaveButton = false;
-        },
-        complete: () => {
+        else {
+          this.message.error("Fill all the information", "Personal, Financial and Property")
           this.loadSaveButton = false;
         }
-      })
-    }
-    else if (this.selectedIndex == 2) {
-      let nominee = this.nomineeComp.save();
-      nominee.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.serviceComp.APPLICANT_ID = this.APPLICANT_ID;
-            this.serviceComp.getServiceInfo();
-            this.Tabs[2].disabled = true;
-            this.Tabs[3].disabled = false;
-            this.updateTabsProvided(this.selectedIndex);
-            this.loadSaveButton = false;
-          }
-        }, error: () => {
-          this.loadSaveButton = false;
-        },
-        complete: () => {
-          this.loadSaveButton = false;
-        }
-      })
-    }
-
-    else if (this.selectedIndex == 3) {
-
-      this.serviceComp.serviceInfo.APPLICANT_ID = this.APPLICANT_ID;
-      let service = this.serviceComp.save();
-      service.subscribe({
-        next: (res) => {
-          if (res.code == 200) {
-            this.Tabs[3].disabled = true;
-            this.Tabs[4].disabled = false;
-            this.updateTabsProvided(this.selectedIndex);
-            this.applicantDetail.APPLICANT_ID = this.APPLICANT_ID;
-            this.applicantDetail.getAllApplicant();
-            this.applicantDetail.basicInfo = this.BasicInfo;
-            this.loadSaveButton = false;
-          }
-        }, error: () => {
-          this.loadSaveButton = false;
-        },
-        complete: () => {
-          this.loadSaveButton = false;
-        }
-      })
-    }
-    else if (this.selectedIndex == 4) {
-      let res = await lastValueFrom(this.api.getProperty(this.APPLICANT_ID, 1));
-      if (res['data'].length > 0) {
-        this.Tabs[4].disabled = true;
-        this.Tabs[5].disabled = false;
-        this.updateTabsProvided(this.selectedIndex);
-        this.remarkComp.Tabs = this.Tabs.filter(value => value.INDEX != 5);
-        this.remarkComp.APPLICAT_ID = this.APPLICANT_ID;
-        this.remarkComp.show_remark = true;
-        this.remarkComp.getRemarkData();
+      }
+      else if (this.selectedIndex == 5) {
+        this.saveAsComplete();
         this.loadSaveButton = false;
       }
-      else {
-        this.message.error("Fill all the information", "Personal, Financial and Property")
-      }
-    }
-    else if (this.selectedIndex == 5) {
-      this.saveAsComplete();
+    } catch (err) {
+      console.error(err);
+    } finally {
       this.loadSaveButton = false;
     }
-
   }
 
   previous() {

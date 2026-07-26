@@ -417,7 +417,7 @@ export class ApplicantComponent implements OnInit {
     }
 
     if (res?.code === 404) {
-      this.message.error('No Customer Found.', '');
+      this.message.error(res.message || 'No Customer Found.', '');
       return false;
     }
 

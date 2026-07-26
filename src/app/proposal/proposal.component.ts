@@ -293,23 +293,28 @@ export class ProposalComponent implements OnInit {
 
   createProposal() {
     this.loadSaveButton = true;
-    let basic = this.basicComp.save();
-    basic.subscribe({
-      next: (res) => {
-        if (res.code == 200) {
+    try {
+      let basic = this.basicComp.save();
+      basic.subscribe({
+        next: (res) => {
+          if (res.code == 200) {
+            this.loadSaveButton = false;
+            this.drawerReferance.close();
+          }
+          else {
+            this.loadSaveButton = false;
+          }
+        }, error: () => {
           this.loadSaveButton = false;
-          this.drawerReferance.close();
-        }
-        else if (res.code == 300) {
+        },
+        complete: () => {
           this.loadSaveButton = false;
         }
-      }, error: () => {
-        this.loadSaveButton = false;
-      },
-      complete: () => {
-        this.loadSaveButton = false;
-      }
-    })
+      });
+    } catch (err) {
+      console.error(err);
+      this.loadSaveButton = false;
+    }
   }
 
   getDrafts() {
@@ -452,31 +457,49 @@ export class ProposalComponent implements OnInit {
     "Applicant Photo"
   ]
 
-  saveANext() {
-    if (this.selectedIndex != 5) {
-      this.addAccountComp.saveANext();
-    }
-    else {
-      this.api.getDocument(this.APPLICANT_ID, null).subscribe({
-        next: (res) => {
-          if (res['code'] == 200) {
-            if (res['data'].length >= 3) {
-              this.velidateDocument(res['data']) ? this.addAccountComp.saveANext() : this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
+  async saveANext() {
+    this.loadSaveButton = true;
+    try {
+      if (this.selectedIndex != 5) {
+        await this.addAccountComp.saveANext();
+      }
+      else {
+        await new Promise<void>((resolve, reject) => {
+          this.api.getDocument(this.APPLICANT_ID, null).subscribe({
+            next: async (res) => {
+              try {
+                if (res['code'] == 200) {
+                  if (res['data'].length >= 3) {
+                    if (this.velidateDocument(res['data'])) {
+                      await this.addAccountComp.saveANext();
+                    } else {
+                      this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
+                    }
+                  }
+                  else {
+                    this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
+                  }
+                }
+                else {
+                  this.message.error("Something Went Wrong!", "")
+                }
+                resolve();
+              } catch (e) {
+                reject(e);
+              }
+            },
+            error: (err) => {
+              this.message.error("Something Went Wrong!", "")
+              reject(err);
             }
-            else {
-              this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
-            }
-          }
-          else {
-            this.message.error("Something Went Wrong!", "")
-          }
-        },
-        error: (err) => {
-          this.message.error("Something Went Wrong!", "")
-        }
-      })
+          })
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.loadSaveButton = false;
     }
-
   }
 
   velidateDocument(docArray: Documents[]) {

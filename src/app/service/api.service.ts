@@ -142,7 +142,7 @@ export class ApiService implements HttpInterceptor {
   // baseUrl = 'http://localhost:8079/api/';
   // baseUrl server
 
-  baseUrl = 'http://localhost:8673/api/'; //.in
+  baseUrl = 'http://localhost:8672/api/'; //.in
 
   // baseUrl = 'http://localhost:8672/api/' // local
 
