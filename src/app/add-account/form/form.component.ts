@@ -301,6 +301,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     { id: 9, data: <any>[], name: "caste", valueField: "CST_CD", lableField: "CST_NM" },
     { id: 23, data: <any>[], name: "minimum_balance_category", valueField: "MINBALCTG", lableField: "MINBALCTG_DESCR" },
     { id: 7, data: <any>[], name: "special_category", valueField: "SCP_CTGCD", lableField: "SCP_DESCR" },
+    { id: 26, data: <any>[], name: "disability_type", valueField: "IMP_CODE", lableField: "IMP_NAME" },
   ]
 
   formSpinning: boolean = true;
@@ -498,7 +499,14 @@ export class FormComponent implements OnInit, AfterViewInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
           if (this.basicInfo['APPLICANTS_DATA']) {
-            const applicants = this.basicInfo['APPLICANTS_DATA'];
+            let applicants = this.basicInfo['APPLICANTS_DATA'];
+            if (typeof applicants === 'string') {
+              try {
+                applicants = JSON.parse(applicants);
+              } catch (e) {
+                applicants = [];
+              }
+            }
             this.basicInfo['applicants'] = applicants;
             applicants.forEach((applicant: any, index: number) => {
               const i = index + 1;

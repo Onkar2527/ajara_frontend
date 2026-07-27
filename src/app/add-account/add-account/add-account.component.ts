@@ -76,6 +76,51 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
   }
 
+  isTestMode: boolean = false;
+  isTestModalVisible: boolean = false;
+  testJsonPayloadString: string = '';
+  isConfirmingAccount: boolean = false;
+
+  closeTestModal() {
+    this.isTestModalVisible = false;
+  }
+
+  async confirmAccountCreationInTestMode() {
+    this.isConfirmingAccount = true;
+    try {
+      let onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(this.personalComp.basicInfo.ID, false));
+      this.isConfirmingAccount = false;
+
+      if (onBoardingResult && onBoardingResult['code'] == 200) {
+        this.isTestModalVisible = false;
+        this.message.success("customer created. ", `Customer ID = ${onBoardingResult.success_data['Customer Code']}`);
+        this.AccountCreationStatus.emit(false);
+
+        this.personalComp.basicInfo.TRACK_ID = 4;
+        let personal = this.personalComp.save();
+        personal.subscribe({
+          next: (res) => {
+            if (res.code == 200) {
+              this.saveRemark();
+              this.message.success("Account has been created", `Account Number = ${onBoardingResult.success_data['Account number']}`);
+              this.CloseDrawer.emit();
+            } else {
+              this.message.error("Failed to Create Account", '');
+            }
+          },
+          error: () => {
+            this.message.error("Failed to Create Account", '');
+          }
+        });
+      } else {
+        this.message.error("Unable to create account.", '');
+      }
+    } catch (e) {
+      this.isConfirmingAccount = false;
+      this.message.error("Error creating account in CBS", '');
+    }
+  }
+
   async completeVerifier() {
 
     let send_to_refill = false
@@ -119,9 +164,43 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     else if (isOk) {
       this.AccountCreationStatus.emit(true);
-      let onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(this.personalComp.basicInfo.ID));
 
-      if (onBoardingResult['code'] == 200) {
+      const applicantId = this.personalComp?.basicInfo?.ID || this.BasicInfo?.ID;
+      if (!applicantId) {
+        this.message.error("Applicant ID missing", '');
+        this.AccountCreationStatus.emit(false);
+        return;
+      }
+
+      if (this.isTestMode) {
+        try {
+          let testResult = await lastValueFrom(this.api.onBoardCustomer(applicantId, true));
+          this.AccountCreationStatus.emit(false);
+
+          if (testResult && testResult['code'] == 200) {
+            this.testJsonPayloadString = JSON.stringify(testResult['data'], null, 2);
+            this.isTestModalVisible = true;
+            this.message.info("Test Mode: JSON Payload generated. Please review and click Confirm to create account.", '');
+          } else {
+            this.message.error("Failed to generate JSON payload in Test Mode.", '');
+          }
+        } catch (e) {
+          this.AccountCreationStatus.emit(false);
+          this.message.error("Error generating test mode payload", '');
+        }
+        return;
+      }
+
+      let onBoardingResult: any;
+      try {
+        onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(applicantId, false));
+      } catch (err: any) {
+        this.message.error(err.error?.message || "Failed to create account due to server error.", '');
+        this.AccountCreationStatus.emit(false);
+        return;
+      }
+
+      if (onBoardingResult && onBoardingResult['code'] == 200) {
         this.message.success("customer created. ", `Customer ID = ${onBoardingResult.success_data['Customer Code']}`);
         this.AccountCreationStatus.emit(false);
 
@@ -129,7 +208,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         let personal = this.personalComp.save();
         // this.personalComp.basicInfo.STATUS = 'V'; do not remove comment of this line.
         personal.subscribe({
-          next: (res) => {
+          next: (res: any) => {
             if (res.code == 200) {
               this.saveRemark();
               this.message.success("Account has been created", `Account Number = ${onBoardingResult.success_data['Account number']}`)
@@ -149,7 +228,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       }
 
       else {
-        this.message.error("Unable to create account.", '');
+        this.message.error(onBoardingResult?.message || "Unable to create account.", '');
         this.AccountCreationStatus.emit(false);
       }
 

@@ -89,7 +89,14 @@ export class PersonalComponent implements OnInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.basicInfo = res['data'][0];
           if (this.basicInfo['APPLICANTS_DATA']) {
-            const applicants = this.basicInfo['APPLICANTS_DATA'];
+            let applicants = this.basicInfo['APPLICANTS_DATA'];
+            if (typeof applicants === 'string') {
+              try {
+                applicants = JSON.parse(applicants);
+              } catch (e) {
+                applicants = [];
+              }
+            }
             this.basicInfo['applicants'] = applicants;
             applicants.forEach((applicant: any, index: number) => {
               const i = index + 1;

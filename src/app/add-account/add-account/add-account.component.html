@@ -1,4 +1,8 @@
 <div>
+    <div style="margin-bottom: 12px; display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding: 0 8px;">
+        <span style="font-weight: 600; color: #1890ff;">Test Mode:</span>
+        <nz-switch [(ngModel)]="isTestMode" nzCheckedChildren="ON" nzUnCheckedChildren="OFF"></nz-switch>
+    </div>
 
     <nz-tabset [(nzSelectedIndex)]="selectedIndex" (nzSelectChange)="log([$event])">
         <nz-tab *ngFor="let tab of Tabs;let i=index" [nzTitle]="titleTemplate33" [nzDisabled]="tab.disabled">
@@ -32,5 +36,14 @@
 
 
     </nz-tabset>
+
+    <nz-modal [(nzVisible)]="isTestModalVisible" nzTitle="Test Mode - Generated Account Opening JSON Payload" (nzOnCancel)="closeTestModal()" [nzWidth]="800" [nzFooter]="modalFooter">
+        <ng-template #modalFooter>
+            <button nz-button nzType="default" (click)="closeTestModal()">Cancel</button>
+            <button nz-button nzType="primary" [nzLoading]="isConfirmingAccount" (click)="confirmAccountCreationInTestMode()">Confirm & Create Account</button>
+        </ng-template>
+        <p style="font-weight: 500; margin-bottom: 8px; color: #1890ff;">Review the generated account opening JSON payload below. Click <strong>Confirm & Create Account</strong> to execute account creation in CBS.</p>
+        <pre style="background: #272822; color: #f8f8f2; padding: 12px; max-height: 450px; overflow: auto; border-radius: 6px; font-family: monospace; font-size: 12px;">{{ testJsonPayloadString }}</pre>
+    </nz-modal>
 
 </div>

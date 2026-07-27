@@ -55,7 +55,8 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     { id: 8, data: <any>[], name: "religion" },
     { id: 9, data: <any>[], name: "caste" },
     { id: 2, data: <any>[], name: "title" },
-    { id: 7, data: <any>[], name: "special category" }
+    { id: 7, data: <any>[], name: "special category" },
+    { id: 26, data: <any>[], name: "disability type" }
   ]
 
   getAddressDropDowns() {

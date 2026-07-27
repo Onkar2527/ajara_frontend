@@ -1148,9 +1148,10 @@ export class ApiService implements HttpInterceptor {
     );
   }
 
-  onBoardCustomer(applicant_id: number) {
+  onBoardCustomer(applicant_id: number, testMode: boolean = false) {
     let data = {
       APPLICANT_ID: applicant_id,
+      TEST_MODE: testMode
     };
     return this.httpClient.post<any>(
       this.baseUrl + 'list_api/onBoardCustomer',

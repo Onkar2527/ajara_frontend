@@ -304,6 +304,40 @@
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
+                            <div nz-col nzSpan="12">
+                                <nz-form-item>
+                                    <nz-form-label [nzNoColon]="true">Disability Status</nz-form-label>
+                                    <nz-form-control>
+                                        <nz-switch [(ngModel)]="personalInfo.IS_DISABLED" nzCheckedChildren="Yes" nzUnCheckedChildren="No"></nz-switch>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="12" *ngIf="personalInfo.IS_DISABLED">
+                                <nz-form-item>
+                                    <nz-form-label nzRequired [nzNoColon]="true">Type of Disability</nz-form-label>
+                                    <nz-form-control>
+                                        <nz-select [(ngModel)]="personalInfo.TYPE_OF_DISABILITY" nzPlaceHolder="Select Disability Type">
+                                            <nz-option *ngFor="let option of MASTERS[14]?.data" [nzValue]="option.IMP_CODE || option.ID || option.NAME" [nzLabel]="option.IMP_NAME || option.NAME || option.DESCRIPTION"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="12" *ngIf="personalInfo.IS_DISABLED">
+                                <nz-form-item>
+                                    <nz-form-label [nzNoColon]="true">Disability Percentage (%)</nz-form-label>
+                                    <nz-form-control>
+                                        <input nz-input name="DISABILITY_PERCENTAGE" type="number" min="0" max="100" [(ngModel)]="personalInfo.DISABILITY_PERCENTAGE" placeholder="Enter Disability Percentage" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div nz-col nzSpan="12" *ngIf="personalInfo.IS_DISABLED">
+                                <nz-form-item>
+                                    <nz-form-label [nzNoColon]="true">UDID Number</nz-form-label>
+                                    <nz-form-control>
+                                        <input nz-input name="UDID_NO" [(ngModel)]="personalInfo.UDID_NO" placeholder="Enter UDID Number" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
                         </div>
                     </div>
                 </nz-collapse-panel>

@@ -151,5 +151,9 @@ export class PersonalInfo {
     MOBILE_NO :number=0;
 
     SPECIAL_CATEGORY!: "A" | "B" | "C" | "D";
-    
+
+    IS_DISABLED: boolean = false;
+    TYPE_OF_DISABILITY: string = '';
+    DISABILITY_PERCENTAGE: number | null = null;
+    UDID_NO: string = '';
 }
