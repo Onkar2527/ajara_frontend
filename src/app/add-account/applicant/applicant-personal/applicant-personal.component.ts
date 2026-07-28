@@ -874,6 +874,23 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     //   }
     // }
 
+    if (this.personalInfo.IS_DISABLED) {
+      const pct = this.personalInfo.DISABILITY_PERCENTAGE;
+      if (pct !== null && pct !== undefined && (pct as any) !== '') {
+        const percentage = Number(pct);
+        if (percentage > 100 || percentage < 0) {
+          this.message.error("Disability Percentage must be between 0 and 100", '');
+          isOk = false;
+        }
+      }
+
+      const udid = this.personalInfo.UDID_NO;
+      if (!udid || udid.trim().length !== 18) {
+        this.message.error("UDID Number must be exactly 18 characters", '');
+        isOk = false;
+      }
+    }
+
     if (isOk) {
       if (this.personalInfo.ID) {
         // this.convertToString();

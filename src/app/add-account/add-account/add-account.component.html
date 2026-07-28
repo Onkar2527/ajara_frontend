@@ -42,8 +42,10 @@
             <button nz-button nzType="default" (click)="closeTestModal()">Cancel</button>
             <button nz-button nzType="primary" [nzLoading]="isConfirmingAccount" (click)="confirmAccountCreationInTestMode()">Confirm & Create Account</button>
         </ng-template>
-        <p style="font-weight: 500; margin-bottom: 8px; color: #1890ff;">Review the generated account opening JSON payload below. Click <strong>Confirm & Create Account</strong> to execute account creation in CBS.</p>
-        <pre style="background: #272822; color: #f8f8f2; padding: 12px; max-height: 450px; overflow: auto; border-radius: 6px; font-family: monospace; font-size: 12px;">{{ testJsonPayloadString }}</pre>
+        <ng-container *nzModalContent>
+            <p style="font-weight: 500; margin-bottom: 8px; color: #1890ff;">Review the generated account opening JSON payload below. Click <strong>Confirm & Create Account</strong> to execute account creation in CBS.</p>
+            <pre style="background: #272822; color: #f8f8f2; padding: 12px; max-height: 450px; overflow: auto; border-radius: 6px; font-family: monospace; font-size: 12px;">{{ testJsonPayloadString }}</pre>
+        </ng-container>
     </nz-modal>
 
 </div>

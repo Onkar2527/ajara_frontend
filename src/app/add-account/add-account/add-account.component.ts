@@ -85,6 +85,34 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     this.isTestModalVisible = false;
   }
 
+  truncateBase64Fields(obj: any): any {
+    if (!obj || typeof obj !== 'object') {
+      return obj;
+    }
+
+    // Deep clone the object using standard JSON utility
+    const cloned = JSON.parse(JSON.stringify(obj));
+
+    const base64Fields = [
+      'm_kcd_iddocimage',
+      'm_kcd_adddocimage',
+      'm_kcd_photo',
+      'm_kcd_sign',
+      'm_kcd_photo_gur',
+      'm_kcd_iddocimage_gur',
+      'm_kcd_adddocimage_gur',
+      'm_kcd_sign_gur'
+    ];
+
+    for (const field of base64Fields) {
+      if (cloned[field] && typeof cloned[field] === 'string' && cloned[field].length > 100) {
+        cloned[field] = `[Base64 Image Data - ${cloned[field].length} chars]`;
+      }
+    }
+
+    return cloned;
+  }
+
   async confirmAccountCreationInTestMode() {
     this.isConfirmingAccount = true;
     try {
@@ -178,7 +206,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           this.AccountCreationStatus.emit(false);
 
           if (testResult && testResult['code'] == 200) {
-            this.testJsonPayloadString = JSON.stringify(testResult['data'], null, 2);
+            const displayPayload = this.truncateBase64Fields(testResult['data']);
+            console.log(displayPayload);
+
+            this.testJsonPayloadString = JSON.stringify(displayPayload || {}, null, 2);
             this.isTestModalVisible = true;
             this.message.info("Test Mode: JSON Payload generated. Please review and click Confirm to create account.", '');
           } else {
