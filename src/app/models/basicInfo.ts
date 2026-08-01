@@ -111,8 +111,17 @@ export class BasicInfo {
     ACCOUNT_NUMBER: string = '';
 
     // new fields
-    DOCUMENTS_AUTHORITY: string = 'Government of India'
+    DOCUMENTS_AUTHORITY: string = 'Government of India';
+    DOCUMENTS_AUTHORITY_1: string = 'Government of India'
+    DOCUMENTS_AUTHORITY_2: string = 'Government of India'
+    DOCUMENTS_AUTHORITY_3: string = 'Government of India'
+    DOCUMENTS_AUTHORITY_4: string = 'Government of India'
+
     DOCUMENTS_ISSUE_PLACE: string = ''
+    DOCUMENTS_ISSUE_PLACE_1: string = ''
+    DOCUMENTS_ISSUE_PLACE_2: string = ''
+    DOCUMENTS_ISSUE_PLACE_3: string = ''
+    DOCUMENTS_ISSUE_PLACE_4: string = ''
 
     IS_AADHAAR_DBT: boolean = false;
 
@@ -162,8 +171,8 @@ export class BasicInfo {
 
 
 
-    NAME:string = '';
-    ADDHAR:number=0;
-    MOBILE_NO :number=0;
+    NAME: string = '';
+    ADDHAR: number = 0;
+    MOBILE_NO: number = 0;
 
 }

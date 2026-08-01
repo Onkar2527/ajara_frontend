@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: true,
+  verifyPanUrl: 'https://kyc-api.aadhaarkyc.io/api/v1/pan/pan',
+
+  baseUrl: 'http://localhost:8673/api/'
 };
 
 /*

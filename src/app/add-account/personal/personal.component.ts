@@ -196,6 +196,11 @@ export class PersonalComponent implements OnInit {
               isOk = false;
               break;
             }
+            if (!/^[6-9]\d{9}$/.test(mobile)) {
+              this.message.error(`${label} Mobile Number is invalid. It must be a 10-digit number starting with 6, 7, 8 or 9.`, '');
+              isOk = false;
+              break;
+            }
             if (!docAuthority || !docAuthority.trim()) {
               this.message.error(`${label} Issued Document Authority is mandatory.`, '');
               isOk = false;

@@ -85,7 +85,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>Mobile Number</nz-form-label>
         <input nz-input [(ngModel)]="basicInfo['MOBILE_' + applicantNo]" placeholder="Enter Mobile Number"
-          maxlength="10" />
+          maxlength="10" pattern="^[6-9]\d{9}$" />
       </nz-form-item>
     </div>
   </div>
@@ -138,8 +138,9 @@
       <nz-form-item>
         <nz-form-label nzRequired>PAN Number</nz-form-label>
         <nz-input-group nzCompact>
-          <input nz-input [(ngModel)]="aadhaarVerify.pan_history.PAN_NUMBER" placeholder="Enter PAN Number"
-            style="width: calc(100% - 70px);" />
+          <input nz-input
+            [(ngModel)]="basicInfo[applicantNo == 1 ? 'PAN_NUMBER' : 'PAN_NUMBER' + applicantNo]"
+            placeholder="Enter PAN Number" style="width: calc(100% - 70px);" />
           <button nz-button (click)="verifyPan()" [nzLoading]="loadPanButton">Verify</button>
           <div nz-row *ngIf="aadhaarVerify.pan_history.IS_VERIFIED" class="success-tip">
             <div nz-col nzSpan="24">

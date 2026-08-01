@@ -847,6 +847,16 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       }
     }
 
+    const mobileRegex = /^[6-9]\d{9}$/;
+    if (this.personalInfo.MOBILE_NUMBER && !mobileRegex.test(this.personalInfo.MOBILE_NUMBER)) {
+      this.message.error("Mobile Number 1 is invalid. It must be a 10-digit number starting with 6, 7, 8 or 9.", '');
+      isOk = false;
+    }
+    if (this.personalInfo.MOBILE_NUMBER_2 && !mobileRegex.test(this.personalInfo.MOBILE_NUMBER_2)) {
+      this.message.error("Mobile Number 2 is invalid. It must be a 10-digit number starting with 6, 7, 8 or 9.", '');
+      isOk = false;
+    }
+
     if (this.personalInfo.RELIGION == 'G') {
       for (let field of this.mendetory_religion) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {

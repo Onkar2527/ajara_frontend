@@ -454,7 +454,8 @@ export class ProposalComponent implements OnInit {
   mendetoryDocs = [
     "Applicant ID Proof",
     "Applicant Address Proof",
-    "Applicant Photo"
+    "Applicant Photo",
+    "Signature"
   ]
 
   async saveANext() {
@@ -464,20 +465,22 @@ export class ProposalComponent implements OnInit {
         await this.addAccountComp.saveANext();
       }
       else {
+        const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
+        const requiredDocCount = totalApplicants * 4;
         await new Promise<void>((resolve, reject) => {
           this.api.getDocument(this.APPLICANT_ID, null).subscribe({
             next: async (res) => {
               try {
                 if (res['code'] == 200) {
-                  if (res['data'].length >= 3) {
+                  if (res['data'].length >= requiredDocCount) {
                     if (this.velidateDocument(res['data'])) {
                       await this.addAccountComp.saveANext();
                     } else {
-                      this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
+                      this.message.error('Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.', '');
                     }
                   }
                   else {
-                    this.message.error(`Please Upload ${this.mendetoryDocs[0]}, ${this.mendetoryDocs[1]} and ${this.mendetoryDocs[2]}`, '');
+                    this.message.error('Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.', '');
                   }
                 }
                 else {
@@ -503,19 +506,31 @@ export class ProposalComponent implements OnInit {
   }
 
   velidateDocument(docArray: Documents[]) {
-    let count = 0
-    for (let doc of docArray) {
-      if (this.mendetoryDocs.includes(doc.DOCUMENT_NAME)) {
-        if (doc.IMAGE_DATA) count++;
+    const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
+
+    for (let appNo = 1; appNo <= totalApplicants; appNo++) {
+      const appDocs = docArray.filter(doc => doc.APPLICANT_NO == appNo);
+      
+      let hasId = false;
+      let hasAddress = false;
+      let hasPhoto = false;
+      let hasSign = false;
+
+      for (let doc of appDocs) {
+        if (doc.IMAGE_DATA) {
+          if (doc.DOCUMENT_NAME === "Applicant ID Proof") hasId = true;
+          if (doc.DOCUMENT_NAME === "Applicant Address Proof") hasAddress = true;
+          if (doc.DOCUMENT_NAME === "Applicant Photo") hasPhoto = true;
+          if (doc.DOCUMENT_NAME === "Signature" || doc.DOCUMENT_NAME === "Sign") hasSign = true;
+        }
+      }
+
+      if (!hasId || !hasAddress || !hasPhoto || !hasSign) {
+        return false;
       }
     }
 
-    if (count >= this.mendetoryDocs.length) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return true;
   }
 
   APPLICANT_ID!: number;
@@ -620,26 +635,52 @@ export class ProposalComponent implements OnInit {
   }
 
   velidateDocChacker(docArray: Documents[], role: 'C' | 'V') {
-    let ok = true;
+    const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
 
-    if (role == 'C')
-      for (let doc of docArray) {
-        if (doc.IMAGE_DATA)
-          if (!doc.IS_APPROVED_CHECKER) {
-            ok = false
+    for (let appNo = 1; appNo <= totalApplicants; appNo++) {
+      const appDocs = docArray.filter(doc => doc.APPLICANT_NO == appNo);
+      
+      let hasId = false;
+      let hasAddress = false;
+      let hasPhoto = false;
+      let hasSign = false;
+
+      for (let doc of appDocs) {
+        if (doc.IMAGE_DATA) {
+          if (doc.DOCUMENT_NAME === "Applicant ID Proof") {
+            if (role == 'C' && !doc.IS_APPROVED_CHECKER) return false;
+            if (role == 'V' && !doc.IS_APPROVED_VERIFIER) return false;
+            hasId = true;
           }
+          else if (doc.DOCUMENT_NAME === "Applicant Address Proof") {
+            if (role == 'C' && !doc.IS_APPROVED_CHECKER) return false;
+            if (role == 'V' && !doc.IS_APPROVED_VERIFIER) return false;
+            hasAddress = true;
+          }
+          else if (doc.DOCUMENT_NAME === "Applicant Photo") {
+            if (role == 'C' && !doc.IS_APPROVED_CHECKER) return false;
+            if (role == 'V' && !doc.IS_APPROVED_VERIFIER) return false;
+            hasPhoto = true;
+          }
+          else if (doc.DOCUMENT_NAME === "Signature" || doc.DOCUMENT_NAME === "Sign") {
+            if (role == 'C' && !doc.IS_APPROVED_CHECKER) return false;
+            if (role == 'V' && !doc.IS_APPROVED_VERIFIER) return false;
+            hasSign = true;
+          }
+          else {
+            // For other uploaded non-mandatory documents, they must also be approved
+            if (role == 'C' && !doc.IS_APPROVED_CHECKER) return false;
+            if (role == 'V' && !doc.IS_APPROVED_VERIFIER) return false;
+          }
+        }
       }
 
-
-    if (role == 'V')
-      for (let doc of docArray) {
-        if (doc.IMAGE_DATA)
-          if (!doc.IS_APPROVED_VERIFIER) {
-            ok = false
-          }
+      if (!hasId || !hasAddress || !hasPhoto || !hasSign) {
+        return false;
       }
+    }
 
-    return ok
+    return true;
   }
 
   @ViewChild('editStatus', { static: false }) editStatus?: TemplateRef<{

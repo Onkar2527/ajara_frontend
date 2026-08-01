@@ -149,6 +149,11 @@ export class ApplicantComponent implements OnInit {
     if ((await this.checkBalance(2)) == 0) return;
     // if (!(await this.searchPAN())) return;
 
+    this.aadhaarVerify.pan_history.PAN_NUMBER =
+      this.basicInfo[
+        'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
+      ];
+
     this.loadPanButton = true;
     let panverify = this.aadhaarVerify.verifyPan();
     panverify.subscribe({

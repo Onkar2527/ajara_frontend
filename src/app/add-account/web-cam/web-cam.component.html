@@ -159,6 +159,9 @@
           </span>
         </td>
         <td>
+          <span *ngIf="document.DOCUMENT_NAME === 'Applicant Photo' || document.DOCUMENT_NAME === 'Signature' || document.DOCUMENT_NAME === 'Sign' || 
+        document.DOCUMENT_NAME === 'Applicant Address Proof' || document.DOCUMENT_NAME === 'Applicant ID Proof'"
+            style="color: red; font-weight: bold;"> *</span>
           {{document.DOCUMENT_NAME}}
         </td>
 

@@ -8,6 +8,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import {
   Observable,
   ObservableInput,
@@ -132,21 +133,10 @@ export class ApiService implements HttpInterceptor {
     headers: this.httpHeaderMain,
   };
 
-  verifyPanUrl = 'https://kyc-api.aadhaarkyc.io/api/v1/pan/pan';
+  verifyPanUrl = environment.verifyPanUrl;
   // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
-  // baseUrl = 'http://fcobackend.kredpool.in/api/';
-
-  // baseUrl local
-  // baseUrl = 'http://localhost:8672/api/';
-  // baseUrl = 'http://localhost:8079/api/';
-  // baseUrl server
-
-  baseUrl = 'http://172.16.99.23:8672/api/'; //.in
-
-  // baseUrl = 'http://localhost:8672/api/' // local
-
-  // baseUrl = 'http://172.16.99.23:8672/api/' // UAT server
+  baseUrl = environment.baseUrl;
 
   decryptData(data: any) {
     console.log('data in decryption', data.data);
