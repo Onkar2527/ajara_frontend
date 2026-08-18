@@ -768,9 +768,9 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">State</nz-form-label>
                                 <nz-form-control>
                                     <nz-select name="OFFICE_STATE" nzShowSearch [(ngModel)]="personalInfo.OFFICE_STATE"
-                                        (ngModelChange)="filterDistrictC()"
-                                        [nzLoading]="addressMaster.current_state.loading">
-                                        <nz-option *ngFor="let state of addressMaster.current_state.data"
+                                        (ngModelChange)="filterDistrictO()"
+                                        [nzLoading]="addressMaster.office_state.loading">
+                                        <nz-option *ngFor="let state of addressMaster.office_state.data"
                                             [nzValue]="state.ID" [nzLabel]="state.STATEDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -779,9 +779,9 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">District</nz-form-label>
                                 <nz-form-control>
                                     <nz-select name="OFFICE_DISTRICT" nzShowSearch
-                                        [(ngModel)]="personalInfo.OFFICE_DISTRICT" (ngModelChange)="filterTalukaC()"
-                                        [nzLoading]="addressMaster.current_dist.loading">
-                                        <nz-option *ngFor="let district of addressMaster.current_dist.data"
+                                        [(ngModel)]="personalInfo.OFFICE_DISTRICT" (ngModelChange)="filterTalukaO()"
+                                        [nzLoading]="addressMaster.office_dist.loading">
+                                        <nz-option *ngFor="let district of addressMaster.office_dist.data"
                                             [nzValue]="district.ID" [nzLabel]="district.DISTRICTDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -790,9 +790,9 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">Taluka</nz-form-label>
                                 <nz-form-control>
                                     <nz-select name="OFFICE_TALUKA" nzShowSearch
-                                        [(ngModel)]="personalInfo.OFFICE_TALUKA" (ngModelChange)="filterCityC()"
-                                        [nzLoading]="addressMaster.current_taluka.loading">
-                                        <nz-option *ngFor="let taluka of addressMaster.current_taluka.data"
+                                        [(ngModel)]="personalInfo.OFFICE_TALUKA" (ngModelChange)="filterCityO()"
+                                        [nzLoading]="addressMaster.office_taluka.loading">
+                                        <nz-option *ngFor="let taluka of addressMaster.office_taluka.data"
                                             [nzValue]="taluka.ID" [nzLabel]="taluka.TALUKADESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -801,9 +801,9 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                                 <nz-form-control>
                                     <nz-select name="OFFICE_CITY" nzShowSearch [(ngModel)]="personalInfo.OFFICE_CITY"
-                                        (ngModelChange)="filterAreaC()"
-                                        [nzLoading]="addressMaster.current_city.loading">
-                                        <nz-option *ngFor="let city of addressMaster.current_city.data"
+                                        (ngModelChange)="filterAreaO()"
+                                        [nzLoading]="addressMaster.office_city.loading">
+                                        <nz-option *ngFor="let city of addressMaster.office_city.data"
                                             [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                     </nz-select>
                                 </nz-form-control>
@@ -820,8 +820,8 @@
                                 <nz-form-control>
                                     <nz-select name="OFFICE_AREA" nzShowSearch nzPlaceHolder="Select Area"
                                         [(ngModel)]="personalInfo.OFFICE_AREA" style="width: 100%;"
-                                        [nzLoading]="addressMaster.current_area.loading">
-                                        <nz-option *ngFor="let address of addressMaster.current_area.data"
+                                        [nzLoading]="addressMaster.office_area.loading">
+                                        <nz-option *ngFor="let address of addressMaster.office_area.data"
                                             [nzValue]="address.ID" [nzLabel]="address.AREADESC">
                                         </nz-option>
                                     </nz-select>

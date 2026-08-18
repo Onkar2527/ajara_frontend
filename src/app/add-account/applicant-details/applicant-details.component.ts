@@ -54,6 +54,12 @@ export class ApplicantDetailsComponent implements OnInit {
     this.personalInfo.PERMANENT_DISTRICT = Number(this.personalInfo.PERMANENT_DISTRICT)
     this.personalInfo.CURRENT_STATE = Number(this.personalInfo.CURRENT_STATE)
     this.personalInfo.PERMANENT_STATE = Number(this.personalInfo.PERMANENT_STATE)
+
+    this.personalInfo.OFFICE_AREA = Number(this.personalInfo.OFFICE_AREA)
+    this.personalInfo.OFFICE_CITY = Number(this.personalInfo.OFFICE_CITY)
+    this.personalInfo.OFFICE_TALUKA = Number(this.personalInfo.OFFICE_TALUKA)
+    this.personalInfo.OFFICE_DISTRICT = Number(this.personalInfo.OFFICE_DISTRICT)
+    this.personalInfo.OFFICE_STATE = Number(this.personalInfo.OFFICE_STATE)
   }
 
 

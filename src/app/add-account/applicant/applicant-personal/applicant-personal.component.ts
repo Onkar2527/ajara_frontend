@@ -72,6 +72,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     this.filterTalukaP();
     this.filterCityP();
     this.filterAreaP();
+
+    this.getStateO();
+    this.filterDistrictO();
+    this.filterTalukaO();
+    this.filterCityO();
+    this.filterAreaO();
   }
 
   async getStateCode(id: number) {
@@ -184,6 +190,23 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       data: <any>[], loading: false
     },
     permanent_area: {
+      data: <any>[], loading: false
+    },
+
+
+    office_state: {
+      data: <any>[], loading: false
+    },
+    office_dist: {
+      data: <any>[], loading: false
+    },
+    office_taluka: {
+      data: <any>[], loading: false
+    },
+    office_city: {
+      data: <any>[], loading: false
+    },
+    office_area: {
       data: <any>[], loading: false
     }
   }
@@ -438,6 +461,107 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       },
       error: () => {
         this.addressMaster.permanent_area.loading = false;
+      }
+    });
+  }
+
+  getStateO() {
+    this.addressMaster.office_state.loading = true;
+    this.api.getMasters(13).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.addressMaster.office_state.data = res['data'];
+          this.addressMaster.office_state.loading = false;
+        }
+        else {
+          this.addressMaster.office_state.loading = false;
+        }
+      },
+      error: () => {
+        this.addressMaster.office_state.loading = false;
+      }
+    })
+  }
+
+  async filterDistrictO() {
+    this.addressMaster.office_dist.loading = true;
+
+    let filter = ` AND STATEID = ${await this.getStateCode(this.personalInfo.OFFICE_STATE)}`;
+
+    this.api.getMasters(14, filter).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.addressMaster.office_dist.data = res['data'];
+          this.addressMaster.office_dist.loading = false;
+        }
+        else {
+          this.addressMaster.office_dist.loading = false;
+        }
+      },
+      error: () => {
+        this.addressMaster.office_dist.loading = false;
+      }
+    })
+  }
+
+  async filterTalukaO() {
+    this.addressMaster.office_taluka.loading = true;
+
+    let filter = ` AND STATEID = ${await this.getStateCode(this.personalInfo.OFFICE_STATE)} AND DISTRICTID = ${await this.getDistCode(this.personalInfo.OFFICE_DISTRICT)}`;
+
+    this.api.getMasters(15, filter).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.addressMaster.office_taluka.data = res['data'];
+          this.addressMaster.office_taluka.loading = false;
+        }
+        else {
+          this.addressMaster.office_taluka.loading = false;
+        }
+      },
+      error: () => {
+        this.addressMaster.office_taluka.loading = false;
+      }
+    })
+  }
+
+  async filterCityO() {
+    this.addressMaster.office_city.loading = true;
+
+    let filter = ` AND STATEID = ${await this.getStateCode(this.personalInfo.OFFICE_STATE)}  AND DISTRICTID = ${await this.getDistCode(this.personalInfo.OFFICE_DISTRICT)}  AND TALUKAID = ${await this.getTalukaCode(this.personalInfo.OFFICE_TALUKA)}`;
+
+    this.api.getMasters(16, filter).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.addressMaster.office_city.data = res['data'];
+          this.addressMaster.office_city.loading = false;
+        }
+        else {
+          this.addressMaster.office_city.loading = false;
+        }
+      },
+      error: () => {
+        this.addressMaster.office_city.loading = false;
+      }
+    });
+  }
+
+  async filterAreaO() {
+    this.addressMaster.office_area.loading = true;
+    let filter = ` AND STATEID = ${await this.getStateCode(this.personalInfo.OFFICE_STATE)}  AND DISTRICTID = ${await this.getDistCode(this.personalInfo.OFFICE_DISTRICT)}   AND TALUKAID = ${await this.getTalukaCode(this.personalInfo.OFFICE_TALUKA)}  AND CITYID = ${await this.getCityCode(this.personalInfo.OFFICE_CITY)}`;
+
+    this.api.getMasters(17, filter).subscribe({
+      next: (res) => {
+        if (res['code'] == 200) {
+          this.addressMaster.office_area.data = res['data'];
+          this.addressMaster.office_area.loading = false;
+        }
+        else {
+          this.addressMaster.office_area.loading = false;
+        }
+      },
+      error: () => {
+        this.addressMaster.office_area.loading = false;
       }
     });
   }
@@ -819,6 +943,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     this.personalInfo.PERMANENT_DISTRICT = this.personalInfo.PERMANENT_DISTRICT.toString()
     this.personalInfo.CURRENT_STATE = this.personalInfo.CURRENT_STATE.toString()
     this.personalInfo.PERMANENT_STATE = this.personalInfo.PERMANENT_STATE.toString()
+
+    this.personalInfo.OFFICE_AREA = this.personalInfo.OFFICE_AREA.toString()
+    this.personalInfo.OFFICE_CITY = this.personalInfo.OFFICE_CITY.toString()
+    this.personalInfo.OFFICE_TALUKA = this.personalInfo.OFFICE_TALUKA.toString()
+    this.personalInfo.OFFICE_DISTRICT = this.personalInfo.OFFICE_DISTRICT.toString()
+    this.personalInfo.OFFICE_STATE = this.personalInfo.OFFICE_STATE.toString()
   }
 
   convertToNumber() {
@@ -832,6 +962,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     this.personalInfo.PERMANENT_DISTRICT = Number(this.personalInfo.PERMANENT_DISTRICT)
     this.personalInfo.CURRENT_STATE = Number(this.personalInfo.CURRENT_STATE)
     this.personalInfo.PERMANENT_STATE = Number(this.personalInfo.PERMANENT_STATE)
+
+    this.personalInfo.OFFICE_AREA = Number(this.personalInfo.OFFICE_AREA)
+    this.personalInfo.OFFICE_CITY = Number(this.personalInfo.OFFICE_CITY)
+    this.personalInfo.OFFICE_TALUKA = Number(this.personalInfo.OFFICE_TALUKA)
+    this.personalInfo.OFFICE_DISTRICT = Number(this.personalInfo.OFFICE_DISTRICT)
+    this.personalInfo.OFFICE_STATE = Number(this.personalInfo.OFFICE_STATE)
   }
 
 
