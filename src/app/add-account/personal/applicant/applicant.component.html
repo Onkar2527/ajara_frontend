@@ -140,7 +140,7 @@
         <nz-input-group nzCompact>
           <input nz-input
             [(ngModel)]="basicInfo[applicantNo == 1 ? 'PAN_NUMBER' : 'PAN_NUMBER' + applicantNo]"
-            placeholder="Enter PAN Number" style="width: calc(100% - 70px);" />
+            placeholder="Enter PAN Number" style="width: calc(100% - 70px); text-transform: uppercase;" maxlength="10" />
           <button nz-button (click)="verifyPan()" [nzLoading]="loadPanButton">Verify</button>
           <div nz-row *ngIf="aadhaarVerify.pan_history.IS_VERIFIED" class="success-tip">
             <div nz-col nzSpan="24">

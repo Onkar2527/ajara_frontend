@@ -146,13 +146,25 @@ export class ApplicantComponent implements OnInit {
   }
 
   async verifyPan() {
+    const rawPan = this.basicInfo[
+      'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
+    ];
+    if (!rawPan || !rawPan.trim()) {
+      this.message.error('Please enter a PAN Number first.', '');
+      return;
+    }
+    const formattedPan = rawPan.trim().toUpperCase();
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formattedPan)) {
+      this.message.error('Invalid PAN Number format. Must be 10 characters (e.g., ABCDE1234F).', '');
+      return;
+    }
+    this.basicInfo[
+      'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
+    ] = formattedPan;
+    this.aadhaarVerify.pan_history.PAN_NUMBER = formattedPan;
+
     if ((await this.checkBalance(2)) == 0) return;
     // if (!(await this.searchPAN())) return;
-
-    this.aadhaarVerify.pan_history.PAN_NUMBER =
-      this.basicInfo[
-        'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '')
-      ];
 
     this.loadPanButton = true;
     let panverify = this.aadhaarVerify.verifyPan();

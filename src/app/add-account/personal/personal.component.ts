@@ -154,7 +154,7 @@ export class PersonalComponent implements OnInit {
       for (let i = 1; i <= this.basicInfo.NO_OF_APPLICANT; i++) {
         const comp = this.applicantComps.find(c => c.applicantNo === i);
         if (comp && comp.aadhaarVerify?.pan_history?.PAN_NUMBER) {
-          this.basicInfo['PAN_NUMBER' + (i > 1 ? i : '')] = comp.aadhaarVerify.pan_history.PAN_NUMBER.trim();
+          this.basicInfo['PAN_NUMBER' + (i > 1 ? i : '')] = comp.aadhaarVerify.pan_history.PAN_NUMBER.trim().toUpperCase();
         }
       }
     }
@@ -216,6 +216,13 @@ export class PersonalComponent implements OnInit {
               isOk = false;
               break;
             }
+            const formattedPan = panNumber.trim().toUpperCase();
+            if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formattedPan)) {
+              this.message.error(`${label} PAN Number format is invalid. It must be 10 characters (e.g., ABCDE1234F).`, '');
+              isOk = false;
+              break;
+            }
+            this.basicInfo['PAN_NUMBER' + (i > 1 ? i : '')] = formattedPan;
           }
         }
 

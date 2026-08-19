@@ -74,7 +74,7 @@
     <div nz-col nzSpan="6">
 
       <nz-form-item>
-        <nz-form-label nzRequired [nzNoColon]="true">Document Name</nz-form-label>
+        <nz-form-label [nzNoColon]="true">Document Name</nz-form-label>
         <nz-form-control>
           <input nz-input name="document" [(ngModel)]="SingleDocument.DOCUMENT_NAME"
             placeholder="Enter the name of new Document" />
@@ -85,7 +85,7 @@
     <div nz-col nzSpan="1"></div>
     <div nz-col nzSpan="6">
       <nz-form-item>
-        <nz-form-label nzRequired [nzNoColon]="true">Maker Remark</nz-form-label>
+        <nz-form-label [nzNoColon]="true">Maker Remark</nz-form-label>
         <nz-form-control>
           <input nz-input name="document" [(ngModel)]="SingleDocument.MAKER_REMARK"
             placeholder="Enter Remark or description for document" />
@@ -186,7 +186,7 @@
 
 
   <nz-form-item nz-col nzSpan="24" *ngIf="show_remark">
-    <nz-form-label nzRequired [nzNoColon]="true">Remark</nz-form-label>
+    <nz-form-label [nzNoColon]="true">Remark</nz-form-label>
     <nz-form-control>
       <div nz-row>
         <textarea rows="2" nz-input [(ngModel)]="REMARK"></textarea>
