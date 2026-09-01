@@ -202,9 +202,9 @@ export class Aadhaar {
     this.api.Aadhaar_GetOTP(this.meta)
       .subscribe({
         next: (res) => {
-          if (res['statuscode'] == 200) {
-            const RequestedData = res['data']
-            this.meta.client_id = RequestedData["client_id"];
+          if (res['code'] == 200) {
+            const RequestedData = res['data']['result'];
+            this.meta.client_id = RequestedData["request_id"];
             this.message.success('OTP sent!', 'The unique otp has been sent to user\'s registered mobile number');
             this.showOtp = true;
             this.otpSubject.next(true);
@@ -236,7 +236,7 @@ export class Aadhaar {
       this.api.Aadhaar_GetData(this.meta)
         .subscribe({
           next: (res) => {
-            if (res['statuscode'] == "200") {
+            if (res['code'] == "200") {
               this.aadhar_history.DOB = res['data']['dob'];
               this.aadhar_history.APPLICANT_FULL_NAME = res['data']['full_name'];
               this.aadhar_history.GENDER = this.getGender(res['data']['gender']);
@@ -316,7 +316,7 @@ export class Aadhaar {
         },
         error: (err) => {
           this.showPan = false;
-          console.log("PAN Error",err)
+          console.log("PAN Error", err)
           // this.message.error('PAN Verification Failed', 'Please try again after sometimes');
           this.OVD_ERROR(err.error.message);
           panverify.error(err);
@@ -405,7 +405,7 @@ export class Aadhaar {
       },
       error: (err) => {
         this.license_history.IS_VERIFIED = false;
-        console.log("license error",err)
+        console.log("license error", err)
         // this.message.error('License Verification Failed', 'Please try again after sometimes');
         this.OVD_ERROR(err.error.message);
         license.error(err);
@@ -452,8 +452,8 @@ export class Aadhaar {
 
   }
 
-  private OVD_ERROR(message:string) {
-      this.message.error(message,'');
+  private OVD_ERROR(message: string) {
+    this.message.error(message, '');
   }
 
 }

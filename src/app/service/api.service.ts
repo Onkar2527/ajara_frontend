@@ -134,7 +134,7 @@ export class ApiService implements HttpInterceptor {
   };
 
   verifyPanUrl = environment.verifyPanUrl;
-  // aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
+  //aadhaarBaseUrl = "http://aadharverifybackend.kredpool.in/api/addhar/";
 
   baseUrl = environment.baseUrl;
 
