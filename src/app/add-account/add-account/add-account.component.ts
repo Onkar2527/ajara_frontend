@@ -113,6 +113,42 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     return cloned;
   }
 
+  extractErrorMessage(errOrRes: any, fallback: string = "Unable to create account."): string {
+    if (!errOrRes) return fallback;
+    if (typeof errOrRes === 'string') return errOrRes;
+
+    const target = errOrRes?.response?.data || (
+      errOrRes.error && (typeof errOrRes.error === 'object' || typeof errOrRes.error === 'string')
+        ? errOrRes.error
+        : errOrRes
+    );
+
+    if (typeof target === 'string') return target;
+
+    const candidate = target?.data || target?.message || target?.error || target?.msg || target?.error_message || errOrRes?.data || errOrRes?.message || errOrRes?.error;
+
+    if (!candidate) {
+      if (typeof target === 'object') {
+        try {
+          const keys = Object.keys(target).filter(k => k !== 'code' && k !== 'status');
+          if (keys.length > 0) return JSON.stringify(target);
+        } catch (e) {}
+      }
+      return fallback;
+    }
+
+    if (typeof candidate === 'string') return candidate;
+    if (typeof candidate === 'object') {
+      const nested = candidate?.data || candidate?.message || candidate?.error || candidate?.msg || candidate?.reason;
+      if (nested) {
+        if (typeof nested === 'string') return nested;
+        return JSON.stringify(nested);
+      }
+      return JSON.stringify(candidate);
+    }
+    return String(candidate);
+  }
+
   async confirmAccountCreationInTestMode() {
     this.isConfirmingAccount = true;
     try {
@@ -127,25 +163,25 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         this.personalComp.basicInfo.TRACK_ID = 4;
         let personal = this.personalComp.save();
         personal.subscribe({
-          next: (res) => {
+          next: (res: any) => {
             if (res.code == 200) {
               this.saveRemark();
               this.message.success("Account has been created", `Account Number = ${onBoardingResult.success_data['Account number']}`);
               this.CloseDrawer.emit();
             } else {
-              this.message.error("Failed to Create Account", '');
+              this.message.error(this.extractErrorMessage(res, "Failed to Create Account"), '');
             }
           },
-          error: () => {
-            this.message.error("Failed to Create Account", '');
+          error: (err: any) => {
+            this.message.error(this.extractErrorMessage(err, "Failed to Create Account"), '');
           }
         });
       } else {
-        this.message.error("Unable to create account.", '');
+        this.message.error(this.extractErrorMessage(onBoardingResult, "Unable to create account."), '');
       }
-    } catch (e) {
+    } catch (e: any) {
       this.isConfirmingAccount = false;
-      this.message.error("Error creating account in CBS", '');
+      this.message.error(this.extractErrorMessage(e, "Error creating account in CBS"), '');
     }
   }
 
@@ -162,9 +198,11 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     let isOk = true;
 
-    if (!this.remarkComp.REMARK) {
+    if (!this.remarkComp || !this.remarkComp.REMARK) {
       this.message.error("Remark is mendetory field", '');
       isOk = false;
+      this.AccountCreationStatus.emit(false);
+      return;
     }
 
     if (send_to_refill && isOk) {
@@ -179,10 +217,11 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.CloseDrawer.emit();
           }
           else {
-            this.message.error("Something went wrong", '');
+            this.message.error(this.extractErrorMessage(res, "Something went wrong"), '');
+            this.AccountCreationStatus.emit(false);
           }
         }, error: () => {
-
+          this.AccountCreationStatus.emit(false);
         },
         complete: () => {
 
@@ -213,11 +252,11 @@ export class AddAccountComponent implements OnInit, OnDestroy {
             this.isTestModalVisible = true;
             this.message.info("Test Mode: JSON Payload generated. Please review and click Confirm to create account.", '');
           } else {
-            this.message.error("Failed to generate JSON payload in Test Mode.", '');
+            this.message.error(this.extractErrorMessage(testResult, "Failed to generate JSON payload in Test Mode."), '');
           }
-        } catch (e) {
+        } catch (e: any) {
           this.AccountCreationStatus.emit(false);
-          this.message.error("Error generating test mode payload", '');
+          this.message.error(this.extractErrorMessage(e, "Error generating test mode payload"), '');
         }
         return;
       }
@@ -226,7 +265,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       try {
         onBoardingResult = await lastValueFrom(this.api.onBoardCustomer(applicantId, false));
       } catch (err: any) {
-        this.message.error(err.error?.message || "Failed to create account due to server error.", '');
+        this.message.error(this.extractErrorMessage(err, "Failed to create account due to server error."), '');
         this.AccountCreationStatus.emit(false);
         return;
       }
@@ -246,10 +285,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
               this.CloseDrawer.emit();
             }
             else {
-              this.message.error("Failed to Create Account", '');
+              this.message.error(this.extractErrorMessage(res, "Failed to Create Account"), '');
             }
-          }, error: () => {
-            this.message.error("Failed to Create Account", '');
+          }, error: (err: any) => {
+            this.message.error(this.extractErrorMessage(err, "Failed to Create Account"), '');
           },
           complete: () => {
 
@@ -259,7 +298,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       }
 
       else {
-        this.message.error(onBoardingResult?.message || "Unable to create account.", '');
+        this.message.error(this.extractErrorMessage(onBoardingResult, "Unable to create account."), '');
         this.AccountCreationStatus.emit(false);
       }
 
@@ -279,9 +318,11 @@ export class AddAccountComponent implements OnInit, OnDestroy {
 
     let isOk = true;
 
-    if (!this.remarkComp.REMARK) {
+    if (!this.remarkComp || !this.remarkComp.REMARK) {
       this.message.error("Remark is mendetory field", '');
       isOk = false;
+      this.AccountCreationStatus.emit(false);
+      return;
     }
 
     if (send_to_refill && isOk) {
@@ -298,9 +339,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           }
           else {
             this.message.error("Something went wrong", '');
+            this.AccountCreationStatus.emit(false);
           }
         }, error: () => {
-
+          this.AccountCreationStatus.emit(false);
         },
         complete: () => {
 
@@ -325,9 +367,10 @@ export class AddAccountComponent implements OnInit, OnDestroy {
                 }
                 else {
                   this.message.error("Something went wrong", '');
+                  this.AccountCreationStatus.emit(false);
                 }
               }, error: () => {
-
+                this.AccountCreationStatus.emit(false);
               },
               complete: () => {
 
@@ -336,10 +379,12 @@ export class AddAccountComponent implements OnInit, OnDestroy {
           }
           else {
             this.message.error("Something went wrong", '');
+            this.AccountCreationStatus.emit(false);
           }
         },
         error: () => {
           this.message.error("Something went wrong", '');
+          this.AccountCreationStatus.emit(false);
         }
       })
 

@@ -30,6 +30,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['personalInfo']) {
+      if (this.personalInfo && (this.personalInfo.RISK_CATEGORY === 'A' || !this.personalInfo.RISK_CATEGORY)) {
+        const trackId = (this.personalInfo as any)?.TRACK_ID;
+        if (!trackId || trackId === 1) {
+          this.personalInfo.RISK_CATEGORY = '';
+        }
+      }
       this.getAddressDropDowns();
       this.getAadhaarData();
     }
@@ -655,7 +661,11 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     { field: 'CURRENT_AREA', message: "Current Area" },
 
-    { field: 'CONSTITUTION', message: "Constitution" }
+    { field: 'CONSTITUTION', message: "Constitution" },
+
+    { field: 'PROFESSION', message: "Profession" },
+
+    { field: 'SOURCE_OF_FUNDS', message: "Source of Fund" }
 
   ]
 
@@ -977,7 +987,8 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     let isOk = true;
 
     for (let field of this.mendetory_all) {
-      if (!this.personalInfo[field.field as keyof PersonalInfo]) {
+      const val = this.personalInfo[field.field as keyof PersonalInfo];
+      if (val === null || val === undefined || (typeof val === 'string' && !val.trim()) || val === '') {
         this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
@@ -1021,6 +1032,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     // }
 
     if (this.personalInfo.IS_DISABLED) {
+      const disVal = this.personalInfo.TYPE_OF_DISABILITY;
+      if (disVal === null || disVal === undefined || (typeof disVal === 'string' && !disVal.trim()) || disVal === '') {
+        this.message.error("Type of Disability is Mandatory", '');
+        isOk = false;
+      }
+
       const pct = this.personalInfo.DISABILITY_PERCENTAGE;
       if (pct !== null && pct !== undefined && (pct as any) !== '') {
         const percentage = Number(pct);
@@ -1290,6 +1307,14 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
         }
       }
     })
+  }
+
+  onDisabilityStatusChange(enabled: boolean) {
+    if (!enabled) {
+      this.personalInfo.TYPE_OF_DISABILITY = '';
+      this.personalInfo.DISABILITY_PERCENTAGE = null;
+      this.personalInfo.UDID_NO = '';
+    }
   }
 
 }

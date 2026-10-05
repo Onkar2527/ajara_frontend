@@ -61,11 +61,22 @@ export class ApplicantComponent implements OnInit {
     }
   }
 
+  isAadhaarValid(): boolean {
+    const aadhaar = this.aadhaarVerify?.aadhar_history?.AADHAAR_NUMBER;
+    if (!aadhaar) return false;
+    const clean = aadhaar.replace(/\D/g, '');
+    return clean.length === 12;
+  }
+
   showAadharNo(value: string) {
     this.previewAdhaar = value;
   }
 
   async getOtp() {
+    if (!this.isAadhaarValid()) {
+      this.message.error('Please enter valid 12-digit Aadhaar number.', '');
+      return;
+    }
     this.loadOtpButton = true;
     if ((await this.checkBalance(1)) == 0) {
       return;
@@ -87,6 +98,10 @@ export class ApplicantComponent implements OnInit {
   }
 
   getAadhaarData() {
+    if (!this.aadhaarVerify.meta.otp) {
+      this.message.error('Please enter OTP first', '');
+      return;
+    }
     this.loadAadhaarButton = true;
     let aadhar_data = this.aadhaarVerify.getData();
     aadhar_data.subscribe({
@@ -344,28 +359,53 @@ export class ApplicantComponent implements OnInit {
   calculateAge() {
     let dob_key: any = 'DOB_' + this.applicantNo;
     let age_key: any = 'AGE_' + this.applicantNo;
-    let Age = this.basicInfo[dob_key];
-    if (Age) {
-      let ageArray = Age.split('/');
-      let year = ~~ageArray[2];
-      let currentDate = new Date();
-      let currentYear = currentDate.getFullYear();
-      this.basicInfo[age_key] = currentYear - year;
-      if (this.basicInfo[age_key] < 18 && this.applicantNo === 1) {
-        this.isMinor.emit(true);
-      } else if (this.basicInfo[age_key] >= 18 && this.applicantNo === 1) {
-        this.isMinor.emit(false);
+    let dobVal = this.basicInfo[dob_key];
+
+    if (dobVal && typeof dobVal === 'string') {
+      const formattedDob = this.convertDate(dobVal);
+      if (formattedDob !== dobVal && formattedDob.length === 10) {
+        this.basicInfo[dob_key] = formattedDob;
       }
-    } else {
-      this.basicInfo[age_key] = 0;
+
+      const parts = formattedDob.split('/');
+      if (parts.length === 3) {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+        const currentYear = new Date().getFullYear();
+
+        if (year > 1900 && year <= currentYear && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+          const today = new Date();
+          let age = today.getFullYear() - year;
+          const monthDiff = (today.getMonth() + 1) - month;
+
+          if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < day)) {
+            age--;
+          }
+
+          if (age >= 0 && age < 120) {
+            this.basicInfo[age_key] = age;
+            if (this.applicantNo === 1) {
+              this.isMinor.emit(age < 18);
+            }
+            return;
+          }
+        }
+      }
     }
+
+    this.basicInfo[age_key] = 0;
   }
 
   async searchCustomer() {
     const customerId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
     if (customerId) {
-      let res: any = await lastValueFrom(this.api.searchCustomer(customerId));
-      this.handleSearchResponse(res);
+      try {
+        let res: any = await lastValueFrom(this.api.searchCustomer(customerId));
+        this.handleSearchResponse(res);
+      } catch (err: any) {
+        this.handleSearchError(err);
+      }
     } else {
       this.message.error('Please Enter Customer ID.', '');
     }
@@ -374,10 +414,14 @@ export class ApplicantComponent implements OnInit {
   async searchAadhaar() {
     const aadhaarNo = this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER;
     if (aadhaarNo) {
-      let res: any = await lastValueFrom(
-        this.api.searchCustomer('', aadhaarNo, '', 'AADHAAR_NO')
-      );
-      return this.handleSearchResponse(res);
+      try {
+        let res: any = await lastValueFrom(
+          this.api.searchCustomer('', aadhaarNo, '', 'AADHAAR_NO')
+        );
+        return this.handleSearchResponse(res);
+      } catch (err: any) {
+        return this.handleSearchError(err);
+      }
     }
     return true;
   }
@@ -385,57 +429,84 @@ export class ApplicantComponent implements OnInit {
   async searchPAN() {
     const panNo = this.aadhaarVerify.pan_history.PAN_NUMBER;
     if (panNo) {
-      let res: any = await lastValueFrom(
-        this.api.searchCustomer('', '', panNo, 'PAN')
-      );
-      return this.handleSearchResponse(res);
+      try {
+        let res: any = await lastValueFrom(
+          this.api.searchCustomer('', '', panNo, 'PAN')
+        );
+        return this.handleSearchResponse(res);
+      } catch (err: any) {
+        return this.handleSearchError(err);
+      }
     }
     return true;
   }
 
-  // private handleSearchResponse(res: any): boolean {
-  //   if (res['code'] == 200) {
-  //     const searchData = res['data'];
-  //     if (searchData.ALREADY_EXIST == 'Y') {
-  //       this.message.error(
-  //         'This Customer Already Has An Individual Account.',
-  //         ''
-  //       );
-  //       return false;
-  //     } else {
-  //       this.populateFieldsFromSearch(searchData);
-  //     }
-  //   } else if (res['code'] == 404) {
-  //     this.message.error('No Customer Found.', '');
-  //   } else {
-  //     this.message.error('Something Went Wrong', '');
-  //   }
-  //   return true;
-  // }
+  private isNotFoundMessage(dataOrMsg: any): boolean {
+    if (!dataOrMsg) return true;
+    if (typeof dataOrMsg === 'string') {
+      const str = dataOrMsg.toLowerCase();
+      return (
+        str.includes('member details not found') ||
+        str.includes('not found') ||
+        str.includes('not existing') ||
+        str.includes('no customer found')
+      );
+    }
+    if (typeof dataOrMsg === 'object') {
+      const str = JSON.stringify(dataOrMsg).toLowerCase();
+      return str.includes('member details not found') || str.includes('not found');
+    }
+    return false;
+  }
 
   private handleSearchResponse(res: any): boolean {
     if (res?.code === 200) {
       const searchData = res.data;
 
-      if (searchData.ALREADY_EXIST === 'Y') {
-        this.message.warning(
-          'Customer already exists. You can proceed for verification.',
-          ''
-        );
+      if (this.isNotFoundMessage(searchData)) {
+        this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
+        return true;
+      }
 
-        // ✅ Still allow verification
+      if (searchData && typeof searchData === 'object' && searchData.CUSTOMERID) {
+        if (searchData.ALREADY_EXIST === 'Y') {
+          this.message.warning(
+            'Customer already exists in CBS. Customer details fetched.',
+            ''
+          );
+        }
         this.populateFieldsFromSearch(searchData);
         return true;
       }
 
-      // ✅ New customer
-      this.populateFieldsFromSearch(searchData);
+      this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
       return true;
     }
 
-    if (res?.code === 404) {
-      this.message.error(res.message || 'No Customer Found.', '');
-      return false;
+    if (
+      res?.code === 404 ||
+      res?.code === 400 ||
+      this.isNotFoundMessage(res?.data) ||
+      this.isNotFoundMessage(res?.message)
+    ) {
+      this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
+      return true;
+    }
+
+    this.message.error('Something Went Wrong', '');
+    return false;
+  }
+
+  private handleSearchError(err: any): boolean {
+    const errData =
+      err?.error?.data || err?.error?.message || err?.error || err?.message || '';
+    if (
+      this.isNotFoundMessage(errData) ||
+      err?.status === 404 ||
+      err?.status === 400
+    ) {
+      this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
+      return true;
     }
 
     this.message.error('Something Went Wrong', '');
@@ -471,13 +542,28 @@ export class ApplicantComponent implements OnInit {
     this.calculateAge();
   }
 
-  convertDate(date: string) {
-    if (!date) return '';
-    let arr = date.split(' ');
-    let firstPart = arr[0].split('-');
-    let dd = firstPart[0],
-      mm = firstPart[1],
-      yy = firstPart[2];
-    return `${dd}/${mm}/${yy}`;
+  convertDate(dateStr: any): string {
+    if (!dateStr) return '';
+    if (typeof dateStr !== 'string') dateStr = String(dateStr);
+
+    dateStr = dateStr.trim().split(' ')[0].split('T')[0].replace(/[-.]/g, '/');
+    const parts = dateStr.split('/').filter((p: any) => p.length > 0);
+
+    if (parts.length === 3) {
+      let [p1, p2, p3] = parts;
+      if (p1.length === 4) {
+        const year = p1;
+        const month = p2.padStart(2, '0');
+        const day = p3.padStart(2, '0');
+        return `${day}/${month}/${year}`;
+      }
+      if (p3.length >= 4) {
+        const day = p1.padStart(2, '0');
+        const month = p2.padStart(2, '0');
+        const year = p3.slice(0, 4);
+        return `${day}/${month}/${year}`;
+      }
+    }
+    return dateStr;
   }
 }

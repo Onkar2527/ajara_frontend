@@ -45,9 +45,10 @@
 
                             <div nz-col nzSpan="6">
                                 <nz-form-item>
-                                    <nz-form-label nzRequired [nzNoColon]="true">Risk Category</nz-form-label>
+                                    <nz-form-label [nzRequired]="true" [nzNoColon]="true">Risk Category</nz-form-label>
                                     <nz-form-control>
-                                        <nz-select [(ngModel)]="personalInfo.RISK_CATEGORY">
+                                        <nz-select [(ngModel)]="personalInfo.RISK_CATEGORY"
+                                            nzPlaceHolder="Select Risk Category">
                                             <nz-option *ngFor="let option of MASTERS[3].data"
                                                 [nzValue]="option.CAT_CODE" [nzLabel]="option.CAT_DESC">
                                             </nz-option>
@@ -346,14 +347,16 @@
                                 <nz-form-item>
                                     <nz-form-label [nzNoColon]="true">Disability Status</nz-form-label>
                                     <nz-form-control>
-                                        <nz-switch [(ngModel)]="personalInfo.IS_DISABLED" nzCheckedChildren="Yes"
+                                        <nz-switch [(ngModel)]="personalInfo.IS_DISABLED"
+                                            (ngModelChange)="onDisabilityStatusChange($event)" nzCheckedChildren="Yes"
                                             nzUnCheckedChildren="No"></nz-switch>
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
                             <div nz-col nzSpan="12" *ngIf="personalInfo.IS_DISABLED">
                                 <nz-form-item>
-                                    <nz-form-label nzRequired [nzNoColon]="true">Type of Disability</nz-form-label>
+                                    <nz-form-label [nzRequired]="true" [nzNoColon]="true">Type of
+                                        Disability</nz-form-label>
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.TYPE_OF_DISABILITY"
                                             nzPlaceHolder="Select Disability Type">
@@ -378,8 +381,8 @@
                                 <nz-form-item>
                                     <nz-form-label [nzNoColon]="true">UDID Number</nz-form-label>
                                     <nz-form-control>
-                                        <input nz-input name="UDID_NO" [(ngModel)]="personalInfo.UDID_NO"
-                                            maxlength="18" placeholder="Enter UDID Number" />
+                                        <input nz-input name="UDID_NO" [(ngModel)]="personalInfo.UDID_NO" maxlength="18"
+                                            placeholder="Enter UDID Number" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -801,8 +804,7 @@
                                 <nz-form-label nzRequired [nzNoColon]="true">City / Village</nz-form-label>
                                 <nz-form-control>
                                     <nz-select name="OFFICE_CITY" nzShowSearch [(ngModel)]="personalInfo.OFFICE_CITY"
-                                        (ngModelChange)="filterAreaO()"
-                                        [nzLoading]="addressMaster.office_city.loading">
+                                        (ngModelChange)="filterAreaO()" [nzLoading]="addressMaster.office_city.loading">
                                         <nz-option *ngFor="let city of addressMaster.office_city.data"
                                             [nzValue]="city.ID" [nzLabel]="city.CITYDESC"></nz-option>
                                     </nz-select>
@@ -864,9 +866,10 @@
                         <div nz-row [nzGutter]="[16,16]">
                             <div nz-col nzSpan="12">
                                 <nz-form-item>
-                                    <nz-form-label nzRequired [nzNoColon]="true">Profession</nz-form-label>
+                                    <nz-form-label [nzRequired]="true" [nzNoColon]="true">Profession</nz-form-label>
                                     <nz-form-control>
-                                        <nz-select [(ngModel)]="personalInfo.PROFESSION">
+                                        <nz-select [(ngModel)]="personalInfo.PROFESSION"
+                                            nzPlaceHolder="Select Profession">
                                             <nz-option *ngFor="let option of MASTERS[0].data"
                                                 [nzValue]="option.OCCUPATIONID"
                                                 [nzLabel]="option.OCCUPATIONDESC"></nz-option>
@@ -876,9 +879,10 @@
                             </div>
                             <div nz-col nzSpan="12">
                                 <nz-form-item>
-                                    <nz-form-label nzRequired [nzNoColon]="true">Source of Fund</nz-form-label>
+                                    <nz-form-label [nzRequired]="true" [nzNoColon]="true">Source of Fund</nz-form-label>
                                     <nz-form-control>
-                                        <nz-select [(ngModel)]="personalInfo.SOURCE_OF_FUNDS">
+                                        <nz-select [(ngModel)]="personalInfo.SOURCE_OF_FUNDS"
+                                            nzPlaceHolder="Select Source of Fund">
                                             <nz-option *ngFor="let option of SOURCE_OF_FUNDS_LIST"
                                                 [nzValue]="option.value" [nzLabel]="option.lable"></nz-option>
                                         </nz-select>

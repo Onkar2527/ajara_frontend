@@ -235,20 +235,16 @@ export class PersonalComponent implements OnInit {
               if (panNumber) {
                 try {
                   const res: any = await lastValueFrom(this.api.searchCustomer('', '', panNumber, 'PAN'));
-                  if (res?.code === 200) {
+                  const data = res?.data;
+                  const isNotFound = !data || (typeof data === 'string' && (data.toLowerCase().includes('not found') || data.toLowerCase().includes('not existing')));
+                  if (res?.code === 200 && data && typeof data === 'object' && data.CUSTOMERID && data.ALREADY_EXIST === 'Y' && !isNotFound) {
                     const label = i === 1 ? 'Primary Applicant' : `Applicant ${i}`;
                     this.message.error(`${label}'s PAN Number ${panNumber} already exists in CBS!`, '');
                     isOk = false;
                     break;
                   }
                 } catch (e: any) {
-                  console.error(e);
-                  if (e?.status === 200 || e?.error?.code === 200) {
-                    const label = i === 1 ? 'Primary Applicant' : `Applicant ${i}`;
-                    this.message.error(`${label}'s PAN Number ${panNumber} already exists in CBS!`, '');
-                    isOk = false;
-                    break;
-                  }
+                  console.error("PAN search in CBS check error:", e);
                 }
               }
             }

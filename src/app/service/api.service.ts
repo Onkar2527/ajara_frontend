@@ -628,7 +628,16 @@ export class ApiService implements HttpInterceptor {
           callerSystem: 'SysKred',
         });
 
-        return this.httpClient.post(this.getAadhaarDataUrl, data, { headers });
+        const payload: any = {
+          client_id: data.client_id ? data.client_id.trim() : '',
+          otp: data.otp ? data.otp.toString().trim() : '',
+        };
+
+        if (data.id_number) {
+          payload.id_number = data.id_number.trim();
+        }
+
+        return this.httpClient.post(this.getAadhaarDataUrl, payload, { headers });
       })
     );
   }
@@ -650,7 +659,11 @@ export class ApiService implements HttpInterceptor {
           callerSystem: 'SysKred',
         });
 
-        return this.httpClient.post(this.genAadhaarOtpUrl, data, { headers });
+        const payload: any = {
+          id_number: data.id_number ? data.id_number.trim() : ''
+        };
+
+        return this.httpClient.post(this.genAadhaarOtpUrl, payload, { headers });
       })
     );
   }

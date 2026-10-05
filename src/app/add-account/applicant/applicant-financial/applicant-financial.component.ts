@@ -81,6 +81,12 @@ export class ApplicantFinancialComponent implements OnInit {
   save() {
     let financial: Subject<any> = new Subject();
 
+    if (!this.financialInfo.INCOME || !this.financialInfo.INCOME.toString().trim()) {
+      this.message.error("Income Information is Mandatory", '');
+      financial.error("Income Information is Mandatory");
+      return financial;
+    }
+
     if (this.financialInfo.ID) {
       this.api.updateFinancial(this.financialInfo).subscribe({
         next: (res) => {

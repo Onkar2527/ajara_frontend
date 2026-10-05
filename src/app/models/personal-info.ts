@@ -2,6 +2,7 @@ export class PersonalInfo {
     ID!: number;
     APPLICANT_ID!: number;
     APPLICANT_NO!: number;
+    TRACK_ID?: number;
 
     FIRST_NAME: string = '';
     MIDDLE_NAME: string = '';
@@ -42,7 +43,7 @@ export class PersonalInfo {
     IS_EMAIL_VERIFIED: boolean = false;
 
 
-    RISK_CATEGORY!: "A" | "B" | "C";
+    RISK_CATEGORY: string = '';
 
     MOBILE_NUMBER: string = '';
     MOBILE_NUMBER_2: string = '';
@@ -108,11 +109,11 @@ export class PersonalInfo {
     MINOR_DATE_OF_BIRTH_PROOF: string = ''; //dropdown
 
 
-    PROFESSION!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ';
+    PROFESSION: string = '';
     NATURE_OF_SERVICE!: 'A' | 'B' | ' ';
     SELF_EMPLOYED!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'H' | 'G' | ' ';
     NATURE_OF_BUSINESS!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | ' ';
-    SOURCE_OF_FUNDS!: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | ' ';
+    SOURCE_OF_FUNDS: string = '';
 
 
     DRIVING_LICENSE_NO: string = '';

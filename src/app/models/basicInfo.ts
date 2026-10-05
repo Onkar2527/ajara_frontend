@@ -142,7 +142,7 @@ export class BasicInfo {
 
 
 
-    // IS_MINOR: boolean = false
+    IS_MINOR: boolean = false;
     // MINOR_DOB: string = '';
 
     // GUARDIAN_NAME: string = '';

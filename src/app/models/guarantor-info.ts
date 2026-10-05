@@ -12,28 +12,28 @@ export class GuarantorInfo {
 
     CURRENT_ADDRESS: string = '';
     CURRENT_CITY: any
-    CURRENT_TALUKA:any
+    CURRENT_TALUKA: any
     CURRENT_DISTRICT: any
-    CURRENT_LANDMARK:string = '';
+    CURRENT_LANDMARK: string = '';
     CURRENT_STATE: any
     CURRENT_PINCODE: string = '';
 
     PERMANENT_ADDRESS: string = '';
     PERMANENT_CITY: any;
     PERMANENT_TALUKA: any;
-    PERMANENT_DISTRICT:any;
+    PERMANENT_DISTRICT: any;
     PERMANENT_LANDMARK: string = '';
     PERMANENT_STATE: any;
     PERMANENT_PINCODE: string = '';
 
     OFFICE_ADDRESS: string = '';
     OFFICE_CITY: any
-    OFFICE_TALUKA:any
+    OFFICE_TALUKA: any
     OFFICE_DISTRICT: any
-    OFFICE_LANDMARK:string = '';
+    OFFICE_LANDMARK: string = '';
     OFFICE_STATE: any
     OFFICE_PINCODE: string = '';
-    OFFICE_AREA:any;
+    OFFICE_AREA: any;
 
     // HOUSE_PHONE: string = '';
     // OFFICE_PHONE: string = '';
@@ -42,7 +42,7 @@ export class GuarantorInfo {
     IS_EMAIL_VERIFIED: boolean = false;
 
 
-    RISK_CATEGORY!: "A" | "B" | "C";
+    RISK_CATEGORY: string = '';
 
     MOBILE_NUMBER: string = '';
     MOBILE_NUMBER_2: string = '';
@@ -93,7 +93,7 @@ export class GuarantorInfo {
     DATE_OF_BIRTH: string = '';
     GENDER: "M" | "F" | "T" = "M";
 
-   
+
     IS_DOB_MISMATCH: boolean = false;
     IS_VERNACULAR: boolean = false;
 
@@ -118,36 +118,36 @@ export class GuarantorInfo {
     DRIVING_LICENSE_NO: string = '';
     VOTER_ID: string = '';
     PASSPORT_NO: string = '';
-    
+
 
     OVD_DOC: string = '';
-    OVD_DOC_NO:string = '';
+    OVD_DOC_NO: string = '';
 
     IS_CURRENT_ADDRESS_ON_OVD: boolean = false;
     ADDRESS_DOCUMENT: string = '';
     ADDRESS_DOCUMENT_NUMBER: string = '';
 
-    PERMANENT_ADDRESS_PROOF:string = '';
-    CURRUNT_ADDRESS_PROOF:string = '';
+    PERMANENT_ADDRESS_PROOF: string = '';
+    CURRUNT_ADDRESS_PROOF: string = '';
 
-    CONSTITUTION:string = '';
+    CONSTITUTION: string = '';
 
-    ID_PROOF:string = '';
-    ID_PROOF_NUMBER:string = '';
-    CURRENT_ADDRESS_PROOF_NUMBER:string = '';
-    PERMANENT_ADDRESS_PROOF_NUMBER:string = '';
-    CURRENT_AREA:any;
-    PERMANENT_AREA:any;
-    FATHER_OR_SPOUSE:string = 'F';
+    ID_PROOF: string = '';
+    ID_PROOF_NUMBER: string = '';
+    CURRENT_ADDRESS_PROOF_NUMBER: string = '';
+    PERMANENT_ADDRESS_PROOF_NUMBER: string = '';
+    CURRENT_AREA: any;
+    PERMANENT_AREA: any;
+    FATHER_OR_SPOUSE: string = 'F';
 
 
     //new fields
-    MOTHER_TITLE:string = '';
-    FATHER_TITLE:string = '';
+    MOTHER_TITLE: string = '';
+    FATHER_TITLE: string = '';
 
 
-    NAME:string = '';
-    ADDHAR:number=0;
-    MOBILE_NO :number=0;
-    
+    NAME: string = '';
+    ADDHAR: number = 0;
+    MOBILE_NO: number = 0;
+
 }

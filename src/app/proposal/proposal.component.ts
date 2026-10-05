@@ -613,25 +613,38 @@ export class ProposalComponent implements OnInit {
   }
 
   validateDocs(type: 'C' | 'V') {
-
+    this.accountCreateButtonLoading = true;
     this.api.getDocument(this.APPLICANT_ID, null).subscribe({
       next: (res) => {
         if (res['code'] == 200) {
-          if (type == 'C')
-            this.velidateDocChacker(res['data'], type) ? this.addAccountComp.completeChecker() : this.message.error("Verify All Documents first", '');
+          if (type == 'C') {
+            if (this.velidateDocChacker(res['data'], type)) {
+              this.addAccountComp.completeChecker();
+            } else {
+              this.accountCreateButtonLoading = false;
+              this.message.error("Verify All Documents first", '');
+            }
+          }
 
-          if (type == 'V')
-            this.velidateDocChacker(res['data'], type) ? this.addAccountComp.completeVerifier() : this.message.error("Verify All Documents first", '');
+          if (type == 'V') {
+            if (this.velidateDocChacker(res['data'], type)) {
+              this.addAccountComp.completeVerifier();
+            } else {
+              this.accountCreateButtonLoading = false;
+              this.message.error("Verify All Documents first", '');
+            }
+          }
         }
         else {
-          this.message.error("Something Went Wrong!", "")
+          this.accountCreateButtonLoading = false;
+          this.message.error("Something Went Wrong!", "");
         }
       },
       error: (err) => {
-        this.message.error("Something Went Wrong!", "")
+        this.accountCreateButtonLoading = false;
+        this.message.error("Something Went Wrong!", "");
       }
-    })
-
+    });
   }
 
   velidateDocChacker(docArray: Documents[], role: 'C' | 'V') {

@@ -96,27 +96,30 @@
       <nz-divider nzText="Verification Details" nzOrientation="left"></nz-divider>
       <nz-form-item>
         <nz-form-label>Aadhaar Number</nz-form-label>
-        <nz-input-group nzCompact>
+        <nz-input-group nzCompact style="display: flex;">
           <input nz-input [(ngModel)]="aadhaarVerify.aadhar_history.AADHAAR_NUMBER" mask="XXXX XXXX 0000"
-            [hiddenInput]="true" placeholder="Enter Aadhaar number" style="width: calc(100% - 90px);" maxlength="14"
+            [hiddenInput]="true" placeholder="Enter Aadhaar number" style="flex: 1;" maxlength="14"
             (ngModelChange)="showAadharNo($event)" />
-          <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton"
-            [disabled]="!aadhaarVerify.aadhar_history.AADHAAR_NUMBER">Get OTP</button>
 
-          <p>{{previewAdhaar}}</p>
+          <button nz-button nzType="primary" (click)="getOtp()" [nzLoading]="loadOtpButton"
+            [disabled]="!isAadhaarValid()">Get OTP</button>
+
+
           <div nz-row *ngIf="aadhaarVerify.aadhar_history.IS_VERIFIED" class="success-tip">
             <div nz-col nzSpan="24">
               Aadhaar verified successfully
             </div>
           </div>
         </nz-input-group>
+        <p *ngIf="previewAdhaar" style="margin-top: 4px; margin-bottom: 0; font-weight: 500; color: #1890ff;">
+          {{previewAdhaar}}</p>
       </nz-form-item>
 
       <nz-form-item *ngIf="aadhaarVerify.showOtp">
         <nz-form-label>Enter OTP</nz-form-label>
-        <nz-input-group nzCompact>
+        <nz-input-group nzCompact style="display: flex;">
           <input type="password" nz-input [(ngModel)]="aadhaarVerify.meta.otp" placeholder="Enter OTP"
-            style="width: calc(100% - 90px);" />
+            style="flex: 1;" />
           <button nz-button nzType="primary" (click)="getAadhaarData()" [nzLoading]="loadAadhaarButton">Verify
             OTP</button>
         </nz-input-group>
@@ -138,9 +141,9 @@
       <nz-form-item>
         <nz-form-label nzRequired>PAN Number</nz-form-label>
         <nz-input-group nzCompact>
-          <input nz-input
-            [(ngModel)]="basicInfo[applicantNo == 1 ? 'PAN_NUMBER' : 'PAN_NUMBER' + applicantNo]"
-            placeholder="Enter PAN Number" style="width: calc(100% - 70px); text-transform: uppercase;" maxlength="10" />
+          <input nz-input [(ngModel)]="basicInfo[applicantNo == 1 ? 'PAN_NUMBER' : 'PAN_NUMBER' + applicantNo]"
+            placeholder="Enter PAN Number" style="width: calc(100% - 70px); text-transform: uppercase;"
+            maxlength="10" />
           <button nz-button (click)="verifyPan()" [nzLoading]="loadPanButton">Verify</button>
           <div nz-row *ngIf="aadhaarVerify.pan_history.IS_VERIFIED" class="success-tip">
             <div nz-col nzSpan="24">

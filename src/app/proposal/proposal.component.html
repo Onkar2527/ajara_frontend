@@ -17,7 +17,8 @@
           <nz-form-control>
             <nz-select [(ngModel)]="cpcFilter.BRANCH_ID">
               <nz-option [nzValue]="0" [nzLabel]="'All'"></nz-option>
-              <nz-option *ngFor="let option of BRANCH_LIST" [nzValue]="option.ID" [nzLabel]="option.BRANCH_NAME"></nz-option>
+              <nz-option *ngFor="let option of BRANCH_LIST" [nzValue]="option.ID"
+                [nzLabel]="option.BRANCH_NAME"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -57,8 +58,10 @@
   </nz-card>
   <ng-template #extraTemplate>
     <nz-button-group>
-      <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i nz-icon nzType="filter"></i></button>
-      <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i nz-icon nzType="clear"></i></button>
+      <button nz-tooltip nzTooltipTitle="Apply Filter" nz-button nzType="primary" (click)="applyFilter()"><i nz-icon
+          nzType="filter"></i></button>
+      <button nz-button nzType="default" nz-tooltip nzTooltipTitle="Clear Filter" (click)="clearFilter()"><i nz-icon
+          nzType="clear"></i></button>
     </nz-button-group>
   </ng-template>
 </div>
@@ -120,10 +123,23 @@
             nzType="file-text"></i></a></td>
       <td>{{proposal.CUSTOMER_ID_1}}</td>
       <td>{{proposal.ACCOUNT_NUMBER}}</td>
-     
-      <td>{{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
+
+      <td>
+        {{proposal.PRIMARY_APPLICANT_FIRST_NAME}}
         {{proposal.PRIMARY_APPLICANT_MIDDLE_NAME}}
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
+
+        <!-- Minor Badge -->
+        <span *ngIf="proposal.IS_MINOR == 1 && proposal.NO_OF_APPLICANT > 1 "
+          style="background-color: #fff7e6; color: #d46b08; border: 1px solid #ffd591; font-weight: 600; font-size: 11px; border-radius: 12px; padding: 2px 8px; margin-left: 6px; display: inline-flex; align-items: center; white-space: nowrap;">
+          Minor
+        </span>
+
+        <!-- Joint Badge (if 2+ applicants) -->
+        <span *ngIf="proposal.NO_OF_APPLICANT > 1 && proposal.IS_MINOR == 0"
+          style="background-color: #e6f7ff; color: #096dd9; border: 1px solid #91d5ff; font-weight: 600; font-size: 11px; border-radius: 12px; padding: 2px 8px; margin-left: 6px; display: inline-flex; align-items: center; white-space: nowrap;">
+          Joint
+        </span>
       </td>
       <td>{{proposal.MOBILE_NO}}</td>
       <td>{{proposal.EMAIL_ID}}</td>
@@ -248,7 +264,7 @@
     </span>
 
     <span *ngIf="selectedIndex == 5">
-      <button nz-button nzType="primary" (click)="completeChecker()">
+      <button nz-button [nzLoading]="accountCreateButtonLoading" nzType="primary" (click)="completeChecker()">
         {{verifyButtonTitle}}
       </button>
     </span>

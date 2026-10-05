@@ -32,7 +32,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   serviceInfo: Facilities = new Facilities();
   nominationInfo: NomineeDetails[] = [];
 
-  ApplicantPersonal: PersonalInfo[] = []
+  ApplicantPersonal: any[] = []
   ApplicantFinancial: Financial[] = []
   ApplicantProperty: Property[] = []
   // ApplicantLoanInfo: LoanInfo[] = []
@@ -56,8 +56,9 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 
   PHOTOS: any[] = [];
+  SIGNATURES: any[] = [];
 
-  account_type = {
+  account_type: Record<string, any> = {
     'A': 'Saving',
     'B': 'Janata Deposite',
     'C': 'Current Account',
@@ -68,7 +69,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     'H': "Other"
   }
 
-  religion = {
+  religion: Record<string, any> = {
     "A": "Hindu",
     "B": "Muslim",
     "C": "Sikh",
@@ -78,7 +79,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "G": "Other"
   }
 
-  caste = {
+  caste: Record<string, any> = {
     "A": "General",
     "B": "OBC",
     "C": "SC",
@@ -89,7 +90,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   }
 
 
-  education = {
+  education: Record<string, any> = {
     "S": "10th class",
     "H": "12th class",
     "D": "Degree",
@@ -98,7 +99,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "O": "Other"
   }
 
-  income = {
+  income: Record<string, any> = {
     "A": "Upto ₹60000",
     "B": "₹60001 to ₹120000",
     "C": "₹120001 to ₹240000",
@@ -110,13 +111,13 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   }
 
-  residential_status = {
+  residential_status: Record<string, any> = {
     "A": "Owned",
     "B": "Rented",
     "C": "Occupied"
   }
 
-  relation = {
+  relation: Record<string, any> = {
     'A': 'Father',
     'B': 'Mother',
     'C': 'Brother',
@@ -140,7 +141,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     'U': 'Sister in law',
     'V': 'Other'
   }
-  account_operation = {
+  account_operation: Record<string, any> = {
     "A": "Individual",
     "B": "Joint",
     "C": "Either or Survivor",
@@ -149,7 +150,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "F": "Any Two"
   }
 
-  interest_payout = {
+  interest_payout: Record<string, any> = {
     "M": "Monthly",
     "Q": "Quarterly",
     "H": "Half Yearly",
@@ -157,7 +158,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "O": "On Maturity"
   }
 
-  work = {
+  work: Record<string, any> = {
     "E": "Employee",
     "S": "Self Employeed",
     "B": "Business",
@@ -167,7 +168,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     "O": "Other"
   }
 
-  employee = {
+  employee: Record<string, any> = {
     "P": "Public Company",
     "E": "Private Company",
     "C": "Centeral/State Goverment",
@@ -177,7 +178,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     " ": "None"
   }
 
-  proprieter = {
+  proprieter: Record<string, any> = {
     "C": "CA",
     "D": "Doctor",
     "A": "Advisor",
@@ -189,7 +190,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     " ": "None"
   }
 
-  customer_type = {
+  customer_type: Record<string, any> = {
     "A": "Mr.",
     "B": "Mrs.",
     "C": "Miss.",
@@ -199,20 +200,20 @@ export class FormComponent implements OnInit, AfterViewInit {
     "G": "Mx."
   }
 
-  risk_type = {
+  risk_type: Record<string, any> = {
     "A": "High Risk 1",
     "B": "Medium Risk 2",
     "C": "Low Risk 3",
   }
 
-  gender = {
+  gender: Record<string, any> = {
     'M': "Male",
     'F': "Female",
     'T': "Transgender"
   }
 
 
-  profession = {
+  profession: Record<string, any> = {
     'A': 'Employee',
     'B': 'Self Employeed',
     'C': 'Business',
@@ -224,13 +225,13 @@ export class FormComponent implements OnInit, AfterViewInit {
   };
 
 
-  nature_of_service = {
+  nature_of_service: Record<string, any> = {
     'A': 'Central/State Government',
     'B': 'Private Company',
     ' ': ' '
   };
 
-  self_employed = {
+  self_employed: Record<string, any> = {
     'A': 'CA',
     'B': 'Doctor',
     'C': 'Advisor',
@@ -242,7 +243,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     ' ': ' '
   };
 
-  nature_of_business = {
+  nature_of_business: Record<string, any> = {
     'A': 'Agriculture',
     'B': 'Trader',
     'C': 'Manufacture',
@@ -252,7 +253,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     ' ': ' '
   };
 
-  source_of_fund = {
+  source_of_fund: Record<string, any> = {
     'A': 'Business income',
     'B': 'Commission Income',
     'C': 'Salary Income',
@@ -263,7 +264,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     ' ': 'None'
   };
 
-  consent_options = {
+  consent_options: Record<string, any> = {
     "A": "Yes",
     "B": "No",
     "C": "Not Applicable"
@@ -330,6 +331,8 @@ export class FormComponent implements OnInit, AfterViewInit {
   applicantPersonalMasterData = {
     occupation: "",
     address_proof: "",
+    nature_of_service: "",
+    self_employed: "",
 
     risk_cat: "",
     permanent_state: "",
@@ -366,37 +369,41 @@ export class FormComponent implements OnInit, AfterViewInit {
   }
 
   mapMasters() {
-    this.assignValueFromMaster(this.filterValues(1, this.ApplicantPersonal[0].PROFESSION), "occupation");
-    this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].PERMANENT_STATE)), "permanent_state");
-    this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].PERMANENT_AREA)), "permanent_area");
-    this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].PERMANENT_DISTRICT)), "permanent_dist");
-    this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].PERMANENT_TALUKA)), "permanent_taluka");
-    this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].PERMANENT_CITY)), "permanent_city");
+    if (this.ApplicantPersonal && this.ApplicantPersonal.length > 0) {
+      this.assignValueFromMaster(this.filterValues(1, this.ApplicantPersonal[0].PROFESSION), "occupation");
+      this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].PERMANENT_STATE)), "permanent_state");
+      this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].PERMANENT_AREA)), "permanent_area");
+      this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].PERMANENT_DISTRICT)), "permanent_dist");
+      this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].PERMANENT_TALUKA)), "permanent_taluka");
+      this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].PERMANENT_CITY)), "permanent_city");
 
-    this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].CURRENT_STATE)), "current_state");
-    this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].CURRENT_AREA)), "current_area");
-    this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].CURRENT_DISTRICT)), "current_dist");
-    this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].CURRENT_TALUKA)), "current_taluka");
-    this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].CURRENT_CITY)), "current_city");
+      this.assignValueFromMaster(this.filterValues(5, Number(this.ApplicantPersonal[0].CURRENT_STATE)), "current_state");
+      this.assignValueFromMaster(this.filterValues(9, Number(this.ApplicantPersonal[0].CURRENT_AREA)), "current_area");
+      this.assignValueFromMaster(this.filterValues(6, Number(this.ApplicantPersonal[0].CURRENT_DISTRICT)), "current_dist");
+      this.assignValueFromMaster(this.filterValues(7, Number(this.ApplicantPersonal[0].CURRENT_TALUKA)), "current_taluka");
+      this.assignValueFromMaster(this.filterValues(8, Number(this.ApplicantPersonal[0].CURRENT_CITY)), "current_city");
 
-    this.assignValueFromMaster(this.filterValues(2, this.ApplicantPersonal[0].PERMANENT_ADDRESS_PROOF), "address_proof");
+      this.assignValueFromMaster(this.filterValues(2, this.ApplicantPersonal[0].PERMANENT_ADDRESS_PROOF), "address_proof");
 
-    this.assignValueFromMaster(this.filterValues(4, this.ApplicantPersonal[0].RISK_CATEGORY), "risk_cat");
+      this.assignValueFromMaster(this.filterValues(4, this.ApplicantPersonal[0].RISK_CATEGORY), "risk_cat");
 
-    this.assignValueFromMaster(this.filterValues(12, this.depositInfo.ACCOUNT_OPERATION), "operation");
+      this.assignValueFromMaster(this.filterValues(12, this.depositInfo.ACCOUNT_OPERATION), "operation");
 
-    this.assignValueFromMaster(this.filterValues(16, this.depositInfo.MINIMUM_BALANCE_CATEGORY), "minimum_balance_category");
+      this.assignValueFromMaster(this.filterValues(16, this.depositInfo.MINIMUM_BALANCE_CATEGORY), "minimum_balance_category");
 
-    this.assignValueFromMaster(this.filterValues(17, this.ApplicantPersonal[0].SPECIAL_CATEGORY), "special_category");
+      this.assignValueFromMaster(this.filterValues(17, this.ApplicantPersonal[0].SPECIAL_CATEGORY), "special_category");
 
-    this.assignValueFromMaster(this.filterValues(14, this.ApplicantPersonal[0].RELIGION), "religion");
+      this.assignValueFromMaster(this.filterValues(14, this.ApplicantPersonal[0].RELIGION), "religion");
 
-    this.assignValueFromMaster(this.filterValues(0, this.basicInfo.CUSTOMER_TYPE_1), "customer_type");
+      this.assignValueFromMaster(this.filterValues(0, this.basicInfo.CUSTOMER_TYPE_1), "customer_type");
 
-    this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
+      this.assignValueFromMaster(this.filterValues(15, this.ApplicantPersonal[0].CASTE), "caste");
 
-    this.applicantPersonalMasterData.nature_of_business = this.nature_of_business[this.ApplicantPersonal[0].NATURE_OF_BUSINESS as keyof typeof this.nature_of_business] || '';
-    this.applicantPersonalMasterData.source_of_fund = this.source_of_fund[this.ApplicantPersonal[0].SOURCE_OF_FUNDS as keyof typeof this.source_of_fund] || '';
+      this.applicantPersonalMasterData.nature_of_service = this.getServiceLabel(this.ApplicantPersonal[0].NATURE_OF_SERVICE);
+      this.applicantPersonalMasterData.self_employed = this.getSelfEmployedLabel(this.ApplicantPersonal[0].SELF_EMPLOYED);
+      this.applicantPersonalMasterData.nature_of_business = this.getBusinessLabel(this.ApplicantPersonal[0].NATURE_OF_BUSINESS);
+      this.applicantPersonalMasterData.source_of_fund = this.getFundLabel(this.ApplicantPersonal[0].SOURCE_OF_FUNDS);
+    }
 
     let schemeObj = this.MASTERS[10].data.find((v: any) => v.SMP_CODE == this.depositInfo.SCHEME_CODE);
     this.applicantPersonalMasterData.scheme = schemeObj ? schemeObj.SMP_NAME : '';
@@ -404,7 +411,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     console.log(this.applicantPersonalMasterData)
   }
 
-  allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city" | "minimum_balance_category" | "special_category" | "scheme" | "customer_type" | "nature_of_business" | "source_of_fund";
+  allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city" | "minimum_balance_category" | "special_category" | "scheme" | "customer_type" | "nature_of_business" | "source_of_fund" | "nature_of_service" | "self_employed";
 
   // assignValueFromMaster(res: any, label: typeof this.allowedTypes) {
 
@@ -442,16 +449,28 @@ export class FormComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getServiceLabel(code: string): string {
+    if (!code) return '';
+    const key = String(code).trim();
+    return this.nature_of_service[key as keyof typeof this.nature_of_service] || '';
+  }
 
-
-
+  getSelfEmployedLabel(code: string): string {
+    if (!code) return '';
+    const key = String(code).trim();
+    return this.self_employed[key as keyof typeof this.self_employed] || '';
+  }
 
   getBusinessLabel(code: string): string {
-    return this.nature_of_business[code as keyof typeof this.nature_of_business] || '';
+    if (!code) return '';
+    const key = String(code).trim();
+    return this.nature_of_business[key as keyof typeof this.nature_of_business] || '';
   }
 
   getFundLabel(code: string): string {
-    return this.source_of_fund[code as keyof typeof this.source_of_fund] || '';
+    if (!code) return '';
+    const key = String(code).trim();
+    return this.source_of_fund[key as keyof typeof this.source_of_fund] || '';
   }
 
 
@@ -650,9 +669,6 @@ export class FormComponent implements OnInit, AfterViewInit {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.ApplicantPersonal = res['data'];
           console.log("applicant personal:", this.ApplicantPersonal);
-          if (this.ApplicantPersonal.length < 2) {
-            this.ApplicantPersonal.push(new PersonalInfo())
-          }
           this.getOVD();
           applicantPersonal.next(200);
         }
@@ -786,6 +802,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   getDocuments() {
     this.PHOTOS = [];
+    this.SIGNATURES = [];
     let document: Subject<any> = new Subject();
     this.api.getDocument(this.APPLICANT_ID, null).subscribe({
       next: (res) => {
@@ -794,11 +811,13 @@ export class FormComponent implements OnInit, AfterViewInit {
           for (let document of this.documentData) {
             if (document.DOCUMENT_NAME == 'Applicant Photo') {
               this.PHOTOS.push(document.IMAGE_DATA)
-
+            }
+            if (document.DOCUMENT_NAME == 'Signature' || document.DOCUMENT_NAME == 'Sign' || document.DOCUMENT_NAME == 'Applicant Signature') {
+              this.SIGNATURES.push(document.IMAGE_DATA)
             }
           }
 
-          console.log("IMAGE DATA", this.PHOTOS)
+          console.log("IMAGE DATA", this.PHOTOS, "SIGNATURE DATA", this.SIGNATURES)
           document.next(200)
 
         }
@@ -875,38 +894,111 @@ export class FormComponent implements OnInit, AfterViewInit {
     };
   }
 
+  async embedImageSafely(pdfDoc: PDFDocument, imageDataSrc: string): Promise<any> {
+    try {
+      if (!imageDataSrc) return null;
+
+      const response = await fetch(imageDataSrc);
+      if (!response.ok) {
+        console.warn('Failed to fetch image data:', imageDataSrc);
+        return null;
+      }
+      const buffer = await response.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+
+      if (bytes.length < 4) {
+        return null;
+      }
+
+      // Check JPEG magic bytes: 0xFF 0xD8
+      if (bytes[0] === 0xFF && bytes[1] === 0xD8) {
+        try {
+          return await pdfDoc.embedJpg(buffer);
+        } catch (e) {
+          console.warn('embedJpg failed despite JPEG header, trying fallback', e);
+        }
+      }
+
+      // Check PNG magic bytes: 0x89 0x50 0x4E 0x47
+      if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
+        try {
+          return await pdfDoc.embedPng(buffer);
+        } catch (e) {
+          console.warn('embedPng failed despite PNG header, trying fallback', e);
+        }
+      }
+
+      // Generic fallback: Try embedJpg then embedPng
+      try {
+        return await pdfDoc.embedJpg(buffer);
+      } catch (e1) {
+        try {
+          return await pdfDoc.embedPng(buffer);
+        } catch (e2) {
+          // Fallback to HTML Canvas conversion for WebP, GIF, SVG or corrupted headers
+          const pngBuffer = await this.convertImageToPngBuffer(imageDataSrc);
+          if (pngBuffer) {
+            return await pdfDoc.embedPng(pngBuffer);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Error embedding image in PDF:', err);
+    }
+    return null;
+  }
+
+  convertImageToPngBuffer(src: string): Promise<ArrayBuffer | null> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width || 300;
+          canvas.height = img.naturalHeight || img.height || 150;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((blob) => {
+              if (blob) {
+                blob.arrayBuffer().then(resolve).catch(() => resolve(null));
+              } else {
+                resolve(null);
+              }
+            }, 'image/png');
+          } else {
+            resolve(null);
+          }
+        } catch (e) {
+          resolve(null);
+        }
+      };
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
   async generatePDF() {
 
     const mergedPdfDoc = await PDFDocument.create();
-    //PDFDocument = pdfDocument
-    let pngArray = [], jpegArray = [], pdfArray = [];
 
-    pngArray = this.documentData.filter(Pn => "image/png" == Pn.FILE_TYPE);
-    jpegArray = this.documentData.filter(Pn => ("image/jpeg" == Pn.FILE_TYPE || "image/jpg" == Pn.FILE_TYPE) && Pn.DOCUMENT_NAME != 'Applicant Photo');
-    pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE && Pn.DOCUMENT_NAME != 'Applicant Photo');
+    let imageDocs = this.documentData.filter(Pn =>
+      Pn.FILE_TYPE !== "application/pdf" && Pn.DOCUMENT_NAME !== 'Applicant Photo'
+    );
+    let pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE && Pn.DOCUMENT_NAME != 'Applicant Photo');
 
-    let totalImageArrayLength = pngArray.length + jpegArray.length,
-      imagePages = new Array(Math.trunc(totalImageArrayLength / 6) + (totalImageArrayLength % 6 == 0 ? 0 : 1)),
-      buffeeImageData = new Array(totalImageArrayLength),
-      imageData = new Array(totalImageArrayLength),
-      embededImageRef = new Array(totalImageArrayLength),
-      index = 0;
-
-    for (let Pn of pngArray) {
-      imageData[index] = await fetch(Pn.IMAGE_DATA);
-      buffeeImageData[index] = await imageData[index].arrayBuffer();
-      embededImageRef[index] = await mergedPdfDoc.embedPng(buffeeImageData[index]);
-      index++;
-    };
-    for (let Pn of jpegArray) {
-      imageData[index] = await fetch(Pn.IMAGE_DATA);
-      buffeeImageData[index] = await imageData[index].arrayBuffer();
-      embededImageRef[index] = await mergedPdfDoc.embedJpg(buffeeImageData[index]);
-      index++;
-      console.log("images", embededImageRef)
+    let validEmbeddedImages: any[] = [];
+    for (let Pn of imageDocs) {
+      const embeddedRef = await this.embedImageSafely(mergedPdfDoc, Pn.IMAGE_DATA);
+      if (embeddedRef) {
+        validEmbeddedImages.push(embeddedRef);
+      }
     }
 
-
+    let totalImageArrayLength = validEmbeddedImages.length,
+      imagePages = new Array(Math.trunc(totalImageArrayLength / 6) + (totalImageArrayLength % 6 == 0 ? 0 : 1)),
+      embededImageRef = validEmbeddedImages;
 
     let imageNo = 0;
     for (let i = 0; i < imagePages.length; i++) {
@@ -958,16 +1050,19 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     };
 
-    let pdfDataArray = new Array(pdfArray.length),
-      pdfDataBuffer = new Array(pdfArray.length),
-      pdfDataDoc = new Array(pdfArray.length),
-      lt = 0
+    let pdfDataDoc: any[] = [];
 
     for (let Pn of pdfArray) {
-      pdfDataArray[lt] = await fetch(Pn.IMAGE_DATA);
-      pdfDataBuffer[lt] = await pdfDataArray[lt].arrayBuffer();
-      pdfDataDoc[lt] = await PDFDocument.load(pdfDataBuffer[lt]);
-      lt++;
+      try {
+        const pdfDataRes = await fetch(Pn.IMAGE_DATA);
+        if (pdfDataRes.ok) {
+          const pdfDataBuffer = await pdfDataRes.arrayBuffer();
+          const loadedDoc = await PDFDocument.load(pdfDataBuffer);
+          pdfDataDoc.push(loadedDoc);
+        }
+      } catch (err) {
+        console.error("Failed to load PDF attachment:", err);
+      }
     }
 
     let pdfDoc = await PDFDocument.create();
@@ -981,7 +1076,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
     let options = {
       margin: .3, image: { type: "jpeg", quality: .98 },
-      html2canvas: { scale: 4 }, pagebreak: { after: [".page"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
+      html2canvas: { scale: 4 }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'], avoid: ['[nz-row]', '[nz-col]', '.border-all', '.ant-row', '.avoid-page-break'], after: [".page"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
     }
 
     await html2pdf()
@@ -1066,5 +1161,25 @@ export class FormComponent implements OnInit, AfterViewInit {
     return res ? res[master.lableField] : '';
   }
 
+  getSpanForApplicant(totalSpan: number, count: number, type: 'label' | 'value'): number {
+    if (!count || count <= 0) count = 1;
+    if (count === 1) {
+      return type === 'label' ? 3 : (totalSpan - 3);
+    }
+    const perApplicantSpan = Math.floor(totalSpan / count);
+    if (type === 'label') {
+      return Math.max(1, Math.floor(perApplicantSpan * 0.35));
+    } else {
+      return perApplicantSpan - Math.max(1, Math.floor(perApplicantSpan * 0.35));
+    }
+  }
 
+  getEqualSpan(totalSpan: number, count: number): number {
+    if (!count || count <= 0) return totalSpan;
+    return Math.floor(totalSpan / count);
+  }
+
+  getMathMin(a: number, b: number): number {
+    return Math.min(a, b);
+  }
 }

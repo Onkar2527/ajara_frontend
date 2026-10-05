@@ -19,36 +19,30 @@
         <div nz-col nzSpan="6" class="border-all data-heading">ग्राहक ओळख क्रमाांक
           <div>Customer ID</div>
         </div>
-        <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार १
-          <div>Applicant 1</div>
-        </div>
-
-        <div nz-col nzSpan="6" class="border-all data">
-          {{basicInfo.CUSTOMER_ID_1}}
-        </div>
-
-        <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार २
-          <div>Applicant 2</div>
-        </div>
-        <div nz-col nzSpan="6" class="border-all data">
-          {{basicInfo.CUSTOMER_ID_2}}
-        </div>
+        <ng-container *ngFor="let applicant of ApplicantPersonal; let idx = index">
+          <div nz-col [nzSpan]="getSpanForApplicant(18, ApplicantPersonal.length, 'label')"
+            class="border-all data-heading">
+            अर्जदार {{idx + 1}}
+            <div>Applicant {{idx + 1}}</div>
+          </div>
+          <div nz-col [nzSpan]="getSpanForApplicant(18, ApplicantPersonal.length, 'value')" class="border-all data">
+            {{ basicInfo['CUSTOMER_ID_' + (idx + 1)] || applicant['CUSTOMERID'] || applicant['CUSTOMER_ID'] }}
+          </div>
+        </ng-container>
       </div>
 
       <div nz-row>
         <div nz-col nzSpan="6" class="border-all data-heading">CKYC Number</div>
-        <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार १
-          <div>Applicant 1</div>
-        </div>
-        <div nz-col nzSpan="6" class="border-all data">
-          <!-- {{basicInfo.CKYC_NUMBER_1}} -->
-        </div>
-        <div nz-col nzSpan="3" class="border-all data-heading">अर्जदार २
-          <div>Applicant 2</div>
-        </div>
-        <div nz-col nzSpan="6" class="border-all data">
-          <!-- {{basicInfo.CKYC_NUMBER_2}} -->
-        </div>
+        <ng-container *ngFor="let applicant of ApplicantPersonal; let idx = index">
+          <div nz-col [nzSpan]="getSpanForApplicant(18, ApplicantPersonal.length, 'label')"
+            class="border-all data-heading">
+            अर्जदार {{idx + 1}}
+            <div>Applicant {{idx + 1}}</div>
+          </div>
+          <div nz-col [nzSpan]="getSpanForApplicant(18, ApplicantPersonal.length, 'value')" class="border-all data">
+            {{ basicInfo['CKYC_NUMBER_' + (idx + 1)] || applicant['CKYC_NUMBER'] }}
+          </div>
+        </ng-container>
       </div>
 
       <div nz-row>
@@ -86,11 +80,8 @@
         <div nz-col nzSpan="4" class="border-all data-heading">Customer Type ग्राहकाचा प्रकार
         </div>
         <div nz-col nzSpan="2" class="border-all data">
-          <span *ngIf="i == 0">{{ applicantPersonalMasterData.customer_type || getMasterLabel(0,
-            basicInfo.CUSTOMER_TYPE_1) || basicInfo.CUSTOMER_TYPE_1 }}</span>
-          <span *ngIf="i == 1">{{ getMasterLabel(0, basicInfo.CUSTOMER_TYPE_2) || basicInfo.CUSTOMER_TYPE_2 }}</span>
-          <span *ngIf="i == 2">{{ getMasterLabel(0, basicInfo.CUSTOMER_TYPE_3) || basicInfo.CUSTOMER_TYPE_3 }}</span>
-          <span *ngIf="i == 3">{{ getMasterLabel(0, basicInfo.CUSTOMER_TYPE_4) || basicInfo.CUSTOMER_TYPE_4 }}</span>
+          <span>{{ getMasterLabel(0, basicInfo['CUSTOMER_TYPE_' + (i + 1)]) || basicInfo['CUSTOMER_TYPE_' + (i + 1)] ||
+            (i == 0 ? applicantPersonalMasterData.customer_type : '') }}</span>
         </div>
 
         <div nz-col nzSpan="5" class="border-all data-heading">Special Category</div>
@@ -100,7 +91,7 @@
         </div>
 
         <div nz-col nzSpan="5" class="border-all data-heading">Risk Category</div>
-        <div nz-col nzSpan="3" class="border-all data">
+        <div nz-col nzSpan="5" class="border-all data">
           <span *ngIf="i == 0">{{applicantPersonalMasterData.risk_cat}}</span>
           <span *ngIf="i > 0">{{ getMasterLabel(4, applicant.RISK_CATEGORY) }}</span>
         </div>
@@ -153,11 +144,8 @@
         </div>
 
         <div nz-col nzSpan="4" class="border-all data">
-          <span *ngIf="i == 0">{{basicInfo.PAN_NUMBER}}</span>
-          <span *ngIf="i == 1">{{basicInfo.PAN_NUMBER2}}</span>
-          <span *ngIf="i == 2">{{basicInfo.PAN_NUMBER3}}</span>
-          <span *ngIf="i == 3">{{basicInfo.PAN_NUMBER4}}</span>
-
+          <span>{{ applicant['PAN_NO'] || applicant['PAN_NUMBER'] || basicInfo['PAN_NUMBER' + (i > 0 ? (i + 1) : '')] ||
+            (i == 0 ? basicInfo.PAN_NUMBER : '') }}</span>
         </div>
 
         <div nz-col nzSpan="3" class="border-all data-heading ">फॉम ६०
@@ -202,7 +190,7 @@
 
       </div>
 
-      <div nz-row [ngClass]="{'page': i == 1}">
+      <div nz-row>
 
         <div nz-col nzSpan="4" class="border-all data-heading">ओव्हीडी OVD
         </div>
@@ -401,7 +389,8 @@
         </div>
 
         <div nz-col nzSpan="4" class="border-all data">
-          <span *ngIf="i == 0">{{applicantPersonalMasterData.occupation || getMasterLabel(1, applicant.PROFESSION)}}</span>
+          <span *ngIf="i == 0">{{applicantPersonalMasterData.occupation || getMasterLabel(1,
+            applicant.PROFESSION)}}</span>
           <span *ngIf="i > 0">{{getMasterLabel(1, applicant.PROFESSION)}}</span>
         </div>
 
@@ -411,7 +400,9 @@
         </div>
 
         <div nz-col nzSpan="3" class="border-all data">
-          {{nature_of_service[applicant.NATURE_OF_SERVICE]}}
+          <span *ngIf="i == 0">{{applicantPersonalMasterData.nature_of_service ||
+            getServiceLabel(applicant.NATURE_OF_SERVICE)}}</span>
+          <span *ngIf="i > 0">{{getServiceLabel(applicant.NATURE_OF_SERVICE)}}</span>
         </div>
 
         <div nz-col nzSpan="6" class="border-all data-heading">
@@ -420,7 +411,9 @@
         </div>
 
         <div nz-col nzSpan="4" class="border-all data">
-          {{self_employed[applicant.SELF_EMPLOYED]}}
+          <span *ngIf="i == 0">{{applicantPersonalMasterData.self_employed ||
+            getSelfEmployedLabel(applicant.SELF_EMPLOYED)}}</span>
+          <span *ngIf="i > 0">{{getSelfEmployedLabel(applicant.SELF_EMPLOYED)}}</span>
         </div>
 
       </div>
@@ -529,11 +522,11 @@
           वैवाहिक स्थिती/ Marital Status
         </div>
 
-        <div nz-col nzSpan="8" class="border-all data">
+        <div nz-col nzSpan="16" class="border-all data">
           {{applicant.MARITAL_STATUS == 'M' ? 'Married' : 'Unmarried'}}
         </div>
 
-        <div nz-col nzSpan="8" class="border-all data"></div>
+
 
       </div>
     </div>
@@ -1096,22 +1089,19 @@
       </div>
 
       <div nz-row style="height:60px;">
-        <div nz-col nzSpan="12" class="border-all data">
-
-        </div>
-
-        <div nz-col nzSpan="12" class="border-all data">
-
+        <div *ngFor="let applicant of ApplicantPersonal; let idx = index" nz-col
+          [nzSpan]="getEqualSpan(24, ApplicantPersonal.length)" class="border-all data"
+          style="text-align:center; display: flex; align-items: center; justify-content: center;">
+          <span *ngIf="SIGNATURES.length > idx">
+            <img [src]="SIGNATURES[idx]" style="max-height: 50px; max-width: 100%; object-fit: contain;">
+          </span>
         </div>
       </div>
 
       <div nz-row style="text-align:center ">
-        <div nz-col nzSpan="12" class="border-all data-heading">
-          ठेवीदार १ ​स्वाक्षरी/ Signature Applicant 1 ठेवीदार
-        </div>
-
-        <div nz-col nzSpan="12" class="border-all data-heading">
-          ठेवीदार २ ​स्वाक्षरी/ Signature Applicant 2
+        <div *ngFor="let applicant of ApplicantPersonal; let idx = index" nz-col
+          [nzSpan]="getEqualSpan(24, ApplicantPersonal.length)" class="border-all data-heading">
+          ठेवीदार {{idx + 1}} ​स्वाक्षरी/ Signature Applicant {{idx + 1}} {{idx === 0 ? 'ठेवीदार' : ''}}
         </div>
       </div>
 
@@ -1253,45 +1243,10 @@
           </div>
 
           <div>
-            ०९) माझ्या / आमच्या खात्यातून डेबिट कम एटीएम कार्ड साठी लागू असलेले वार्षिक शुल्क आणि त्याच्या खर्चाइतकी
-            रक्कम आमच्या खात्यातून काढण्यासाठी मी / आम्ही बँकेला विनाशर्त अधिकार देतो. खाते कायम चालू ठेवण्याबाबतचे
-            संपूर्ण अधिकार बँकेकडे असतील आणि खात्याच्या/
-            खातेदाराच्या व्यवहाराबाबत बँक असमाधानी असल्यास मला / आम्हाला एका महिन्याची नोटीस देऊन खाते बंद करण्याचा
-            किंवा दिलेली सवलत काढून घेण्याचा किंवा मला/आम्हाला दिलेली एखादी सेवा बंद करण्याचा किंवा अशा सेवांसाठी लागू
-            असलेले दर लागू करण्याचा
-            बँकेला अधिकार असेल.
+            ०९) माझ्या / आमच्या खात्यातून डेबिट कम एटीएम का
           </div>
 
-          <div>
-            १०) बँक तिच्या अधिकाराद्वारे मला आम्हाला नोटीस न देता कोणतीही सेवा पूर्णता किंवा अंशतः बंद करू शकते.
-          </div>
-
-          <div>
-            ११) खाते उघडण्यासाठी च्या रकमेचा धनादेश कोणत्याही कारणास्तव परत आल्यास बँक मला आम्हाला कोणताही संदर्भ न देता
-            खाते बंद करू शकते.
-          </div>
-
-          <div>
-            १२) दि आजरा अर्बन को-ऑपरेटिव्ह बँकेच्या आपोआप नूतनीकरण (Auto Renewal) साठी लागू असलेल्या अटी व शर्ती मला
-            आम्हाला समजले आहेत आणि मी आम्ही त्या मान्य करतो आपोआप नूतनीकरण साठी लागू असलेल्या अटी व शर्ती यामध्ये
-            कोणतेही बदल व सुधारणा झाल्यास ती शाखेच्या सूचना
-            फलकावर किंवा बँकेच्या अधिकृत संकेतस्थळावर उपलब्ध असेल.
-          </div>
-
-          <div>
-            १३) मी / आम्ही याद्वारे माझा/ आमचा आधार क्रमांक, आधार/ ओळख माहितीच्या नोंदणीसाठी किंवा UIDI, ED, NPCI, CKYC,
-            KR, CERSI आणि इतर कोणत्याही प्राधिकरणाशी किंवा नियमक मंडळासह किंवा इतर कोणत्याही उद्देशासाठी कायद्याच्या
-            आवश्यकता नुसार वापरण्यास /डाउनलोड/ देवाणघेवाण
-            करण्यास संमती देतो.
-          </div>
-
-        </div>
-
-        <div nz-col nzSpan="24" class="border-all data-heading" style="font-size: 8px !important;">
-          DECLARATIONS<br> I / We have read, understood and hereby agree to the “Terms and conditions as applicable to
-          my/ our account” set forth by The Ajara Urban Cooperative Bank Ltd., Ajara. I/ We understand that access to
-          any changes/ updates
-          in terms and conditions applicable to this relationship shall be available on the Bank’s Branch Notice board &
+          Notice board &
           Bank’s Official Website www.ajarabank.com. I/we will not be having any objections in future. I/We do hereby
           declare that
           the information furnished in this Form is true and correct to the best of my/ our knowledge and belief. I/We
@@ -1309,14 +1264,16 @@
           to time. I / We understand and agree the consent given for updation/registration / requests for the Mobile
           alert facility shall be valid till such time I/we withdraw the same in writing. Unless specifically advised,
           the Bank will continue
-          to send SMS alerts on the number requested by the Applicant. The Bank shall not be responsible and liable for
+          to send SMS alerts on the number requested by the Applicant. The Bank shall not be responsible and liable
+          for
           any consequences which may arise owing to a change in Mobile Number. I / We declare, confirm, understand,
           accept, acknowledge
           and agree that,
 
           <div>
             01) all the particulars and information given in this application form (and all documents referred or
-            provided therewith) are true, correct, complete and up-to-date in all respects and I / We have not withheld
+            provided therewith) are true, correct, complete and up-to-date in all respects and I / We have not
+            withheld
             any information. I / We understand certain
             particulars given by me/us are required by the operational guidelines of the bank. I / We agree and
             undertake to provide any further information as and when the Bank may require.
@@ -1331,7 +1288,8 @@
           </div>
           <div>
             04)The Bank reserves the right to reject any application without providing any reason and reference to
-            me/us. I / We agree and understand that the Bank reserves the right to retain the application forms, and the
+            me/us. I / We agree and understand that the Bank reserves the right to retain the application forms, and
+            the
             documents provided therewith, including
             photographs, and shall not return the same to me/us.
           </div>
@@ -1342,14 +1300,16 @@
           </div>
 
           <div>
-            06) If the Account is under the corporate salary Scheme: I / We have also read and understood the “Terms and
+            06) If the Account is under the corporate salary Scheme: I / We have also read and understood the “Terms
+            and
             Conditions” under which Salary Scheme is offered to my / our organization and employees. I / We agree that
             my / our employer has full right to
             reserve any instruction given by them to credit my account for any amount within a period of three working
             days and I/we will not dispute or hold the Bank responsible for such debits in my / our account. I / We
             understand that
             it is my / our responsibility to inform (in writing) the Bank immediately on termination of my / our
-            employment with my / our current employer, whereupon I/we will cease to enjoy any or all benefits under the
+            employment with my / our current employer, whereupon I/we will cease to enjoy any or all benefits under
+            the
             Salary account scheme.
           </div>
           <div>
@@ -1359,12 +1319,14 @@
             the Bank as prescribed from time to time, and such further applications shall be regarded as an integral
             part of this application (and vice versa), and unless otherwise disclosed in such further forms as
             prescribed, the particulars
-            and information set forth herein, as well as the documents referred or provided herewith, are true, correct,
+            and information set forth herein, as well as the documents referred or provided herewith, are true,
+            correct,
             complete and up-to-date in all respects.
           </div>
 
           <div>
-            08) I/we authorize the Bank to issue a Debit cum ATM Card to me/us. The issue and usage of the Debit cum ATM
+            08) I/we authorize the Bank to issue a Debit cum ATM Card to me/us. The issue and usage of the Debit cum
+            ATM
             Card are governed by the terms and conditions as in force from time to time and I/we agree to be bound by
             the same. The terms and conditions of
             the Debit cum ATM Card are liable to be amended by the Bank from time to time.
@@ -1372,21 +1334,26 @@
 
           <div>
             09) I/we unconditionally and irrevocably authorize the Bank, to debit my / our Account annually with an
-            amount equivalent to the fee and charges for use of the Debit cum ATM Card. Continuation of the account with
+            amount equivalent to the fee and charges for use of the Debit cum ATM Card. Continuation of the account
+            with
             the Bank is at the sole discretion of
-            the Bank and in case the Bank is dissatisfied with the conduct of the Account / account holder, the Bank has
-            the right to close the account after giving me/us one month’s notice or withdraw the concessions into or any
+            the Bank and in case the Bank is dissatisfied with the conduct of the Account / account holder, the Bank
+            has
+            the right to close the account after giving me/us one month’s notice or withdraw the concessions into or
+            any
             service granted
             to me/us or charge the Bank’s applicable rates for such services.
           </div>
 
           <div>
-            10) At its absolute discretion, the Bank may discontinue any of the services completely or partially without
+            10) At its absolute discretion, the Bank may discontinue any of the services completely or partially
+            without
             any notice to me/us.
           </div>
 
           <div>
-            11) In case of return of the Account Opening Amount (AOA) cheque, for any reason whatsoever, the Bank would
+            11) In case of return of the Account Opening Amount (AOA) cheque, for any reason whatsoever, the Bank
+            would
             close the account without any reference to me/us.
           </div>
 
@@ -1401,32 +1368,37 @@
 
       </div>
 
-      <div nz-row>
+      <!-- Photos & Checklist Section for <= 2 Applicants -->
+      <div nz-row *ngIf="ApplicantPersonal.length <= 2">
         <div nz-col nzSpan="6" class="border-all data">
           <span *ngIf="PHOTOS.length > 0">
             <img [src]="PHOTOS[0]" width="100%" height="100%">
           </span>
         </div>
-        <div nz-col nzSpan="6" class="border-all data-heading">
+        <div nz-col [nzSpan]="ApplicantPersonal.length > 1 ? 6 : 9" class="border-all data-heading">
           <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan
             verification done</div>
-          <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹': '□'}}</b></span>
+          <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹':
+                '□'}}</b></span>
             OVD verification done
           </div>
           <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies
             verified
           </div>
-          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC AML norms verified
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC AML norms
+            verified
           </div>
           <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> ATM Card Issued</div>
-          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents verification
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents
+            verification
             done
           </div>
 
         </div>
-        <div nz-col nzSpan="6" class="border-all data-heading">
+        <div nz-col [nzSpan]="ApplicantPersonal.length > 1 ? 6 : 9" class="border-all data-heading">
 
-          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UNO list verified</div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UNO list verified
+          </div>
           <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UCIC verified</div>
           <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Nomination verified
           </div>
@@ -1440,20 +1412,64 @@
           </div>
 
         </div>
-        <div nz-col nzSpan="6" class="border-all data">
+        <div nz-col nzSpan="6" class="border-all data" *ngIf="ApplicantPersonal.length > 1">
           <span *ngIf="PHOTOS.length > 1">
             <img [src]="PHOTOS[1]" width="100%" height="100%">
           </span>
         </div>
       </div>
 
+      <!-- Photos Section for >= 3 Applicants -->
+      <div nz-row *ngIf="ApplicantPersonal.length >= 3">
+        <div *ngFor="let applicant of ApplicantPersonal; let idx = index" nz-col
+          [nzSpan]="getEqualSpan(24, ApplicantPersonal.length)" class="border-all data" style="text-align: center;">
+          <div class="data-heading" style="font-weight: bold; border-bottom: 1px solid black; padding: 2px;">
+            Applicant {{idx + 1}} Photo
+          </div>
+          <div style="height: 120px; display: flex; align-items: center; justify-content: center;">
+            <span *ngIf="PHOTOS.length > idx">
+              <img [src]="PHOTOS[idx]" width="100%" height="100%" style="max-height: 115px; object-fit: contain;">
+            </span>
+          </div>
+        </div>
+      </div>
 
-      <div nz-row>
-        <div nz-col nzSpan="6" class="border-all" style="height: 30px;"></div>
-        <div nz-col nzSpan="6" class="border-all" style="height: 30px;"></div>
-        <div nz-col nzSpan="6" class="border-all" style="height: 30px;"></div>
-        <div nz-col nzSpan="6" class="border-all" style="height: 30px;"></div>
-        <!-- <div nz-col nzSpan="6" class="border-all" style="height: 20px;"></div> -->
+      <!-- Checklist Section for >= 3 Applicants -->
+      <div nz-row *ngIf="ApplicantPersonal.length >= 3">
+        <div nz-col nzSpan="12" class="border-all data-heading">
+          <div class="margin"><span style="font-size: 16px;"><b>{{basicInfo.PAN_NUMBER ? '🗹': '□'}}</b></span> Pan
+            verification done</div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].OVD_DOC ? '🗹':
+                '□'}}</b></span>
+            OVD verification done
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Certified Copies
+            verified
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> KYC AML norms
+            verified
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> ATM Card Issued</div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Documents
+            verification
+            done
+          </div>
+        </div>
+        <div nz-col nzSpan="12" class="border-all data-heading">
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UNO list verified
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> UCIC verified</div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Nomination verified
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Mobile number
+            verification
+          </div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{ApplicantPersonal[0].IS_EMAIL_VERIFIED ? '🗹':
+                '□'}}</b></span> Email verified</div>
+          <div class="margin"><span style="font-size: 16px;"><b>{{false ? '🗹': '□'}}</b></span> Required documents
+            attached
+          </div>
+        </div>
       </div>
 
       <div nz-row>
@@ -1464,7 +1480,8 @@
         </div>
         <div nz-col nzSpan="6" class="border-all data-heading">Data verified by - <span
             *ngIf="checkerUserData.NAME">{{checkerUserData.NAME}}</span></div>
-        <div nz-col nzSpan="6" class="border-all data-heading">Date - {{basicInfo.VERIFIED_DATE_TIME|date:'dd/MM/yyyy'}}
+        <div nz-col nzSpan="6" class="border-all data-heading">Date -
+          {{basicInfo.VERIFIED_DATE_TIME|date:'dd/MM/yyyy'}}
           {{basicInfo.VERIFIED_DATE_TIME|date:'HH:mm'}}
         </div>
       </div>
@@ -1472,162 +1489,84 @@
 
 
       <div nz-row>
-        <div nz-col nzSpan="12" class="border-all">Applicant 1 Sign - </div>
-
-        <div nz-col nzSpan="12" class="border-all">Applicant 2 Sign - </div>
+        <div *ngFor="let applicant of ApplicantPersonal; let idx = index" nz-col
+          [nzSpan]="getEqualSpan(24, ApplicantPersonal.length)" class="border-all data-heading"
+          style="display: flex; align-items: center; justify-content: flex-start; gap: 10px; min-height: 35px;">
+          <span>Applicant {{idx + 1}} Sign -</span>
+          <span *ngIf="SIGNATURES.length > idx" style="display: inline-flex; align-items: center;">
+            <img [src]="SIGNATURES[idx]" style="max-height: 30px; max-width: 150px; object-fit: contain;">
+          </span>
+        </div>
       </div>
 
     </div>
 
-    <div class="page"
-      [ngClass]=" {'page':ApplicantPersonal[0].IS_DOB_MISMATCH || (ApplicantPersonal.length >= 2 && ApplicantPersonal[1].IS_DOB_MISMATCH)}">
-
-      <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_VERNACULAR">
-        <div nz-row>
-          <div nz-col nzSpan="24">
-
-            <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ अशिक्षित व्यक्तीने द्यावयाचे
-                घोषणापत्र
-                पत्र</b></div>
-            <div>
-              मी श्री / श्रीमती _________________________________________________________________ (बँकेचे अधिकारी किंवा
-              बँकेचे ग्राहक) दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांचा ठेव खाते उघडणेचा अर्ज व या अर्जातील सर्व तपशील
-              अर्जदार श्री./श्रीमती …………………………………………………………………….
-              याांना ......................................... या भाषेत वाचून दाखविला आहे व उलगडून सांगितला आहे आणि
-              अर्जदार यांना तो समजला असून या खाते उघडण्याच्या अर्जातील सर्व अटी व शर्ती मान्य केल्याचे सांगितले आहे.
-              त्याच्या अर्थया पुष्ट्यर्थ
-              वरील अर्जदार यांची स्वाक्षरी/ डाव्या हाताचा अंगठ्याचा ठसा खाली देत आहोत.
-            </div>
-
-            <div style="margin-bottom: 20px;margin-top: 20px;"><b>DECLARATION REGARDING SIGNING IN VERNACULAR LANGUAGE /
-                BY
-                ILLITERATE / BLIND PERSON</b></div>
-            <div>I, Mr./Mrs._________________________________________________________________ (the Declarant - either
-              Bank Official or customer of Bank) have read out and explained the contents of this Account Opening Form
-              of The Ajara Urban Cooperative
-              Bank Limited (the Bank) to the Applicant(s) Mr. / Mrs. ____________ ________________________________in
-              _____________________________ language and he/she/they have confirmed that he/she/they has/have understood
-              the same and
-              have agreed to abide by all the terms and conditions of the said Account Opening Form. Pursuant to the
-              same the aforesaid Applicant(s) is / are affixing his / her / their signature(s)/thumb impression(s) as
-              given herein below
-            </div>
-
-          </div>
-        </div>
-
-        <div nz-row style="margin-top:80px;">
-          <div nz-col nzSpan="10">अर्जदार यांची स्वाक्षरी Signature of the Customer </div>
-
-
-          <div nz-col nzSpan="14" style="text-align:right">घोषणाकर्त्याचे नांव आणि सही Name and signature of the
-            Declarant
-          </div>
-
-        </div>
-      </div>
-
-      <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal.length >= 2">
-        <div style="width:100%" *ngIf="ApplicantPersonal[1].IS_VERNACULAR">
+    <!-- Vernacular Declaration for N Applicants -->
+    <div>
+      <ng-container *ngFor="let applicant of ApplicantPersonal; let idx = index">
+        <div class="page" style="width:100%;margin-top:20px;" *ngIf="applicant.IS_VERNACULAR">
           <div nz-row>
             <div nz-col nzSpan="24">
 
               <div style="margin-bottom: 20px;"><b>प्रादेशिक भाषेत स्वाक्षरी करणारी/ अशिक्षित व्यक्तीने द्यावयाचे
-                  घोषणापत्र
-                  पत्र</b></div>
+                  घोषणापत्र (अर्जदार {{idx + 1}})</b></div>
               <div>
                 मी श्री / श्रीमती _________________________________________________________________ (बँकेचे अधिकारी
-                किंवा बँकेचे ग्राहक) दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांचा ठेव खाते उघडणेचा अर्ज व या अर्जातील सर्व
-                तपशील अर्जदार श्री./श्रीमती …………………………………………………………………….
+                किंवा
+                बँकेचे ग्राहक) दि आजरा अर्बन को-ऑपरेटिव्ह बँक लि. यांचा ठेव खाते उघडणेचा अर्ज व या अर्जातील सर्व तपशील
+                अर्जदार श्री./श्रीमती …………………………………………………………………….
                 याांना ......................................... या भाषेत वाचून दाखविला आहे व उलगडून सांगितला आहे आणि
                 अर्जदार यांना तो समजला असून या खाते उघडण्याच्या अर्जातील सर्व अटी व शर्ती मान्य केल्याचे सांगितले आहे.
-                त्याच्या अर्थया
-                पुष्ट्यर्थ वरील अर्जदार यांची स्वाक्षरी/ डाव्या हाताचा अंगठ्याचा ठसा खाली देत आहोत.
+                त्याच्या अर्थया पुष्ट्यर्थ वरील अर्जदार यांची स्वाक्षरी/ डाव्या हाताचा अंगठ्याचा ठसा खाली देत आहोत.
               </div>
 
-              <div style="margin-bottom: 20px;margin-top: 20px;"><b>DECLARATION REGARDING SIGNING IN VERNACULAR LANGUAGE
-                  /
-                  BY
-                  ILLITERATE / BLIND PERSON</b></div>
-              <div>I, Mr./Mrs._________________________________________________________________ (the Declarant - either
-                Bank Official or customer of Bank) have read out and explained the contents of this Account Opening Form
-                of The Ajara Urban
-                Cooperative Bank Limited (the Bank) to the Applicant(s) Mr. / Mrs. ____________
-                ________________________________in _____________________________ language and he/she/they have confirmed
-                that he/she/they has/have understood
+              <div style="margin-bottom: 20px;margin-top: 20px;"><b>DECLARATION REGARDING SIGNING IN VERNACULAR
+                  LANGUAGE /
+                  BY ILLITERATE / BLIND PERSON (Applicant {{idx + 1}})</b></div>
+              <div>I, Mr./Mrs._________________________________________________________________ (the Declarant -
+                either
+                Bank Official or customer of Bank) have read out and explained the contents of this Account Opening
+                Form
+                of The Ajara Urban Cooperative Bank Limited (the Bank) to the Applicant(s) Mr. / Mrs. ____________
+                ________________________________in
+                _____________________________ language and he/she/they have confirmed that he/she/they has/have
+                understood
                 the same and have agreed to abide by all the terms and conditions of the said Account Opening Form.
-                Pursuant to the same the aforesaid Applicant(s) is / are affixing his / her / their signature(s)/thumb
-                impression(s) as
+                Pursuant to the
+                same the aforesaid Applicant(s) is / are affixing his / her / their signature(s)/thumb impression(s)
+                as
                 given herein below
               </div>
 
             </div>
           </div>
 
-          <div nz-row style="margin-top:80px;">
-            <div nz-col nzSpan="10">अर्जदार यांची स्वाक्षरी Signature of the Customer </div>
-
-
-            <div nz-col nzSpan="14" style="text-align:right">घोषणाकर्त्याचे नांव आणि सही Name and signature of the
-              Declarant
+          <div nz-row style="margin-top:40px;">
+            <div nz-col nzSpan="10">
+              <div style="height: 45px;" *ngIf="SIGNATURES.length > idx">
+                <img [src]="SIGNATURES[idx]" style="max-height: 40px; object-fit: contain;">
+              </div>
+              <div>अर्जदार {{idx + 1}} यांची स्वाक्षरी Signature of Customer {{idx + 1}}</div>
             </div>
-
+            <div nz-col nzSpan="14" style="text-align:right">घोषणाकर्त्याचे नांव आणि सही Name and signature of the
+              Declarant</div>
           </div>
         </div>
-      </div>
-
+      </ng-container>
     </div>
 
+    <!-- Date of Birth Mismatch Declaration for N Applicants -->
     <div>
-
-      <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal[0].IS_DOB_MISMATCH">
-        <div nz-row style="margin-top:30px;margin-bottom: 20px;">
-          <div nz-col nzSpan="24">जन्मदिनांक मध्ये तफावत असल्यास त्याबाबतचे घोषणापत्र Date of Birth Mismatch (If
-            necessary) Declaration :</div>
-        </div>
-
-        <div nz-row style="font-size:10px;">
-          <div nz-col nzSpan="8" style="text-align:center;">पुरावा 1 नुसार ​जन्‍मदिनांक DOB As Per Proof - 1</div>
-          <div nz-col nzSpan="8" style="text-align:center;">पुरावा 2 नुसार ​जन्‍मदिनांक As Per Proof - 2</div>
-          <div nz-col nzSpan="8" style="text-align:center;">अर्जामध्ये पाहीलेला दिनांक DOB Mentioned on AOF</div>
-        </div>
-
-        <div nz-row>
-          <div nz-col nzSpan="8" class="border-all data">&nbsp;</div>
-          <div nz-col nzSpan="8" class="border-all data">&nbsp;</div>
-          <div nz-col nzSpan="8" class="border-all data">&nbsp;</div>
-        </div>
-
-        <div nz-row style="margin-top: 20px;font-size: 11;">
-          <div nz-col nzSpan="24">
-            मी खात्रीपूर्वक घोषित करतो की अर्जावर नमूद केलेली___ /___ /______ही माझी खरी जन्मदिनांक आहे आणि या
-            घोषणपत्राच्या पुष्ट्यर्थ मी जन्मदिनांकाचा वैध पुरावा जोडला आहे.
-          </div>
-        </div>
-
-        <div nz-row>
-          <div nz-col nzSpan="24" style="margin-top: 20px;font-size: 11;">
-            I hereby confirm that my actual DOB is ___ /___ /______ which is mentioned in the AOF and I have enclosed a
-            valid DOB proof to support this declaration.
-          </div>
-        </div>
-
-        <div nz-row style="margin-top:80px;">
-          <div nz-col nzSpan="24">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
-        </div>
-
-      </div>
-
-      <div style="width:100%;margin-top:20px;" *ngIf="ApplicantPersonal.length >= 2">
-        <div style="width:100%;" *ngIf="ApplicantPersonal[1].IS_DOB_MISMATCH">
+      <ng-container *ngFor="let applicant of ApplicantPersonal; let idx = index">
+        <div style="width:100%;margin-top:20px;" *ngIf="applicant.IS_DOB_MISMATCH">
           <div nz-row style="margin-top:30px;margin-bottom: 20px;">
             <div nz-col nzSpan="24">जन्मदिनांक मध्ये तफावत असल्यास त्याबाबतचे घोषणापत्र Date of Birth Mismatch (If
-              necessary) Declaration :</div>
+              necessary) Declaration (Applicant {{idx + 1}}) :</div>
           </div>
 
           <div nz-row style="font-size:10px;">
             <div nz-col nzSpan="8" style="text-align:center;">पुरावा 1 नुसार ​जन्‍मदिनांक DOB As Per Proof - 1</div>
-            <div nz-col nzSpan="8" style="text-align:center;">पुरावा 2 नुसार ​जन्‍मदिनांक As Per Proof - 2</div>
+            <div nz-col nzSpan="8" style="text-align:center;">पुरावा 2 नुसार ​जन्‍मदिनांक DOB As Per Proof - 2</div>
             <div nz-col nzSpan="8" style="text-align:center;">अर्जामध्ये पाहीलेला दिनांक DOB Mentioned on AOF</div>
           </div>
 
@@ -1646,933 +1585,23 @@
 
           <div nz-row>
             <div nz-col nzSpan="24" style="margin-top: 20px;font-size: 11;">
-              I hereby confirm that my actual DOB is ___ /___ /______ which is mentioned in the AOF and I have enclosed
-              a valid DOB proof to support this declaration.
+              I hereby confirm that my actual DOB is ___ /___ /______ which is mentioned in the AOF and I have
+              enclosed a
+              valid DOB proof to support this declaration.
             </div>
           </div>
 
-          <div nz-row style="margin-top:80px;">
-            <div nz-col nzSpan="24">अर्जदार याांची ​स्वाक्षरी Signature of the Customer </div>
+          <div nz-row style="margin-top:40px;">
+            <div nz-col nzSpan="24">
+              <div style="height: 45px;" *ngIf="SIGNATURES.length > idx">
+                <img [src]="SIGNATURES[idx]" style="max-height: 40px; object-fit: contain;">
+              </div>
+              <div>अर्जदार {{idx + 1}} यांची ​स्वाक्षरी Signature of Customer {{idx + 1}}</div>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
 
   </div>
 </nz-spin>
-
-
-<!-- <pdf-viewer *ngIf="pdfByte && showPdf"
- [src]="pdfByte" [render-text]="true" [original-size]="false"
-    style="width: 100%; height:500px"></pdf-viewer> -->
-
-<!-- backup -->
-
-
-<!-- <div>
-
-  Applicant 1
-
-  <div nz-row>
-    <div nz-col nzSpan="24" class="border-all heading" style="text-align:center">
-      व्यक्तीगत माहिती Personal Details (अर्जदार – १ Applicant – 1)
-    </div>
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="7" class="border-all data-heading">Customer Type
-      ग्राहकाचा प्रकार
-    </div>
-    <div nz-col nzSpan="10" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_1]}}</div>
-    <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
-    <div nz-col nzSpan="4" class="border-all data">{{risk_type[ApplicantPersonal[0].RISK_CATEGORY]}}</div>
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      संपूर्ण नांव Full Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      {{ApplicantPersonal[0].LAST_NAME}} {{ApplicantPersonal[0].FIRST_NAME}}
-      {{ApplicantPersonal[0].MIDDLE_NAME}}
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      आईचे नांव Mother's maiden Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      {{ApplicantPersonal[0].MOTHERS_LAST_NAME}}
-      {{ApplicantPersonal[0].MOTHERS_NAME}} {{ApplicantPersonal[0].MOTHERS_MIDDLE_NAME}}
-
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      वडिलांचे नांव Father's Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      {{ApplicantPersonal[0].F_OR_H_LAST_NAME}} {{ApplicantPersonal[0].F_OR_H_FIRST_NAME}}
-      {{ApplicantPersonal[0].F_OR_H_MIDDLE_NAME}}
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="3" class="border-all data-heading">राष्ट्रीयत्व <div>Nationality</div>
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data">Indian</div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">पॅन
-      <div>PAN</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{basicInfo.PAN_NUMBER}}
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data-heading ">फॉम ६०
-      <div>Form 60</div>
-    </div>
-
-    <div nz-col nzSpan="1" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">जन्म दिनांक
-      <div>Date of Birth</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{ApplicantPersonal[0].DATE_OF_BIRTH}}
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल Mobile
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{ApplicantPersonal[0].MOBILE_NUMBER}}
-    </div>
-
-
-    <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल
-      Mobile
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{ApplicantPersonal[0].MOBILE_NUMBER_2}}
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">ईमेल
-      email
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{ApplicantPersonal[0].EMAIL_ID}}
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">ओव्हीडी OVD
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">क्र.
-      No.
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">लिंग
-      Gender
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{gender[ApplicantPersonal[0].GENDER]}}
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="21" class="border-all data-heading">
-      I hereby declare that I have submitted the Aadhaar Card issued by UIDAI voluntarily for identification and /or
-      address proof
-      towards the compliance of KYC norms under the PMLA, 2002 I hereby consent that the Bank may verify the same with
-      the
-      UIDAI and authorise the UIDAI expressly to release the identity and address through biometric / OTP based
-      authentication to
-      the Bank
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="18" class="border-all data-heading">
-      If the Proof of Address (OVD) provided does not contain
-      current address-please provide any of the documents
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="5" class="border-all data-heading">
-      पत्रव्यवहाराचा पत्ता
-      <div>Mailing Address</div>
-    </div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">
-      पुरावा
-      <div>Proof</div>
-    </div>
-
-    <div nz-col nzSpan="5" class="border-all data"></div>
-
-    <div nz-col nzSpan="5" class="border-all data-heading">
-      कायमचा पत्ता
-      <div>Permanent Address</div>
-    </div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">
-      पुरावा
-      <div>Proof</div>
-    </div>
-    <div nz-col nzSpan="5" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_ADDRESS}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_ADDRESS}} &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_LANDMARK}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_LANDMARK}}&nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_CITY}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_TALUKA}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_CITY}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_TALUKA}} &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_DISTRICT}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_DISTRICT}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_STATE}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].CURRENT_PINCODE}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_STATE}} &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{ApplicantPersonal[0].PERMANENT_PINCODE}} &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="3" class="border-all data-heading">
-      व्यवसाय
-      <div>Profession</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{profession[ApplicantPersonal[0].PROFESSION]}}
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      नोकरीचे स्वरूप
-      <div>Nature of Service</div>
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data">
-      {{nature_of_service[ApplicantPersonal[0].NATURE_OF_SERVICE]}}
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      स्वयंरोजगार व्यवसायिक
-      <div>Self-employed professional</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{self_employed[ApplicantPersonal[0].SELF_EMPLOYED]}}
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="7" class="border-all data-heading">
-      व्यवसायाचे स्वरूप
-      Nature of business
-    </div>
-
-    <div nz-col nzSpan="5" class="border-all data">
-      {{applicantPersonalMasterData.nature_of_business || getBusinessLabel(ApplicantPersonal[0].NATURE_OF_BUSINESS)}}
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      निधीचा स्रोत
-      Source of funds
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      {{applicantPersonalMasterData.source_of_fund || getFundLabel(ApplicantPersonal[0].SOURCE_OF_FUNDS)}}
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      वार्षिक उत्पन्न Annual Income
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantFinancial.length > 0">{{ApplicantFinancial[0].INCOME}}</span>
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      निवास प्रकार
-      Residence Type
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantProperty.length > 0">{{residential_status[ApplicantProperty[0].HOUSE_DETAIL]}}</span>
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      धर्म Religion
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-
-      <span *ngIf="ApplicantPersonal[0].RELIGION == 'G'">
-        {{ApplicantPersonal[0].OTHER_RELIGION}}
-      </span>
-      <span *ngIf="ApplicantPersonal[0].RELIGION != 'G'">
-        {{religion[ApplicantPersonal[0].RELIGION]}}
-      </span>
-
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-
-      वर्गीकरण
-      Category
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-
-      <span *ngIf="ApplicantPersonal[0].CASTE == 'G'">
-        {{ApplicantPersonal[0].OTHER_CASTE}}
-      </span>
-      <span *ngIf="ApplicantPersonal[0].CASTE != 'G'">
-        {{caste[ApplicantPersonal[0].CASTE]}}
-      </span>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      शिक्षण Education
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{education[ApplicantPersonal[0].EDUCATION]}}
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="8" class="border-all data-heading">
-
-      वैवाहिक स्थिती/ Marital Status
-    </div>
-
-    <div nz-col nzSpan="8" class="border-all data">
-      {{ApplicantPersonal[0].MARITAL_STATUS == 'M' ? 'Married' : 'Unmarried'}}
-    </div>
-
-    <div nz-col nzSpan="8" class="border-all data"></div>
-
-  </div>
-
-  Applicant 2
-
-  <div nz-row>
-    <div nz-col nzSpan="24" class="border-all heading" style="text-align:center">
-      व्यक्तीगत माहिती Personal Details (अर्जदार – २ Applicant – 2)
-    </div>
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="7" class="border-all data-heading">Customer Type
-      ग्राहकाचा प्रकार
-    </div>
-    <div nz-col nzSpan="10" class="border-all data">{{customer_type[basicInfo.CUSTOMER_TYPE_2]}}</div>
-    <div nz-col nzSpan="3" class="border-all data-heading">Risk Category</div>
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{risk_type[ApplicantPersonal[1].RISK_CATEGORY]}}
-      </span>
-    </div>
-  </div>
-
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      संपूर्ण नांव Full Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].LAST_NAME}} {{ApplicantPersonal[1].FIRST_NAME}}
-        {{ApplicantPersonal[1].MIDDLE_NAME}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      आईचे नांव Mother's maiden Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].MOTHERS_LAST_NAME}} {{ApplicantPersonal[1].MOTHERS_NAME}}
-        {{ApplicantPersonal[1].MOTHERS_MIDDLE_NAME}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="8" class="border-all data-heading">
-      वडिलांचे नांव Father's Name
-    </div>
-    <div nz-col nzSpan="16" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].F_OR_H_LAST_NAME}} {{ApplicantPersonal[1].F_OR_H_FIRST_NAME}}
-        {{ApplicantPersonal[1].F_OR_H_MIDDLE_NAME}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="3" class="border-all data-heading">राष्ट्रीयत्व <div>Nationality</div>
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data">
-      Indian
-    </div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">पॅन
-      <div>PAN</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      {{basicInfo.PAN_NUMBER2}}
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data-heading">फॉम ६०
-      <div>Form 60</div>
-    </div>
-
-    <div nz-col nzSpan="1" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">जन्म दिनांक
-      <div>Date of Birth</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].DATE_OF_BIRTH}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल Mobile
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].MOBILE_NUMBER}}
-      </span>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">मोबाईल
-      Mobile
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        <span *ngIf="ApplicantPersonal.length > 1">
-          {{ApplicantPersonal[1].MOBILE_NUMBER_2}}
-        </span>
-      </span>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">ईमेल
-      email
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].EMAIL_ID}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">ओव्हीडी OVD
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">क्र.
-      No.
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data"></div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">लिंग
-      Gender
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{gender[ApplicantPersonal[1].GENDER]}}
-      </span>
-    </div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="21" class="border-all data-heading">
-      I hereby declare that I have submitted the Aadhaar Card issued by UIDAI voluntarily for identification and /or
-      address proof
-      towards the compliance of KYC norms under the PMLA, 2002 I hereby consent that the Bank may verify the same with
-      the
-      UIDAI and authorise the UIDAI expressly to release the identity and address through biometric / OTP based
-      authentication to
-      the Bank
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="18" class="border-all data-heading">
-      If the Proof of Address (OVD) provided does not contain
-      current address-please provide any of the documents
-    </div>
-
-
-    <div nz-col nzSpan="6" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-
-    <div nz-col nzSpan="5" class="border-all data-heading">
-      पत्रव्यवहाराचा पत्ता
-      <div>Mailing Address</div>
-    </div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">
-      पुरावा
-      <div>Proof</div>
-    </div>
-
-    <div nz-col nzSpan="5" class="border-all data"></div>
-
-    <div nz-col nzSpan="5" class="border-all data-heading">
-      कायमचा पत्ता
-      <div>Permanent Address</div>
-    </div>
-
-    <div nz-col nzSpan="2" class="border-all data-heading">
-      पुरावा
-      <div>Proof</div>
-    </div>
-    <div nz-col nzSpan="5" class="border-all data"></div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_ADDRESS}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_ADDRESS}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-    <div nz-col nzSpan="12" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_LANDMARK}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="12" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_LANDMARK}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_CITY}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_TALUKA}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_CITY}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_TALUKA}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-  </div>
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_DISTRICT}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_DISTRICT}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-
-  <div nz-row>
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_STATE}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].CURRENT_PINCODE}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_STATE}}
-      </span>&nbsp;&nbsp;
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].PERMANENT_PINCODE}}
-      </span> &nbsp;&nbsp;
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="3" class="border-all data-heading">
-      व्यवसाय
-      <div>Profession</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{profession[ApplicantPersonal[1].PROFESSION]}}
-      </span>
-
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      नोकरीचे स्वरूप
-      <div>Nature of Service</div>
-    </div>
-
-    <div nz-col nzSpan="3" class="border-all ">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{nature_of_service[ApplicantPersonal[1].NATURE_OF_SERVICE]}}
-      </span>
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      स्वयंरोजगार व्यावसायिक
-      <div>Self-employed professional</div>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{self_employed[ApplicantPersonal[1].SELF_EMPLOYED]}}
-      </span>
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="7" class="border-all data-heading">
-      व्यवसायाचे स्वरूप
-      Nature of business
-    </div>
-
-    <div nz-col nzSpan="5" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{getBusinessLabel(ApplicantPersonal[1].NATURE_OF_BUSINESS)}}
-      </span>
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      निधीचा स्रोत
-      Source of funds
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{getFundLabel(ApplicantPersonal[1].SOURCE_OF_FUNDS)}}
-      </span>
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      वार्षिक उत्पन्न Annual Income
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantFinancial.length > 1">{{ApplicantFinancial[1].INCOME}}</span>
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data-heading">
-      निवास प्रकार
-      Residence Type
-    </div>
-
-    <div nz-col nzSpan="6" class="border-all data">
-      <span *ngIf="ApplicantProperty.length > 1">{{residential_status[ApplicantProperty[1].HOUSE_DETAIL]}}</span>
-    </div>
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      धर्म Religion
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        <span *ngIf="ApplicantPersonal[1].RELIGION == 'G'">
-          {{ApplicantPersonal[1].OTHER_RELIGION}}
-        </span>
-        <span *ngIf="ApplicantPersonal[1].RELIGION != 'G'">
-          {{religion[ApplicantPersonal[1].RELIGION]}}
-        </span>
-      </span>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-
-      वर्गीकरण
-      Category
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        <span *ngIf="ApplicantPersonal[1].CASTE == 'G'">
-          {{ApplicantPersonal[1].OTHER_CASTE}}
-        </span>
-        <span *ngIf="ApplicantPersonal[1].CASTE != 'G'">
-          {{caste[ApplicantPersonal[1].CASTE]}}
-        </span>
-      </span>
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data-heading">
-      शिक्षण Education
-    </div>
-
-    <div nz-col nzSpan="4" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{education[ApplicantPersonal[1].EDUCATION]}}
-      </span>
-    </div>
-
-
-  </div>
-
-
-  <div nz-row>
-
-    <div nz-col nzSpan="8" class="border-all data-heading">
-
-      वैवाहिक स्थिती/ Marital Status
-    </div>
-
-    <div nz-col nzSpan="8" class="border-all data">
-      <span *ngIf="ApplicantPersonal.length > 1">
-        {{ApplicantPersonal[1].MARITAL_STATUS == 'M' ? 'Married' : 'Un-Married'}}
-      </span>
-    </div>
-
-
-    <div nz-col nzSpan="8" class="border-all data"></div>
-
-  </div>
-</div> -->

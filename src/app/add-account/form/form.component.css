@@ -7,38 +7,52 @@
   margin-top: 10px;
 } */
 
-.page-margin-top{
-  margin-top:15px;
+.page-margin-top {
+  margin-top: 15px;
 }
-.border-all{
-  border:1px solid black;
+
+.border-all {
+  border: 1px solid black;
   /* font-size: 12px; */
   padding: 5px;
   padding-left: 10px;
 }
 
-.heading{
+.heading {
   text-align: center;
   background-color: rgb(237, 2, 140);
-  color:white;
+  color: white;
   font-weight: bold;
 }
 
-.margin{
+.margin {
   margin-bottom: 10px;
 }
 
-.data{
+.data {
   font-weight: bold;
   text-align: center;
 }
 
-.data-heading{
+.data-heading {
   background-color: rgb(252, 233, 241);
 }
 
-#contentToConvert{
-  font-weight:bold;
+#contentToConvert {
+  font-weight: bold;
   font-size: 11px;
 }
 
+[nz-row],
+[nz-col],
+.border-all,
+.ant-row {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  margin-bottom: 2px;
+}
+
+.avoid-page-break {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
