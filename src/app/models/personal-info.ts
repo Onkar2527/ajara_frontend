@@ -157,4 +157,10 @@ export class PersonalInfo {
     TYPE_OF_DISABILITY: string = '';
     DISABILITY_PERCENTAGE: number | null = null;
     UDID_NO: string = '';
+
+    WIFE_NAME: string = '';
+    NAME_BEFORE_MARRIAGE: string = '';
+    IS_ILLITERATE: boolean = false;
+    IDENTIFICATION_MARK: string = '';
+    IS_TAX_RESIDENT_INDIA_ONLY: boolean = true;
 }

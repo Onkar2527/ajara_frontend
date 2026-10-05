@@ -11,11 +11,12 @@
       <nz-form-item *ngIf="basicInfo['IS_OLD_CUSTOMER_' + applicantNo]">
         <nz-form-label>Customer ID</nz-form-label>
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input nz-input [(ngModel)]="basicInfo['CUSTOMER_ID_' + applicantNo]" placeholder="Enter Customer ID" />
+          <input nz-input [(ngModel)]="basicInfo['CUSTOMER_ID_' + applicantNo]" placeholder="Enter Customer ID"
+            (keydown.enter)="searchCustomer()" />
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" nzSearch (click)="searchCustomer()"><span nz-icon
-              nzType="search"></span></button>
+          <button nz-button nzType="primary" nzSearch (click)="searchCustomer()" [nzLoading]="isSearchingCustomer"><span
+              nz-icon nzType="search"></span></button>
         </ng-template>
       </nz-form-item>
       <div nz-row [nzGutter]="[16, 16]">

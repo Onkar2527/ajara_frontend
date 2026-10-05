@@ -894,88 +894,82 @@ export class FormComponent implements OnInit, AfterViewInit {
     };
   }
 
-  async embedImageSafely(pdfDoc: PDFDocument, imageDataSrc: string): Promise<any> {
-    try {
-      if (!imageDataSrc) return null;
-
-      const response = await fetch(imageDataSrc);
-      if (!response.ok) {
-        console.warn('Failed to fetch image data:', imageDataSrc);
-        return null;
-      }
-      const buffer = await response.arrayBuffer();
-      const bytes = new Uint8Array(buffer);
-
-      if (bytes.length < 4) {
-        return null;
-      }
-
-      // Check JPEG magic bytes: 0xFF 0xD8
-      if (bytes[0] === 0xFF && bytes[1] === 0xD8) {
-        try {
-          return await pdfDoc.embedJpg(buffer);
-        } catch (e) {
-          console.warn('embedJpg failed despite JPEG header, trying fallback', e);
-        }
-      }
-
-      // Check PNG magic bytes: 0x89 0x50 0x4E 0x47
-      if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) {
-        try {
-          return await pdfDoc.embedPng(buffer);
-        } catch (e) {
-          console.warn('embedPng failed despite PNG header, trying fallback', e);
-        }
-      }
-
-      // Generic fallback: Try embedJpg then embedPng
-      try {
-        return await pdfDoc.embedJpg(buffer);
-      } catch (e1) {
-        try {
-          return await pdfDoc.embedPng(buffer);
-        } catch (e2) {
-          // Fallback to HTML Canvas conversion for WebP, GIF, SVG or corrupted headers
-          const pngBuffer = await this.convertImageToPngBuffer(imageDataSrc);
-          if (pngBuffer) {
-            return await pdfDoc.embedPng(pngBuffer);
-          }
-        }
-      }
-    } catch (err) {
-      console.error('Error embedding image in PDF:', err);
-    }
-    return null;
-  }
-
-  convertImageToPngBuffer(src: string): Promise<ArrayBuffer | null> {
+  async embedDocumentImage(pdfDoc: PDFDocument, imageDataSrc: string): Promise<any> {
+    if (!imageDataSrc) return null;
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = 'Anonymous';
-      img.onload = () => {
+      img.onload = async () => {
         try {
           const canvas = document.createElement('canvas');
-          canvas.width = img.naturalWidth || img.width || 300;
-          canvas.height = img.naturalHeight || img.height || 150;
+          const w = img.naturalWidth || img.width || 800;
+          const h = img.naturalHeight || img.height || 600;
+          canvas.width = w;
+          canvas.height = h;
           const ctx = canvas.getContext('2d');
           if (ctx) {
-            ctx.drawImage(img, 0, 0);
-            canvas.toBlob((blob) => {
+            // Fill opaque white background so transparent pixels or alpha channels NEVER turn black in PDF
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(img, 0, 0, w, h);
+
+            canvas.toBlob(async (blob) => {
               if (blob) {
-                blob.arrayBuffer().then(resolve).catch(() => resolve(null));
+                try {
+                  const buf = await blob.arrayBuffer();
+                  const embedded = await pdfDoc.embedJpg(buf);
+                  resolve(embedded);
+                } catch (e) {
+                  try {
+                    const buf = await blob.arrayBuffer();
+                    const embeddedPng = await pdfDoc.embedPng(buf);
+                    resolve(embeddedPng);
+                  } catch (e2) {
+                    resolve(null);
+                  }
+                }
               } else {
                 resolve(null);
               }
-            }, 'image/png');
+            }, 'image/jpeg', 0.92);
           } else {
             resolve(null);
+          }
+        } catch (err) {
+          resolve(null);
+        }
+      };
+      img.onerror = async () => {
+        try {
+          let buffer: ArrayBuffer;
+          if (imageDataSrc.startsWith('data:') || imageDataSrc.startsWith('http')) {
+            const res = await fetch(imageDataSrc);
+            buffer = await res.arrayBuffer();
+          } else {
+            const binaryStr = atob(imageDataSrc.split(',')[1] || imageDataSrc);
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+              bytes[i] = binaryStr.charCodeAt(i);
+            }
+            buffer = bytes.buffer;
+          }
+          try {
+            resolve(await pdfDoc.embedJpg(buffer));
+          } catch (e) {
+            try {
+              resolve(await pdfDoc.embedPng(buffer));
+            } catch (e2) {
+              resolve(null);
+            }
           }
         } catch (e) {
           resolve(null);
         }
       };
-      img.onerror = () => resolve(null);
-      img.src = src;
+
+      img.src = imageDataSrc.startsWith('data:') || imageDataSrc.startsWith('http')
+        ? imageDataSrc
+        : 'data:image/jpeg;base64,' + imageDataSrc;
     });
   }
 
@@ -988,57 +982,59 @@ export class FormComponent implements OnInit, AfterViewInit {
     );
     let pdfArray = this.documentData.filter(Pn => "application/pdf" == Pn.FILE_TYPE && Pn.DOCUMENT_NAME != 'Applicant Photo');
 
-    let validEmbeddedImages: any[] = [];
+    let embededImageRef: any[] = [];
     for (let Pn of imageDocs) {
-      const embeddedRef = await this.embedImageSafely(mergedPdfDoc, Pn.IMAGE_DATA);
-      if (embeddedRef) {
-        validEmbeddedImages.push(embeddedRef);
+      if (Pn.IMAGE_DATA) {
+        const embeddedRef = await this.embedDocumentImage(mergedPdfDoc, Pn.IMAGE_DATA);
+        if (embeddedRef) {
+          embededImageRef.push(embeddedRef);
+        }
       }
     }
 
-    let totalImageArrayLength = validEmbeddedImages.length,
-      imagePages = new Array(Math.trunc(totalImageArrayLength / 6) + (totalImageArrayLength % 6 == 0 ? 0 : 1)),
-      embededImageRef = validEmbeddedImages;
-
+    let totalImageArrayLength = embededImageRef.length;
+    let pagesCount = Math.ceil(totalImageArrayLength / 6);
     let imageNo = 0;
-    for (let i = 0; i < imagePages.length; i++) {
-      imagePages[i] = mergedPdfDoc.addPage();
 
-      let commonMargin = 15
-      let imageWidth = Math.trunc(imagePages[i].getWidth() / 2) - commonMargin
-      let imageHeight = Math.trunc(imagePages[i].getHeight() / 3) - 13
+    for (let i = 0; i < pagesCount; i++) {
+      let page = mergedPdfDoc.addPage();
+
+      let commonMargin = 15;
+      let imageWidth = Math.trunc(page.getWidth() / 2) - commonMargin;
+      let imageHeight = Math.trunc(page.getHeight() / 3) - 13;
 
       for (let j = 0; j < 6; j++) {
-        if (embededImageRef[j + imageNo]) {
+        let currentImg = embededImageRef[j + imageNo];
+        if (currentImg) {
 
           if (j == 0) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
-              { x: 10, y: (2 * (Math.trunc(imagePages[i].getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
+            page.drawImage(currentImg,
+              { x: 10, y: (2 * (Math.trunc(page.getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
             );
           }
           else if (j == 1) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
-              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: (2 * (Math.trunc(imagePages[i].getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
+            page.drawImage(currentImg,
+              { x: Math.trunc(page.getWidth() / 2) + 5, y: (2 * (Math.trunc(page.getHeight() / 3))) + 5, width: imageWidth, height: imageHeight }
             );
           }
           else if (j == 2) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
-              { x: 10, y: Math.trunc(imagePages[i].getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
+            page.drawImage(currentImg,
+              { x: 10, y: Math.trunc(page.getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
             );
           }
           else if (j == 3) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
-              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: Math.trunc(imagePages[i].getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
+            page.drawImage(currentImg,
+              { x: Math.trunc(page.getWidth() / 2) + 5, y: Math.trunc(page.getHeight() / 3) + 7, width: imageWidth, height: imageHeight }
             );
           }
           else if (j == 4) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
+            page.drawImage(currentImg,
               { x: 10, y: 10, width: imageWidth, height: imageHeight }
             );
           }
           else if (j == 5) {
-            imagePages[i].drawImage(embededImageRef[j + imageNo],
-              { x: Math.trunc(imagePages[i].getWidth() / 2) + 5, y: 10, width: imageWidth, height: imageHeight }
+            page.drawImage(currentImg,
+              { x: Math.trunc(page.getWidth() / 2) + 5, y: 10, width: imageWidth, height: imageHeight }
             );
           }
 
@@ -1048,7 +1044,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
       imageNo += 6;
 
-    };
+    }
 
     let pdfDataDoc: any[] = [];
 
@@ -1075,8 +1071,8 @@ export class FormComponent implements OnInit, AfterViewInit {
       formPdfData = "";
 
     let options = {
-      margin: .3, image: { type: "jpeg", quality: .98 },
-      html2canvas: { scale: 4 }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'], avoid: ['[nz-row]', '[nz-col]', '.border-all', '.ant-row', '.avoid-page-break'], after: [".page"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
+      margin: .25, image: { type: "jpeg", quality: .98 },
+      html2canvas: { scale: 3, useCORS: true }, pagebreak: { mode: ['css', 'legacy'], avoid: ['[nz-row]', '[nz-col]', '.border-all', '.ant-row'], after: [".page"] }, jsPDF: { unit: "in", format: "legal", orientation: "portrait" }
     }
 
     await html2pdf()
@@ -1181,5 +1177,13 @@ export class FormComponent implements OnInit, AfterViewInit {
 
   getMathMin(a: number, b: number): number {
     return Math.min(a, b);
+  }
+
+  hasVernacular(): boolean {
+    return this.ApplicantPersonal && this.ApplicantPersonal.some((a: any) => a.IS_VERNACULAR);
+  }
+
+  hasDobMismatch(): boolean {
+    return this.ApplicantPersonal && this.ApplicantPersonal.some((a: any) => a.IS_DOB_MISMATCH);
   }
 }

@@ -397,14 +397,19 @@ export class ApplicantComponent implements OnInit {
     this.basicInfo[age_key] = 0;
   }
 
+  isSearchingCustomer: boolean = false;
+
   async searchCustomer() {
     const customerId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
     if (customerId) {
+      this.isSearchingCustomer = true;
       try {
-        let res: any = await lastValueFrom(this.api.searchCustomer(customerId));
-        this.handleSearchResponse(res);
+        let res: any = await lastValueFrom(this.api.searchCustomer(String(customerId).trim()));
+        this.handleSearchResponse(res, true);
       } catch (err: any) {
         this.handleSearchError(err);
+      } finally {
+        this.isSearchingCustomer = false;
       }
     } else {
       this.message.error('Please Enter Customer ID.', '');
@@ -442,45 +447,78 @@ export class ApplicantComponent implements OnInit {
   }
 
   private isNotFoundMessage(dataOrMsg: any): boolean {
-    if (!dataOrMsg) return true;
+    if (dataOrMsg === null || dataOrMsg === undefined) return false;
     if (typeof dataOrMsg === 'string') {
       const str = dataOrMsg.toLowerCase();
       return (
         str.includes('member details not found') ||
         str.includes('not found') ||
         str.includes('not existing') ||
-        str.includes('no customer found')
+        str.includes('no customer found') ||
+        str.includes('record not found') ||
+        str.includes('does not exist')
       );
     }
     if (typeof dataOrMsg === 'object') {
+      if (Array.isArray(dataOrMsg) && dataOrMsg.length === 0) return true;
       const str = JSON.stringify(dataOrMsg).toLowerCase();
-      return str.includes('member details not found') || str.includes('not found');
+      return str.includes('member details not found') || str.includes('not found') || str.includes('record not found');
     }
     return false;
   }
 
-  private handleSearchResponse(res: any): boolean {
-    if (res?.code === 200) {
-      const searchData = res.data;
+  private handleSearchResponse(res: any, showSuccessMsg: boolean = false): boolean {
+    if (res?.code === 200 || res?.status === 200 || res?.status === 'SUCCESS' || res?.data) {
+      let searchData = res.data !== undefined ? res.data : res;
+
+      if (typeof searchData === 'string') {
+        try {
+          searchData = JSON.parse(searchData);
+        } catch (e) {}
+      }
+
+      if (Array.isArray(searchData)) {
+        if (searchData.length > 0) {
+          searchData = searchData[0];
+        } else {
+          searchData = null;
+        }
+      } else if (searchData && typeof searchData === 'object' && Array.isArray(searchData.data)) {
+        if (searchData.data.length > 0) {
+          searchData = searchData.data[0];
+        }
+      }
 
       if (this.isNotFoundMessage(searchData)) {
+        this.message.warning('Customer details not found in CBS.', '');
         this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-        return true;
+        return false;
       }
 
-      if (searchData && typeof searchData === 'object' && searchData.CUSTOMERID) {
-        if (searchData.ALREADY_EXIST === 'Y') {
-          this.message.warning(
-            'Customer already exists in CBS. Customer details fetched.',
-            ''
-          );
+      if (searchData && typeof searchData === 'object') {
+        const custId = searchData.CUSTOMERID || searchData.CUSTOMER_ID || searchData.CUST_ID || searchData.customerId || searchData.CUSTID;
+        const firstName = searchData.FIRST_NAME || searchData.FIRSTNAME || searchData.F_NAME || searchData.FNAME || searchData.FIRST_NAME_M || searchData.CUST_FIRST_NAME;
+        const pan = searchData.PAN || searchData.PAN_NO || searchData.PAN_NUMBER;
+        const aadhaar = searchData.CUSTUIN || searchData.AADHAAR_NO || searchData.AADHAAR_NUMBER || searchData.AADHAAR || searchData.UID;
+        const mobile = searchData.MOBILE || searchData.MOBILE_NO || searchData.MOBILE_NUMBER || searchData.MOBILENO;
+
+        if (custId || firstName || pan || aadhaar || mobile) {
+          if (searchData.ALREADY_EXIST === 'Y' && !showSuccessMsg) {
+            this.message.warning(
+              'Customer already exists in CBS. Customer details fetched.',
+              ''
+            );
+          } else if (showSuccessMsg) {
+            this.message.success('Customer details fetched and auto-filled successfully.', '');
+          }
+          this.populateFieldsFromSearch(searchData);
+          return true;
         }
-        this.populateFieldsFromSearch(searchData);
-        return true;
       }
 
+      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return true;
+      return false;
     }
 
     if (
@@ -489,11 +527,12 @@ export class ApplicantComponent implements OnInit {
       this.isNotFoundMessage(res?.data) ||
       this.isNotFoundMessage(res?.message)
     ) {
+      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return true;
+      return false;
     }
 
-    this.message.error('Something Went Wrong', '');
+    this.message.error('Something Went Wrong while searching customer.', '');
     return false;
   }
 
@@ -505,46 +544,106 @@ export class ApplicantComponent implements OnInit {
       err?.status === 404 ||
       err?.status === 400
     ) {
+      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return true;
+      return false;
     }
 
-    this.message.error('Something Went Wrong', '');
+    this.message.error('Something Went Wrong while searching customer.', '');
     return false;
   }
 
-
   private populateFieldsFromSearch(data: any) {
-    this.basicInfo['CUSTOMER_ID_' + this.applicantNo] = data.CUSTOMERID;
+    const custId = data.CUSTOMERID || data.CUSTOMER_ID || data.CUST_ID || data.customerId || data.CUSTID || this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
+    this.basicInfo['CUSTOMER_ID_' + this.applicantNo] = custId;
     this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = true;
-    this.aadhaarVerify.pan_history.PAN_NUMBER = data.PAN;
-    this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER = data.CUSTUIN;
-    this.basicInfo['MOBILE_' + this.applicantNo] = data.MOBILE;
-    this.basicInfo['GENDER_' + this.applicantNo] = data.GENDER;
-    this.basicInfo[
-      this.applicantNo === 1
-        ? 'PRIMARY_APPLICANT_FIRST_NAME'
-        : 'APPLICANT' + this.applicantNo + '_FIRST_NAME'
-    ] = data.FIRST_NAME;
-    this.basicInfo[
-      this.applicantNo === 1
-        ? 'PRIMARY_APPLICANT_MIDDLE_NAME'
-        : 'APPLICANT' + this.applicantNo + '_MIDDLE_NAME'
-    ] = data.MIDDLE_NAME;
-    this.basicInfo[
-      this.applicantNo === 1
-        ? 'PRIMARY_APPLICANT_LAST_NAME'
-        : 'APPLICANT' + this.applicantNo + '_LAST_NAME'
-    ] = data.LAST_NAME;
-    this.basicInfo['DOB_' + this.applicantNo] = this.convertDate(
-      data.BIRTHDATE
-    );
-    this.calculateAge();
+
+    // PAN Number
+    const pan = (data.PAN || data.PAN_NO || data.PAN_NUMBER || data.pan_no || data.pan || '').toString().trim().toUpperCase();
+    if (pan) {
+      const panKey = 'PAN_NUMBER' + (this.applicantNo > 1 ? this.applicantNo : '');
+      this.basicInfo[panKey] = pan;
+      this.aadhaarVerify.pan_history.PAN_NUMBER = pan;
+    }
+
+    // Aadhaar Number / CUSTUIN
+    const aadhaar = (data.CUSTUIN || data.AADHAAR_NO || data.AADHAAR_NUMBER || data.AADHAAR || data.UID || '').toString().trim();
+    if (aadhaar) {
+      this.basicInfo['AADHAAR_NO_' + this.applicantNo] = aadhaar;
+      this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER = aadhaar;
+      this.showAadharNo(aadhaar);
+    }
+
+    // Mobile
+    const mobile = (data.MOBILE || data.MOBILE_NO || data.MOBILE_NUMBER || data.MOBILENO || data.CONTACT_NO || data.PHONE || '').toString().trim();
+    if (mobile) {
+      this.basicInfo['MOBILE_' + this.applicantNo] = mobile;
+    }
+
+    // Gender
+    let gender = (data.GENDER || data.SEX || '').toString().trim().toUpperCase();
+    if (gender) {
+      if (gender.startsWith('M')) gender = 'M';
+      else if (gender.startsWith('F')) gender = 'F';
+      else if (gender.startsWith('T')) gender = 'T';
+      this.basicInfo['GENDER_' + this.applicantNo] = gender;
+    }
+
+    // Title / Salutation / Customer Type
+    const title = data.TITLE || data.TITLEDESC || data.SALUTATION || data.CUSTOMER_TYPE;
+    if (title) {
+      this.basicInfo['CUSTOMER_TYPE_' + this.applicantNo] = title;
+    }
+
+    // First Name
+    const firstName = data.FIRST_NAME || data.FIRSTNAME || data.F_NAME || data.FNAME || data.FIRST_NAME_M || data.CUST_FIRST_NAME || '';
+    if (firstName) {
+      this.basicInfo[
+        this.applicantNo === 1
+          ? 'PRIMARY_APPLICANT_FIRST_NAME'
+          : 'APPLICANT' + this.applicantNo + '_FIRST_NAME'
+      ] = String(firstName).trim();
+    }
+
+    // Middle Name
+    const middleName = data.MIDDLE_NAME || data.MIDDLENAME || data.M_NAME || data.MNAME || data.MIDDLE_NAME_M || data.CUST_MIDDLE_NAME || '';
+    if (middleName) {
+      this.basicInfo[
+        this.applicantNo === 1
+          ? 'PRIMARY_APPLICANT_MIDDLE_NAME'
+          : 'APPLICANT' + this.applicantNo + '_MIDDLE_NAME'
+      ] = String(middleName).trim();
+    }
+
+    // Last Name
+    const lastName = data.LAST_NAME || data.LASTNAME || data.L_NAME || data.LNAME || data.LAST_NAME_M || data.CUST_LAST_NAME || '';
+    if (lastName) {
+      this.basicInfo[
+        this.applicantNo === 1
+          ? 'PRIMARY_APPLICANT_LAST_NAME'
+          : 'APPLICANT' + this.applicantNo + '_LAST_NAME'
+      ] = String(lastName).trim();
+    }
+
+    // Date of Birth
+    const dob = data.BIRTHDATE || data.DOB || data.DATE_OF_BIRTH || data.BIRTH_DATE || '';
+    if (dob) {
+      this.basicInfo['DOB_' + this.applicantNo] = this.convertDate(dob);
+      this.calculateAge();
+    }
   }
 
   convertDate(dateStr: any): string {
     if (!dateStr) return '';
-    if (typeof dateStr !== 'string') dateStr = String(dateStr);
+    if (typeof dateStr !== 'string') {
+      if (dateStr instanceof Date) {
+        const day = String(dateStr.getDate()).padStart(2, '0');
+        const month = String(dateStr.getMonth() + 1).padStart(2, '0');
+        const year = dateStr.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+      dateStr = String(dateStr);
+    }
 
     dateStr = dateStr.trim().split(' ')[0].split('T')[0].replace(/[-.]/g, '/');
     const parts = dateStr.split('/').filter((p: any) => p.length > 0);

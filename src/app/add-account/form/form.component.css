@@ -1,21 +1,16 @@
-/* .page{
+.page {
   page-break-after: always !important;
-  margin-top: 15px;
-} */
-
-/* #page6{
-  margin-top: 10px;
-} */
+  break-after: page !important;
+}
 
 .page-margin-top {
-  margin-top: 15px;
+  margin-top: 6px;
 }
 
 .border-all {
   border: 1px solid black;
-  /* font-size: 12px; */
-  padding: 5px;
-  padding-left: 10px;
+  padding: 3px 5px;
+  box-sizing: border-box;
 }
 
 .heading {
@@ -23,10 +18,11 @@
   background-color: rgb(237, 2, 140);
   color: white;
   font-weight: bold;
+  padding: 3px 5px;
 }
 
 .margin {
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .data {
@@ -40,7 +36,8 @@
 
 #contentToConvert {
   font-weight: bold;
-  font-size: 11px;
+  font-size: 9.5px;
+  line-height: 1.22;
 }
 
 [nz-row],
@@ -49,7 +46,7 @@
 .ant-row {
   page-break-inside: avoid !important;
   break-inside: avoid !important;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 .avoid-page-break {
