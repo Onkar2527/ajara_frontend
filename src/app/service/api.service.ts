@@ -9,6 +9,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { TOKENS } from '../../environments/tokens';
 import {
   Observable,
   ObservableInput,
@@ -87,41 +88,14 @@ export class ApiService implements HttpInterceptor {
     headers: this.httpHeaders,
   };
 
-  public_key = `-----BEGIN PUBLIC KEY-----
-    MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgG/GWS49Yu332ZM+juJyk0pLQ2gd
-    Sy/wJPA1rboqsrgRJN2VU4DZRp59ij4q59BF2ylkvCL198P+2Wbilxjw1bN8wL7Y
-    KW2MimBm3bYJWqltsj2vQkbRyDxMVEtT3K1OFRW0vJbzcCybrlbnbo8EfPrnSYTU
-    3t1j/cNlQ1EGDKOZAgMBAAE=
-    -----END PUBLIC KEY-----`;
-
-  private_key = `-----BEGIN RSA PRIVATE KEY-----
-    MIICWwIBAAKBgG/GWS49Yu332ZM+juJyk0pLQ2gdSy/wJPA1rboqsrgRJN2VU4DZ
-    Rp59ij4q59BF2ylkvCL198P+2Wbilxjw1bN8wL7YKW2MimBm3bYJWqltsj2vQkbR
-    yDxMVEtT3K1OFRW0vJbzcCybrlbnbo8EfPrnSYTU3t1j/cNlQ1EGDKOZAgMBAAEC
-    gYBSK5vWHXTEAqgl0iCSoq5bOLdGK/rhNAbDvIKJ0Ofv31KdvzBTEegTjbD6gOpI
-    N4KljJOuk+pgYNMMCtoPkMVYo8jtMhI+joXThoHPLf05r8h4zTs34hmP1oBRHR7z
-    tEVBXP9jXMV4qz6Q2LeMOac74SeIgfoMVbCRQsrGi9FKgQJBALSK+AnWJEKXq8SC
-    TqFvwjJQC2PPkB+5msyHHWXivVVc6w3egSzv6SsMCl3SHWVKJlWIjQxM6NthcKl7
-    RGiluekCQQCefZl58b99Q5UYwaM/cpte7h/289Inc6APFcJBDuJbbcjcSR+8xdos
-    5WBYRz9H0Lf9vlhGNexlDDtATObAvN4xAkBJlYZow+29coHgsteHdrxoszUhNhzg
-    wU41ZDB4MUTHwPpQicqOXS3kjKDBAn1WpjUfkWsjg0k4+OrpOMN1/23ZAkByTh98
-    pW/3xeAoRK+aOOv5oUAIeXzd2zRa7NR222dBjYJJ7asoGIHr01qTEH+BKfUo2jkM
-    GiPuFM4+57ec1hphAkEAqjRHnKDnftiQ5wfiCXE7D+vkKSpyELLvU0linbg7fb4f
-    UiYQg0JCBTJ1a/UcCWnjq4r1HleBDLU61QaEet3gFQ==
-    -----END RSA PRIVATE KEY-----`;
-
-  server_publickey = `-----BEGIN PUBLIC KEY-----
-    MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHUIkAuBQw3+C3lTgsQWwBR0VLQq
-    hH7dCjj0ssnb976CGQPIelbamC51Ap1HtPZv/fWbHqPkGFjFnhJoVBi/y7YaCChQ
-    71GbAZte8gO1Hd1/QlD9kj87HOhVPxxrbVkA6ja8L1cyVzKwO9CTn/I0qftJa2d/
-    Gtn+xtdDWM9Jw3Q1AgMBAAE=
-    -----END PUBLIC KEY-----`;
+  public_key = TOKENS.RSA_KEYS.public_key;
+  private_key = TOKENS.RSA_KEYS.private_key;
+  server_publickey = TOKENS.RSA_KEYS.server_publickey;
 
   httpHeaderMain = new HttpHeaders({
-    APIKEY: 'prasad',
-    SUPPORTKEY: 'hejUJJSK99gg',
-    TOKEN:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7IlVTRVJfSUQiOjkwfSwiaWF0IjoxNjc2ODk1MzgzfQ.V80hoP9N4BRhC-hqrVtLz45hWTVWZrZR5FZD34YcLZE',
+    APIKEY: TOKENS.APIKEY,
+    SUPPORTKEY: TOKENS.SUPPORTKEY,
+    TOKEN: TOKENS.MAIN_TOKEN,
   });
 
   encryptWithPublicKey(valueToEncrypt: any): string {
@@ -604,8 +578,8 @@ export class ApiService implements HttpInterceptor {
 
   generateToken(): Observable<any> {
     const req = {
-      userName: 'Kredpooluser',
-      password: 'Kred@123',
+      userName: TOKENS.AADHAAR_AUTH.userName,
+      password: TOKENS.AADHAAR_AUTH.password,
     };
 
     return this.httpClient.post(this.signInUrl, req);
@@ -669,8 +643,7 @@ export class ApiService implements HttpInterceptor {
   }
 
   Pan_Verify(data: PanMeta): Observable<any> {
-    const token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxNTY5MjMyNiwianRpIjoiNzcxMzZmYWEtYzM2MC00MDY5LWIzZGUtODMyNWVmZmYwZWEwIiwidHlwZSI6ImFjY2VzcyIsImlkZW50aXR5IjoiZGV2LnVzZXJuYW1lXzJ2MHBpZGNhdHlpdTJvcjVmbjV5OG96aG9oc0BzdXJlcGFzcy5pbyIsIm5iZiI6MTcxNTY5MjMyNiwiZXhwIjoyMDMxMDUyMzI2LCJlbWFpbCI6InVzZXJuYW1lXzJ2MHBpZGNhdHlpdTJvcjVmbjV5OG96aG9oc0BzdXJlcGFzcy5pbyIsInRlbmFudF9pZCI6Im1haW4iLCJ1c2VyX2NsYWltcyI6eyJzY29wZXMiOlsidXNlciJdfX0.7Mz0n2rBsMQUpu0m6-AYn7ZaSrUkiprnhANo3678wIc';
+    const token = TOKENS.PAN_VERIFY_TOKEN;
     this.httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -899,8 +872,7 @@ export class ApiService implements HttpInterceptor {
 
   // voter id and License api
 
-  voterID_License_token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Mzk4MjU0OSwianRpIjoiNjViMmQ1ODAtZTAyMC00NmU2LTgxYmYtZDUxNTEwZWZhOWI4IiwidHlwZSI6ImFjY2VzcyIsImlkZW50aXR5IjoiZGV2LmtyZWRwb29sQHN1cmVwYXNzLmlvIiwibmJmIjoxNjkzOTgyNTQ5LCJleHAiOjE2OTQ1ODczNDksInVzZXJfY2xhaW1zIjp7InNjb3BlcyI6WyJ1c2VyIl19fQ.Dj97vyCTartwh7MEWIwCb54MJ_AqdyZDLa7c0ykIgA4';
+  voterID_License_token = TOKENS.VOTER_ID_LICENSE_TOKEN;
   voterID_License_httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     Authorization: `Bearer ${this.voterID_License_token}`,

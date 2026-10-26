@@ -41,3 +41,8 @@ testem.log
 .DS_Store
 Thumbs.db
 /*.zip
+
+# Sensitive tokens & keys (do not push to git)
+src/environments/tokens.ts
+**/tokens.ts
+!src/environments/tokens.example.ts

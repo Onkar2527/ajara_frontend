@@ -62,6 +62,10 @@ export class PersonalComponent implements OnInit {
   }
 
   handleIsMinor(isMinor: boolean) {
+    this.isMinor = isMinor;
+    if (this.basicInfo) {
+      this.basicInfo.IS_MINOR = isMinor;
+    }
     if (isMinor) {
       this.addGuardian();
     } else {

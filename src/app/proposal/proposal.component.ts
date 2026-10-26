@@ -208,6 +208,7 @@ export class ProposalComponent implements OnInit {
 
 
     this.drawerDraftData = data;
+    this.basicInfo = data;
 
     // const drawerRef = this.drawerService.create({
     //   nzTitle: this.title,
@@ -458,6 +459,49 @@ export class ProposalComponent implements OnInit {
     "Signature"
   ]
 
+  isFirstApplicantMinor(): boolean {
+    const data = this.drawerDraftData || this.basicInfo;
+
+    if (this.addAccountComp?.personalComp) {
+      if (this.addAccountComp.personalComp.isMinor) return true;
+      const pInfo = this.addAccountComp.personalComp.basicInfo;
+      if (pInfo) {
+        const pMinor: any = (pInfo as any)['IS_MINOR'];
+        if (pMinor === true || pMinor === 1 || pMinor === '1' || pMinor === 'true') {
+          return true;
+        }
+        const age = Number(pInfo['AGE_1']);
+        if (age > 0 && age < 18) return true;
+      }
+    }
+
+    if (data) {
+      const dataMinor: any = (data as any)['IS_MINOR'];
+      if (dataMinor === true || dataMinor === 1 || dataMinor === '1' || dataMinor === 'true') {
+        return true;
+      }
+      const age1 = Number(data['AGE_1']);
+      if (age1 > 0 && age1 < 18) {
+        return true;
+      }
+      if (data['APPLICANTS_DATA']) {
+        try {
+          const rawApps = data['APPLICANTS_DATA'];
+          const apps = typeof rawApps === 'string' ? JSON.parse(rawApps) : rawApps;
+          if (Array.isArray(apps) && apps.length > 0) {
+            const firstApp = apps[0];
+            const appMinor = firstApp['IS_MINOR'];
+            if (appMinor === true || appMinor === 1 || appMinor === '1' || (firstApp['AGE'] && Number(firstApp['AGE']) < 18)) {
+              return true;
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    return false;
+  }
+
   async saveANext() {
     this.loadSaveButton = true;
     try {
@@ -466,7 +510,8 @@ export class ProposalComponent implements OnInit {
       }
       else {
         const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
-        const requiredDocCount = totalApplicants * 4;
+        const isFirstMinor = this.isFirstApplicantMinor();
+        const requiredDocCount = (totalApplicants * 4) - (isFirstMinor ? 1 : 0);
         await new Promise<void>((resolve, reject) => {
           this.api.getDocument(this.APPLICANT_ID, null).subscribe({
             next: async (res) => {
@@ -476,11 +521,17 @@ export class ProposalComponent implements OnInit {
                     if (this.velidateDocument(res['data'])) {
                       await this.addAccountComp.saveANext();
                     } else {
-                      this.message.error('Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.', '');
+                      const msg = isFirstMinor
+                        ? 'Please Upload ID Proof, Address Proof, and Photo for minor applicant, and all required documents for other applicants.'
+                        : 'Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.';
+                      this.message.error(msg, '');
                     }
                   }
                   else {
-                    this.message.error('Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.', '');
+                    const msg = isFirstMinor
+                      ? 'Please Upload ID Proof, Address Proof, and Photo for minor applicant, and all required documents for other applicants.'
+                      : 'Please Upload ID Proof, Address Proof, Photo, and Sign for all applicants.';
+                    this.message.error(msg, '');
                   }
                 }
                 else {
@@ -507,6 +558,7 @@ export class ProposalComponent implements OnInit {
 
   velidateDocument(docArray: Documents[]) {
     const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
+    const isFirstMinor = this.isFirstApplicantMinor();
 
     for (let appNo = 1; appNo <= totalApplicants; appNo++) {
       const appDocs = docArray.filter(doc => doc.APPLICANT_NO == appNo);
@@ -525,7 +577,9 @@ export class ProposalComponent implements OnInit {
         }
       }
 
-      if (!hasId || !hasAddress || !hasPhoto || !hasSign) {
+      const isSignRequired = !(appNo === 1 && isFirstMinor);
+
+      if (!hasId || !hasAddress || !hasPhoto || (isSignRequired && !hasSign)) {
         return false;
       }
     }
@@ -577,6 +631,7 @@ export class ProposalComponent implements OnInit {
   openUploadDrawer(data: BasicInfo) {
     this.APPLICANT_ID = data.ID;
     this.basicInfo = data;
+    this.drawerDraftData = data;
     // const drawerRef = this.drawerService.create({
     //   nzTitle: "Document",
     //   nzFooter: this.DocFooterTemplate,
@@ -649,6 +704,7 @@ export class ProposalComponent implements OnInit {
 
   velidateDocChacker(docArray: Documents[], role: 'C' | 'V') {
     const totalApplicants = (this.drawerDraftData && this.drawerDraftData.NO_OF_APPLICANT) || (this.basicInfo && this.basicInfo.NO_OF_APPLICANT) || 1;
+    const isFirstMinor = this.isFirstApplicantMinor();
 
     for (let appNo = 1; appNo <= totalApplicants; appNo++) {
       const appDocs = docArray.filter(doc => doc.APPLICANT_NO == appNo);
@@ -688,7 +744,9 @@ export class ProposalComponent implements OnInit {
         }
       }
 
-      if (!hasId || !hasAddress || !hasPhoto || !hasSign) {
+      const isSignRequired = !(appNo === 1 && isFirstMinor);
+
+      if (!hasId || !hasAddress || !hasPhoto || (isSignRequired && !hasSign)) {
         return false;
       }
     }

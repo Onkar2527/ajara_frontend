@@ -411,6 +411,72 @@ export class FormComponent implements OnInit, AfterViewInit {
     console.log(this.applicantPersonalMasterData)
   }
 
+  isMinor(): boolean {
+    if (this.basicInfo) {
+      const isMin: any = this.basicInfo['IS_MINOR'];
+      if (isMin === true || isMin == 1 || isMin === '1' || isMin === 'true') {
+        return true;
+      }
+      const age1 = Number(this.basicInfo['AGE_1']);
+      if (age1 > 0 && age1 < 18) {
+        return true;
+      }
+      if (this.basicInfo['applicants'] && Array.isArray(this.basicInfo['applicants']) && this.basicInfo['applicants'].length > 0) {
+        const firstApp = this.basicInfo['applicants'][0];
+        const appMinor: any = firstApp ? firstApp['IS_MINOR'] : null;
+        if (appMinor === true || appMinor == 1 || appMinor === '1' || appMinor === 'true') {
+          return true;
+        }
+        const appAge = Number(firstApp ? firstApp['AGE'] : 0);
+        if (appAge > 0 && appAge < 18) {
+          return true;
+        }
+      }
+    }
+
+    if (this.ApplicantPersonal && this.ApplicantPersonal.length > 0) {
+      const p1: any = this.ApplicantPersonal[0];
+      const p1Minor: any = p1 ? p1['IS_MINOR'] : null;
+      if (p1Minor === true || p1Minor == 1 || p1Minor === '1' || p1Minor === 'true') {
+        return true;
+      }
+      const p1Age = Number(p1 ? (p1['AGE'] || p1['AGE_1']) : 0);
+      if (p1Age > 0 && p1Age < 18) {
+        return true;
+      }
+    }
+
+    if (this.applicantPersonalMasterData && this.applicantPersonalMasterData.scheme) {
+      if (this.applicantPersonalMasterData.scheme.toLowerCase().includes('minor')) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isJoint(): boolean {
+    if (this.isMinor()) {
+      return false;
+    }
+    const no = this.basicInfo ? Number(this.basicInfo['NO_OF_APPLICANT']) : 0;
+    if (no > 1) return true;
+    if (this.ApplicantPersonal && this.ApplicantPersonal.length > 1) return true;
+    return false;
+  }
+
+  getSchemeSuffix(): string {
+    const hasScheme = !!(this.applicantPersonalMasterData && this.applicantPersonalMasterData.scheme);
+    const prefix = hasScheme ? ' ' : '';
+    if (this.isMinor()) {
+      return prefix + '(minor)';
+    }
+    if (this.isJoint()) {
+      return prefix + '(joint)';
+    }
+    return '';
+  }
+
   allowedTypes!: "caste" | "religion" | "operation" | "risk_cat" | "address_proof" | "occupation" | "permanent_state" | "permanent_area" | "permanent_dist" | "permanent_taluka" | "permanent_city" | "current_state" | "current_area" | "current_dist" | "current_taluka" | "current_city" | "minimum_balance_category" | "special_category" | "scheme" | "customer_type" | "nature_of_business" | "source_of_fund" | "nature_of_service" | "self_employed";
 
   // assignValueFromMaster(res: any, label: typeof this.allowedTypes) {
@@ -808,12 +874,23 @@ export class FormComponent implements OnInit, AfterViewInit {
       next: (res) => {
         if (200 == res.code && res.data.length > 0) {
           this.documentData = res.data;
+          const maxApplicants = Math.max(this.ApplicantPersonal ? this.ApplicantPersonal.length : 1, 1);
+          this.PHOTOS = new Array(maxApplicants).fill('');
+          this.SIGNATURES = new Array(maxApplicants).fill('');
+
           for (let document of this.documentData) {
+            const appIdx = (document.APPLICANT_NO ? Number(document.APPLICANT_NO) - 1 : 0);
             if (document.DOCUMENT_NAME == 'Applicant Photo') {
-              this.PHOTOS.push(document.IMAGE_DATA)
+              if (appIdx >= 0) {
+                while (this.PHOTOS.length <= appIdx) this.PHOTOS.push('');
+                this.PHOTOS[appIdx] = document.IMAGE_DATA;
+              }
             }
             if (document.DOCUMENT_NAME == 'Signature' || document.DOCUMENT_NAME == 'Sign' || document.DOCUMENT_NAME == 'Applicant Signature') {
-              this.SIGNATURES.push(document.IMAGE_DATA)
+              if (appIdx >= 0) {
+                while (this.SIGNATURES.length <= appIdx) this.SIGNATURES.push('');
+                this.SIGNATURES[appIdx] = document.IMAGE_DATA;
+              }
             }
           }
 

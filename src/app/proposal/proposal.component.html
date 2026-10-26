@@ -130,13 +130,13 @@
         {{proposal.PRIMARY_APPLICANT_LAST_NAME}}
 
         <!-- Minor Badge -->
-        <span *ngIf="proposal.IS_MINOR == 1 && proposal.NO_OF_APPLICANT > 1 "
+        <span *ngIf="proposal.IS_MINOR == 1 || proposal.IS_MINOR === true"
           style="background-color: #fff7e6; color: #d46b08; border: 1px solid #ffd591; font-weight: 600; font-size: 11px; border-radius: 12px; padding: 2px 8px; margin-left: 6px; display: inline-flex; align-items: center; white-space: nowrap;">
           Minor
         </span>
 
-        <!-- Joint Badge (if 2+ applicants) -->
-        <span *ngIf="proposal.NO_OF_APPLICANT > 1 && proposal.IS_MINOR == 0"
+        <!-- Joint Badge (if 2+ applicants and not minor) -->
+        <span *ngIf="proposal.NO_OF_APPLICANT > 1 && (proposal.IS_MINOR == 0 || !proposal.IS_MINOR)"
           style="background-color: #e6f7ff; color: #096dd9; border: 1px solid #91d5ff; font-weight: 600; font-size: 11px; border-radius: 12px; padding: 2px 8px; margin-left: 6px; display: inline-flex; align-items: center; white-space: nowrap;">
           Joint
         </span>

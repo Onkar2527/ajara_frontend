@@ -62,12 +62,50 @@ export class WebCamComponent implements OnInit {
 
     if (this.APPLICANT_ID) {
       this.getApplicant();
+      if (!this.basicInfo || !this.basicInfo.ID) {
+        this.api.getBasic(this.APPLICANT_ID).subscribe({
+          next: (res) => {
+            if (res['code'] == 200 && res['data'].length > 0) {
+              this.basicInfo = res['data'][0];
+            }
+          }
+        });
+      }
     }
 
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
+  }
+
+  isDocumentMandatory(document: Documents): boolean {
+    if (!document || !document.DOCUMENT_NAME) return false;
+    const name = document.DOCUMENT_NAME;
+    if (name === 'Applicant Photo' || name === 'Applicant Address Proof' || name === 'Applicant ID Proof') {
+      return true;
+    }
+    if (name === 'Signature' || name === 'Sign' || name === 'Applicant Signature') {
+      const isFirstApplicant = (document.APPLICANT_NO == 1) || (!document.APPLICANT_NO && this.ApplicantDetails?.APPLICANT_NO == 1);
+      if (isFirstApplicant && this.isMinorApplicant()) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  isMinorApplicant(): boolean {
+    if (!this.basicInfo) return false;
+    const isMinorVal: any = (this.basicInfo as any)['IS_MINOR'];
+    if (isMinorVal === true || isMinorVal === 1 || isMinorVal === '1' || isMinorVal === 'true') {
+      return true;
+    }
+    const age1 = Number(this.basicInfo['AGE_1']);
+    if (age1 > 0 && age1 < 18) {
+      return true;
+    }
+    return false;
   }
 
   getApplicant() {
