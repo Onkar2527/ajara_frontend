@@ -6,13 +6,13 @@
       <nz-form-item>
         <nz-form-label>Is this applicant a bank customer?</nz-form-label>
         <nz-switch [(ngModel)]="basicInfo['IS_OLD_CUSTOMER_' + applicantNo]" nzCheckedChildren="Yes"
-          nzUnCheckedChildren="No"></nz-switch>
+          nzUnCheckedChildren="No" (ngModelChange)="onOldCustomerToggle($event)"></nz-switch>
       </nz-form-item>
       <nz-form-item *ngIf="basicInfo['IS_OLD_CUSTOMER_' + applicantNo]">
         <nz-form-label>Customer ID</nz-form-label>
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
           <input nz-input [(ngModel)]="basicInfo['CUSTOMER_ID_' + applicantNo]" placeholder="Enter Customer ID"
-            (keydown.enter)="searchCustomer()" />
+            (ngModelChange)="onCustomerIdInput($event)" (keydown.enter)="searchCustomer()" />
         </nz-input-group>
         <ng-template #suffixIconButton>
           <button nz-button nzType="primary" nzSearch (click)="searchCustomer()" [nzLoading]="isSearchingCustomer"><span

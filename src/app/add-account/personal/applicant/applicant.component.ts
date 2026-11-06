@@ -30,6 +30,9 @@ export class ApplicantComponent implements OnInit {
   loadLicenseButton: boolean = false;
   previewAdhaar: string = '';
 
+  isCustomerIdGivenByUser: boolean = false;
+  userProvidedCustomerId: string = '';
+
   constructor(
     private api: ApiService,
     private message: NzNotificationService
@@ -39,6 +42,46 @@ export class ApplicantComponent implements OnInit {
     this.getMasters();
     if (this.APPLICANT_ID) {
       this.getHistories();
+    }
+    const existingCustId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
+    if (this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] && existingCustId) {
+      this.isCustomerIdGivenByUser = true;
+      this.userProvidedCustomerId = String(existingCustId).trim();
+    }
+  }
+
+  hasUserGivenCustomerId(): boolean {
+    const isOld = !!this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo];
+    const currentId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
+    return (
+      this.isCustomerIdGivenByUser &&
+      isOld &&
+      !!(currentId && String(currentId).trim().length > 0)
+    );
+  }
+
+  onCustomerIdInput(value: any) {
+    const trimmed = value ? String(value).trim() : '';
+    if (trimmed.length > 0) {
+      this.isCustomerIdGivenByUser = true;
+      this.userProvidedCustomerId = trimmed;
+    } else {
+      this.isCustomerIdGivenByUser = false;
+      this.userProvidedCustomerId = '';
+    }
+  }
+
+  onOldCustomerToggle(value: boolean) {
+    if (!value) {
+      this.isCustomerIdGivenByUser = false;
+      this.userProvidedCustomerId = '';
+      this.basicInfo['CUSTOMER_ID_' + this.applicantNo] = '';
+    } else {
+      const currentId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
+      if (currentId && String(currentId).trim().length > 0) {
+        this.isCustomerIdGivenByUser = true;
+        this.userProvidedCustomerId = String(currentId).trim();
+      }
     }
   }
 
@@ -78,11 +121,19 @@ export class ApplicantComponent implements OnInit {
       return;
     }
     this.loadOtpButton = true;
-    if ((await this.checkBalance(1)) == 0) {
-      return;
+
+    try {
+      const canProceed = await this.searchAadhaar();
+      if (!canProceed) {
+        this.loadOtpButton = false;
+        return;
+      }
+    } catch (e) {
+      console.error('CBS search by Aadhaar error:', e);
     }
 
-    if (!(await this.searchAadhaar())) {
+    if ((await this.checkBalance(1)) == 0) {
+      this.loadOtpButton = false;
       return;
     }
 
@@ -402,12 +453,14 @@ export class ApplicantComponent implements OnInit {
   async searchCustomer() {
     const customerId = this.basicInfo['CUSTOMER_ID_' + this.applicantNo];
     if (customerId) {
+      this.isCustomerIdGivenByUser = true;
+      this.userProvidedCustomerId = String(customerId).trim();
       this.isSearchingCustomer = true;
       try {
         let res: any = await lastValueFrom(this.api.searchCustomer(String(customerId).trim()));
         this.handleSearchResponse(res, true);
       } catch (err: any) {
-        this.handleSearchError(err);
+        this.handleSearchError(err, true);
       } finally {
         this.isSearchingCustomer = false;
       }
@@ -416,16 +469,18 @@ export class ApplicantComponent implements OnInit {
     }
   }
 
-  async searchAadhaar() {
-    const aadhaarNo = this.aadhaarVerify.aadhar_history.AADHAAR_NUMBER;
+  async searchAadhaar(): Promise<boolean> {
+    const aadhaarNo = this.aadhaarVerify?.aadhar_history?.AADHAAR_NUMBER;
     if (aadhaarNo) {
       try {
+        const cleanAadhaar = aadhaarNo.replace(/\D/g, '');
+        const searchVal = cleanAadhaar.length === 12 ? cleanAadhaar : aadhaarNo;
         let res: any = await lastValueFrom(
-          this.api.searchCustomer('', aadhaarNo, '', 'AADHAAR_NO')
+          this.api.searchCustomer('', searchVal, '', 'AADHAAR_NO')
         );
-        return this.handleSearchResponse(res);
+        return this.handleSearchResponse(res, false);
       } catch (err: any) {
-        return this.handleSearchError(err);
+        return this.handleSearchError(err, false);
       }
     }
     return true;
@@ -438,9 +493,9 @@ export class ApplicantComponent implements OnInit {
         let res: any = await lastValueFrom(
           this.api.searchCustomer('', '', panNo, 'PAN')
         );
-        return this.handleSearchResponse(res);
+        return this.handleSearchResponse(res, false);
       } catch (err: any) {
-        return this.handleSearchError(err);
+        return this.handleSearchError(err, false);
       }
     }
     return true;
@@ -467,7 +522,7 @@ export class ApplicantComponent implements OnInit {
     return false;
   }
 
-  private handleSearchResponse(res: any, showSuccessMsg: boolean = false): boolean {
+  private handleSearchResponse(res: any, isExplicitSearch: boolean = false): boolean {
     if (res?.code === 200 || res?.status === 200 || res?.status === 'SUCCESS' || res?.data) {
       let searchData = res.data !== undefined ? res.data : res;
 
@@ -490,35 +545,87 @@ export class ApplicantComponent implements OnInit {
       }
 
       if (this.isNotFoundMessage(searchData)) {
-        this.message.warning('Customer details not found in CBS.', '');
         this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-        return false;
+        if (isExplicitSearch) {
+          this.message.warning('Customer details not found in CBS.', '');
+          return false;
+        }
+        return true;
       }
 
       if (searchData && typeof searchData === 'object') {
-        const custId = searchData.CUSTOMERID || searchData.CUSTOMER_ID || searchData.CUST_ID || searchData.customerId || searchData.CUSTID;
-        const firstName = searchData.FIRST_NAME || searchData.FIRSTNAME || searchData.F_NAME || searchData.FNAME || searchData.FIRST_NAME_M || searchData.CUST_FIRST_NAME;
-        const pan = searchData.PAN || searchData.PAN_NO || searchData.PAN_NUMBER;
-        const aadhaar = searchData.CUSTUIN || searchData.AADHAAR_NO || searchData.AADHAAR_NUMBER || searchData.AADHAAR || searchData.UID;
-        const mobile = searchData.MOBILE || searchData.MOBILE_NO || searchData.MOBILE_NUMBER || searchData.MOBILENO;
+        const originalCustomer = res?.original_data?.['Customer Details'] || {};
+        const mergedData = Object.assign({}, originalCustomer, searchData);
+
+        const custId = (
+          mergedData.CUSTOMERID ||
+          mergedData.CUSTOMER_ID ||
+          mergedData.CUST_ID ||
+          mergedData.customerId ||
+          mergedData.CUSTID ||
+          ''
+        ).toString().trim();
+
+        const firstName = mergedData.FIRST_NAME || mergedData.FIRSTNAME || mergedData.F_NAME || mergedData.FNAME || mergedData.FIRST_NAME_M || mergedData.CUST_FIRST_NAME;
+        const pan = mergedData.PAN || mergedData.PAN_NO || mergedData.PAN_NUMBER;
+        const aadhaar = mergedData.CUSTUIN || mergedData.AADHAAR_NO || mergedData.AADHAAR_NUMBER || mergedData.AADHAAR || mergedData.UID;
+        const mobile = mergedData.MOBILE || mergedData.MOBILE_NO || mergedData.MOBILE_NUMBER || mergedData.MOBILENO;
+
+        const isAlreadyExist =
+          mergedData.ALREADY_EXIST === 'Y' ||
+          mergedData.already_exist === 'Y' ||
+          res?.original_data?.['Having individual account'] === 'Y' ||
+          !!originalCustomer.CUSTOMERID;
 
         if (custId || firstName || pan || aadhaar || mobile) {
-          if (searchData.ALREADY_EXIST === 'Y' && !showSuccessMsg) {
-            this.message.warning(
-              'Customer already exists in CBS. Customer details fetched.',
-              ''
-            );
-          } else if (showSuccessMsg) {
+          if (isExplicitSearch) {
+            this.isCustomerIdGivenByUser = true;
+            this.userProvidedCustomerId = custId;
             this.message.success('Customer details fetched and auto-filled successfully.', '');
+            this.populateFieldsFromSearch(mergedData);
+            return true;
           }
-          this.populateFieldsFromSearch(searchData);
+
+          if (isAlreadyExist) {
+            if (this.hasUserGivenCustomerId()) {
+              // Case 2: Customer ID was given by user -> DO NOT block OTP
+              const userCustId = (this.userProvidedCustomerId || this.basicInfo['CUSTOMER_ID_' + this.applicantNo] || '').toString().trim();
+              if (custId && userCustId && custId !== userCustId) {
+                this.message.error(
+                  `This Aadhaar number is already linked to another Customer ID (${custId}) in CBS.`,
+                  ''
+                );
+                return false;
+              }
+              this.populateFieldsFromSearch(mergedData);
+              return true;
+            } else {
+              // Case 1: Customer ID was NOT given by user -> show customer already present and BLOCK sending OTP
+              const msg = custId
+                ? `Customer already exists in CBS with Customer ID: ${custId}.`
+                : 'Customer already exists in CBS.';
+              this.message.error(
+                msg,
+                'OTP sending is blocked. Please provide Customer ID to proceed.'
+              );
+              this.populateFieldsFromSearch(mergedData);
+              this.isCustomerIdGivenByUser = false;
+              this.userProvidedCustomerId = '';
+              return false; // BLOCK sending OTP
+            }
+          }
+
+          this.populateFieldsFromSearch(mergedData);
           return true;
         }
       }
 
-      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return false;
+      if (isExplicitSearch) {
+        this.message.warning('Customer details not found in CBS.', '');
+        return false;
+      }
+      return true;
     }
 
     if (
@@ -527,16 +634,22 @@ export class ApplicantComponent implements OnInit {
       this.isNotFoundMessage(res?.data) ||
       this.isNotFoundMessage(res?.message)
     ) {
-      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return false;
+      if (isExplicitSearch) {
+        this.message.warning('Customer details not found in CBS.', '');
+        return false;
+      }
+      return true;
     }
 
-    this.message.error('Something Went Wrong while searching customer.', '');
-    return false;
+    if (isExplicitSearch) {
+      this.message.error('Something Went Wrong while searching customer.', '');
+      return false;
+    }
+    return true;
   }
 
-  private handleSearchError(err: any): boolean {
+  private handleSearchError(err: any, isExplicitSearch: boolean = false): boolean {
     const errData =
       err?.error?.data || err?.error?.message || err?.error || err?.message || '';
     if (
@@ -544,13 +657,19 @@ export class ApplicantComponent implements OnInit {
       err?.status === 404 ||
       err?.status === 400
     ) {
-      this.message.warning('Customer details not found in CBS.', '');
       this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] = false;
-      return false;
+      if (isExplicitSearch) {
+        this.message.warning('Customer details not found in CBS.', '');
+        return false;
+      }
+      return true;
     }
 
-    this.message.error('Something Went Wrong while searching customer.', '');
-    return false;
+    if (isExplicitSearch) {
+      this.message.error('Something Went Wrong while searching customer.', '');
+      return false;
+    }
+    return true;
   }
 
   private populateFieldsFromSearch(data: any) {
