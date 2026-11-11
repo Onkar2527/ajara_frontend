@@ -117,15 +117,37 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     if (!errOrRes) return fallback;
     if (typeof errOrRes === 'string') return errOrRes;
 
-    const target = errOrRes?.response?.data || (
-      errOrRes.error && (typeof errOrRes.error === 'object' || typeof errOrRes.error === 'string')
-        ? errOrRes.error
-        : errOrRes
-    );
+    // Check specific CBS error fields first
+    const directError =
+      errOrRes?.cbs_error ||
+      errOrRes?.error?.response?.data ||
+      errOrRes?.response?.data ||
+      errOrRes?.error?.data ||
+      errOrRes?.details;
 
+    if (directError) {
+      if (typeof directError === 'string') return directError;
+      if (typeof directError === 'object') {
+        const msg = directError.message || directError.error || directError.data;
+        if (typeof msg === 'string') return msg;
+        return JSON.stringify(directError);
+      }
+    }
+
+    const target = errOrRes?.error || errOrRes?.response?.data || errOrRes;
     if (typeof target === 'string') return target;
 
-    const candidate = target?.data || target?.message || target?.error || target?.msg || target?.error_message || errOrRes?.data || errOrRes?.message || errOrRes?.error;
+    const candidate =
+      target?.cbs_error ||
+      target?.message ||
+      target?.error ||
+      target?.data ||
+      target?.msg ||
+      target?.error_message ||
+      errOrRes?.cbs_error ||
+      errOrRes?.message ||
+      errOrRes?.error ||
+      errOrRes?.data;
 
     if (!candidate) {
       if (typeof target === 'object') {
@@ -137,7 +159,14 @@ export class AddAccountComponent implements OnInit, OnDestroy {
       return fallback;
     }
 
-    if (typeof candidate === 'string') return candidate;
+    if (typeof candidate === 'string') {
+      if (['failed', 'error', 'failed to create account'].includes(candidate.toLowerCase().trim())) {
+        const moreSpecific = errOrRes?.cbs_error || errOrRes?.details || target?.cbs_error || target?.details;
+        if (moreSpecific && typeof moreSpecific === 'string') return moreSpecific;
+      }
+      return candidate;
+    }
+
     if (typeof candidate === 'object') {
       const nested = candidate?.data || candidate?.message || candidate?.error || candidate?.msg || candidate?.reason;
       if (nested) {
