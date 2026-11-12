@@ -135,8 +135,8 @@
                         <nz-form-control>
                             <nz-form-label nzRequired [nzNoColon]="true">Minimum Balance Category</nz-form-label>
                             <nz-select [(ngModel)]="depositInfo.MINIMUM_BALANCE_CATEGORY">
-                                <nz-option *ngFor="let option of MASTERS[3].data" [nzValue]="option.MINBALCTG"
-                                    [nzLabel]="option.MINBALCTG_DESCR"></nz-option>
+                                <nz-option *ngFor="let option of MASTERS[3].data" [nzValue]="option.ID != null ? option.ID : (option.id != null ? option.id : option.MINBALCTG)"
+                                    [nzLabel]="option.MBC_CTGDESC || option.MINBALCTG_DESCR"></nz-option>
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item>

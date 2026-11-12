@@ -300,7 +300,7 @@ export class FormComponent implements OnInit, AfterViewInit {
     { id: 22, data: <any>[], name: "payment instruction", valueField: "PAYINSTID", lableField: "PAYINSTDTLS" },
     { id: 8, data: <any>[], name: "religion", valueField: "REL_CD", lableField: "REL_DESC" },
     { id: 9, data: <any>[], name: "caste", valueField: "CST_CD", lableField: "CST_NM" },
-    { id: 23, data: <any>[], name: "minimum_balance_category", valueField: "MINBALCTG", lableField: "MINBALCTG_DESCR" },
+    { id: 23, data: <any>[], name: "minimum_balance_category", valueField: "ID", lableField: "MBC_CTGDESC" },
     { id: 7, data: <any>[], name: "special_category", valueField: "SCP_CTGCD", lableField: "SCP_DESCR" },
     { id: 26, data: <any>[], name: "disability_type", valueField: "IMP_CODE", lableField: "IMP_NAME" },
   ]
@@ -505,10 +505,15 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 
   filterValues(index: any, pro_value: any) {
-    let res = this.MASTERS[index].data.filter((value: any) => { return value[this.MASTERS[index].valueField] == pro_value });
+    let res = this.MASTERS[index].data.filter((value: any) => {
+      return (
+        value[this.MASTERS[index].valueField] == pro_value ||
+        (this.MASTERS[index].valueField === 'ID' && (value['id'] == pro_value || value['MINBALCTG'] == pro_value))
+      );
+    });
     console.log(res, pro_value, this.MASTERS[index].data, this.MASTERS[index].valueField);
     if (res.length > 0) {
-      return res[0][this.MASTERS[index].lableField];
+      return res[0][this.MASTERS[index].lableField] || res[0]['MBC_CTGDESC'] || res[0]['MINBALCTG_DESCR'] || '';
     }
     else {
       return "";
