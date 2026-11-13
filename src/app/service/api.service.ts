@@ -581,8 +581,15 @@ export class ApiService implements HttpInterceptor {
       userName: TOKENS.AADHAAR_AUTH.userName,
       password: TOKENS.AADHAAR_AUTH.password,
     };
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      bankName: 'Kredpool Solutions Pvt Ltd',
+      branchName: 'HEAD Office',
+      userName: 'KredpoolUser',
+      callerSystem: 'SysKred',
+    });
 
-    return this.httpClient.post(this.signInUrl, req);
+    return this.httpClient.post(this.signInUrl, req, { headers });
   }
 
   /** -----------------------------------------
