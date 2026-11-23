@@ -36,7 +36,7 @@
                                     <nz-form-control>
                                         <nz-select [(ngModel)]="personalInfo.SPECIAL_CATEGORY">
                                             <nz-option *ngFor="let option of MASTERS[13].data"
-                                                [nzValue]="option.SCP_CTGCD" [nzLabel]="option.SCP_DESCR">
+                                                [nzValue]="option.SCM_CTGCD" [nzLabel]="option.SCM_DESC">
                                             </nz-option>
                                         </nz-select>
                                     </nz-form-control>
@@ -431,7 +431,8 @@
                                             <nz-form-label nzRequired [nzNoColon]="true">Email ID</nz-form-label>
                                             <nz-form-control>
                                                 <input nz-input name="email" [(ngModel)]="personalInfo.EMAIL_ID"
-                                                    placeholder="Enter Email ID" />
+                                                    placeholder="Enter Email ID"
+                                                    pattern="^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.(com|in|co\.in|org|net|co|COM|IN|CO\.IN|ORG|NET|CO)$" />
                                             </nz-form-control>
                                             <div nz-row *ngIf="personalInfo.IS_EMAIL_VERIFIED" class="success-tip">
                                                 <div nz-col nzSpan="24">
