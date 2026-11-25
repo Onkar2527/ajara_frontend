@@ -93,10 +93,15 @@
                             <div nz-col nzSpan="12">
                                 <nz-form-item>
                                     <nz-form-label nzRequired nzNoColon>ID Proof Number</nz-form-label>
-                                    <nz-form-control>
+                                    <nz-form-control [nzValidateStatus]="isIdProofNumberInvalid() ? 'error' : ''" [nzErrorTip]="getIdProofErrorTip()">
                                         <input nz-input name="ID_PROOF_NUMBER"
-                                            [(ngModel)]="personalInfo.ID_PROOF_NUMBER" [hiddenInput]="true"
-                                            [mask]="id_mask" />
+                                            [(ngModel)]="personalInfo.ID_PROOF_NUMBER"
+                                            (ngModelChange)="onIdProofNumberChange($event)"
+                                            [placeholder]="getIdProofPlaceholder()"
+                                            [maxlength]="getIdProofMaxLength()"
+                                            [hiddenInput]="checkForAadhaarID()"
+                                            [mask]="id_mask"
+                                            style="text-transform: uppercase;" />
                                     </nz-form-control>
                                 </nz-form-item>
                             </div>
@@ -620,10 +625,15 @@
                             </nz-form-item>
                             <nz-form-item nz-col nzSpan="24">
                                 <nz-form-label nzRequired nzNoColon>Address Proof Number</nz-form-label>
-                                <nz-form-control>
+                                <nz-form-control [nzValidateStatus]="isAddressProofNumberInvalid() ? 'error' : ''" [nzErrorTip]="getAddressProofErrorTip()">
                                     <input nz-input name="ADDRESS_PROOF_NUMBER"
-                                        [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER" [hiddenInput]="true"
-                                        [mask]="address_mask">
+                                        [(ngModel)]="personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER"
+                                        (ngModelChange)="onAddressProofNumberChange($event)"
+                                        [placeholder]="getAddressProofPlaceholder()"
+                                        [maxlength]="getAddressProofMaxLength()"
+                                        [hiddenInput]="checkForAadharAddress()"
+                                        [mask]="address_mask"
+                                        style="text-transform: uppercase;">
                                 </nz-form-control>
                             </nz-form-item>
 

@@ -1010,6 +1010,26 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       isOk = false;
     }
 
+    // Validate Identity Proof against selected document type
+    if (this.personalInfo.ID_PROOF && this.personalInfo.ID_PROOF_NUMBER) {
+      const idDesc = this.getIdProofDesc();
+      const idValidation = this.validateDocumentNumber(idDesc, this.personalInfo.ID_PROOF_NUMBER);
+      if (!idValidation.isValid) {
+        this.message.error(idValidation.message, '');
+        isOk = false;
+      }
+    }
+
+    // Validate Permanent Address Proof against selected document type
+    if (this.personalInfo.PERMANENT_ADDRESS_PROOF && this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER) {
+      const addressDesc = this.getAddressProofDesc();
+      const addressValidation = this.validateDocumentNumber(addressDesc, this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER);
+      if (!addressValidation.isValid) {
+        this.message.error(addressValidation.message, '');
+        isOk = false;
+      }
+    }
+
     if (this.personalInfo.RELIGION == 'G') {
       for (let field of this.mendetory_religion) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {
@@ -1232,13 +1252,13 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
   id_mask: string = ''
   copyDocumentNoInIDProof() {
-    this.personalInfo.ID_PROOF_NUMBER = ''
+    this.personalInfo.ID_PROOF_NUMBER = '';
 
     if (this.checkForAadhaarID()) {
       this.personalInfo.ID_PROOF_NUMBER = this.personalInfo.AADHAAR_NUMBER;
-
+    } else if (this.getIdProofDesc().includes('PAN') && this.personalInfo.PAN_NO) {
+      this.personalInfo.ID_PROOF_NUMBER = this.personalInfo.PAN_NO;
     }
-
   }
 
   address_mask: string = ''
@@ -1296,7 +1316,242 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       return true;
     }
 
-    return false;
+        return false;
+  }
+
+  getIdProofDesc(): string {
+    if (!this.personalInfo.ID_PROOF || !this.MASTERS[2]?.data) return '';
+    const item = this.MASTERS[2].data.find((v: any) => String(v.IDTPROOFID) === String(this.personalInfo.ID_PROOF));
+    return item ? item.IDTPROOFDESC.toUpperCase() : '';
+  }
+
+  getAddressProofDesc(): string {
+    if (!this.personalInfo.PERMANENT_ADDRESS_PROOF || !this.MASTERS[1]?.data) return '';
+    const item = this.MASTERS[1].data.find((v: any) => String(v.ADDPROOFID) === String(this.personalInfo.PERMANENT_ADDRESS_PROOF));
+    return item ? item.ADDPROOFDESC.toUpperCase() : '';
+  }
+
+  getIdProofPlaceholder(): string {
+    const desc = this.getIdProofDesc();
+    if (desc.includes('PAN')) return 'Enter PAN (e.g. ABCDE1234F)';
+    if (desc.includes('AADHAAR') || desc.includes('AADHAR') || desc.includes('UID')) return 'Enter Aadhaar (12 digits)';
+    if (desc.includes('VOTER')) return 'Enter Voter ID (e.g. ABC1234567)';
+    if (desc.includes('PASSPORT')) return 'Enter Passport (e.g. A1234567)';
+    if (desc.includes('DRIVING') || desc.includes('LICENSE')) return 'Enter DL (e.g. MH1420110062821)';
+    return 'Enter ID Proof Number';
+  }
+
+  getAddressProofPlaceholder(): string {
+    const desc = this.getAddressProofDesc();
+    if (desc.includes('AADHAAR') || desc.includes('AADHAR') || desc.includes('UID')) return 'Enter Aadhaar (12 digits)';
+    if (desc.includes('VOTER')) return 'Enter Voter ID (e.g. ABC1234567)';
+    if (desc.includes('PASSPORT')) return 'Enter Passport (e.g. A1234567)';
+    if (desc.includes('DRIVING') || desc.includes('LICENSE')) return 'Enter DL (e.g. MH1420110062821)';
+    if (desc.includes('RATION')) return 'Enter Ration Card Number';
+    if (desc.includes('ELECTRICITY')) return 'Enter Electricity Consumer Number';
+    if (desc.includes('BANK') || desc.includes('PASSBOOK') || desc.includes('STATEMENT')) return 'Enter Bank Account Number';
+    return 'Enter Address Proof Number';
+  }
+
+  getIdProofMaxLength(): number {
+    const desc = this.getIdProofDesc();
+    if (desc.includes('PAN')) return 10;
+    if (desc.includes('PASSPORT')) return 8;
+    if (desc.includes('VOTER')) return 16;
+    if (desc.includes('AADHAAR') || desc.includes('AADHAR') || desc.includes('UID')) return 14;
+    if (desc.includes('DRIVING') || desc.includes('LICENSE')) return 16;
+    return 30;
+  }
+
+  getAddressProofMaxLength(): number {
+    const desc = this.getAddressProofDesc();
+    if (desc.includes('PASSPORT')) return 8;
+    if (desc.includes('VOTER')) return 16;
+    if (desc.includes('AADHAAR') || desc.includes('AADHAR') || desc.includes('UID')) return 14;
+    if (desc.includes('DRIVING') || desc.includes('LICENSE')) return 16;
+    return 30;
+  }
+
+  onIdProofNumberChange(val: string): void {
+    const desc = this.getIdProofDesc();
+    if (
+      desc.includes('PAN') ||
+      desc.includes('VOTER') ||
+      desc.includes('PASSPORT') ||
+      desc.includes('DRIVING') ||
+      desc.includes('LICENSE')
+    ) {
+      this.personalInfo.ID_PROOF_NUMBER = (val || '').toUpperCase();
+    } else {
+      this.personalInfo.ID_PROOF_NUMBER = val;
+    }
+  }
+
+  onAddressProofNumberChange(val: string): void {
+    const desc = this.getAddressProofDesc();
+    if (
+      desc.includes('PAN') ||
+      desc.includes('VOTER') ||
+      desc.includes('PASSPORT') ||
+      desc.includes('DRIVING') ||
+      desc.includes('LICENSE')
+    ) {
+      this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER = (val || '').toUpperCase();
+    } else {
+      this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER = val;
+    }
+  }
+
+  validateDocumentNumber(docDesc: string, docNumber: string): { isValid: boolean; message: string } {
+    if (!docNumber || !docNumber.trim()) {
+      return { isValid: false, message: 'Document number is required' };
+    }
+    const cleanVal = docNumber.trim().toUpperCase().replace(/\s+/g, '');
+    const desc = (docDesc || '').toUpperCase();
+
+    // 1. PAN CARD: 5 letters + 4 digits + 1 letter (10 chars)
+    if (desc.includes('PAN')) {
+      const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+      if (!panRegex.test(cleanVal)) {
+        return {
+          isValid: false,
+          message: 'Invalid PAN Card format. Must be 10 characters (e.g. ABCDE1234F): 5 letters, 4 digits, 1 letter.'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 2. AADHAAR / UID: 12 digits
+    if (desc.includes('AADHAAR') || desc.includes('AADHAR') || desc.includes('UID')) {
+      const aadhaarDigits = docNumber.replace(/[^0-9]/g, '');
+      if (aadhaarDigits.length !== 12) {
+        return {
+          isValid: false,
+          message: 'Invalid Aadhaar Card number. Must be exactly 12 digits.'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 3. VOTER ID: Standard EPIC 3 letters + 7 digits or 10-16 alphanumeric
+    if (desc.includes('VOTER')) {
+      const voterRegex = /^[A-Z]{3}[0-9]{7}$/;
+      const flexibleVoterRegex = /^[A-Z0-9\/-]{10,16}$/;
+      if (!voterRegex.test(cleanVal) && !flexibleVoterRegex.test(cleanVal)) {
+        return {
+          isValid: false,
+          message: 'Invalid Voter ID format. Standard EPIC format is 3 letters followed by 7 digits (e.g. ABC1234567).'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 4. PASSPORT: 1 letter + 7 digits
+    if (desc.includes('PASSPORT')) {
+      const passportRegex = /^[A-Z]{1}[0-9]{7}$/;
+      if (!passportRegex.test(cleanVal)) {
+        return {
+          isValid: false,
+          message: 'Invalid Passport format. Must be 1 letter followed by 7 digits (e.g. A1234567).'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 5. DRIVING LICENSE: Standard 15-16 alphanumeric characters
+    if (desc.includes('DRIVING') || desc.includes('LICENSE') || desc.includes('LICENCE')) {
+      const dlClean = cleanVal.replace(/[-\s]/g, '');
+      const dlRegex = /^[A-Z]{2}[0-9]{2}[0-9]{4}[0-9]{7}$/;
+      const generalDlRegex = /^[A-Z]{2}[0-9A-Z]{11,14}$/;
+      if (!dlRegex.test(dlClean) && !generalDlRegex.test(dlClean)) {
+        return {
+          isValid: false,
+          message: 'Invalid Driving License format. Standard format is 15-16 alphanumeric characters (e.g. MH1420110062821).'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 6. RATION CARD: 8 to 20 characters
+    if (desc.includes('RATION')) {
+      if (cleanVal.length < 8 || cleanVal.length > 20) {
+        return {
+          isValid: false,
+          message: 'Invalid Ration Card number. Must be between 8 and 20 characters.'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 7. ELECTRICITY / TELEPHONE BILL: 5 to 25 characters
+    if (desc.includes('ELECTRICITY') || desc.includes('TELEPHONE') || desc.includes('BILL')) {
+      const billClean = docNumber.replace(/[^0-9A-Za-z]/g, '');
+      if (billClean.length < 5 || billClean.length > 25) {
+        return {
+          isValid: false,
+          message: 'Consumer/Account number must be between 5 and 25 characters.'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // 8. BANK PASSBOOK / STATEMENT: 9 to 18 digits
+    if (desc.includes('PASSBOOK') || desc.includes('STATEMENT') || desc.includes('BANK')) {
+      const accClean = docNumber.replace(/[^0-9]/g, '');
+      if (accClean.length < 9 || accClean.length > 18) {
+        return {
+          isValid: false,
+          message: 'Bank Account number must be between 9 and 18 digits.'
+        };
+      }
+      return { isValid: true, message: '' };
+    }
+
+    // Fallback for OTHER documents: min 2 characters
+    if (cleanVal.length < 2) {
+      return {
+        isValid: false,
+        message: 'Document number must be at least 2 characters.'
+      };
+    }
+
+    return { isValid: true, message: '' };
+  }
+
+  isIdProofNumberInvalid(): boolean {
+    if (!this.personalInfo.ID_PROOF || !this.personalInfo.ID_PROOF_NUMBER) {
+      return false;
+    }
+    const desc = this.getIdProofDesc();
+    const res = this.validateDocumentNumber(desc, this.personalInfo.ID_PROOF_NUMBER);
+    return !res.isValid;
+  }
+
+  getIdProofErrorTip(): string {
+    if (!this.personalInfo.ID_PROOF || !this.personalInfo.ID_PROOF_NUMBER) {
+      return '';
+    }
+    const desc = this.getIdProofDesc();
+    const res = this.validateDocumentNumber(desc, this.personalInfo.ID_PROOF_NUMBER);
+    return res.message;
+  }
+
+  isAddressProofNumberInvalid(): boolean {
+    if (!this.personalInfo.PERMANENT_ADDRESS_PROOF || !this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER) {
+      return false;
+    }
+    const desc = this.getAddressProofDesc();
+    const res = this.validateDocumentNumber(desc, this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER);
+    return !res.isValid;
+  }
+
+  getAddressProofErrorTip(): string {
+    if (!this.personalInfo.PERMANENT_ADDRESS_PROOF || !this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER) {
+      return '';
+    }
+    const desc = this.getAddressProofDesc();
+    const res = this.validateDocumentNumber(desc, this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER);
+    return res.message;
   }
 
   aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
