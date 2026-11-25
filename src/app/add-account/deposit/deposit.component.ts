@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, lastValueFrom } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TermDeposite } from 'src/app/models/term-deposite';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -19,6 +20,7 @@ export class DepositComponent implements OnInit {
   ngOnInit(): void {
     this.getMasters();
     this.changeCatagory();
+    this.initDaysSubscription();
   }
 
   mendetory_all = [
@@ -105,50 +107,139 @@ export class DepositComponent implements OnInit {
   }
 
   schemes: any = [];
+  private daysChangeSubject = new Subject<any>();
+
+  initDaysSubscription() {
+    this.daysChangeSubject
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe(() => {
+        this.fetchInterestRate();
+      });
+  }
+
+  onDaysChange() {
+    if (this.catagoryB && this.depositInfo.SCHEME_CODE) {
+      if (
+        this.depositInfo.TANURE_DAYS !== undefined &&
+        this.depositInfo.TANURE_DAYS !== null &&
+        String(this.depositInfo.TANURE_DAYS).trim() !== ''
+      ) {
+        this.daysChangeSubject.next(this.depositInfo.TANURE_DAYS);
+      }
+    }
+  }
+
+  onDaysBlur() {
+    if (this.catagoryB && this.depositInfo.SCHEME_CODE) {
+      if (
+        this.depositInfo.TANURE_DAYS !== undefined &&
+        this.depositInfo.TANURE_DAYS !== null &&
+        String(this.depositInfo.TANURE_DAYS).trim() !== ''
+      ) {
+        this.fetchInterestRate();
+      }
+    }
+  }
+
+  fetchInterestRate() {
+    if (!this.depositInfo.SCHEME_CODE) {
+      if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+        this.depositInfo.RATE_OF_INTEREST_SAVING = 2.50;
+      }
+      return;
+    }
+
+    let bankCode = sessionStorage.getItem('BANK_CODE') || '1';
+    let branchCode = sessionStorage.getItem('BRANCH_ID') || '1';
+    let staff = sessionStorage.getItem('USER_ID') || 'N';
+
+    const today = new Date();
+    const accOpenDt = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+
+    let params: any = {
+      bankCode: bankCode,
+      branchCode: branchCode,
+      accOpenDt: accOpenDt,
+      staff: staff ? staff : 'N',
+      schemeCode: this.depositInfo.SCHEME_CODE,
+      years: 0,
+      months: 0,
+      days: 0,
+      amount: 0,
+      pigmiInstlFreq: '',
+      splct: '',
+      accSpecCtg: '',
+      discFreq: '',
+      guardianId: ''
+    };
+
+    if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+      params.amount = this.depositInfo.INITIAL_AMOUNT ? Number(this.depositInfo.INITIAL_AMOUNT) : 0;
+    } else if (
+      this.depositInfo.ACCOUNT_TYPE == 'D' ||
+      this.depositInfo.ACCOUNT_TYPE == 'E' ||
+      this.depositInfo.ACCOUNT_TYPE == 'F'
+    ) {
+      // Only call interest API for FD/RA when Days value is input
+      if (
+        this.depositInfo.TANURE_DAYS === undefined ||
+        this.depositInfo.TANURE_DAYS === null ||
+        String(this.depositInfo.TANURE_DAYS).trim() === ''
+      ) {
+        return;
+      }
+
+      params.years = Number(this.depositInfo.TANURE_YEARS) || 0;
+      params.months = Number(this.depositInfo.TANURE_MONTHS) || 0;
+      params.days = Number(this.depositInfo.TANURE_DAYS) || 0;
+      params.amount = Number(this.depositInfo.DEPOSIT_AMOUNT) || 0;
+      params.discFreq = this.depositInfo.INTEREST_PAYOUT || '';
+    } else if (this.depositInfo.ACCOUNT_TYPE == 'G') {
+      params.amount = Number(this.depositInfo.DEPOSIT_AMOUNT) || 0;
+      params.pigmiInstlFreq = this.depositInfo.DEPOSIT_FREQUANCY || '';
+    }
+
+    console.log(`Fetching Interest Rate for Account Type: ${this.depositInfo.ACCOUNT_TYPE}, Scheme: ${this.depositInfo.SCHEME_CODE}`, params);
+
+    this.api.getInterestRateForAllAcc(params).subscribe({
+      next: (res) => {
+        if (res && (res.code == 200 || res.code == '200') && res.data) {
+          const responseData = Array.isArray(res.data) ? res.data[0] : res.data;
+          const rate = responseData.interestRate !== undefined ? responseData.interestRate : responseData.RATE;
+
+          if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+            if (rate !== undefined && rate !== null) {
+              this.depositInfo.RATE_OF_INTEREST_SAVING = Number(rate);
+              console.log("Updated Saving Interest Rate from CBS:", responseData);
+            }
+          } else {
+            if (rate !== undefined && rate !== null) {
+              this.depositInfo.RATE_OF_INTEREST = Number(rate);
+              console.log("Updated FD/RA Interest Rate from CBS:", rate);
+            }
+            if (responseData.maturityAmount !== undefined && responseData.maturityAmount !== null) {
+              this.depositInfo.MATURITY_AMOUNT = String(responseData.maturityAmount);
+            }
+            if (responseData.maturityDate) {
+              this.depositInfo.MATURITY_DATE = String(responseData.maturityDate);
+            }
+          }
+        } else {
+          console.warn("Failed or invalid response fetching interest rate:", res);
+        }
+      },
+      error: (err) => {
+        console.error("Error fetching interest rate from API:", err);
+      }
+    });
+  }
 
   changeScheme() {
     if (this.depositInfo.ACCOUNT_TYPE == 'A') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'SB'
       );
-      // Fetch Interest Rate from CBS based on selected Scheme Code
-      if (this.depositInfo.SCHEME_CODE) {
-        let bankCode = sessionStorage.getItem('BANK_CODE') || '1';
-        let branchCode = sessionStorage.getItem('BRANCH_ID') || '1';
-        let staff = sessionStorage.getItem('USER_ID') || '';
-
-        // Date format converted to dd-mm-yyyy for CBS compatibility
-        const today = new Date();
-        const date = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
-
-        console.log(`Fetching interest interest rate for Scheme: ${this.depositInfo.SCHEME_CODE}, Date: ${date}`);
-
-        this.api
-          .getInterestRateForSaving(
-            bankCode,
-            branchCode,
-            this.depositInfo.SCHEME_CODE,
-            date,
-            staff
-          )
-          .subscribe((res) => {
-            if (res['code'] == 200 && res['data']) {
-              // Handle both array and object response structure from CBS
-              const responseData = Array.isArray(res['data']) ? res['data'][0] : res['data'];
-              if (responseData && responseData.RATE) {
-                this.depositInfo.RATE_OF_INTEREST_SAVING = responseData.RATE;
-                console.log("Updated Interest Rate from CBS:", responseData.RATE);
-              } else {
-                console.warn("Interest rate field not found in API response", res['data']);
-              }
-            } else {
-              console.error("Failed to fetch interest rate from API", res);
-            }
-          });
-      } else {
-        // Reset to default if no scheme selected
-        this.depositInfo.RATE_OF_INTEREST_SAVING = 2.50;
-      }
+      this.fetchInterestRate();
     } else if (this.depositInfo.ACCOUNT_TYPE == 'C') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'CA'
@@ -160,14 +251,23 @@ export class DepositComponent implements OnInit {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'FD'
       );
+      // Only fetch if days has already been filled
+      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+        this.fetchInterestRate();
+      }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'F') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'RA' || value.SMP_MNACTYPE == 'RP'
       );
+      // Only fetch if days has already been filled
+      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+        this.fetchInterestRate();
+      }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'G') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'PG'
       );
+      this.fetchInterestRate();
     } else {
       this.schemes = [];
     }

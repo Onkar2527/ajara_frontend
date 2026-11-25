@@ -193,22 +193,9 @@ export class ApiService implements HttpInterceptor {
     );
   }
 
-  getInterestRateForSaving(
-    bankCode: string,
-    branchCode: string,
-    schemeCode: string,
-    date: string,
-    staff: string
-  ): Observable<any> {
-    let params = {
-      bankCode: bankCode,
-      branchCode: branchCode,
-      schemeCode: schemeCode,
-      date: date,
-      staff: staff,
-    };
+  getInterestRateForAllAcc(params: any): Observable<any> {
     return this.httpClient.get(
-      this.baseUrl + 'list_api/getInterestRateForSaving',
+      this.baseUrl + 'list_api/getInterestRateForAllAcc',
       Object.assign({}, this.optionMain, { params: params })
     );
   }

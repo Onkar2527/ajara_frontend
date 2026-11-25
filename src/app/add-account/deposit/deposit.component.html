@@ -286,13 +286,7 @@
                         </nz-form-control>
                     </nz-form-item>
 
-                    <nz-form-item nz-col nzSpan="10">
-
-                        <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
-                        <nz-input-group nzAddOnAfter="% p.a.">
-                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST" />
-                        </nz-input-group>
-                    </nz-form-item>
+                    
 
                     <nz-form-item nz-col nzSpan="24">
 
@@ -313,7 +307,7 @@
                                 <div nz-col nzSpan="1">
                                 </div>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="day" [(ngModel)]="depositInfo.TANURE_DAYS"
+                                    <input nz-input name="day" [(ngModel)]="depositInfo.TANURE_DAYS" (ngModelChange)="onDaysChange()" (blur)="onDaysBlur()"
                                         placeholder="Days" />
                                 </div>
                             </div>
@@ -322,12 +316,20 @@
 
                     </nz-form-item>
 
+                    <nz-form-item nz-col nzSpan="10">
+
+                        <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
+                        <nz-input-group nzAddOnAfter="% p.a.">
+                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST" />
+                        </nz-input-group>
+                    </nz-form-item>
+
                     <nz-form-item nz-col nzSpan="24">
 
                         <nz-form-label [nzNoColon]="true">Desired Interest Payout</nz-form-label>
                         <nz-form-control>
 
-                            <nz-radio-group [(ngModel)]=" depositInfo.INTEREST_PAYOUT">
+                            <nz-radio-group [(ngModel)]="depositInfo.INTEREST_PAYOUT">
                                 <label nz-radio [nzValue]="'M'">Monthly</label>
                                 <label nz-radio [nzValue]="'Q'">Quarterly</label>
                                 <label nz-radio [nzValue]="'H'">Half Yearly</label>
@@ -361,6 +363,15 @@
                                     nzCheckedChildren="Yes" nzUnCheckedChildren="No"
                                     [disabled]="depositInfo.ACCOUNT_TYPE == 'F'"></nz-switch></span></p>
                     </nz-form-item>
+                    <div nz-row *ngIf="depositInfo.MATURITY_AMOUNT || depositInfo.MATURITY_DATE" style="margin-top: 12px; margin-bottom: 12px; padding: 10px; background: #f6ffed; border: 1px solid #b7eb8f; border-radius: 4px;">
+                        <div nz-col nzSpan="12" *ngIf="depositInfo.MATURITY_AMOUNT">
+                            <strong>Maturity Amount: </strong> &#8377; {{ depositInfo.MATURITY_AMOUNT }}
+                        </div>
+                        <div nz-col nzSpan="12" *ngIf="depositInfo.MATURITY_DATE">
+                            <strong>Maturity Date: </strong> {{ depositInfo.MATURITY_DATE }}
+                        </div>
+                    </div>
+
 
 
                 </div>
@@ -368,7 +379,7 @@
         </nz-collapse>
 
 
-        <nz-collapse nzAccordion class="ant-collapse-custom">
+        <!-- <nz-collapse nzAccordion class="ant-collapse-custom">
             <nz-collapse-panel [nzHeader]="headerTpl3" [nzActive]="true">
                 <ng-template #headerTpl3>
                     <div class="applicant-header">
@@ -421,7 +432,7 @@
 
                 </div>
             </nz-collapse-panel>
-        </nz-collapse>
+        </nz-collapse> -->
 
 
     </div>
