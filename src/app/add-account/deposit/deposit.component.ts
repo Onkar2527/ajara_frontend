@@ -497,6 +497,9 @@ export class DepositComponent implements OnInit {
   }
 
   getSavingInterestDisplay(): string {
+    if (this.depositInfo.ACCOUNT_TYPE === 'C') {
+      return '0.00';
+    }
     return this.depositInfo.RATE_OF_INTEREST_SAVING
       ? Number(this.depositInfo.RATE_OF_INTEREST_SAVING).toFixed(2)
       : '2.50';
