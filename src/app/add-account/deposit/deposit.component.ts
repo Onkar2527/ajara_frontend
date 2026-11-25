@@ -118,7 +118,23 @@ export class DepositComponent implements OnInit {
       });
   }
 
-  onDaysChange() {
+  onDaysChange(val?: any) {
+    if (val !== undefined) {
+      if (val === null || val === '') {
+        this.depositInfo.TANURE_DAYS = null as any;
+      } else {
+        const clean = String(val).replace(/[^0-9]/g, '');
+        if (clean === '') {
+          this.depositInfo.TANURE_DAYS = null as any;
+        } else {
+          let num = Number(clean);
+          if (num > 31) {
+            num = 31;
+          }
+          this.depositInfo.TANURE_DAYS = num;
+        }
+      }
+    }
     if (this.catagoryB && this.depositInfo.SCHEME_CODE) {
       if (
         this.depositInfo.TANURE_DAYS !== undefined &&
@@ -131,6 +147,14 @@ export class DepositComponent implements OnInit {
   }
 
   onDaysBlur() {
+    if (this.depositInfo.TANURE_DAYS != null && this.depositInfo.TANURE_DAYS !== ('' as any)) {
+      let num = Number(this.depositInfo.TANURE_DAYS);
+      if (num > 31) {
+        this.depositInfo.TANURE_DAYS = 31;
+      } else if (num < 0) {
+        this.depositInfo.TANURE_DAYS = 0;
+      }
+    }
     if (this.catagoryB && this.depositInfo.SCHEME_CODE) {
       if (
         this.depositInfo.TANURE_DAYS !== undefined &&
@@ -248,22 +272,27 @@ export class DepositComponent implements OnInit {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'CA'
       );
-    } else if (
-      this.depositInfo.ACCOUNT_TYPE == 'D' ||
-      this.depositInfo.ACCOUNT_TYPE == 'E'
-    ) {
+    } else if (this.depositInfo.ACCOUNT_TYPE == 'D') {
+      // Fixed Deposit: filter by FD
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'FD'
       );
-      // Only fetch if days has already been filled
+      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+        this.fetchInterestRate();
+      }
+    } else if (this.depositInfo.ACCOUNT_TYPE == 'E') {
+      // Fixed Deposit (Reinvestment): filter by RP (Reinvestment Plans)
+      this.schemes = this.MASTERS[0].data.filter(
+        (value: any) => value.SMP_MNACTYPE == 'RP'
+      );
       if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
         this.fetchInterestRate();
       }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'F') {
+      // Recurring Deposit: filter by RA
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'RA'
       );
-      // Only fetch if days has already been filled
       if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
         this.fetchInterestRate();
       }
@@ -274,6 +303,15 @@ export class DepositComponent implements OnInit {
       this.fetchInterestRate();
     } else {
       this.schemes = [];
+    }
+
+    // Reset scheme selection if current scheme does not belong to new schemes list
+    if (this.schemes && this.schemes.length > 0) {
+      const exists = this.schemes.some((s: any) => s.SMP_CODE == this.depositInfo.SCHEME_CODE);
+      if (!exists) {
+        this.depositInfo.SCHEME_CODE = '';
+        this.depositInfo.SCHEME_CODE_NEW = '';
+      }
     }
   }
 
@@ -321,6 +359,18 @@ export class DepositComponent implements OnInit {
     }
 
     if (this.catagoryB) {
+      if (this.isYearInvalid()) {
+        this.message.error('Period Years must be 0 or more', '');
+        isOk = false;
+      }
+      if (this.isMonthInvalid()) {
+        this.message.error('Period Months must be between 0 and 12', '');
+        isOk = false;
+      }
+      if (this.isDayInvalid()) {
+        this.message.error('Period Days must be between 0 and 31', '');
+        isOk = false;
+      }
       if (this.depositInfo.DEPOSIT_AMOUNT != null) {
         this.depositInfo.INITIAL_AMOUNT = Number(this.depositInfo.DEPOSIT_AMOUNT);
       }
@@ -442,15 +492,77 @@ export class DepositComponent implements OnInit {
     return true;
   }
 
-  onPasteNumberOnly(event: ClipboardEvent, field: 'INITIAL_AMOUNT' | 'DEPOSIT_AMOUNT'): void {
+  onPasteNumberOnly(
+    event: ClipboardEvent,
+    field: 'INITIAL_AMOUNT' | 'DEPOSIT_AMOUNT' | 'TANURE_YEARS' | 'TANURE_MONTHS' | 'TANURE_DAYS'
+  ): void {
     event.preventDefault();
     const clipboardData = event.clipboardData;
     if (!clipboardData) return;
     const pastedText = clipboardData.getData('text') || '';
     const clean = pastedText.replace(/[^0-9]/g, '');
     if (clean) {
-      this.depositInfo[field] = Number(clean);
+      let val = Number(clean);
+      if (field === 'TANURE_MONTHS' && val > 12) {
+        val = 12;
+      } else if (field === 'TANURE_DAYS') {
+        if (val > 31) val = 31;
+        this.depositInfo[field] = val;
+        this.onDaysChange();
+        return;
+      }
+      this.depositInfo[field] = val;
     }
+  }
+
+  onYearChange(val: any): void {
+    if (val === null || val === undefined || val === '') {
+      this.depositInfo.TANURE_YEARS = null as any;
+      return;
+    }
+    const clean = String(val).replace(/[^0-9]/g, '');
+    this.depositInfo.TANURE_YEARS = clean !== '' ? Number(clean) : (null as any);
+  }
+
+  onMonthChange(val: any): void {
+    if (val === null || val === undefined || val === '') {
+      this.depositInfo.TANURE_MONTHS = null as any;
+      return;
+    }
+    const clean = String(val).replace(/[^0-9]/g, '');
+    if (clean === '') {
+      this.depositInfo.TANURE_MONTHS = null as any;
+      return;
+    }
+    let num = Number(clean);
+    if (num > 12) {
+      num = 12;
+    }
+    this.depositInfo.TANURE_MONTHS = num;
+  }
+
+  isYearInvalid(): boolean {
+    if (this.depositInfo.TANURE_YEARS == null || this.depositInfo.TANURE_YEARS === ('' as any)) {
+      return false;
+    }
+    const val = Number(this.depositInfo.TANURE_YEARS);
+    return isNaN(val) || val < 0;
+  }
+
+  isMonthInvalid(): boolean {
+    if (this.depositInfo.TANURE_MONTHS == null || this.depositInfo.TANURE_MONTHS === ('' as any)) {
+      return false;
+    }
+    const val = Number(this.depositInfo.TANURE_MONTHS);
+    return isNaN(val) || val < 0 || val > 12;
+  }
+
+  isDayInvalid(): boolean {
+    if (this.depositInfo.TANURE_DAYS == null || this.depositInfo.TANURE_DAYS === ('' as any)) {
+      return false;
+    }
+    const val = Number(this.depositInfo.TANURE_DAYS);
+    return isNaN(val) || val < 0 || val > 31;
   }
 
   onInitialAmountChange(val: any): void {

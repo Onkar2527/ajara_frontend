@@ -317,20 +317,57 @@
                         <nz-form-control>
                             <div nz-row>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="year" [(ngModel)]="depositInfo.TANURE_YEARS"
-                                        placeholder="Years" />
+                                    <nz-form-item>
+                                        <nz-form-control [nzValidateStatus]="isYearInvalid() ? 'error' : ''" [nzErrorTip]="'Years must be 0 or more'">
+                                            <input nz-input
+                                                type="text"
+                                                inputmode="numeric"
+                                                maxlength="3"
+                                                name="year"
+                                                [(ngModel)]="depositInfo.TANURE_YEARS"
+                                                (ngModelChange)="onYearChange($event)"
+                                                (keypress)="validateNumberOnly($event)"
+                                                (paste)="onPasteNumberOnly($event, 'TANURE_YEARS')"
+                                                placeholder="Years" />
+                                        </nz-form-control>
+                                    </nz-form-item>
                                 </div>
                                 <div nz-col nzSpan="1">
                                 </div>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="month" [(ngModel)]="depositInfo.TANURE_MONTHS"
-                                        placeholder="Months" />
+                                    <nz-form-item>
+                                        <nz-form-control [nzValidateStatus]="isMonthInvalid() ? 'error' : ''" [nzErrorTip]="'Months must be 0 to 12'">
+                                            <input nz-input
+                                                type="text"
+                                                inputmode="numeric"
+                                                maxlength="2"
+                                                name="month"
+                                                [(ngModel)]="depositInfo.TANURE_MONTHS"
+                                                (ngModelChange)="onMonthChange($event)"
+                                                (keypress)="validateNumberOnly($event)"
+                                                (paste)="onPasteNumberOnly($event, 'TANURE_MONTHS')"
+                                                placeholder="Months (0-12)" />
+                                        </nz-form-control>
+                                    </nz-form-item>
                                 </div>
                                 <div nz-col nzSpan="1">
                                 </div>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="day" [(ngModel)]="depositInfo.TANURE_DAYS" (ngModelChange)="onDaysChange()" (blur)="onDaysBlur()"
-                                        placeholder="Days" />
+                                    <nz-form-item>
+                                        <nz-form-control [nzValidateStatus]="isDayInvalid() ? 'error' : ''" [nzErrorTip]="'Days must be 0 to 31'">
+                                            <input nz-input
+                                                type="text"
+                                                inputmode="numeric"
+                                                maxlength="2"
+                                                name="day"
+                                                [(ngModel)]="depositInfo.TANURE_DAYS"
+                                                (ngModelChange)="onDaysChange($event)"
+                                                (blur)="onDaysBlur()"
+                                                (keypress)="validateNumberOnly($event)"
+                                                (paste)="onPasteNumberOnly($event, 'TANURE_DAYS')"
+                                                placeholder="Days (0-31)" />
+                                        </nz-form-control>
+                                    </nz-form-item>
                                 </div>
                             </div>
 
