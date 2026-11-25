@@ -19,7 +19,7 @@
                                     <!-- <nz-option [nzValue]="'B'" nzLabel="Janata Deposite"></nz-option> -->
                                     <nz-option [nzValue]="'C'" nzLabel="Current Account"></nz-option>
                                     <nz-option [nzValue]="'D'" nzLabel="Fixed Deposit"></nz-option>
-                                    <nz-option [nzValue]="'E'" nzLabel="Fixed Deposit (Reinvestment)"></nz-option>
+                                    <nz-option [nzValue]="'E'" nzLabel="Reinvestment Deposit"></nz-option>
                                     <nz-option [nzValue]="'F'" nzLabel="Recurring Deposit"></nz-option>
                                     <nz-option [nzValue]="'G'" nzLabel="Pigmy Deposit"></nz-option>
                                     <!-- <nz-option [nzValue]="'H'" nzLabel="Other"></nz-option> -->
@@ -62,11 +62,19 @@
                         <nz-form-item nz-col nzSpan="24"
                             *ngIf="depositInfo.ACCOUNT_TYPE =='A' || depositInfo.ACCOUNT_TYPE =='C'">
 
-                            <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
-                            <nz-input-group nzAddOnAfter="% p.a.">
-                                <input nz-input name="RATE_OF_INTEREST_SAVING" [value]="getSavingInterestDisplay()"
+                            <nz-form-label [nzNoColon]="true" nzRequired>
+                                Rate of Interest
+                                <span *ngIf="isLoadingInterest" style="margin-left: 8px; color: #1890ff; font-size: 13px; font-weight: normal;">
+                                    <i nz-icon nzType="loading"></i> Loading...
+                                </span>
+                            </nz-form-label>
+                            <nz-input-group [nzSuffix]="savingRoiLoadingTpl" nzAddOnAfter="% p.a.">
+                                <input nz-input name="RATE_OF_INTEREST_SAVING" [value]="isLoadingInterest ? 'Loading...' : getSavingInterestDisplay()"
                                     readonly />
                             </nz-input-group>
+                            <ng-template #savingRoiLoadingTpl>
+                                <i nz-icon nzType="loading" *ngIf="isLoadingInterest" style="color: #1890ff;"></i>
+                            </ng-template>
                         </nz-form-item>
 
                         <!-- <nz-form-item nz-col nzSpan="24">
@@ -332,10 +340,18 @@
 
                     <nz-form-item nz-col nzSpan="10">
 
-                        <nz-form-label [nzNoColon]="true" nzRequired>Rate of Interest</nz-form-label>
-                        <nz-input-group nzAddOnAfter="% p.a.">
-                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST" />
+                        <nz-form-label [nzNoColon]="true" nzRequired>
+                            Rate of Interest
+                            <span *ngIf="isLoadingInterest" style="margin-left: 8px; color: #1890ff; font-size: 13px; font-weight: normal;">
+                                <i nz-icon nzType="loading"></i> Loading...
+                            </span>
+                        </nz-form-label>
+                        <nz-input-group [nzSuffix]="roiLoadingTpl" nzAddOnAfter="% p.a.">
+                            <input nz-input name="roi" [(ngModel)]="depositInfo.RATE_OF_INTEREST" [placeholder]="isLoadingInterest ? 'Loading...' : ''" />
                         </nz-input-group>
+                        <ng-template #roiLoadingTpl>
+                            <i nz-icon nzType="loading" *ngIf="isLoadingInterest" style="color: #1890ff;"></i>
+                        </ng-template>
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">

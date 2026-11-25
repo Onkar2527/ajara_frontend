@@ -107,6 +107,7 @@ export class DepositComponent implements OnInit {
   }
 
   schemes: any = [];
+  isLoadingInterest: boolean = false;
   private daysChangeSubject = new Subject<any>();
 
   initDaysSubscription() {
@@ -199,10 +200,12 @@ export class DepositComponent implements OnInit {
       params.pigmiInstlFreq = this.depositInfo.DEPOSIT_FREQUANCY || '';
     }
 
+    this.isLoadingInterest = true;
     console.log(`Fetching Interest Rate for Account Type: ${this.depositInfo.ACCOUNT_TYPE}, Scheme: ${this.depositInfo.SCHEME_CODE}`, params);
 
     this.api.getInterestRateForAllAcc(params).subscribe({
       next: (res) => {
+        this.isLoadingInterest = false;
         if (res && (res.code == 200 || res.code == '200') && res.data) {
           const responseData = Array.isArray(res.data) ? res.data[0] : res.data;
           const rate = responseData.interestRate !== undefined ? responseData.interestRate : responseData.RATE;
@@ -229,6 +232,7 @@ export class DepositComponent implements OnInit {
         }
       },
       error: (err) => {
+        this.isLoadingInterest = false;
         console.error("Error fetching interest rate from API:", err);
       }
     });
@@ -257,7 +261,7 @@ export class DepositComponent implements OnInit {
       }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'F') {
       this.schemes = this.MASTERS[0].data.filter(
-        (value: any) => value.SMP_MNACTYPE == 'RA' || value.SMP_MNACTYPE == 'RP'
+        (value: any) => value.SMP_MNACTYPE == 'RA'
       );
       // Only fetch if days has already been filled
       if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {

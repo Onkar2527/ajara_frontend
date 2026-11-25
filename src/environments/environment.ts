@@ -6,8 +6,8 @@ export const environment = {
   production: true,
   verifyPanUrl: 'https://kyc-api.aadhaarkyc.io/api/v1/pan/pan',
 
-  baseUrl: 'http://10.128.116.5:9000/api/'
-  //baseUrl: 'http://172.100.30.202:8673/api/'
+  //baseUrl: 'http://10.128.116.5:9000/api/'
+  baseUrl: 'http://172.100.30.202:8673/api/'
 };
 
 /*
