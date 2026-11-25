@@ -420,6 +420,15 @@ export class DepositComponent implements OnInit {
       this.depositInfo.AUTO_RENEWAL = false;
     }
 
+    if (this.depositInfo.ACCOUNT_TYPE == 'C') {
+      this.depositInfo.RATE_OF_INTEREST = 0;
+      this.depositInfo.RATE_OF_INTEREST_SAVING = 0;
+    } else if (this.depositInfo.ACCOUNT_TYPE == 'A') {
+      const roi = Number(this.getSavingInterestDisplay());
+      this.depositInfo.RATE_OF_INTEREST = roi;
+      this.depositInfo.RATE_OF_INTEREST_SAVING = roi;
+    }
+
     if (isOk) {
       if (this.depositInfo.ID) {
         this.api.updateDeposite(this.depositInfo).subscribe({
@@ -500,8 +509,11 @@ export class DepositComponent implements OnInit {
     if (this.depositInfo.ACCOUNT_TYPE === 'C') {
       return '0.00';
     }
-    return this.depositInfo.RATE_OF_INTEREST_SAVING
-      ? Number(this.depositInfo.RATE_OF_INTEREST_SAVING).toFixed(2)
+    const val = (this.depositInfo.RATE_OF_INTEREST_SAVING !== undefined && this.depositInfo.RATE_OF_INTEREST_SAVING !== null && String(this.depositInfo.RATE_OF_INTEREST_SAVING).trim() !== '')
+      ? this.depositInfo.RATE_OF_INTEREST_SAVING
+      : this.depositInfo.RATE_OF_INTEREST;
+    return val !== undefined && val !== null && String(val).trim() !== ''
+      ? Number(val).toFixed(2)
       : '2.50';
   }
 

@@ -13,27 +13,24 @@ import { ApplicantPropertyComponent } from '../applicant-property/applicant-prop
 })
 export class ApplicantTabsComponent implements OnInit {
 
-
-
   @ViewChild(ApplicantPersonalComponent) personalComp!: ApplicantPersonalComponent;
   @ViewChild(ApplicantFinancialComponent) financialComp!: ApplicantFinancialComponent;
   @ViewChild(ApplicantPropertyComponent) propertyComp!: ApplicantPropertyComponent;
   @ViewChild(ApplicantLoanInfoComponent) loanInfoComp!: ApplicantLoanInfoComponent;
   @ViewChild(ApplicantOtherBankAccountComponent) otherBankAccountComp!: ApplicantOtherBankAccountComponent;
 
-  @Input() personalInfo!:PersonalInfo
+  @Input() personalInfo!: PersonalInfo;
 
   selectedTab: number = 0;
 
   disabledTabs = [
     { title: 'Personal Information', disabled: false },
-    { title: 'Guarantor Information', disabled: false },
     { title: 'Financial Information', disabled: true },
     { title: 'Property Information', disabled: true },
     // { title: 'Loan Information', disabled: true },
     // { title: 'Account In Other Banks', disabled: true },
+  ];
 
-  ]
   constructor() { }
 
   ngOnInit(): void {
