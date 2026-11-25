@@ -18,12 +18,12 @@ export class DepositComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.getMasters();
+    this.changeCatagory();
   }
 
   mendetory_all = [
     { field: 'ACCOUNT_TYPE', message: 'Account Type' },
     { field: 'ACCOUNT_OPERATION', message: 'Account Operation' },
-    { field: 'INITIAL_AMOUNT', message: 'Initial Amount' },
     { field: 'PAYMENT_INSTRUCTION', message: 'Payment Instruction' },
   ];
 
@@ -191,6 +191,13 @@ export class DepositComponent implements OnInit {
       }
     }
 
+    if (this.catagoryA) {
+      if (!this.depositInfo.INITIAL_AMOUNT) {
+        this.message.error('Initial Amount is Mandatory', '');
+        isOk = false;
+      }
+    }
+
     if (this.depositInfo.ACCOUNT_TYPE == 'A') {
       for (let field of this.mendetory_saving) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
@@ -200,7 +207,7 @@ export class DepositComponent implements OnInit {
       }
     }
 
-    if (this.depositInfo.MODE_OF_PAYMENT == 'T') {
+    if (this.catagoryA && this.depositInfo.MODE_OF_PAYMENT == 'T') {
       for (let field of this.mendetory_saving_cheque) {
         if (!this.depositInfo[field.field as keyof TermDeposite]) {
           this.message.error(`${field.message} is Mandatory`, '');
@@ -210,6 +217,9 @@ export class DepositComponent implements OnInit {
     }
 
     if (this.catagoryB) {
+      if (this.depositInfo.DEPOSIT_AMOUNT != null) {
+        this.depositInfo.INITIAL_AMOUNT = Number(this.depositInfo.DEPOSIT_AMOUNT);
+      }
       for (let field of this.mendetory_non_saving) {
         if (field.field === 'DEPOSIT_AMOUNT') {
           const depAmt = Number(this.depositInfo.DEPOSIT_AMOUNT);
@@ -221,6 +231,19 @@ export class DepositComponent implements OnInit {
           this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
+      }
+    }
+
+    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+    if (this.depositInfo.DEPOSIT_IFSC_CODE) {
+      const formattedIfsc = this.depositInfo.DEPOSIT_IFSC_CODE.trim().toUpperCase();
+      this.depositInfo.DEPOSIT_IFSC_CODE = formattedIfsc;
+      if (!ifscRegex.test(formattedIfsc)) {
+        this.message.error(
+          'Invalid IFSC Code format. Must be 11 characters (e.g. SBIN0001234): first 4 letters, 5th character 0, and last 6 alphanumeric.',
+          ''
+        );
+        isOk = false;
       }
     }
 

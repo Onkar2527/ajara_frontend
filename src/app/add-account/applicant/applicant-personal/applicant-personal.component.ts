@@ -1004,6 +1004,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       isOk = false;
     }
 
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.(com|in|co\.in|org|net|co)$/i;
+    if (this.personalInfo.EMAIL_ID && !emailRegex.test(this.personalInfo.EMAIL_ID)) {
+      this.message.error("Email ID is invalid. Username must contain only letters and numbers, and domain must end with .com, .in, .co.in, .org, .net, or .co (e.g. example123@gmail.com).", '');
+      isOk = false;
+    }
+
     if (this.personalInfo.RELIGION == 'G') {
       for (let field of this.mendetory_religion) {
         if (!this.personalInfo[field.field as keyof PersonalInfo]) {
@@ -1094,6 +1100,12 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
   showOtpField: boolean = false;
 
   getOtp() {
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.(com|in|co\.in|org|net|co)$/i;
+    if (!this.personalInfo.EMAIL_ID || !emailRegex.test(this.personalInfo.EMAIL_ID)) {
+      this.message.error("Please enter a valid email address (letters and numbers only, ending with .com, .in, .co.in, .org, .net, or .co).", "");
+      return;
+    }
+
     this.api.getEmailOtp(this.personalInfo.EMAIL_ID).subscribe({
       next: (res) => {
         if (res['code'] == 200) {

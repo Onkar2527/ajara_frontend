@@ -108,7 +108,7 @@
             </nz-collapse-panel>
         </nz-collapse>
 
-        <nz-collapse nzAccordion class="ant-collapse-custom">
+        <nz-collapse nzAccordion class="ant-collapse-custom" *ngIf="catagoryA">
             <nz-collapse-panel [nzHeader]="headerTpl1" [nzActive]="true">
                 <ng-template #headerTpl1>
                     <div class="applicant-header">
@@ -142,8 +142,7 @@
                         <nz-form-control>
                             <nz-form-label nzRequired [nzNoColon]="true">Minimum Balance Category</nz-form-label>
                             <nz-select [(ngModel)]="depositInfo.MINIMUM_BALANCE_CATEGORY">
-                                <nz-option
-                                    *ngFor="let option of MASTERS[3].data"
+                                <nz-option *ngFor="let option of MASTERS[3].data"
                                     [nzValue]="'' + (option.ID != null ? option.ID : (option.id != null ? option.id : option.MINBALCTG))"
                                     [nzLabel]="option.MBC_CTGDESC || option.MINBALCTG_DESCR">
                                 </nz-option>
@@ -316,8 +315,8 @@
                         <nz-form-control>
                             <div nz-row>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="day" [(ngModel)]="depositInfo.TANURE_DAYS"
-                                        placeholder="Days" />
+                                    <input nz-input name="year" [(ngModel)]="depositInfo.TANURE_YEARS"
+                                        placeholder="Years" />
                                 </div>
                                 <div nz-col nzSpan="1">
                                 </div>
@@ -328,8 +327,8 @@
                                 <div nz-col nzSpan="1">
                                 </div>
                                 <div nz-col nzSpan="7">
-                                    <input nz-input name="year" [(ngModel)]="depositInfo.TANURE_YEARS"
-                                        placeholder="Years" />
+                                    <input nz-input name="day" [(ngModel)]="depositInfo.TANURE_DAYS"
+                                        placeholder="Days" />
                                 </div>
                             </div>
 
@@ -417,7 +416,9 @@
                         <nz-form-label [nzNoColon]="true" nzRequired>IFSC Code</nz-form-label>
                         <nz-form-control>
                             <input nz-input name="ifsc" [(ngModel)]="depositInfo.DEPOSIT_IFSC_CODE"
-                                placeholder="Enter IFSC Code" />
+                                (ngModelChange)="depositInfo.DEPOSIT_IFSC_CODE = $event?.toUpperCase()"
+                                placeholder="Enter IFSC Code" maxlength="11" pattern="^[A-Za-z]{4}0[A-Za-z0-9]{6}$"
+                                style="text-transform: uppercase;" />
                         </nz-form-control>
                     </nz-form-item>
 
