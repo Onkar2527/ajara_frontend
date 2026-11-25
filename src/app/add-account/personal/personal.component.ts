@@ -172,6 +172,8 @@ export class PersonalComponent implements OnInit {
           if (!isOld) {
             const title = this.basicInfo['CUSTOMER_TYPE_' + i];
             const firstName = this.basicInfo[i == 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : `APPLICANT${i}_FIRST_NAME`];
+            const middleName = this.basicInfo[i == 1 ? 'PRIMARY_APPLICANT_MIDDLE_NAME' : `APPLICANT${i}_MIDDLE_NAME`];
+            const lastName = this.basicInfo[i == 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : `APPLICANT${i}_LAST_NAME`];
             const mobile = this.basicInfo['MOBILE_' + i];
             const dob = this.basicInfo['DOB_' + i];
             const docAuthority = this.basicInfo[i == 1 ? 'DOCUMENTS_AUTHORITY' : `DOCUMENTS_AUTHORITY_${i}`];
@@ -189,6 +191,18 @@ export class PersonalComponent implements OnInit {
               this.message.error(`${label} First Name is mandatory.`, '');
               isOk = false;
               break;
+            }
+            if (i === 1) {
+              if (!middleName || !middleName.trim()) {
+                this.message.error(`${label} Middle Name is mandatory.`, '');
+                isOk = false;
+                break;
+              }
+              if (!lastName || !lastName.trim()) {
+                this.message.error(`${label} Last Name is mandatory.`, '');
+                isOk = false;
+                break;
+              }
             }
             if (!dob || !dob.trim()) {
               this.message.error(`${label} Date of Birth is mandatory.`, '');
@@ -256,6 +270,9 @@ export class PersonalComponent implements OnInit {
         }
 
         if (!isOk) {
+          if (this.applicantComps) {
+            this.applicantComps.forEach(comp => comp.markAllAsTouched());
+          }
           personal.next({ code: 300 });
           personal.complete();
           return;

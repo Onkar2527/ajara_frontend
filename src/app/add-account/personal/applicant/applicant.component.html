@@ -32,27 +32,39 @@
         <div nz-col [nzSpan]="18">
           <nz-form-item>
             <nz-form-label nzRequired>First Name</nz-form-label>
-            <input nz-input
-              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : 'APPLICANT' + applicantNo + '_FIRST_NAME']"
-              placeholder="First Name" />
+            <nz-form-control [nzValidateStatus]="getValidationStatus('FIRST_NAME')" [nzErrorTip]="getErrorMessage('FIRST_NAME')">
+              <input nz-input
+                [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_FIRST_NAME' : 'APPLICANT' + applicantNo + '_FIRST_NAME']"
+                (ngModelChange)="onFieldChange('FIRST_NAME')"
+                (blur)="onFieldBlur('FIRST_NAME')"
+                placeholder="First Name" />
+            </nz-form-control>
           </nz-form-item>
         </div>
       </div>
       <div nz-row [nzGutter]="[16, 16]">
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label>Middle Name</nz-form-label>
-            <input nz-input
-              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_MIDDLE_NAME' : 'APPLICANT' + applicantNo + '_MIDDLE_NAME']"
-              placeholder="Middle Name" />
+            <nz-form-label [nzRequired]="applicantNo === 1">Middle Name</nz-form-label>
+            <nz-form-control [nzValidateStatus]="getValidationStatus('MIDDLE_NAME')" [nzErrorTip]="getErrorMessage('MIDDLE_NAME')">
+              <input nz-input
+                [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_MIDDLE_NAME' : 'APPLICANT' + applicantNo + '_MIDDLE_NAME']"
+                (ngModelChange)="onFieldChange('MIDDLE_NAME')"
+                (blur)="onFieldBlur('MIDDLE_NAME')"
+                placeholder="Middle Name" />
+            </nz-form-control>
           </nz-form-item>
         </div>
         <div nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label>Last Name</nz-form-label>
-            <input nz-input
-              [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : 'APPLICANT' + applicantNo + '_LAST_NAME']"
-              placeholder="Last Name" />
+            <nz-form-label [nzRequired]="applicantNo === 1">Last Name</nz-form-label>
+            <nz-form-control [nzValidateStatus]="getValidationStatus('LAST_NAME')" [nzErrorTip]="getErrorMessage('LAST_NAME')">
+              <input nz-input
+                [(ngModel)]="basicInfo[applicantNo === 1 ? 'PRIMARY_APPLICANT_LAST_NAME' : 'APPLICANT' + applicantNo + '_LAST_NAME']"
+                (ngModelChange)="onFieldChange('LAST_NAME')"
+                (blur)="onFieldBlur('LAST_NAME')"
+                placeholder="Last Name" />
+            </nz-form-control>
           </nz-form-item>
         </div>
       </div>

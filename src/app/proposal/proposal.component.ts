@@ -292,9 +292,43 @@ export class ProposalComponent implements OnInit {
 
   }
 
+  validateApplicant1Info(basicInfo: any): boolean {
+    if (!basicInfo) return false;
+    const isOld = basicInfo.IS_OLD_CUSTOMER_1;
+    if (!isOld) {
+      const firstName = basicInfo.PRIMARY_APPLICANT_FIRST_NAME;
+      const middleName = basicInfo.PRIMARY_APPLICANT_MIDDLE_NAME;
+      const lastName = basicInfo.PRIMARY_APPLICANT_LAST_NAME;
+
+      if (!firstName || !String(firstName).trim()) {
+        this.message.error('Primary Applicant First Name is mandatory.', '');
+        return false;
+      }
+      if (!middleName || !String(middleName).trim()) {
+        this.message.error('Primary Applicant Middle Name is mandatory.', '');
+        return false;
+      }
+      if (!lastName || !String(lastName).trim()) {
+        this.message.error('Primary Applicant Last Name is mandatory.', '');
+        return false;
+      }
+    }
+    return true;
+  }
+
   createProposal() {
     this.loadSaveButton = true;
     try {
+      if (this.basicComp) {
+        const info = this.basicComp.basicInfo;
+        if (!this.validateApplicant1Info(info)) {
+          if (this.basicComp.applicantComps) {
+            this.basicComp.applicantComps.forEach(c => c.markAllAsTouched());
+          }
+          this.loadSaveButton = false;
+          return;
+        }
+      }
       let basic = this.basicComp.save();
       basic.subscribe({
         next: (res) => {
@@ -505,6 +539,19 @@ export class ProposalComponent implements OnInit {
   async saveANext() {
     this.loadSaveButton = true;
     try {
+      if (this.selectedIndex == 0) {
+        const personal = this.addAccountComp?.personalComp;
+        if (personal) {
+          const info = personal.basicInfo || this.drawerDraftData || this.basicInfo;
+          if (!this.validateApplicant1Info(info)) {
+            if (personal.applicantComps) {
+              personal.applicantComps.forEach(c => c.markAllAsTouched());
+            }
+            this.loadSaveButton = false;
+            return;
+          }
+        }
+      }
       if (this.selectedIndex != 5) {
         await this.addAccountComp.saveANext();
       }

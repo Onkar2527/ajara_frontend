@@ -176,6 +176,7 @@
 </ng-template>
 
 
+<!-- Applicant 1 Information: First Name, Middle Name (*), and Last Name (*) mandatory fields (rendered via app-personal) -->
 <ng-template #drawerTemplate let-drawerRef="drawerRef">
   <app-personal></app-personal>
 </ng-template>
@@ -188,6 +189,7 @@
 </ng-template>
 
 
+<!-- Applicant 1 Information: First Name, Middle Name (*), and Last Name (*) mandatory fields and validation on Save and Next (rendered via app-add-account) -->
 <ng-template #addAccountDrawerTemp let-drawerRef="drawerRef">
   <app-add-account (AccountCreationStatus)="accountCreationEvent($event)" (ChangeIndex)="changeIndex($event)"
     (CloseDrawer)="closeDrawer()" [BasicInfo]="drawerDraftData"></app-add-account>

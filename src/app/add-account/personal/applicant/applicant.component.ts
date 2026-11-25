@@ -784,4 +784,77 @@ export class ApplicantComponent implements OnInit {
     }
     return dateStr;
   }
+
+  touchedFields: { [key: string]: boolean } = {};
+
+  markFieldAsTouched(fieldName: string) {
+    this.touchedFields[fieldName] = true;
+  }
+
+  markAllAsTouched() {
+    this.touchedFields['FIRST_NAME'] = true;
+    if (this.applicantNo === 1) {
+      this.touchedFields['MIDDLE_NAME'] = true;
+      this.touchedFields['LAST_NAME'] = true;
+    }
+  }
+
+  onFieldBlur(fieldName: string) {
+    this.touchedFields[fieldName] = true;
+  }
+
+  onFieldChange(fieldName: string) {
+    // When the user enters data, field status updates dynamically
+  }
+
+  getFieldValue(fieldName: string): string {
+    let key = '';
+    if (this.applicantNo === 1) {
+      if (fieldName === 'FIRST_NAME') key = 'PRIMARY_APPLICANT_FIRST_NAME';
+      else if (fieldName === 'MIDDLE_NAME') key = 'PRIMARY_APPLICANT_MIDDLE_NAME';
+      else if (fieldName === 'LAST_NAME') key = 'PRIMARY_APPLICANT_LAST_NAME';
+    } else {
+      if (fieldName === 'FIRST_NAME') key = `APPLICANT${this.applicantNo}_FIRST_NAME`;
+      else if (fieldName === 'MIDDLE_NAME') key = `APPLICANT${this.applicantNo}_MIDDLE_NAME`;
+      else if (fieldName === 'LAST_NAME') key = `APPLICANT${this.applicantNo}_LAST_NAME`;
+    }
+    const val = this.basicInfo ? this.basicInfo[key] : '';
+    return val ? String(val) : '';
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const isOld = this.basicInfo ? !!this.basicInfo['IS_OLD_CUSTOMER_' + this.applicantNo] : false;
+    if (isOld) return false;
+
+    const val = this.getFieldValue(fieldName);
+    const isEmpty = !val || !val.trim();
+
+    if (fieldName === 'FIRST_NAME') {
+      return isEmpty;
+    }
+    if (this.applicantNo === 1 && (fieldName === 'MIDDLE_NAME' || fieldName === 'LAST_NAME')) {
+      return isEmpty;
+    }
+    return false;
+  }
+
+  getValidationStatus(fieldName: string): '' | 'error' {
+    if (!this.touchedFields[fieldName]) {
+      return '';
+    }
+    return this.isFieldInvalid(fieldName) ? 'error' : '';
+  }
+
+  getErrorMessage(fieldName: string): string {
+    if (fieldName === 'FIRST_NAME') {
+      return 'First Name is mandatory.';
+    }
+    if (fieldName === 'MIDDLE_NAME') {
+      return 'Middle Name is mandatory.';
+    }
+    if (fieldName === 'LAST_NAME') {
+      return 'Last Name is mandatory.';
+    }
+    return '';
+  }
 }
