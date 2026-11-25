@@ -445,7 +445,7 @@ export class WebCamComponent implements OnInit {
 
     let isOk = true;
     if (!this.REMARK) {
-      this.message.error("Remark is mendetory field", '');
+      this.message.error("Remark is Mandatory field", '');
       isOk = false;
     }
 
@@ -539,12 +539,12 @@ export class WebCamComponent implements OnInit {
     let rotation = 0;
 
     if (transform) {
-      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg',''));
+      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg', ''));
 
       console.log(rotation);
     }
 
-    if(rotation+90 > 360){
+    if (rotation + 90 > 360) {
       rotation = 0;
     }
 
@@ -562,12 +562,12 @@ export class WebCamComponent implements OnInit {
     let rotation = 0;
 
     if (transform) {
-      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg',''));
+      rotation = Number(transform.match(/rotate\((.*?)\)/)[1].replace('deg', ''));
 
       console.log(rotation);
     }
 
-    if(rotation-90 < -360){
+    if (rotation - 90 < -360) {
       rotation = 0;
     }
 
@@ -580,7 +580,7 @@ export class WebCamComponent implements OnInit {
   removeFilters() {
     let img_ref: any = document.getElementById('img');
     img_ref.style.transform = `rotate(0deg)`;
-    img_ref.style.width = img_ref.naturalWidth +'px';
+    img_ref.style.width = img_ref.naturalWidth + 'px';
   }
 
   download() {

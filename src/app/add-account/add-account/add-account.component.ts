@@ -57,6 +57,29 @@ export class AddAccountComponent implements OnInit, OnDestroy {
   buttonTitle: string = 'Save & Next'
   APPLICANT_ID!: number;
   log(event: any) {
+    if (this.selectedIndex !== 0 && this.personalComp) {
+      const basic = this.personalComp.basicInfo;
+      if (basic && !basic.IS_OLD_CUSTOMER_1) {
+        const fn = basic.PRIMARY_APPLICANT_FIRST_NAME;
+        const mn = basic.PRIMARY_APPLICANT_MIDDLE_NAME;
+        const ln = basic.PRIMARY_APPLICANT_LAST_NAME;
+        if (!fn || !fn.trim() || !mn || !mn.trim() || !ln || !ln.trim()) {
+          this.selectedIndex = 0;
+          this.changeIndex();
+          if (this.personalComp.applicantComps) {
+            this.personalComp.applicantComps.forEach(c => c.markAllAsTouched());
+          }
+          if (!fn || !fn.trim()) {
+            this.message.error('Primary Applicant First Name is mandatory.', '');
+          } else if (!mn || !mn.trim()) {
+            this.message.error('Primary Applicant Middle Name is mandatory.', '');
+          } else if (!ln || !ln.trim()) {
+            this.message.error('Primary Applicant Last Name is mandatory.', '');
+          }
+          return;
+        }
+      }
+    }
     if (this.selectedIndex == 4) {
       this.buttonTitle = 'Download Pdf'
     }
@@ -154,7 +177,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
         try {
           const keys = Object.keys(target).filter(k => k !== 'code' && k !== 'status');
           if (keys.length > 0) return JSON.stringify(target);
-        } catch (e) {}
+        } catch (e) { }
       }
       return fallback;
     }
@@ -228,7 +251,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp || !this.remarkComp.REMARK) {
-      this.message.error("Remark is mendetory field", '');
+      this.message.error("Remark is Mandatory field", '');
       isOk = false;
       this.AccountCreationStatus.emit(false);
       return;
@@ -348,7 +371,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp || !this.remarkComp.REMARK) {
-      this.message.error("Remark is mendetory field", '');
+      this.message.error("Remark is Mandatory field", '');
       isOk = false;
       this.AccountCreationStatus.emit(false);
       return;
@@ -932,7 +955,7 @@ export class AddAccountComponent implements OnInit, OnDestroy {
     let isOk = true;
 
     if (!this.remarkComp.REMARK) {
-      this.message.error("Remark is mendetory field", '');
+      this.message.error("Remark is Mandatory field", '');
       isOk = false;
     }
 

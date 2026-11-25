@@ -120,10 +120,17 @@
                     <nz-form-item nz-col nzSpan="24">
 
                         <nz-form-label [nzNoColon]="true" nzRequired>Initial Amount </nz-form-label>
-                        <nz-form-control>
+                        <nz-form-control [nzValidateStatus]="isInitialAmountInvalid() ? 'error' : ''" [nzErrorTip]="'Initial Amount must be a valid positive number'">
 
                             <nz-input-group nzAddOnBefore="₹">
-                                <input type="InitAmount" [(ngModel)]="depositInfo.INITIAL_AMOUNT" nz-input
+                                <input type="text"
+                                    inputmode="numeric"
+                                    name="initialAmt"
+                                    [(ngModel)]="depositInfo.INITIAL_AMOUNT"
+                                    (ngModelChange)="onInitialAmountChange($event)"
+                                    (keypress)="validateNumberOnly($event)"
+                                    (paste)="onPasteNumberOnly($event, 'INITIAL_AMOUNT')"
+                                    nz-input
                                     placeholder="Enter Initial Amount" />
                             </nz-input-group>
 
@@ -275,11 +282,18 @@
                     </nz-form-item>
 
                     <nz-form-item nz-col nzSpan="24">
-                        <nz-form-control>
+                        <nz-form-control [nzValidateStatus]="isDepositAmountInvalid() ? 'error' : ''" [nzErrorTip]="'Deposit Amount must be a valid positive number'">
 
                             <div class="deposit">
                                 <nz-input-group nzAddOnBefore="₹">
-                                    <input nz-input name="depositAmt" [(ngModel)]="depositInfo.DEPOSIT_AMOUNT"
+                                    <input nz-input
+                                        type="text"
+                                        inputmode="numeric"
+                                        name="depositAmt"
+                                        [(ngModel)]="depositInfo.DEPOSIT_AMOUNT"
+                                        (ngModelChange)="onDepositAmountChange($event)"
+                                        (keypress)="validateNumberOnly($event)"
+                                        (paste)="onPasteNumberOnly($event, 'DEPOSIT_AMOUNT')"
                                         placeholder="Enter Deposit Amount" />
                                 </nz-input-group>
                             </div>

@@ -179,7 +179,13 @@ export class DepositComponent implements OnInit {
     let isOk = true;
 
     for (let field of this.mendetory_all) {
-      if (!this.depositInfo[field.field as keyof TermDeposite]) {
+      if (field.field === 'INITIAL_AMOUNT') {
+        const initAmt = Number(this.depositInfo.INITIAL_AMOUNT);
+        if (this.depositInfo.INITIAL_AMOUNT == null || this.depositInfo.INITIAL_AMOUNT === ('' as any) || isNaN(initAmt) || initAmt <= 0) {
+          this.message.error('Initial Amount must be a valid positive number', '');
+          isOk = false;
+        }
+      } else if (!this.depositInfo[field.field as keyof TermDeposite]) {
         this.message.error(`${field.message} is Mandatory`, '');
         isOk = false;
       }
@@ -205,7 +211,13 @@ export class DepositComponent implements OnInit {
 
     if (this.catagoryB) {
       for (let field of this.mendetory_non_saving) {
-        if (!this.depositInfo[field.field as keyof TermDeposite]) {
+        if (field.field === 'DEPOSIT_AMOUNT') {
+          const depAmt = Number(this.depositInfo.DEPOSIT_AMOUNT);
+          if (this.depositInfo.DEPOSIT_AMOUNT == null || this.depositInfo.DEPOSIT_AMOUNT === ('' as any) || isNaN(depAmt) || depAmt <= 0) {
+            this.message.error('Deposit Amount must be a valid positive number', '');
+            isOk = false;
+          }
+        } else if (!this.depositInfo[field.field as keyof TermDeposite]) {
           this.message.error(`${field.message} is Mandatory`, '');
           isOk = false;
         }
@@ -291,6 +303,61 @@ export class DepositComponent implements OnInit {
     return this.depositInfo.RATE_OF_INTEREST_SAVING
       ? Number(this.depositInfo.RATE_OF_INTEREST_SAVING).toFixed(2)
       : '2.50';
+  }
+
+  validateNumberOnly(event: KeyboardEvent): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    // Disallow negative sign (- is 45) and all characters, allow only digits 0-9 (48 to 57)
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
+
+  onPasteNumberOnly(event: ClipboardEvent, field: 'INITIAL_AMOUNT' | 'DEPOSIT_AMOUNT'): void {
+    event.preventDefault();
+    const clipboardData = event.clipboardData;
+    if (!clipboardData) return;
+    const pastedText = clipboardData.getData('text') || '';
+    const clean = pastedText.replace(/[^0-9]/g, '');
+    if (clean) {
+      this.depositInfo[field] = Number(clean);
+    }
+  }
+
+  onInitialAmountChange(val: any): void {
+    if (val === null || val === undefined || val === '') {
+      this.depositInfo.INITIAL_AMOUNT = null as any;
+      return;
+    }
+    const clean = String(val).replace(/[^0-9]/g, '');
+    this.depositInfo.INITIAL_AMOUNT = clean !== '' ? Number(clean) : (null as any);
+  }
+
+  onDepositAmountChange(val: any): void {
+    if (val === null || val === undefined || val === '') {
+      this.depositInfo.DEPOSIT_AMOUNT = null as any;
+      return;
+    }
+    const clean = String(val).replace(/[^0-9]/g, '');
+    this.depositInfo.DEPOSIT_AMOUNT = clean !== '' ? Number(clean) : (null as any);
+  }
+
+  isInitialAmountInvalid(): boolean {
+    if (this.depositInfo.INITIAL_AMOUNT == null || this.depositInfo.INITIAL_AMOUNT === ('' as any)) {
+      return false;
+    }
+    const val = Number(this.depositInfo.INITIAL_AMOUNT);
+    return isNaN(val) || val <= 0;
+  }
+
+  isDepositAmountInvalid(): boolean {
+    if (this.depositInfo.DEPOSIT_AMOUNT == null || this.depositInfo.DEPOSIT_AMOUNT === ('' as any)) {
+      return false;
+    }
+    const val = Number(this.depositInfo.DEPOSIT_AMOUNT);
+    return isNaN(val) || val <= 0;
   }
 }
 
