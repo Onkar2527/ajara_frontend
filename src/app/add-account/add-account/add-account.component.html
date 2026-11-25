@@ -24,7 +24,7 @@
 
             <app-nomination *ngIf="tab.TAB_ID == 3"></app-nomination>
 
-            <app-services *ngIf="tab.TAB_ID == 4"></app-services>
+            <app-services *ngIf="tab.TAB_ID == 4" [AccountType]="depositeComp?.depositInfo?.ACCOUNT_TYPE || BasicInfo?.ACCOUNT_TYPE || 'A'"></app-services>
 
             <app-applicant-details *ngIf="tab.TAB_ID == 5"></app-applicant-details>
 

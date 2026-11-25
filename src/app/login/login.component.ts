@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   passwordPolicy: any;
 
-  passwordVisible = false
+  passwordVisible = false;
 
   constructor(private api: ApiService, private router: Router, private message: NzNotificationService) { }
 
@@ -32,17 +32,11 @@ export class LoginComponent implements OnInit {
   onResize(event: Event): void {
     this.checkScreenSize();
   }
+
   ngOnInit(): void {
-
-    if (this.isLogedIn = true) {
-      console.log(this.isLogedIn + "Hey there ")
-      this.isLogedIn = false;
-    }
+    this.isLogedIn = false;
     this.checkScreenSize();
-
     this.getPasswordPolicy();
-
-
   }
 
   getPasswordPolicy() {
@@ -52,7 +46,7 @@ export class LoginComponent implements OnInit {
           this.passwordPolicy = res['data'];
         }
       }
-    })
+    });
   }
 
   checkScreenSize(): void {
@@ -60,56 +54,66 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    if (!this.USER_NAME || !this.USER_NAME.trim()) {
+      this.message.error('Please enter Username', '');
+      return;
+    }
+
+    if (!this.PASSWORD || !this.PASSWORD.trim()) {
+      this.message.error('Please enter Password', '');
+      return;
+    }
+
     sessionStorage.clear();
     this.isloginSpinning = true;
-    this.api.login(this.USER_NAME, this.PASSWORD).subscribe({
+    this.api.login(this.USER_NAME.trim(), this.PASSWORD).subscribe({
       next: (data) => {
+        this.isloginSpinning = false;
         if (data['code'] == 200 && data['data']) {
+          if (this.passwordPolicy) {
+            let passwordPatternStr = `^(?=(.*[A-Z]){${this.passwordPolicy.FR_CAPITAL_LETTERS},})(?=(.*[a-z]){${this.passwordPolicy.FR_SMALL_LETTERS},})(?=(.*\\d){${this.passwordPolicy.FR_NUMBERS},})(?=(.*[\\W_]){${this.passwordPolicy.FR_SYMBOLS},}).{${this.passwordPolicy.PASSWORD_LENGTH},}$`;
+            let passwordPatternRegex = new RegExp(String.raw`${passwordPatternStr}`);
 
-          let passwordPatternStr = `^(?=(.*[A-Z]){${this.passwordPolicy.FR_CAPITAL_LETTERS},})(?=(.*[a-z]){${this.passwordPolicy.FR_SMALL_LETTERS},})(?=(.*\\d){${this.passwordPolicy.FR_NUMBERS},})(?=(.*[\\W_]){${this.passwordPolicy.FR_SYMBOLS},}).{${this.passwordPolicy.PASSWORD_LENGTH},}$`
-          let passwordPatternRegex = new RegExp(String.raw`${passwordPatternStr}`);
-
-          if (!data['data']['PASSWORD_RESET_DATE']) {
-            this.message.warning("Please reset the password to something secure", "");
-            this.passwordReset.emit(true);
-            return;
-          }
-          else if (!passwordPatternRegex.test(this.PASSWORD)) {
-            this.message.warning("Password policy has been updated", "Please reset the password");
-            this.passwordReset.emit(true);
-            return;
-          }
-          else if (data['data']['DAYS_OF_RESET_PASS'] >= this.passwordPolicy.FR_PASSWORD_RESET) {
-            this.message.warning("Your password has been expired", "Please reset the password");
-            this.passwordReset.emit(true);
-            return;
-          }
-
-          else {
-            SessionUserDetails.setSessionStorage(data['data']);
-            this.logined.emit(true);
-            this.isloginSpinning = false
+            if (!data['data']['PASSWORD_RESET_DATE']) {
+              this.message.warning("Please reset the password to something secure", "");
+              this.passwordReset.emit(true);
+              return;
+            }
+            else if (!passwordPatternRegex.test(this.PASSWORD)) {
+              this.message.warning("Password policy has been updated", "Please reset the password");
+              this.passwordReset.emit(true);
+              return;
+            }
+            else if (data['data']['DAYS_OF_RESET_PASS'] >= this.passwordPolicy.FR_PASSWORD_RESET) {
+              this.message.warning("Your password has been expired", "Please reset the password");
+              this.passwordReset.emit(true);
+              return;
+            }
           }
 
+          SessionUserDetails.setSessionStorage(data['data']);
+          this.logined.emit(true);
         }
-        else if (data['code'] == 404) {
-          this.message.error("Username or Password not found!", '');
-          this.isloginSpinning = false
-
+        else if (data['code'] == 404 || data['code'] == 401) {
+          this.message.error(data['message'] || 'Invalid Username or Password!', '');
         }
         else {
-          this.message.error("Something went wrong!", '');
-          this.isloginSpinning = false
+          this.message.error(data['message'] || 'Invalid Username or Password!', '');
         }
-
       },
-      error: () => {
-        this.isloginSpinning = false
-
+      error: (err) => {
+        this.isloginSpinning = false;
+        let errMsg = 'Invalid Username or Password!';
+        if (err?.error?.message) {
+          errMsg = err.error.message;
+        } else if (err?.status === 400 && err?.error?.message) {
+          errMsg = err.error.message;
+        } else if (err?.status >= 500) {
+          errMsg = 'Internal server error. Please try again later.';
+        }
+        this.message.error(errMsg, '');
       }
-
-    })
-
+    });
   }
 
   passwordResetFn() {

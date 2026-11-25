@@ -67,6 +67,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 import { MakerVerificationComponent } from './verification/maker-verification/maker-verification.component';
 import { CheckerVerificationComponent } from './verification/checker-verification/checker-verification.component';
@@ -169,7 +170,8 @@ registerLocaleData(en);
     NzCollapseModule,
     NzCardModule,
     NzSpinModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzAlertModule
   ],
   providers: [
 

@@ -42,10 +42,6 @@ export class DepositComponent implements OnInit {
   mendetory_non_saving = [
     { field: 'DEPOSIT_AMOUNT', message: 'Deposit Amount' },
     { field: 'RATE_OF_INTEREST', message: 'Rate of Interest' },
-    { field: 'DEPOSIT_BANK_NAME', message: 'Bank Name' },
-    { field: 'DEPOSIT_BRANCH_NAME', message: 'Branch Name' },
-    { field: 'DEPOSIT_IFSC_CODE', message: 'IFSC Code' },
-    { field: 'DEPOSIT_ACCOUNT_NUMBER', message: 'Account Number' },
   ];
 
   catagoryA = false;
@@ -90,6 +86,11 @@ export class DepositComponent implements OnInit {
 
   changeCategory() {
     this.depositInfo.SCHEME_CODE_NEW = this.depositInfo.SCHEME_CODE;
+    if (!this.isReviewMode()) {
+      if (this.depositInfo.ACCOUNT_TYPE === 'A' || (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '')) {
+        this.fetchInterestRate();
+      }
+    }
   }
 
   schemeMaster = <any>[];
@@ -166,7 +167,18 @@ export class DepositComponent implements OnInit {
     }
   }
 
+  isReviewMode(): boolean {
+    const roleId = Number(sessionStorage.getItem('ROLE_ID'));
+    // Role 2: Checker (BM), Role 3: Verifier (CPC), Role 4: Admin
+    return roleId === 2 || roleId === 3 || roleId === 4;
+  }
+
   fetchInterestRate() {
+    // In BM (Checker), CPC (Verifier), or Admin mode, do NOT call the live interest rate API.
+    // The interest rate, maturity amount, and maturity date are already saved in DB by BA.
+    if (this.isReviewMode()) {
+      return;
+    }
     if (!this.depositInfo.SCHEME_CODE) {
       if (this.depositInfo.ACCOUNT_TYPE == 'A') {
         this.depositInfo.RATE_OF_INTEREST_SAVING = 2.50;
@@ -262,12 +274,14 @@ export class DepositComponent implements OnInit {
     });
   }
 
-  changeScheme() {
+  changeScheme(autoFetch: boolean = false) {
     if (this.depositInfo.ACCOUNT_TYPE == 'A') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'SB'
       );
-      this.fetchInterestRate();
+      if (autoFetch && !this.isReviewMode()) {
+        this.fetchInterestRate();
+      }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'C') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'CA'
@@ -277,30 +291,38 @@ export class DepositComponent implements OnInit {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'FD'
       );
-      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
-        this.fetchInterestRate();
+      if (autoFetch && !this.isReviewMode()) {
+        if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+          this.fetchInterestRate();
+        }
       }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'E') {
       // Fixed Deposit (Reinvestment): filter by RP (Reinvestment Plans)
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'RP'
       );
-      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
-        this.fetchInterestRate();
+      if (autoFetch && !this.isReviewMode()) {
+        if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+          this.fetchInterestRate();
+        }
       }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'F') {
       // Recurring Deposit: filter by RA
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'RA'
       );
-      if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
-        this.fetchInterestRate();
+      if (autoFetch && !this.isReviewMode()) {
+        if (this.depositInfo.TANURE_DAYS !== undefined && this.depositInfo.TANURE_DAYS !== null && String(this.depositInfo.TANURE_DAYS).trim() !== '') {
+          this.fetchInterestRate();
+        }
       }
     } else if (this.depositInfo.ACCOUNT_TYPE == 'G') {
       this.schemes = this.MASTERS[0].data.filter(
         (value: any) => value.SMP_MNACTYPE == 'PG'
       );
-      this.fetchInterestRate();
+      if (autoFetch && !this.isReviewMode()) {
+        this.fetchInterestRate();
+      }
     } else {
       this.schemes = [];
     }
@@ -388,18 +410,11 @@ export class DepositComponent implements OnInit {
       }
     }
 
-    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
-    if (this.depositInfo.DEPOSIT_IFSC_CODE) {
-      const formattedIfsc = this.depositInfo.DEPOSIT_IFSC_CODE.trim().toUpperCase();
-      this.depositInfo.DEPOSIT_IFSC_CODE = formattedIfsc;
-      if (!ifscRegex.test(formattedIfsc)) {
-        this.message.error(
-          'Invalid IFSC Code format. Must be 11 characters (e.g. SBIN0001234): first 4 letters, 5th character 0, and last 6 alphanumeric.',
-          ''
-        );
-        isOk = false;
-      }
-    }
+    // Bank Details section is hidden for deposit: clear them so they never block submission
+    this.depositInfo.DEPOSIT_BANK_NAME = '';
+    this.depositInfo.DEPOSIT_BRANCH_NAME = '';
+    this.depositInfo.DEPOSIT_IFSC_CODE = '';
+    this.depositInfo.DEPOSIT_ACCOUNT_NUMBER = '';
 
     if (this.depositInfo.ACCOUNT_TYPE == 'F') {
       this.depositInfo.AUTO_RENEWAL = false;
@@ -467,6 +482,11 @@ export class DepositComponent implements OnInit {
       next: (res) => {
         if (res['code'] == 200 && res['data'].length > 0) {
           this.depositInfo = res['data'][0];
+          // Bank Details is hidden for deposit: clear these fields so old DB values do not cause issues
+          this.depositInfo.DEPOSIT_BANK_NAME = '';
+          this.depositInfo.DEPOSIT_BRANCH_NAME = '';
+          this.depositInfo.DEPOSIT_IFSC_CODE = '';
+          this.depositInfo.DEPOSIT_ACCOUNT_NUMBER = '';
           this.changeCatagory();
         } else {
         }
