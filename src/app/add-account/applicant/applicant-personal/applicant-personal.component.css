@@ -44,3 +44,56 @@ nz-form-label {
   font-size: 16px;
   font-weight: 500;
 }
+
+.address-section-wrapper {
+    width: 100%;
+}
+
+.address-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.address-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-col .ant-collapse-custom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.address-col ::ng-deep .ant-collapse-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.address-col ::ng-deep .ant-collapse-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.address-col ::ng-deep .ant-collapse-content-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+}
+
+.address-col .box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.address-action-bar {
+    width: 100%;
+}

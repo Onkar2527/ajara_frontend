@@ -627,14 +627,6 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     { field: 'GENDER', message: "Gender" },
 
-    { field: 'PERMANENT_ADDRESS', message: "Permanent Address Flat No, Name of Building" },
-    { field: 'PERMANENT_CITY', message: "Permanent Address City / Village" },
-    { field: 'PERMANENT_TALUKA', message: "Permanent Address Taluka" },
-    { field: 'PERMANENT_DISTRICT', message: "Permanent Address District" },
-    { field: 'PERMANENT_LANDMARK', message: "Permanent Address Road, Area Name" },
-    { field: 'PERMANENT_STATE', message: "Permanent Address State" },
-    { field: 'PERMANENT_PINCODE', message: "Permanent Address Pincode" },
-
     { field: 'CURRENT_ADDRESS', message: "Current Address Flat No, Name of Building" },
     { field: 'CURRENT_CITY', message: "Current Address City / Village" },
     { field: 'CURRENT_TALUKA', message: "Current Address Taluka" },
@@ -655,9 +647,6 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
 
     { field: 'ID_PROOF_NUMBER', message: "Identity Proof Number" },
 
-    { field: 'PERMANENT_ADDRESS_PROOF_NUMBER', message: "Permanent Address Proof Number" },
-
-    { field: 'PERMANENT_AREA', message: "Permanent Area" },
 
     { field: 'CURRENT_AREA', message: "Current Area" },
 
@@ -942,6 +931,19 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     // this.getAllAddress();
   }
 
+  copyCurrentToPermanent() {
+    this.personalInfo.PERMANENT_ADDRESS = this.personalInfo.CURRENT_ADDRESS;
+    this.personalInfo.PERMANENT_CITY = this.personalInfo.CURRENT_CITY;
+    this.personalInfo.PERMANENT_TALUKA = this.personalInfo.CURRENT_TALUKA;
+    this.personalInfo.PERMANENT_DISTRICT = this.personalInfo.CURRENT_DISTRICT;
+    this.personalInfo.PERMANENT_LANDMARK = this.personalInfo.CURRENT_LANDMARK;
+    this.personalInfo.PERMANENT_STATE = this.personalInfo.CURRENT_STATE;
+    this.personalInfo.PERMANENT_PINCODE = this.personalInfo.CURRENT_PINCODE;
+    this.personalInfo.PERMANENT_AREA = this.personalInfo.CURRENT_AREA;
+
+    this.getAddressDropDowns();
+  }
+
   convertToString() {
     this.personalInfo.CURRENT_AREA = this.personalInfo.CURRENT_AREA.toString()
     this.personalInfo.PERMANENT_AREA = this.personalInfo.PERMANENT_AREA.toString()
@@ -1004,10 +1006,15 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
       isOk = false;
     }
 
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.(com|in|co\.in|org|net|co)$/i;
-    if (this.personalInfo.EMAIL_ID && !emailRegex.test(this.personalInfo.EMAIL_ID)) {
-      this.message.error("Email ID is invalid. Username must contain only letters and numbers, and domain must end with .com, .in, .co.in, .org, .net, or .co (e.g. example123@gmail.com).", '');
+    if (this.personalInfo.EMAIL_ID && /[A-Z]/.test(this.personalInfo.EMAIL_ID)) {
+      this.message.error("Email ID cannot contain uppercase letters. Please use lowercase letters only.", '');
       isOk = false;
+    } else {
+      const emailRegex = /^[a-z0-9]+@[a-z0-9.-]+\.(com|in|co\.in|org|net|co)$/;
+      if (this.personalInfo.EMAIL_ID && !emailRegex.test(this.personalInfo.EMAIL_ID)) {
+        this.message.error("Email ID is invalid. Username must contain only lowercase letters and numbers, and domain must end with .com, .in, .co.in, .org, .net, or .co (e.g. example123@gmail.com).", '');
+        isOk = false;
+      }
     }
 
     // Validate Identity Proof against selected document type
@@ -1120,9 +1127,17 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
   showOtpField: boolean = false;
 
   getOtp() {
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.(com|in|co\.in|org|net|co)$/i;
-    if (!this.personalInfo.EMAIL_ID || !emailRegex.test(this.personalInfo.EMAIL_ID)) {
-      this.message.error("Please enter a valid email address (letters and numbers only, ending with .com, .in, .co.in, .org, .net, or .co).", "");
+    if (!this.personalInfo.EMAIL_ID) {
+      this.message.error("Please enter Email ID.", "");
+      return;
+    }
+    if (/[A-Z]/.test(this.personalInfo.EMAIL_ID)) {
+      this.message.error("Email ID cannot contain uppercase letters. Please use lowercase letters only.", "");
+      return;
+    }
+    const emailRegex = /^[a-z0-9]+@[a-z0-9.-]+\.(com|in|co\.in|org|net|co)$/;
+    if (!emailRegex.test(this.personalInfo.EMAIL_ID)) {
+      this.message.error("Please enter a valid email address (lowercase letters and numbers only, ending with .com, .in, .co.in, .org, .net, or .co).", "");
       return;
     }
 
@@ -1552,6 +1567,31 @@ export class ApplicantPersonalComponent implements OnInit, OnChanges {
     const desc = this.getAddressProofDesc();
     const res = this.validateDocumentNumber(desc, this.personalInfo.PERMANENT_ADDRESS_PROOF_NUMBER);
     return res.message;
+  }
+
+  isEmailInvalid(): boolean {
+    if (!this.personalInfo.EMAIL_ID) {
+      return false;
+    }
+    if (/[A-Z]/.test(this.personalInfo.EMAIL_ID)) {
+      return true;
+    }
+    const emailRegex = /^[a-z0-9]+@[a-z0-9.-]+\.(com|in|co\.in|org|net|co)$/;
+    return !emailRegex.test(this.personalInfo.EMAIL_ID);
+  }
+
+  getEmailErrorTip(): string {
+    if (!this.personalInfo.EMAIL_ID) {
+      return '';
+    }
+    if (/[A-Z]/.test(this.personalInfo.EMAIL_ID)) {
+      return 'Uppercase letters are not allowed. Please enter email in lowercase.';
+    }
+    const emailRegex = /^[a-z0-9]+@[a-z0-9.-]+\.(com|in|co\.in|org|net|co)$/;
+    if (!emailRegex.test(this.personalInfo.EMAIL_ID)) {
+      return 'Email ID is invalid (e.g. example123@gmail.com).';
+    }
+    return '';
   }
 
   aadhaarVerify: Aadhaar = new Aadhaar(this.api, this.message);
