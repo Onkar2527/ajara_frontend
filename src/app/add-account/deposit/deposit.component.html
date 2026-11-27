@@ -64,13 +64,14 @@
 
                             <nz-form-label [nzNoColon]="true" nzRequired>
                                 Rate of Interest
-                                <span *ngIf="isLoadingInterest" style="margin-left: 8px; color: #1890ff; font-size: 13px; font-weight: normal;">
+                                <span *ngIf="isLoadingInterest"
+                                    style="margin-left: 8px; color: #1890ff; font-size: 13px; font-weight: normal;">
                                     <i nz-icon nzType="loading"></i> Loading...
                                 </span>
                             </nz-form-label>
                             <nz-input-group [nzSuffix]="savingRoiLoadingTpl" nzAddOnAfter="% p.a.">
-                                <input nz-input name="RATE_OF_INTEREST_SAVING" [value]="isLoadingInterest ? 'Loading...' : getSavingInterestDisplay()"
-                                    readonly />
+                                <input nz-input name="RATE_OF_INTEREST_SAVING"
+                                    [value]="isLoadingInterest ? 'Loading...' : getSavingInterestDisplay()" readonly />
                             </nz-input-group>
                             <ng-template #savingRoiLoadingTpl>
                                 <i nz-icon nzType="loading" *ngIf="isLoadingInterest" style="color: #1890ff;"></i>
@@ -128,17 +129,15 @@
                     <nz-form-item nz-col nzSpan="24">
 
                         <nz-form-label [nzNoColon]="true" nzRequired>Initial Amount </nz-form-label>
-                        <nz-form-control [nzValidateStatus]="isInitialAmountInvalid() ? 'error' : ''" [nzErrorTip]="'Initial Amount must be a valid positive number'">
+                        <nz-form-control [nzValidateStatus]="isInitialAmountInvalid() ? 'error' : ''"
+                            [nzErrorTip]="'Initial Amount must be a valid positive number'">
 
                             <nz-input-group nzAddOnBefore="₹">
-                                <input type="text"
-                                    inputmode="numeric"
-                                    name="initialAmt"
+                                <input type="text" inputmode="numeric" name="initialAmt"
                                     [(ngModel)]="depositInfo.INITIAL_AMOUNT"
                                     (ngModelChange)="onInitialAmountChange($event)"
                                     (keypress)="validateNumberOnly($event)"
-                                    (paste)="onPasteNumberOnly($event, 'INITIAL_AMOUNT')"
-                                    nz-input
+                                    (paste)="onPasteNumberOnly($event, 'INITIAL_AMOUNT')" nz-input
                                     placeholder="Enter Initial Amount" />
                             </nz-input-group>
 
@@ -268,7 +267,7 @@
     <div nz-col nzSpan="12" *ngIf="catagoryB">
 
 
-        <nz-collapse nzAccordion class="ant-collapse-custom">
+        <!-- <nz-collapse nzAccordion class="ant-collapse-custom">
             <nz-collapse-panel [nzHeader]="headerTpl2" [nzActive]="true">
                 <ng-template #headerTpl2>
                     <div class="applicant-header">
@@ -409,21 +408,7 @@
 
                     </nz-form-item>
 
-                    <!-- <nz-form-item nz-col nzSpan="24">
-
-                    <nz-form-label [nzNoColon]="true">Mode of Interest Payout</nz-form-label>
-                    <nz-form-control>
-
-                        <nz-radio-group [(ngModel)]="depositInfo.MODE_OF_INTEREST_PAYOUT">
-                            <label nz-radio [nzValue]="S">Standing Instructions</label>
-                            <label nz-radio [nzValue]="E">ECS</label>
-                            <label nz-radio [nzValue]="P">Pay Order</label>
-                            <label nz-radio [nzValue]="O">Other Bank Account</label>
-                        </nz-radio-group>
-
-                    </nz-form-control>
-
-                </nz-form-item> -->
+                    
 
                     <nz-form-item nz-col nzSpan="24">
                         <p>Auto Renewal ? <span><nz-switch [(ngModel)]="depositInfo.AUTO_RENEWAL"
@@ -443,7 +428,7 @@
 
                 </div>
             </nz-collapse-panel>
-        </nz-collapse>
+        </nz-collapse> -->
 
 
         <!-- <nz-collapse nzAccordion class="ant-collapse-custom">
