@@ -211,6 +211,15 @@ export class WebCamComponent implements OnInit {
 
 
   save() {
+    if (this.ImageData.IMAGE_DATA) {
+      const sizeInBytes = this.getBase64SizeInBytes(this.ImageData.IMAGE_DATA as string);
+      if (sizeInBytes > 120 * 1024) {
+        const sizeInKb = (sizeInBytes / 1024).toFixed(1);
+        this.message.error(`Captured image size (${sizeInKb} KB) exceeds the maximum limit of 120 KB. Please re-capture.`, '');
+        return;
+      }
+    }
+
     this.ImageData.FILE_TYPE = 'image/jpeg';
     this.ImageData.IS_APPROVED_CHECKER = false;
     this.ImageData.IS_APPROVED_VERIFIER = false;
@@ -225,6 +234,13 @@ export class WebCamComponent implements OnInit {
 
       }
     });
+  }
+
+  getBase64SizeInBytes(base64String: string): number {
+    if (!base64String) return 0;
+    const base64Data = base64String.indexOf(',') > -1 ? base64String.split(',')[1] : base64String;
+    const padding = (base64Data.endsWith('==') ? 2 : (base64Data.endsWith('=') ? 1 : 0));
+    return Math.floor((base64Data.length * 3) / 4) - padding;
   }
 
   DocumentTableData: Documents[] = []
@@ -353,8 +369,31 @@ export class WebCamComponent implements OnInit {
   }
 
   handleChange(event: any, data: Documents) {
-    console.log("Files", event.target.files[0]);
-    data.FILE_TYPE = event.target.files[0].type;
+    const file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    const isImage = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' ||
+      file.name.toLowerCase().endsWith('.jpg') || file.name.toLowerCase().endsWith('.jpeg') || file.name.toLowerCase().endsWith('.png');
+
+    if (!isPdf && !isImage) {
+      this.message.error("Only JPG, JPEG, PNG, and PDF files are allowed.", "");
+      event.target.value = '';
+      return;
+    }
+
+    const maxFileSize = 120 * 1024; // 120 KB limit
+    if (file.size > maxFileSize) {
+      const fileSizeInKb = (file.size / 1024).toFixed(1);
+      this.message.error(`File size (${fileSizeInKb} KB) exceeds the maximum limit of 120 KB. Please upload a document up to 120 KB.`, '');
+      event.target.value = '';
+      return;
+    }
+
+    console.log("Files", file);
+    data.FILE_TYPE = file.type || (isPdf ? 'application/pdf' : (file.name.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg'));
 
     let reader = new FileReader();
 
@@ -377,10 +416,10 @@ export class WebCamComponent implements OnInit {
         error: () => {
           this.message.error("Failed to upload File", '');
         }
-      })
+      });
 
     };
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(file);
 
   }
 

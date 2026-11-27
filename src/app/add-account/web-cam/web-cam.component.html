@@ -27,7 +27,7 @@
 
     <webcam [width]="640" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showCamera"
       [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
-      [imageQuality]="4" (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
+      [imageQuality]="0.8" (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
     </webcam>
 
     <div nz-row style="padding-top: 10px;padding-bottom: 10px;">
@@ -114,12 +114,17 @@
 
   </div>
 
-  <nz-table [nzData]="DocumentTableData" style="margin-top: 20px;" nzBordered #table nzShowSizeChanger
+  <div style="margin-top: 15px; margin-bottom: 10px; color: #faad14; font-size: 13px;">
+    <span nz-icon nzType="info-circle" nzTheme="outline" style="margin-right: 6px;"></span>
+    <span>Maximum file size allowed for each document is <b>120 KB</b> (JPG / JPEG / PNG / PDF).</span>
+  </div>
+
+  <nz-table [nzData]="DocumentTableData" style="margin-top: 10px;" nzBordered #table nzShowSizeChanger
     [nzFrontPagination]="false" [nzLoading]="loadDocumentTable" [nzScroll]="{ x: '100%' }">
 
     <thead nzSingleSort>
       <tr>
-        <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Document</th>
+        <th [nzWidth]="'200px'" [nzAlign]="'center'">Upload Document (Max 120 KB)</th>
         <th [nzWidth]="'100px'" [nzAlign]="'center'">View</th>
         <th [nzWidth]="'250px'" [nzAlign]="'center'">Document name</th>
         <th [nzWidth]="'200px'" [nzAlign]="'center'">Approved by Checker</th>
@@ -143,11 +148,11 @@
 
           <a>
             <span nz-icon nzType="upload" nzTheme="outline" style="font-size: large;" (click)="fileInput.click()"
-              nz-tooltip nzTooltipTitle="Upload Document from Computer."></span>
+              nz-tooltip nzTooltipTitle="Upload Document from Computer (Max: 120 KB)."></span>
           </a>
 
           <input #fileInput type="file" (change)="handleChange($event,document)" (click)="fileInput.value = ''" value=""
-            style="display:none;" accept=".jpeg,.jpg" />
+            style="display:none;" accept=".jpeg,.jpg,.png,.pdf,image/jpeg,image/png,application/pdf" />
 
         </td>
         <td>
