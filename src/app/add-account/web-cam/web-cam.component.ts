@@ -374,12 +374,11 @@ export class WebCamComponent implements OnInit {
       return;
     }
 
-    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
     const isImage = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' ||
       file.name.toLowerCase().endsWith('.jpg') || file.name.toLowerCase().endsWith('.jpeg') || file.name.toLowerCase().endsWith('.png');
 
-    if (!isPdf && !isImage) {
-      this.message.error("Only JPG, JPEG, PNG, and PDF files are allowed.", "");
+    if (!isImage) {
+      this.message.error("Only image files (JPG, JPEG, PNG) are allowed. PDF or other files are not accepted.", "");
       event.target.value = '';
       return;
     }
@@ -393,7 +392,7 @@ export class WebCamComponent implements OnInit {
     }
 
     console.log("Files", file);
-    data.FILE_TYPE = file.type || (isPdf ? 'application/pdf' : (file.name.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg'));
+    data.FILE_TYPE = file.type || (file.name.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg');
 
     let reader = new FileReader();
 

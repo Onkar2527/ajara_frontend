@@ -116,7 +116,7 @@
 
   <div style="margin-top: 15px; margin-bottom: 10px; color: #faad14; font-size: 13px;">
     <span nz-icon nzType="info-circle" nzTheme="outline" style="margin-right: 6px;"></span>
-    <span>Maximum file size allowed for each document is <b>120 KB</b> (JPG / JPEG / PNG / PDF).</span>
+    <span>Maximum file size allowed for each document is <b>120 KB</b> (Image only: JPG, JPEG, PNG).</span>
   </div>
 
   <nz-table [nzData]="DocumentTableData" style="margin-top: 10px;" nzBordered #table nzShowSizeChanger
@@ -148,11 +148,11 @@
 
           <a>
             <span nz-icon nzType="upload" nzTheme="outline" style="font-size: large;" (click)="fileInput.click()"
-              nz-tooltip nzTooltipTitle="Upload Document from Computer (Max: 120 KB)."></span>
+              nz-tooltip nzTooltipTitle="Upload Image from Computer (Max: 120 KB)."></span>
           </a>
 
           <input #fileInput type="file" (change)="handleChange($event,document)" (click)="fileInput.value = ''" value=""
-            style="display:none;" accept=".jpeg,.jpg,.png,.pdf,image/jpeg,image/png,application/pdf" />
+            style="display:none;" accept=".jpeg,.jpg,.png,image/jpeg,image/png" />
 
         </td>
         <td>
